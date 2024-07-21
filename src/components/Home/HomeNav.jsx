@@ -4,7 +4,7 @@ import { Li } from "../Protos/Li";
 
 export const HomeNav = () => {
   return (
-    <nav className="h-full w-[60px] p-2 flex flex-col justify-between items-center bg-slate-900 rounded-br-lg">
+    <nav className="h-full w-[60px] p-2 flex flex-col justify-between items-center bg-slate-900 ">
       <div className="flex flex-col items-center gap-5">
         <figure className="pb-[25px] border-b-2 border-slate-400">
           {Icons.logo()}

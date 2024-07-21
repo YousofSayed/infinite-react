@@ -5,7 +5,7 @@ import { Button1 } from "../Protos/Button1";
 
 export const HomeHeader = () => {
   return (
-    <header className="w-full h-[60px] bg-slate-900 rounded-bl-lg p-3 flex items-center justify-between">
+    <header className="w-full h-[60px] bg-slate-900 border-b-[1.5px] border-slate-400  px-3  flex items-center justify-between">
       <ul className="flex gap-[25px] items-center">
         <Li>{Icons.laptop()}</Li>
         <Li>{Icons.taplet()}</Li>
