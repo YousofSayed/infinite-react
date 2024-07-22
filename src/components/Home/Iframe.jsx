@@ -10,7 +10,7 @@ export const Iframe = () => {
   return (
     <div
       ref={ifrRef}
-      className="relative will-change-[width] w-full h-full"
+      className="relative flex-grow h-full"
     >
       {showPopUp && (
         <div className="absolute w-full h-full bg-slate-400 z-10"></div>

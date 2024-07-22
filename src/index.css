@@ -4,3 +4,33 @@
 body{
     cursor: url('./assets//images/mainCursor.png'),auto;
 }
+
+.custom-grid-col{
+    grid-template-columns: repeat(auto-fit , minmax(90px,1fr));
+}
+
+/* *{
+    scrollbar-width: thin;
+    scrollbar-color: red;
+} */
+
+*::-webkit-scrollbar{
+    background-color: rgba(128, 128, 128, 0.315);
+    border-radius: 20px;
+    width: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(37 99 235 /1);
+    border-radius: 20px;
+    position: relative;
+    /* box-shadow: 0px -1000009px 10px 1000000px rgb(53, 53, 243); */
+    overflow: hidden;
+}
+
+* {
+    scrollbar-color: rgb(37 99 235 /1) rgba(128, 128, 128, 0.315);
+    scrollbar-width: thin; /* 'thin' or 'auto' */
+}

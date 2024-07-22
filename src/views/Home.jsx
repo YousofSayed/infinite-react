@@ -12,7 +12,7 @@ export const Home = () => {
         <HomeNav />
         <section className="w-[calc(100%-60px)] flex flex-col h-full border-l-[1.5px] border-slate-400">
           <HomeHeader />
-          <section className="flex h-full">
+          <section className="flex h-[calc(100%-60px)]">
             <Iframe />
             <HomeAside />
           </section>
