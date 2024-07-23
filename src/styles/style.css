@@ -1,0 +1,38 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ondragover{
+    background-color: rgb(101, 101, 255);
+}
+
+.container{
+    width: 95%;
+    padding:0 15px ;
+    margin: auto;
+}
+
+.edite-container{
+    border: 1.5px solid #000;
+}
+
+/* 
+@media(width < 512px) {
+    body{
+        background-color: red;
+    }
+}
+
+@media(width < 767px) and (width > 512px){
+    body{ 
+        background-color: blue;
+    }
+}
+
+@media(width > 767px){
+    body{
+        background-color: gold;
+    }
+} */
