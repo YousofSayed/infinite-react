@@ -64,78 +64,112 @@ const handleHistory = (element) => {
 const getMsg = (ev) => {
   if (ev.data.type == "end") {
     const droppedEl = document.createElement(ev.data.elType);
-    let id;
     droppedEl.innerHTML = `Hello i am ${ev.data.elType}`;
-    droppedEl.setAttribute("editable", "true");
-    droppedEl.setAttribute("draggable", "true");
-    droppedEl.id = uniqueID();
-    // droppedEl.insertAdjacentHTML(
-    //   "beforeend",
-    //   html`
-    //     <div class="left"></div>
-    //     <div class="right"></div>
-    //   `
-    // );
-    gElement.appendChild(droppedEl);
-    const leftDiv = droppedEl.querySelector(".left");
-    const rightDiv = droppedEl.querySelector(".right");
-    console.log(leftDiv , rightDiv);
+    
+    /**
+     * 
+     * @param {HTMLElement} el 
+     */
+    const initDroppedEl = (el)=>{
+      el.setAttribute("editable", "true");
+      el.setAttribute("draggable", "true");
+      el.id = uniqueID();
+    }
 
+    initDroppedEl(droppedEl);
+    gElement.appendChild(droppedEl);
     gElement.classList.remove("ondragover");
 
     /**
-     *
-     * @param {HTMLDivElement} div
+     * 
+     * @param {HTMLElement} el 
      */
-    // const sidesHandler = (div) => {
-    //   div.addEventListener("dragenter", (ev) => {
-    //     ev.target.classList.add("ondragover");
-    //   });
+    const initSeperators = (el)=>{
+      el.insertAdjacentHTML(
+        "afterbegin",
+        html`
+          <div draggable="false" class="seperator top"></div>
+          <div draggable="false" class="seperator bottom"></div>
+        `
+      );
+      const seperatorT = el.querySelector(".seperator.top");
+      const seperatorB = el.querySelector(".seperator.bottom");
+  
+  
+      /**
+       *
+       * @param {HTMLDivElement} div
+       */
+      const sidesHandler = (div) => {
+        div.addEventListener("drag", (ev) => {
+          ev.preventDefault();
+          return;
+        });
+  
+        div.addEventListener("dragover", (ev) => {
+          ev.preventDefault();
+          return;
+        });
+  
+        div.addEventListener("dragenter", (ev) => {
+          ev.target.classList.add("ondragover");
+        });
+  
+        div.addEventListener("dragleave", (ev) => {
+          ev.target.classList.remove("ondragover");
+        });
+  
+      };
+      sidesHandler(seperatorT);
+      sidesHandler(seperatorB);
+    }
 
-    //   div.addEventListener("dragleave", (ev) => {
-    //     ev.target.classList.remove("ondragover");
-    //   });
+    initSeperators(droppedEl);
 
-      
-    // };
-    // sidesHandler(leftDiv);
-    // sidesHandler(rightDiv);
 
-    droppedEl.addEventListener("dragstart", (ev) => {
-      isInWindow = true;
-      console.log("start");
-      ev.dataTransfer.setData("text/html", ev.target.outerHTML);
-      ev.dataTransfer.setData("text/plain", ev.target.id);
-    });
-
-    droppedEl.addEventListener("dragenter", (ev) => {
-      ev.target.classList.add("ondragover");
-    });
-
-    droppedEl.addEventListener("dragleave", (ev) => {
-      ev.target.classList.remove("ondragover");
-    });
-
-    droppedEl.addEventListener("drop", (ev) => {
-        const el = parseToHTML(ev.dataTransfer.getData("text/html"));
+    /**
+     * 
+     * @param {HTMLElement} el 
+     */
+    const droppedElDragHandler = (el)=>{
+      el.addEventListener('dragstart',(ev)=>{
+        isInWindow = true;
         const className = ev.target.className;
-        el.id = uniqueID();
-        if(className.includes('left')){
-            ev.target.prepend(el)
-        }else if(className.includes('right')){
-            ev.target.append(el)
+        ev.dataTransfer.setData('text/html',el.outerHTML);
+        ev.dataTransfer.setData('text/plain',el.id);
+      });
+      
+      el.addEventListener('drop',(ev)=>{
+        const className = ev.target.className;
+        const newEl = parseToHTML(ev.dataTransfer.getData('text/html'));
+        newEl.innerHTML = 'Fucken HEllo text....'
+        const id = ev.dataTransfer.getData('text/plain');
+        initDroppedEl(newEl);
+
+        if(className.includes('seperator top')){
+          console.log('top');
+          ev.target.parentNode.insertAdjacentElement('beforebegin',newEl);
         }
-        // document.body.
-        ev.target.appendChild(el);
-        ev.target.classList.remove("ondragover");
-        leftDiv.classList.remove("ondragover");
-        // rightDiv.classList.remove("ondragover");
-        // console.log(ev.dataTransfer.getData("text/plain"));
-        body
-          .querySelector(`#${ev.dataTransfer.getData("text/plain")}`)
-          .remove();
-        isInWindow = false;
-    });
+        else if(className.includes('seperator bottom')){
+          console.log('bottom');
+          ev.target.parentNode.insertAdjacentElement('afterend',newEl);
+
+        }
+        else{
+          ev.target.appendChild(newEl);
+        }
+        ev.target.classList.remove('ondragover');
+        // document.body.parentNode
+        body.querySelector(`#${id}`).remove();
+        isInWindow=false;
+        initSeperators(newEl);
+        droppedElDragHandler(newEl);
+      });
+    }
+
+    // document.body
+    droppedElDragHandler(droppedEl);
+
   }
 };
 
@@ -150,13 +184,13 @@ export const iframeHandler = (iframeEl) => {
 
   frameWindow.addEventListener("dragover", (ev) => {
     ev.preventDefault();
-    if (isInWindow) {
+    // log
+    console.log(ev.target.className);
+    if (isInWindow || ev.target.className.includes('seperator')) {
       console.log(" isInWindow");
       return;
     }
-    if (ev.target.classList.contains("ondragover") && gElement == ev.target) {
-      return;
-    }
+   
     gElement = ev.target;
 
     const removeClass = (ev) => {
@@ -174,3 +208,9 @@ export const iframeHandler = (iframeEl) => {
 export const cleaner = () => {
   window.parent.removeEventListener("message", getMsg);
 };
+
+
+//trash
+// if (ev.target.classList.contains("ondragover") && gElement == ev.target) {
+//   return;
+// }

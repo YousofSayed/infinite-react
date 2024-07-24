@@ -18,51 +18,36 @@
   border: 1px solid blue;
 }
 
-[editable] div .left,
-[editable] section .left,
-[editable] main .left,
-[editable] header .left,
-[editable] footer .left,
-[editable] article .right,
-[editable] figure .left{
+[editable] .seperator {
+  width: 100%;
+  height: 15px;
+  transition: 0.3s;
+  /* background-color: rgba(101, 101, 255, 0.459); */
   position: absolute;
   left: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  transition: 0.3s;
+  /* z-index: -1; */
 }
 
-[editable] div .right,
-[editable] section .right,
-[editable] main .right,
-[editable] header .right,
-[editable] footer .right,
-[editable] article .right,
-[editable] figure .right{
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  transition: 0.3s;
-}
-[editable] .left:hover,
-[editable] .right:hover {
+[editable] .seperator:hover{
+  user-select: none;
   border: none;
+}
+
+[editable] .seperator.top {
+  top: 0;
+}
+
+[editable] .seperator.bottom {
+  bottom: 0;
 }
 
 .opacity-1 {
   opacity: 1 !important;
 }
 
-/* [editable]:hover:not(:has(*:hover)):not(:focus-visible):not(.selected), 
-[editable] *:hover:not(:has(*:hover)):not(:focus-visible):not(.selected){
-    outline: 1px solid blue;
-} */
-
 .ondragover {
   background-color: rgba(101, 101, 255, 0.459);
+  z-index: 1;
 }
 
 .container {
