@@ -5,9 +5,15 @@ export const Basics = () => {
   return (
     <>
         <Element content={'Div'} />
-        <Element content={'P'} />
-        <Element content={'Span'} />
         <Element content={'Section'} />
+        <Element content={'Span'} />
+        <Element content={'P'} />
+        <Element content={'H1'} />
+        <Element content={'H2'} />
+        <Element content={'H3'} />
+        <Element content={'H4'} />
+        <Element content={'H5'} />
+        <Element content={'H6'} />
         <Element content={'Article'} />
         <Element content={'Main'} />
         <Element content={'Header'} />

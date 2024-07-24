@@ -1,13 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { refsStt, showPopupIframState, widths } from "../../helpers/atoms";
+import {
+  refsStt,
+  searchWord,
+  showPopupIframState,
+  widths,
+} from "../../helpers/atoms";
 import { Basics } from "./Elements/Basics";
 
 export const HomeAside = () => {
   const asideRef = useRef();
   const [asideWidth, setAsideWidth] = useState(300);
   const setPopUp = useSetRecoilState(showPopupIframState);
-
+  const setSearchW = useSetRecoilState(searchWord);
   let isResize = false,
     width;
 
@@ -37,7 +42,7 @@ export const HomeAside = () => {
     <aside
       ref={asideRef}
       style={{ width: asideWidth }}
-      className={` relative h-full flex flex-col gap-[25px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
+      className={` relative h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
     >
       <select
         id="selEl"
@@ -49,6 +54,17 @@ export const HomeAside = () => {
         </option>
         <option value="layout">Layout</option>
       </select>
+
+      <section>
+        <input
+          type="search"
+          onInput={(ev) => {
+            setSearchW(ev.target.value);
+          }}
+          placeholder="Search..."
+          className="w-full bg-slate-800 p-[10px] rounded-lg focus:outline-none text-white"
+        />
+      </section>
 
       <section className="grid custom-grid-col gap-[15px] overflow-x-auto pr-3 ">
         <Basics />

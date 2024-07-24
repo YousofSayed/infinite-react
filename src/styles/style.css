@@ -1,21 +1,78 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.ondragover{
-    background-color: rgb(101, 101, 255);
+[editable] {
+  padding: 10px;
+  border: 1.5px solid #000;
+  cursor: move;
+  transition: 0.3s ease;
+  user-select: none;
+  position: relative;
 }
 
-.container{
-    width: 95%;
-    padding:0 15px ;
-    margin: auto;
+[editable]:hover:not(:has(*:hover)),
+[editable] *:hover:not(:has(*:hover)) {
+  border: 1px solid blue;
 }
 
-.edite-container{
-    border: 1.5px solid #000;
+[editable] div .left,
+[editable] section .left,
+[editable] main .left,
+[editable] header .left,
+[editable] footer .left,
+[editable] article .right,
+[editable] figure .left{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transition: 0.3s;
+}
+
+[editable] div .right,
+[editable] section .right,
+[editable] main .right,
+[editable] header .right,
+[editable] footer .right,
+[editable] article .right,
+[editable] figure .right{
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transition: 0.3s;
+}
+[editable] .left:hover,
+[editable] .right:hover {
+  border: none;
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+/* [editable]:hover:not(:has(*:hover)):not(:focus-visible):not(.selected), 
+[editable] *:hover:not(:has(*:hover)):not(:focus-visible):not(.selected){
+    outline: 1px solid blue;
+} */
+
+.ondragover {
+  background-color: rgba(101, 101, 255, 0.459);
+}
+
+.container {
+  width: 95%;
+  padding: 0 15px;
+  margin: auto;
+}
+
+.edite-container {
+  border: 1.5px solid #000;
 }
 
 /* 

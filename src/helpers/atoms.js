@@ -8,6 +8,16 @@ export const widths = atom({
   },
 });
 
+export const searchWord = atom({
+  key:'searchWord',
+  default:''
+});
+
+export const iframeBody = atom({
+  key:'iframeBody',
+  default:document.body
+});
+
 export const refsStt = atom({
   key:'refs',
   default:{

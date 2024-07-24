@@ -303,7 +303,7 @@ export function OTP(length) {
 }
 
 export function uniqueID() {
-  return crypto.randomUUID();
+  return hash(crypto.randomUUID()).replaceAll('=','');
 }
 
 /**

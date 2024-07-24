@@ -2,8 +2,20 @@ import React from "react";
 import { Icons } from "../Icons/Icons";
 import { Li } from "../Protos/Li";
 import { Button1 } from "../Protos/Button1";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { refsStt } from "../../helpers/atoms";
+import { appendStyle } from "../../helpers/functions";
+import style from "../../styles/style.css?raw";
 
 export const HomeHeader = () => {
+  const iframe= useRecoilValue(refsStt).ifrRef;
+
+  const clearIFrameBody = ()=>{
+    iframe.contentDocument.body.innerHTML = '';
+    iframe.contentDocument.body.style.hight=iframe.contentWindow.innerHight;
+      appendStyle(style, iframe);
+  }
+
   return (
     <header className="w-full h-[60px] bg-slate-900 border-b-[1.5px] border-slate-400  px-3  flex items-center justify-between">
       <ul className="flex gap-[25px] items-center">
@@ -14,6 +26,7 @@ export const HomeHeader = () => {
 
       <div className="flex items-center gap-[10px]">
         <ul className="flex gap-[15px] items-center border-r-2 pr-2 mr-2 border-slate-800">
+          <Li onClick={clearIFrameBody}>{Icons.trash()}</Li>
           <Li>{Icons.left()}</Li>
           <Li>{Icons.right()}</Li>
         </ul>
