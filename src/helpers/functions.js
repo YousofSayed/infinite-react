@@ -64,112 +64,83 @@ const handleHistory = (element) => {
 const getMsg = (ev) => {
   if (ev.data.type == "end") {
     const droppedEl = document.createElement(ev.data.elType);
-    droppedEl.innerHTML = `Hello i am ${ev.data.elType}`;
-    
-    /**
-     * 
-     * @param {HTMLElement} el 
-     */
-    const initDroppedEl = (el)=>{
-      el.setAttribute("editable", "true");
-      el.setAttribute("draggable", "true");
-      el.id = uniqueID();
-    }
-
-    initDroppedEl(droppedEl);
     gElement.appendChild(droppedEl);
     gElement.classList.remove("ondragover");
+    initSeperators(initDropEl(droppedEl));
 
+    console.log("getMesg function");
     /**
-     * 
-     * @param {HTMLElement} el 
+     *
+     * @param {HTMLElement} el
      */
-    const initSeperators = (el)=>{
+    function initDropEl(el) {
+      el.id = uniqueID();
+      el.setAttribute("draggable", "true");
+      el.setAttribute("editable", "true");
+      el.textContent
+        ? ""
+        : el.insertAdjacentText("beforeend", `Hello i am ${ev.data.elType}`);
       el.insertAdjacentHTML(
-        "afterbegin",
+        "beforeend",
         html`
-          <div draggable="false" class="seperator top"></div>
-          <div draggable="false" class="seperator bottom"></div>
+          <div class="seperator top"></div>
+          <div class="seperator bottom"></div>
         `
       );
-      const seperatorT = el.querySelector(".seperator.top");
-      const seperatorB = el.querySelector(".seperator.bottom");
-  
-  
-      /**
-       *
-       * @param {HTMLDivElement} div
-       */
-      const sidesHandler = (div) => {
-        div.addEventListener("drag", (ev) => {
-          ev.preventDefault();
-          return;
-        });
-  
-        div.addEventListener("dragover", (ev) => {
-          ev.preventDefault();
-          return;
-        });
-  
-        div.addEventListener("dragenter", (ev) => {
-          ev.target.classList.add("ondragover");
-        });
-  
-        div.addEventListener("dragleave", (ev) => {
-          ev.target.classList.remove("ondragover");
-        });
-  
-      };
-      sidesHandler(seperatorT);
-      sidesHandler(seperatorB);
+
+      el.addEventListener("dragstart", (ev) => {
+        ev.stopPropagation();
+        console.log(ev.target.innerHTML , el.innerHTML , el.outerHTML);
+        ev.dataTransfer.setData("text/html", ev.target.outerHTML);
+        ev.dataTransfer.setData("text/plain", el.innerHTML);
+      });
+
+      el.addEventListener("drop", (ev) => {
+        ev.stopPropagation();
+        const outerEl = ev.dataTransfer.getData("text/html");
+        const innerEl = ev.dataTransfer.getData("text/plain");
+        const nodeEl = parseToHTML(outerEl);
+        const id = nodeEl.id;
+        if (ev.target.className.includes("seperator top")) {
+          ev.target.parentNode.insertAdjacentElement("beforebegin", nodeEl);
+        } else if (ev.target.className.includes("seperator bottom")) {
+          ev.target.parentNode.insertAdjacentElement("afterend", nodeEl);
+        } else {
+          ev.target.appendChild(nodeEl);
+        }
+        ev.target.classList.remove("ondragover");
+        initSeperators(initDropEl(nodeEl));
+        body.querySelector(`#${id}`).remove();
+      });
+      return [
+        el.querySelector(".seperator.top"),
+        el.querySelector(".seperator.bottom"),
+      ];
     }
-
-    initSeperators(droppedEl);
-
 
     /**
-     * 
-     * @param {HTMLElement} el 
+     *
+     * @param {HTMLElement[]} els
      */
-    const droppedElDragHandler = (el)=>{
-      el.addEventListener('dragstart',(ev)=>{
-        isInWindow = true;
-        const className = ev.target.className;
-        ev.dataTransfer.setData('text/html',el.outerHTML);
-        ev.dataTransfer.setData('text/plain',el.id);
-      });
-      
-      el.addEventListener('drop',(ev)=>{
-        const className = ev.target.className;
-        const newEl = parseToHTML(ev.dataTransfer.getData('text/html'));
-        newEl.innerHTML = 'Fucken HEllo text....'
-        const id = ev.dataTransfer.getData('text/plain');
-        initDroppedEl(newEl);
-
-        if(className.includes('seperator top')){
-          console.log('top');
-          ev.target.parentNode.insertAdjacentElement('beforebegin',newEl);
-        }
-        else if(className.includes('seperator bottom')){
-          console.log('bottom');
-          ev.target.parentNode.insertAdjacentElement('afterend',newEl);
-
-        }
-        else{
-          ev.target.appendChild(newEl);
-        }
-        ev.target.classList.remove('ondragover');
-        // document.body.parentNode
-        body.querySelector(`#${id}`).remove();
-        isInWindow=false;
-        initSeperators(newEl);
-        droppedElDragHandler(newEl);
+    function initSeperators(els) {
+      const preventDefautlt = (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        return;
+      };
+      els.forEach((el) => {
+        el.addEventListener("drag", preventDefautlt);
+        el.addEventListener("dragover", preventDefautlt);
+        el.addEventListener("dragenter", (ev) => {
+          ev.stopPropagation() ;
+          ev.target.classList.add("ondragover");
+        });
+        el.addEventListener("dragleave", (ev) => {
+          ev.stopPropagation() ;
+          ev.target.classList.remove("ondragover");
+        });
       });
     }
-
-    // document.body
-    droppedElDragHandler(droppedEl);
-
   }
 };
 
@@ -184,13 +155,11 @@ export const iframeHandler = (iframeEl) => {
 
   frameWindow.addEventListener("dragover", (ev) => {
     ev.preventDefault();
-    // log
-    console.log(ev.target.className);
-    if (isInWindow || ev.target.className.includes('seperator')) {
+    if (isInWindow) {
       console.log(" isInWindow");
       return;
     }
-   
+
     gElement = ev.target;
 
     const removeClass = (ev) => {
@@ -208,7 +177,6 @@ export const iframeHandler = (iframeEl) => {
 export const cleaner = () => {
   window.parent.removeEventListener("message", getMsg);
 };
-
 
 //trash
 // if (ev.target.classList.contains("ondragover") && gElement == ev.target) {
