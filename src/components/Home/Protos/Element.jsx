@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { Icons } from "../../Icons/Icons";
 import { useRecoilValue } from "recoil";
 import { refsStt, searchWord } from "../../../helpers/atoms";
+import { stringify } from "../../../helpers/cocktail";
 
 /**
  *
@@ -10,21 +11,20 @@ import { refsStt, searchWord } from "../../../helpers/atoms";
  */
 export const Element = ({ content }) => {
   const searchW = useRecoilValue(searchWord);
-  return ( 
+  return (
     <div
       draggable={true}
-
       onDragStart={(ev) => {
-        console.log("start");
-        ev.dataTransfer.setData("text/plain", content.toLowerCase());
+        ev.dataTransfer.setData("application/json",stringify( {
+          name: content.toLowerCase(),
+          inner: `Hello i am ${content.toLowerCase()}`,
+          oldId:''
+        }));
       }}
-
-      onDragEnd={(ev) => {
-        console.log("end");
-        window.parent.postMessage({ type: 'end' , elType :content.toLowerCase() });
-      }}
-
-      className={`${content.toLowerCase().includes(searchW.toLowerCase())? '':'hidden'} group h-[90px] bg-slate-800 border-[1.5px] border-slate-400 rounded-lg flex items-center  justify-center flex-col gap-[15px]`}
+      
+      className={`${
+        content.toLowerCase().includes(searchW.toLowerCase()) ? "" : "hidden"
+      } group h-[90px] bg-slate-800 border-[1.5px] border-slate-400 rounded-lg flex items-center  justify-center flex-col gap-[15px]`}
     >
       {Icons.code()}
       <p className="font-semibold text-white text-[13px] mb-[10px]">

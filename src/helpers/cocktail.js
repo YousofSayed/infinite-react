@@ -110,10 +110,8 @@ export function $a(root) {
 export function parseToHTML(text) {
   const div = document.createElement('div');
   div.innerHTML = text;
-  console.log( div.innerHTML,div.children[0].innerHTML);
+  console.log( div.innerHTML);
   return div.children[0]
-  // const el = new DOMParser().parseFromString(text, "text/html").body.children;
-  // return +el.length ? el[0] : undefined;
 }
 
 /**

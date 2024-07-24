@@ -1,4 +1,4 @@
-import { html, parseToHTML, uniqueID } from "./cocktail";
+import { html, parse, parseToHTML, stringify, uniqueID } from "./cocktail";
 
 /**
  *
@@ -45,6 +45,13 @@ let gElement,
   historyI = 0,
   isInWindow = false;
 const history = [""];
+let eventsWillClear = {
+  drop:()=>{},
+  dragstart:()=>{},
+  dragenter:()=>{},
+  dragleave:()=>{},
+  dragend:()=>{},
+};
 
 /**
  *
@@ -59,93 +66,6 @@ const handleHistory = (element) => {
 
 /**
  *
- * @param {MessageEvent} ev
- */
-const getMsg = (ev) => {
-  if (ev.data.type == "end") {
-    const droppedEl = document.createElement(ev.data.elType);
-    gElement.appendChild(droppedEl);
-    gElement.classList.remove("ondragover");
-    initSeperators(initDropEl(droppedEl));
-
-    console.log("getMesg function");
-    /**
-     *
-     * @param {HTMLElement} el
-     */
-    function initDropEl(el) {
-      el.id = uniqueID();
-      el.setAttribute("draggable", "true");
-      el.setAttribute("editable", "true");
-      el.textContent
-        ? ""
-        : el.insertAdjacentText("beforeend", `Hello i am ${ev.data.elType}`);
-      el.insertAdjacentHTML(
-        "beforeend",
-        html`
-          <div class="seperator top"></div>
-          <div class="seperator bottom"></div>
-        `
-      );
-
-      el.addEventListener("dragstart", (ev) => {
-        ev.stopPropagation();
-        console.log(ev.target.innerHTML , el.innerHTML , el.outerHTML);
-        ev.dataTransfer.setData("text/html", ev.target.outerHTML);
-        ev.dataTransfer.setData("text/plain", el.innerHTML);
-      });
-
-      el.addEventListener("drop", (ev) => {
-        ev.stopPropagation();
-        const outerEl = ev.dataTransfer.getData("text/html");
-        const innerEl = ev.dataTransfer.getData("text/plain");
-        const nodeEl = parseToHTML(outerEl);
-        const id = nodeEl.id;
-        if (ev.target.className.includes("seperator top")) {
-          ev.target.parentNode.insertAdjacentElement("beforebegin", nodeEl);
-        } else if (ev.target.className.includes("seperator bottom")) {
-          ev.target.parentNode.insertAdjacentElement("afterend", nodeEl);
-        } else {
-          ev.target.appendChild(nodeEl);
-        }
-        ev.target.classList.remove("ondragover");
-        initSeperators(initDropEl(nodeEl));
-        body.querySelector(`#${id}`).remove();
-      });
-      return [
-        el.querySelector(".seperator.top"),
-        el.querySelector(".seperator.bottom"),
-      ];
-    }
-
-    /**
-     *
-     * @param {HTMLElement[]} els
-     */
-    function initSeperators(els) {
-      const preventDefautlt = (ev) => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        return;
-      };
-      els.forEach((el) => {
-        el.addEventListener("drag", preventDefautlt);
-        el.addEventListener("dragover", preventDefautlt);
-        el.addEventListener("dragenter", (ev) => {
-          ev.stopPropagation() ;
-          ev.target.classList.add("ondragover");
-        });
-        el.addEventListener("dragleave", (ev) => {
-          ev.stopPropagation() ;
-          ev.target.classList.remove("ondragover");
-        });
-      });
-    }
-  }
-};
-
-/**
- *
  * @param {HTMLIFrameElement} iframeEl
  */
 export const iframeHandler = (iframeEl) => {
@@ -153,29 +73,168 @@ export const iframeHandler = (iframeEl) => {
   frameWindow = iframeEl.contentWindow;
   body.style.height = frameWindow.innerHeight;
 
-  frameWindow.addEventListener("dragover", (ev) => {
-    ev.preventDefault();
-    if (isInWindow) {
-      console.log(" isInWindow");
-      return;
-    }
+  body.addEventListener("drop", dropCallback);
 
-    gElement = ev.target;
-
-    const removeClass = (ev) => {
-      ev.target.classList.remove("ondragover");
-      ev.target.removeEventListener("dragleave", removeClass);
-    };
-
-    ev.target.addEventListener("dragleave", removeClass);
-    ev.target.classList.add("ondragover");
-  });
-
-  window.parent.addEventListener("message", getMsg);
+  initDragAndDrop(body);
 };
 
+/**
+ *
+ * @param {DragEvent} ev
+ */
+function dropCallback(ev) {
+  ev.stopPropagation();
+  const data = parse(ev.dataTransfer.getData("application/json"));
+  const droppedEl = document.createElement(data.name);
+  droppedEl.innerHTML = data.inner;
+  droppedEl.setAttribute("draggable", "true");
+  droppedEl.setAttribute("editable", "true");
+  // droppedEl.id
+  body.appendChild(droppedEl);
+  body.classList.remove("ondragover");
+
+  initSeperators(initDropEl(droppedEl, data.name));
+}
+
+/**
+ *
+ * @param {HTMLElement} el
+ */
+function initDropEl(el, dataType) {
+  el.id = uniqueID();
+  el.setAttribute("draggable", "true");
+  el.setAttribute("editable", "true");
+  el.textContent
+    ? ""
+    : el.insertAdjacentText("beforeend", `Hello i am ${dataType}`);
+  el.insertAdjacentHTML(
+    "beforeend",
+    html`
+      <div class="seperator top"></div>
+      <div class="seperator bottom"></div>
+    `
+  );
+
+  initDragAndDrop(el);
+
+  const dropCallback = (ev) => {
+    ev.stopPropagation();
+    const data = parse(ev.dataTransfer.getData("application/json"));
+    const newEl = document.createElement(data.name);
+    newEl.innerHTML = data.inner;
+    newEl.id = uniqueID();
+
+    if (ev.target.className.includes("seperator top")) {
+      ev.currentTarget.insertAdjacentElement("beforebegin", newEl);
+      console.log('top');
+    } 
+    else if (ev.target.className.includes("seperator bottom")) {
+      ev.currentTarget.insertAdjacentElement("afterend", newEl);
+      console.log('bottom');
+    } else {
+      console.log('else');
+      ev.target.appendChild(newEl);
+    }
+
+    ev.target.classList.remove("ondragover");
+    initSeperators(initDropEl(newEl));
+    console.log(data.oldId , data.inner);
+    data.oldId? body.querySelector(`#${data.oldId}`).remove():'';
+    // body.querySelectorAll(`#${id}`).length >=1 ?  body.querySelector(`#${id}`).remove()  : '';
+  };
+  eventsWillClear = { ...eventsWillClear, drop: dropCallback };
+
+  el.addEventListener("drop", dropCallback);
+
+  return [
+    el.querySelector(".seperator.top"),
+    el.querySelector(".seperator.bottom"),
+  ];
+}
+
+/**
+ *
+ * @param {HTMLElement} el
+ */
+function initDragAndDrop(el) {
+  const dragStartCallback = (ev) => {
+    console.log(ev.target, ev.currentTarget);
+    ev.stopPropagation();
+    
+    const elData = {
+      name: ev.target.tagName,
+      inner: ev.target.innerHTML,
+      oldId: ev.target.id,
+    };
+    ev.dataTransfer.setData("application/json", stringify(elData));
+  };
+
+  const dragEnterCallback = (ev) => {
+    ev.stopPropagation();
+    ev.target.classList.add("ondragover");
+  };
+
+  const dragLeaveCallback = (ev) => {
+    ev.stopPropagation();
+    ev.target.classList.remove("ondragover");
+  };
+
+  const dragOverCallback = (ev) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+  };
+
+  el.addEventListener("dragstart", dragStartCallback);
+
+  el.addEventListener("dragenter", dragEnterCallback);
+
+  el.addEventListener("dragleave", dragLeaveCallback);
+
+  el.addEventListener("dragover", dragOverCallback);
+
+  eventsWillClear = {
+    ...eventsWillClear,
+    dragstart: dragStartCallback,
+    dragenter: dragEnterCallback,
+    dragleave: dragLeaveCallback,
+    dragover: dragOverCallback
+  };
+}
+
+/**
+ *
+ * @param {HTMLElement[]} els
+ */
+function initSeperators(els) {
+  const preventDefautlt = (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return;
+  };
+  els.forEach((el) => {
+    el.addEventListener("drag", preventDefautlt);
+    el.addEventListener("dragover", preventDefautlt);
+    el.addEventListener("dragenter", (ev) => {
+      ev.stopPropagation();
+      ev.target.classList.add("ondragover");
+    });
+    el.addEventListener("dragleave", (ev) => {
+      ev.stopPropagation();
+      ev.target.classList.remove("ondragover");
+    });
+  });
+}
+
 export const cleaner = () => {
-  window.parent.removeEventListener("message", getMsg);
+  body.removeEventListener("drop", dropCallback);
+
+  Array.from(body.querySelectorAll("*")).forEach((el) => {
+    console.log(el);
+   for (const eventName in eventsWillClear) {
+   el.removeEventListener(eventName,eventsWillClear[eventName]);
+   }
+  });
+
 };
 
 //trash
