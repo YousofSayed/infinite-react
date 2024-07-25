@@ -44,16 +44,20 @@ export const HomeAside = () => {
       style={{ width: asideWidth }}
       className={` relative h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
     >
+      <label htmlFor="selEl" >
+
       <select
         id="selEl"
         className="w-full bg-slate-800  p-[10px]  rounded-lg text-white font-semibold"
       >
+        
         <option value="all">All</option>
         <option value="basic" defaultValue={true}>
           Basic
         </option>
         <option value="layout">Layout</option>
       </select>
+      </label>
 
       <section>
         <input

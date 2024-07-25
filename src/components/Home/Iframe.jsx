@@ -37,6 +37,7 @@ export const Iframe = (() => {
         ref={ifrRef}
         draggable={true}
         className="w-full h-full"
+        title="It is iframe"
         onDragOver={(ev)=>{ev.preventDefault()}}
       ></iframe>
     </section>
