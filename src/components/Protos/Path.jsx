@@ -8,7 +8,7 @@ export const Path = ({ d, strokeMiterlimit ,stroke='#64748B' ,strokeWidth='1.5' 
         stroke={stroke}
         strokeWidth={strokeWidth}
         strokeLinecap="round"
-        className={`${group ? 'group-':''}hover:stroke-white transition-all`}
+        className={`group-hover:stroke-white transition-all`}
         strokeLinejoin="round"
       />
   )

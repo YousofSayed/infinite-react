@@ -46,11 +46,11 @@ let gElement,
   isInWindow = false;
 const history = [""];
 let eventsWillClear = {
-  drop:()=>{},
-  dragstart:()=>{},
-  dragenter:()=>{},
-  dragleave:()=>{},
-  dragend:()=>{},
+  drop: () => {},
+  dragstart: () => {},
+  dragenter: () => {},
+  dragleave: () => {},
+  dragend: () => {},
 };
 
 /**
@@ -94,6 +94,7 @@ function dropCallback(ev) {
   body.classList.remove("ondragover");
 
   initSeperators(initDropEl(droppedEl, data.name));
+  data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
 }
 
 /**
@@ -117,32 +118,44 @@ function initDropEl(el, dataType) {
 
   initDragAndDrop(el);
 
+  /**
+   *
+   * @param {DragEvent} ev
+   */
   const dropCallback = (ev) => {
     ev.stopPropagation();
     const data = parse(ev.dataTransfer.getData("application/json"));
+    if (
+      (data.oldId &&
+        body
+          .querySelector(`#${data.oldId}`)
+          .querySelector(`#${ev.currentTarget.id}`)) ||
+      data.oldId == ev.currentTarget.id
+    ) {
+      ev.target.classList.remove("ondragover", "prevent");
+      console.log('testttt');
+      return;
+    }
+
     const newEl = document.createElement(data.name);
     newEl.innerHTML = data.inner;
     newEl.id = uniqueID();
 
     if (ev.target.className.includes("seperator top")) {
       ev.currentTarget.insertAdjacentElement("beforebegin", newEl);
-      console.log('top');
-    } 
-    else if (ev.target.className.includes("seperator bottom")) {
+    } else if (ev.target.className.includes("seperator bottom")) {
       ev.currentTarget.insertAdjacentElement("afterend", newEl);
-      console.log('bottom');
     } else {
-      console.log('else');
       ev.target.appendChild(newEl);
     }
 
     ev.target.classList.remove("ondragover");
     initSeperators(initDropEl(newEl));
-    console.log(data.oldId , data.inner);
-    data.oldId? body.querySelector(`#${data.oldId}`).remove():'';
-    // body.querySelectorAll(`#${id}`).length >=1 ?  body.querySelector(`#${id}`).remove()  : '';
+    console.log(data.oldId, data.inner);
+    data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
   };
   eventsWillClear = { ...eventsWillClear, drop: dropCallback };
+  document.body.parentElement;
 
   el.addEventListener("drop", dropCallback);
 
@@ -160,7 +173,7 @@ function initDragAndDrop(el) {
   const dragStartCallback = (ev) => {
     console.log(ev.target, ev.currentTarget);
     ev.stopPropagation();
-    
+
     const elData = {
       name: ev.target.tagName,
       inner: ev.target.innerHTML,
@@ -169,19 +182,31 @@ function initDragAndDrop(el) {
     ev.dataTransfer.setData("application/json", stringify(elData));
   };
 
+  /**
+   *
+   * @param {DragEvent} ev
+   */
   const dragEnterCallback = (ev) => {
     ev.stopPropagation();
-    ev.target.classList.add("ondragover");
+    const data = parse(ev.dataTransfer.getData("application/json"));
+    (data.oldId &&
+      ev.currentTarget.id &&
+      body
+        .querySelector(`#${data.oldId}`)
+        .querySelector(`#${ev.currentTarget.id}`)) ||
+    (data.oldId && data.oldId == ev.currentTarget.id)
+      ? ev.target.classList.add("ondragover", "prevent")
+      : ev.target.classList.add("ondragover");
   };
 
   const dragLeaveCallback = (ev) => {
     ev.stopPropagation();
-    ev.target.classList.remove("ondragover");
+    ev.target.classList.remove("ondragover", "prevent");
   };
 
   const dragOverCallback = (ev) => {
-    ev.stopPropagation();
     ev.preventDefault();
+    ev.stopPropagation();
   };
 
   el.addEventListener("dragstart", dragStartCallback);
@@ -197,7 +222,7 @@ function initDragAndDrop(el) {
     dragstart: dragStartCallback,
     dragenter: dragEnterCallback,
     dragleave: dragLeaveCallback,
-    dragover: dragOverCallback
+    dragover: dragOverCallback,
   };
 }
 
@@ -216,25 +241,24 @@ function initSeperators(els) {
     el.addEventListener("dragover", preventDefautlt);
     el.addEventListener("dragenter", (ev) => {
       ev.stopPropagation();
-      ev.target.classList.add("ondragover");
+      const data = parse(ev.dataTransfer.getData("application/json"));
+      (data.oldId &&
+        body
+          .querySelector(`#${data.oldId}`)
+          .querySelector(`#${ev.currentTarget.parentNode.id}`)) ||
+      data.oldId == ev.currentTarget.parentNode.id
+        ? ev.target.classList.add("ondragover", "prevent")
+        : ev.target.classList.add("ondragover");
     });
     el.addEventListener("dragleave", (ev) => {
       ev.stopPropagation();
-      ev.target.classList.remove("ondragover");
+      ev.target.classList.remove("ondragover", "prevent");
     });
   });
 }
 
 export const cleaner = () => {
   body.removeEventListener("drop", dropCallback);
-
-  Array.from(body.querySelectorAll("*")).forEach((el) => {
-    console.log(el);
-   for (const eventName in eventsWillClear) {
-   el.removeEventListener(eventName,eventsWillClear[eventName]);
-   }
-  });
-
 };
 
 //trash
