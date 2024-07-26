@@ -15,7 +15,12 @@ export const searchWord = atom({
 
 export const iframeBody = atom({
   key:'iframeBody',
-  default:document.body
+  default:document
+});
+
+export const iframeWindow = atom({
+  key:'iframeWindow',
+  default:window
 });
 
 export const refsStt = atom({

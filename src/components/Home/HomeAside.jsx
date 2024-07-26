@@ -7,12 +7,24 @@ import {
   widths,
 } from "../../helpers/atoms";
 import { Basics } from "./Elements/Basics";
+import { Layouts } from "./Elements/Layouts";
 
 export const HomeAside = () => {
   const asideRef = useRef();
   const [asideWidth, setAsideWidth] = useState(300);
+  const [elementsTarget , setElementTarget] = useState('all')
   const setPopUp = useSetRecoilState(showPopupIframState);
   const setSearchW = useSetRecoilState(searchWord);
+  const Elements = {
+    basics: <Basics />,
+    layouts: <Layouts />,
+    all: (
+      <>
+        <Layouts />
+        <Basics />
+      </>
+    ),
+  };
   let isResize = false,
     width;
 
@@ -44,19 +56,21 @@ export const HomeAside = () => {
       style={{ width: asideWidth }}
       className={` relative h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
     >
-      <label htmlFor="selEl" >
-     <p className="text-white font-semibold mb-[10px]"> Choose an element:</p>
-      <select
-        id="selEl"
-        className="w-full bg-slate-800  p-[10px]  rounded-lg text-white font-semibold"
-      >
-        
-        <option value="all">All</option>
-        <option value="basic" defaultValue={true}>
-          Basic
-        </option>
-        <option value="layout">Layout</option>
-      </select>
+      <label htmlFor="selEl">
+        <p className="text-white font-semibold mb-[10px]">
+          {" "}
+          Choose an element:
+        </p>
+        <select
+          onChange={(ev)=>{setElementTarget(ev.target.value)}}
+          className="w-full bg-slate-800  p-[10px]  rounded-lg text-white font-semibold"
+        >
+          <option value="all">All</option>
+          <option value="basics" defaultValue={true}>
+            Basics
+          </option>
+          <option value="layouts">Layouts</option>
+        </select>
       </label>
 
       <section>
@@ -71,7 +85,7 @@ export const HomeAside = () => {
       </section>
 
       <section className="grid custom-grid-col gap-[15px] overflow-x-auto pr-3 ">
-        <Basics />
+        {Elements[elementsTarget]}
       </section>
 
       <div

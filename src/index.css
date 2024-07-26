@@ -34,3 +34,20 @@ body{
     scrollbar-color: rgb(37 99 235 /1) rgba(128, 128, 128, 0.315);
     scrollbar-width: thin; /* 'thin' or 'auto' */
 }
+
+@keyframes clickframe{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(.5);
+
+    }
+    100%    {
+        transform: scale(1);
+    }
+}
+
+.click{
+    animation: clickframe  .2s  alternate linear;
+}

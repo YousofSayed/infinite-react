@@ -1,4 +1,5 @@
 import { html, parse, parseToHTML, stringify, uniqueID } from "./cocktail";
+import { iframeBodyChange } from "./customEvents";
 
 /**
  *
@@ -85,29 +86,29 @@ export const iframeHandler = (iframeEl) => {
 function dropCallback(ev) {
   ev.stopPropagation();
   const data = parse(ev.dataTransfer.getData("application/json"));
-  const droppedEl = document.createElement(data.name);
-  droppedEl.innerHTML = data.inner;
-  droppedEl.setAttribute("draggable", "true");
-  droppedEl.setAttribute("editable", "true");
-  // droppedEl.id
+  const droppedEl = document.createElement(data.tagType);
   body.appendChild(droppedEl);
   body.classList.remove("ondragover");
-
-  initSeperators(initDropEl(droppedEl, data.name));
+  initSeperators(initDropEl(droppedEl, data));
   data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
+  iframeBodyChange(body.innerHTML);
 }
 
 /**
  *
  * @param {HTMLElement} el
+ * @param {{tagType:string , inner:string , classes:string,oldId:string}} data
+ * @returns
  */
-function initDropEl(el, dataType) {
+function initDropEl(el, data) {
   el.id = uniqueID();
   el.setAttribute("draggable", "true");
   el.setAttribute("editable", "true");
-  el.textContent
-    ? ""
-    : el.insertAdjacentText("beforeend", `Hello i am ${dataType}`);
+  el.innerHTML = data.inner;
+  data.classes && el.classList.add(...data.classes.split(" "));
+  // el.textContent
+  //   ? ""
+  //   : el.insertAdjacentText("beforeend", `Hello i am ${data.tagType}`);
   el.insertAdjacentHTML(
     "beforeend",
     html`
@@ -133,13 +134,10 @@ function initDropEl(el, dataType) {
       data.oldId == ev.currentTarget.id
     ) {
       ev.target.classList.remove("ondragover", "prevent");
-      console.log('testttt');
       return;
     }
 
-    const newEl = document.createElement(data.name);
-    newEl.innerHTML = data.inner;
-    newEl.id = uniqueID();
+    const newEl = document.createElement(data.tagType);
 
     if (ev.target.className.includes("seperator top")) {
       ev.currentTarget.insertAdjacentElement("beforebegin", newEl);
@@ -150,9 +148,9 @@ function initDropEl(el, dataType) {
     }
 
     ev.target.classList.remove("ondragover");
-    initSeperators(initDropEl(newEl));
-    console.log(data.oldId, data.inner);
+    initSeperators(initDropEl(newEl, data));
     data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
+   iframeBodyChange(body.innerHTML);
   };
   eventsWillClear = { ...eventsWillClear, drop: dropCallback };
   document.body.parentElement;
@@ -170,14 +168,18 @@ function initDropEl(el, dataType) {
  * @param {HTMLElement} el
  */
 function initDragAndDrop(el) {
+  /**
+   *
+   * @param {DragEvent} ev
+   */
   const dragStartCallback = (ev) => {
-    console.log(ev.target, ev.currentTarget);
     ev.stopPropagation();
 
     const elData = {
-      name: ev.target.tagName,
+      tagType: ev.target.tagName,
       inner: ev.target.innerHTML,
       oldId: ev.target.id,
+      classes: ev.target.className,
     };
     ev.dataTransfer.setData("application/json", stringify(elData));
   };

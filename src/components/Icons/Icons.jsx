@@ -225,7 +225,7 @@ export const Icons = {
       />
     </svg>
   ),
-  right: (strokeColor, strokeWidth) => (
+  redo: (strokeColor, strokeWidth) => (
     <svg
       width="20"
       height="20"
@@ -240,7 +240,7 @@ export const Icons = {
       />
     </svg>
   ),
-  left: (strokeColor, strokeWidth) => (
+  undo: (strokeColor, strokeWidth) => (
     <svg
       width="20"
       height="20"

@@ -4,6 +4,18 @@
   box-sizing: border-box;
 }
 
+.container {
+  width: 95%;
+  padding: 0 15px;
+  margin: auto;
+  /* background-color: red; */
+}
+
+.edite-container {
+  border: 1.5px solid #000;
+}
+
+
 [editable] {
   padding: 10px;
   border: 1.5px solid #000;
@@ -11,6 +23,7 @@
   transition: 0.3s ease;
   user-select: none;
   position: relative;
+  padding: 25px 0;
 }
 
 [editable]:hover:not(:has(*:hover)),
@@ -50,20 +63,15 @@
   z-index: 1;
 }
 
+.ondragstart{
+  cursor: grab;
+}
+
 .ondragover.prevent{
   background-color: rgba(255, 0, 0, 0.445);
   cursor: not-allowed;
 }
 
-.container {
-  width: 95%;
-  padding: 0 15px;
-  margin: auto;
-}
-
-.edite-container {
-  border: 1.5px solid #000;
-}
 
 /* 
 @media(width < 512px) {
