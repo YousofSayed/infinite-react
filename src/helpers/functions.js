@@ -72,10 +72,8 @@ const handleHistory = (element) => {
 export const iframeHandler = (iframeEl) => {
   body = iframeEl.contentDocument.body;
   frameWindow = iframeEl.contentWindow;
-  body.style.height = frameWindow.innerHeight;
 
   body.addEventListener("drop", dropCallback);
-
   initDragAndDrop(body);
 };
 
@@ -84,6 +82,7 @@ export const iframeHandler = (iframeEl) => {
  * @param {DragEvent} ev
  */
 function dropCallback(ev) {
+  console.log('dropped');
   ev.stopPropagation();
   const data = parse(ev.dataTransfer.getData("application/json"));
   const droppedEl = document.createElement(data.tagType);
@@ -91,6 +90,7 @@ function dropCallback(ev) {
   body.classList.remove("ondragover");
   initSeperators(initDropEl(droppedEl, data));
   data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
+  console.log(data.classes);
   iframeBodyChange(body.innerHTML);
 }
 

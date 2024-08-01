@@ -9,7 +9,7 @@ import { stringify } from "../../../helpers/cocktail";
  * @param {{content:string ,inner:string, name:string,classes:string}} param0
  * @returns
  */
-export const Element = ({ content='', inner='', name ='', classes='' }) => {
+export const Element = ({ content='', inner='default', name ='', classes='text-red-600' }) => {
   const searchW = useRecoilValue(searchWord);
   return (
     <div
