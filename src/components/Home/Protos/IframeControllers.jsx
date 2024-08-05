@@ -4,7 +4,7 @@ import { Icons } from "../../Icons/Icons";
 import { useRecoilValue } from "recoil";
 // import style from "../../../styles/style.css?raw";
 import { iframeBody, iframeWindow, refsStt } from "../../../helpers/atoms";
-import { appendStyle, iframeHandler } from "../../../helpers/functions";
+// import { appendStyle, iframeHandler } from "../../../helpers/functions";
 let i = 0,
   maxStack = 5;
 

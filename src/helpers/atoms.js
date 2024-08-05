@@ -30,7 +30,7 @@ export const refsStt = atom({
   }
 });
 
-export const showPopupIframState = atom({
-  key: "showPopUp",
+export const showOverlayIframState = atom({
+  key: "showOverlay",
   default: false,
 });

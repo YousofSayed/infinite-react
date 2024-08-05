@@ -28,6 +28,9 @@ export const Basics = () => {
         <Element content={'Video'} />
         <Element content={'Audio'} />
         <Element content={'Figure'} />
+        <Element content={'select'} />
+        <Element content={'option'} />
+
     </>
   )
 }

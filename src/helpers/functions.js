@@ -90,7 +90,6 @@ function dropCallback(ev) {
   body.classList.remove("ondragover");
   initSeperators(initDropEl(droppedEl, data));
   data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
-  console.log(data.classes);
   iframeBodyChange(body.innerHTML);
 }
 
@@ -106,9 +105,6 @@ function initDropEl(el, data) {
   el.setAttribute("editable", "true");
   el.innerHTML = data.inner;
   data.classes && el.classList.add(...data.classes.split(" "));
-  // el.textContent
-  //   ? ""
-  //   : el.insertAdjacentText("beforeend", `Hello i am ${data.tagType}`);
   el.insertAdjacentHTML(
     "beforeend",
     html`
@@ -162,6 +158,38 @@ function initDropEl(el, data) {
     el.querySelector(".seperator.bottom"),
   ];
 }
+
+/**
+ *
+ * @param {HTMLElement[]} els
+ */
+function initSeperators(els) {
+  const preventDefautlt = (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+    return;
+  };
+  els.forEach((el) => {
+    el.addEventListener("drag", preventDefautlt);
+    el.addEventListener("dragover", preventDefautlt);
+    el.addEventListener("dragenter", (ev) => {
+      ev.stopPropagation();
+      const data = parse(ev.dataTransfer.getData("application/json"));
+      (data.oldId &&
+        body
+          .querySelector(`#${data.oldId}`)
+          .querySelector(`#${ev.currentTarget.parentNode.id}`)) ||
+      data.oldId == ev.currentTarget.parentNode.id
+        ? ev.target.classList.add("ondragover", "prevent")
+        : ev.target.classList.add("ondragover");
+    });
+    el.addEventListener("dragleave", (ev) => {
+      ev.stopPropagation();
+      ev.target.classList.remove("ondragover", "prevent");
+    });
+  });
+}
+
 
 /**
  *
@@ -228,36 +256,7 @@ function initDragAndDrop(el) {
   };
 }
 
-/**
- *
- * @param {HTMLElement[]} els
- */
-function initSeperators(els) {
-  const preventDefautlt = (ev) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-    return;
-  };
-  els.forEach((el) => {
-    el.addEventListener("drag", preventDefautlt);
-    el.addEventListener("dragover", preventDefautlt);
-    el.addEventListener("dragenter", (ev) => {
-      ev.stopPropagation();
-      const data = parse(ev.dataTransfer.getData("application/json"));
-      (data.oldId &&
-        body
-          .querySelector(`#${data.oldId}`)
-          .querySelector(`#${ev.currentTarget.parentNode.id}`)) ||
-      data.oldId == ev.currentTarget.parentNode.id
-        ? ev.target.classList.add("ondragover", "prevent")
-        : ev.target.classList.add("ondragover");
-    });
-    el.addEventListener("dragleave", (ev) => {
-      ev.stopPropagation();
-      ev.target.classList.remove("ondragover", "prevent");
-    });
-  });
-}
+
 
 export const cleaner = () => {
   body.removeEventListener("drop", dropCallback);

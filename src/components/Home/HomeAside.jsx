@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   refsStt,
   searchWord,
-  showPopupIframState,
+  showOverlayIframState,
   widths,
 } from "../../helpers/atoms";
 import { Basics } from "./Elements/Basics";
@@ -12,8 +12,8 @@ import { Layouts } from "./Elements/Layouts";
 export const HomeAside = () => {
   const asideRef = useRef();
   const [asideWidth, setAsideWidth] = useState(300);
-  const [elementsTarget , setElementTarget] = useState('all')
-  const setPopUp = useSetRecoilState(showPopupIframState);
+  const [elementsTarget, setElementTarget] = useState("all");
+  const setOverlay = useSetRecoilState(showOverlayIframState);
   const setSearchW = useSetRecoilState(searchWord);
   const Elements = {
     basics: <Basics />,
@@ -42,12 +42,14 @@ export const HomeAside = () => {
 
   const onUp = () => {
     isResize = false;
-    setPopUp(false);
+    setOverlay(false);
   };
 
   useEffect(() => {
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
+
+   
   }, [asideWidth]);
 
   return (
@@ -62,7 +64,9 @@ export const HomeAside = () => {
           Choose an element:
         </p>
         <select
-          onChange={(ev)=>{setElementTarget(ev.target.value)}}
+          onChange={(ev) => {
+            setElementTarget(ev.target.value);
+          }}
           className="w-full bg-slate-800  p-[10px]  rounded-lg text-white font-semibold"
         >
           <option value="all">All</option>
@@ -94,7 +98,7 @@ export const HomeAside = () => {
         className=" opacity-0 z-30 hover:opacity-[1] select-none transition-all absolute w-[5px] h-full  top-0 left-0 bg-blue-600 cursor-e-resize"
         onMouseDown={() => {
           isResize = true;
-          setPopUp(true);
+          setOverlay(true);
         }}
       >
         <div

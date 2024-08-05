@@ -58,6 +58,20 @@
   bottom: 0;
 }
 
+[editable] .seperator.right {
+  height: 100%;
+  width: 15px;
+  left: calc(100% - 15px);
+  top: 0;
+}
+
+[editable] .seperator.left {
+  height: 100%;
+  width: 15px;
+  left: 0;
+  top: 0;
+}
+
 .opacity-1 {
   opacity: 1 !important;
 }
