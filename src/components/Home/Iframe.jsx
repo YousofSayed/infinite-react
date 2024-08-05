@@ -25,11 +25,10 @@ export const Iframe = () => {
       const iframeWindow = ifrRef.current.contentWindow;
 
       iframeDocument.body.querySelector("#mainScript")
-        ? iframeDocument.body.removeChild(
-            iframeDocument.body.querySelector("#mainScript")
-          )
+        ?iframeDocument.body.querySelector("#mainScript").remove()
         : null;
 
+      
       ifrRef.current.srcdoc = html`
         <!DOCTYPE html>
         <html lang="en">
@@ -39,7 +38,12 @@ export const Iframe = () => {
               name="viewport"
               content="width=device-width, initial-scale=1.0"
             />
-            <link rel="stylesheet" href="/styles/style.css">
+            <link rel="stylesheet" href="/styles/style.css" />
+            <script src="/scripts/tailwindcss.js"></script>
+            <script src="/scripts/alpine-morph.js" defer></script>
+            <script src="/scripts/alpine.js" defer></script>
+            <script src=""></script>
+            <script src=""></script>
             <title>App</title>
           </head>
           <body>
@@ -52,8 +56,6 @@ export const Iframe = () => {
           </body>
         </html>
       `;
-
-
     }
 
     return () => {
@@ -67,7 +69,7 @@ export const Iframe = () => {
   return (
     <section className="relative flex-grow h-full">
       {showOverlay && (
-        <div className="absolute w-full h-full bg-slate-400 z-10 opacity-[.5]"></div>
+        <div className={`absolute w-full h-full bg-slate-400 z-10 opacity-[.5]`}></div>
       )}
 
       <iframe
@@ -75,6 +77,7 @@ export const Iframe = () => {
         draggable={true}
         className="w-full h-full"
         title="It is iframe"
+        srcDoc=""
         onDragOver={(ev) => {
           ev.preventDefault();
         }}

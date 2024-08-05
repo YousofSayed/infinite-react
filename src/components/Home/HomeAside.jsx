@@ -56,7 +56,7 @@ export const HomeAside = () => {
     <aside
       ref={asideRef}
       style={{ width: asideWidth }}
-      className={` relative h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
+      className={` relative  h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
     >
       <label htmlFor="selEl">
         <p className="text-white font-semibold mb-[10px]">

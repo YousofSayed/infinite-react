@@ -34,7 +34,7 @@ function appendScript(index) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  appendScript(0);
+  // appendScript(0);
 
   // Observer handlers
 
@@ -100,12 +100,12 @@ function dropCallback(ev) {
     ev.target.className.includes("seperator top") ||
     ev.target.className.includes("seperator left")
   ) {
-    ev.currentTarget.insertAdjacentElement("beforebegin", el);
+    ev.target.parentNode.insertAdjacentElement("beforebegin", el);
   } else if (
     ev.target.className.includes("seperator bottom") ||
     ev.target.className.includes("seperator right")
   ) {
-    ev.currentTarget.insertAdjacentElement("afterend", el);
+    ev.target.parentNode.insertAdjacentElement("afterend", el);
   } else {
     ev.target.appendChild(el);
   }
@@ -261,3 +261,6 @@ function initSeperators(el) {
 }
 // where == "before" && root.insertAdjacentElement("beforebegin", el);
 // where == "after" && root.insertAdjacentElement("afterend", el);
+
+console.log('loloer 5');
+
