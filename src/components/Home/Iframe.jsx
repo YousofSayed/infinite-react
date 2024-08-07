@@ -21,8 +21,6 @@ export const Iframe = () => {
 
   useEffect(() => {
     if (overlayRef.current) {
-      console.log(overlayRef.current);
-      
       setRefs((oldStt) => ({ ...oldStt, overlayRef: overlayRef.current }));
     }
 

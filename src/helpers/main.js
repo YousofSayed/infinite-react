@@ -118,9 +118,7 @@ function dragEnterCallback(ev) {
     ? ev.target.classList.add("ondragover", "prevent")
     : ev.target.classList.add("ondragover");
 
-    console.log(data.oldId , ev.target.id);
-    console.log( body.querySelector(`#${data.oldId}`).contains(body.querySelector(`#${ev.target.id}`)) , ev.target.id);
-    
+  
   data.oldId &&
     ev.target.id &&
     body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`) ?
