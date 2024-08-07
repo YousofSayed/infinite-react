@@ -127,8 +127,6 @@ function dragEnterCallback(ev) {
   ev.stopPropagation();
   const data = dataModel(ev);
 
-  ev.target.classList.add("ondragover");
-
   data.oldId && ev.target.id && data.oldId == ev.target.id
     ? ev.target.classList.add("ondragover", "prevent")
     : ev.target.classList.add("ondragover");
@@ -154,16 +152,19 @@ function dragLeaveCallback(ev) {
  */
 function dragStartCallback(ev) {
   ev.stopPropagation();
+  const data = {
+    tagType: ev.target.tagName,
+    inner: ev.target.innerHTML,
+    oldId: ev.target.id,
+    classes: ev.target.className,
+    attrs: { editable: true, draggable: true },
+  };
+
   ev.dataTransfer.setData(
     "application/json",
-    JSON.stringify({
-      tagType: ev.target.tagName,
-      inner: ev.target.innerHTML,
-      oldId: ev.target.id,
-      classes: ev.target.className,
-      attrs: { editable: true, draggable: true },
-    })
+    JSON.stringify(data)
   );
+  localStorage.setItem('elData',JSON.stringify(data));
 }
 
 /**
@@ -217,55 +218,6 @@ function initSeperators(el) {
     el.addEventListener("dragleave", dragLeaveCallback);
   });
 
-  const handleNewElement = (ev) => {
-    const data = dataModel(ev);
-    const el = document.createElement(data.tagType);
-    el.id = uniqueID();
-    el.innerHTML = data.inner;
-    data.classes && el.classList.add(...data.classes.split(" "));
-    for (const key in data.attrs) {
-      el.setAttribute(key, data.attrs[key]);
-    }
-
-    return { el, data };
-  };
-
-  // prev.forEach((el) => {
-  //   el.addEventListener("drop", (ev) => {
-  //     ev.stopPropagation();
-  //     console.log(ev.target , ev.currentTarget);
-
-  //     const {el , data} = handleNewElement(ev);
-  //     if(body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`) ){
-  //       ev.target.classList.remove('ondragover','prevent');
-  //       return;
-  //     };
-  //     ev.currentTarget.parentNode.insertAdjacentElement("beforebegin", el);
-  //     body.querySelector(`#${data.oldId}`).remove();
-  //     ev.target.classList.remove('ondragover');
-  //     // dropCallback(ev, ev.target , 'before');
-  //   });
-  // });
-
-  // next.forEach((el) => {
-  //   el.addEventListener("drop", (ev) => {
-  //     ev.stopPropagation();
-  //     console.log(ev.target , ev.currentTarget);
-
-  //     const {el , data}  = handleNewElement(ev);
-  //     if(body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`) ){
-  //       ev.target.classList.remove('ondragover','prevent');
-  //       return;
-  //     };
-  //     ev.currentTarget.parentNode.insertAdjacentElement("afterend", el);
-  //     body.querySelector(`#${data.oldId}`).remove();
-  //     ev.target.classList.remove('ondragover');
-
-  //     // dropCallback(ev, ev.target , 'after');
-  //   });
-  // });
 }
-// where == "before" && root.insertAdjacentElement("beforebegin", el);
-// where == "after" && root.insertAdjacentElement("afterend", el);
 
 console.log("loloer 7");
