@@ -9,12 +9,17 @@ import {
 import { Basics } from "./Elements/Basics";
 import { Layouts } from "./Elements/Layouts";
 
+let isResize = false,
+    width;
+
 export const HomeAside = () => {
   const asideRef = useRef();
   const [asideWidth, setAsideWidth] = useState(300);
   const [elementsTarget, setElementTarget] = useState("all");
-  const setOverlay = useSetRecoilState(showOverlayIframState);
+  const overlayRef = useRecoilValue(refsStt).overlayRef;
+  // const setOverlay = useSetRecoilState(showOverlayIframState);
   const setSearchW = useSetRecoilState(searchWord);
+
   const Elements = {
     basics: <Basics />,
     layouts: <Layouts />,
@@ -25,24 +30,25 @@ export const HomeAside = () => {
       </>
     ),
   };
-  let isResize = false,
-    width;
+
+  
 
   const onMove = (e) => {
     if (isResize) {
-      if (width < 200) {
+      const wVal = window.innerWidth - e.clientX;
+      if (wVal < 200) {
+        isResize = false;
         setAsideWidth(210);
         return;
       }
-      const wVal = window.innerWidth - e.clientX;
-      width = wVal;
       setAsideWidth(wVal);
+      overlayRef?.classList.remove('hidden');
     }
   };
 
   const onUp = () => {
+    overlayRef?.classList.add('hidden');
     isResize = false;
-    setOverlay(false);
   };
 
   useEffect(() => {
@@ -98,7 +104,6 @@ export const HomeAside = () => {
         className=" opacity-0 z-30 hover:opacity-[1] select-none transition-all absolute w-[5px] h-full  top-0 left-0 bg-blue-600 cursor-e-resize"
         onMouseDown={() => {
           isResize = true;
-          setOverlay(true);
         }}
       >
         <div

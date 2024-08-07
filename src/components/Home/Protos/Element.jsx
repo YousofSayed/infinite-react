@@ -15,16 +15,19 @@ export const Element = ({ content='', inner='default', name ='', classes='text-r
     <div
       draggable={true}
       onDragStart={(ev) => {
+        const dataModel = {
+          tagType: content.toLowerCase(),
+          inner,
+          oldId: "",
+          classes,
+          attrs:{editable:true, draggable:true},
+        };
+
         ev.dataTransfer.setData(
           "application/json",
-          stringify({
-            tagType: content.toLowerCase(),
-            inner,
-            oldId: "",
-            classes,
-            attrs:{editable:true, draggable:true},
-          })
+          JSON.stringify(dataModel)
         );
+        localStorage.setItem('elData',JSON.stringify(dataModel));
       }}
       className={`${
         content.toLowerCase().includes(searchW.toLowerCase()) ||

@@ -66,7 +66,11 @@ window.addEventListener("DOMContentLoaded", () => {
  * @returns {{ tagType: string, inner: string, oldId: string, classes: string, attrs: {} }}
  */
 const dataModel = (ev) => {
-  return JSON.parse(ev.dataTransfer.getData("application/json"));
+  //local storage for chrome don’t support (dataTransfer) in dragenter or dragover events :(
+  const data =
+    ev?.dataTransfer?.getData("application/json") ||
+    localStorage.getItem("elData");
+  return JSON.parse(data);
 };
 
 /**
@@ -119,8 +123,10 @@ function dropCallback(ev) {
  * @param {DragEvent} ev
  */
 function dragEnterCallback(ev) {
+  ev.preventDefault();
   ev.stopPropagation();
   const data = dataModel(ev);
+
   ev.target.classList.add("ondragover");
 
   data.oldId && ev.target.id && data.oldId == ev.target.id
@@ -262,5 +268,4 @@ function initSeperators(el) {
 // where == "before" && root.insertAdjacentElement("beforebegin", el);
 // where == "after" && root.insertAdjacentElement("afterend", el);
 
-console.log('loloer 5');
-
+console.log("loloer 7");

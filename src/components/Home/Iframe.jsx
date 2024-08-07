@@ -14,21 +14,26 @@ let firstRender = 0;
 
 export const Iframe = () => {
   const ifrRef = useRef();
+  const overlayRef = useRef();
   const scriptLoaded = useRef(false);
   const showOverlay = useRecoilValue(showOverlayIframState);
-  const setIframeRef = useSetRecoilState(refsStt);
-  const setIframeBody = useSetRecoilState(iframeBody);
+  const setRefs = useSetRecoilState(refsStt);
 
   useEffect(() => {
+    if (overlayRef.current) {
+      console.log(overlayRef.current);
+      
+      setRefs((oldStt) => ({ ...oldStt, overlayRef: overlayRef.current }));
+    }
+
     if (ifrRef.current && !showOverlay) {
       const iframeDocument = ifrRef.current.contentDocument;
       const iframeWindow = ifrRef.current.contentWindow;
 
       iframeDocument.body.querySelector("#mainScript")
-        ?iframeDocument.body.querySelector("#mainScript").remove()
+        ? iframeDocument.body.querySelector("#mainScript").remove()
         : null;
 
-      
       ifrRef.current.srcdoc = html`
         <!DOCTYPE html>
         <html lang="en">
@@ -68,9 +73,12 @@ export const Iframe = () => {
 
   return (
     <section className="relative flex-grow h-full">
-      {showOverlay && (
-        <div className={`absolute w-full h-full bg-slate-400 z-10 opacity-[.5]`}></div>
-      )}
+      {/* {showOverlay && (
+      )} */}
+      <div
+        ref={overlayRef}
+        className={`absolute hidden w-full h-full bg-slate-400 z-10 opacity-[.5]`}
+      ></div>
 
       <iframe
         ref={ifrRef}
