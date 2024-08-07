@@ -19,22 +19,9 @@ const scriptsSrc = [
   "/scripts/mustache.js",
 ];
 
-// const stylesSrc = ["/styles/style.css"];
 
-function appendScript(index) {
-  if (index >= scriptsSrc.length - 1) return;
-  let indexClone = index;
-  const script = document.createElement("script");
-  script.src = scriptsSrc[indexClone];
-  document.head.appendChild(script);
-  indexClone++;
-  script.addEventListener("load", () => {
-    appendScript(indexClone);
-  });
-}
 
 window.addEventListener("DOMContentLoaded", () => {
-  // appendScript(0);
 
   // Observer handlers
 
@@ -48,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
     entries.forEach((entry) => {
       if (isHTMLElement(entry.addedNodes[0])) {
         initDragEvents(entry.addedNodes[0]);
-        initSeperators(entry.addedNodes[0]);
+        entry.addedNodes[0].children.length <= 0 && initSeperators(entry.addedNodes[0]);
       }
     });
   });
@@ -131,10 +118,13 @@ function dragEnterCallback(ev) {
     ? ev.target.classList.add("ondragover", "prevent")
     : ev.target.classList.add("ondragover");
 
+    console.log(data.oldId , ev.target.id);
+    console.log( body.querySelector(`#${data.oldId}`).contains(body.querySelector(`#${ev.target.id}`)) , ev.target.id);
+    
   data.oldId &&
     ev.target.id &&
-    body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`) &&
-    ev.target.classList.add("ondragover", "prevent");
+    body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`) ?
+    ev.target.classList.add("ondragover", "prevent") : null;
 }
 
 /**
