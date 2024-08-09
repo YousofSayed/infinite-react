@@ -6,7 +6,6 @@ export const Aside = ({ children, dir = "left" }) => {
   const asideRef = useRef();
   const [asideWidth, setAsideWidth] = useState(300);
   const overlayRef = useRecoilValue(refsStt).overlayRef;
-  // let isResize = false;
   const isResize = useRef(false);
 
   /**
@@ -45,7 +44,7 @@ export const Aside = ({ children, dir = "left" }) => {
     <aside
       ref={asideRef}
       style={{ width: asideWidth }}
-      className={` relative  h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] border-l-[1.5px] border-slate-400 `}
+      className={` relative  h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] `}
     >
       {children}
 
