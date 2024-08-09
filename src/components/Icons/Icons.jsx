@@ -192,6 +192,7 @@ export const Icons = {
         d="M2 13H18V2H2V13ZM11 15V17H15V19H5V17H9V15H0.9918C0.44405 15 0 14.5511 0 13.9925V1.00748C0 0.45107 0.45531 0 0.9918 0H19.0082C19.556 0 20 0.44892 20 1.00748V13.9925C20 14.5489 19.5447 15 19.0082 15H11Z"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+        fill="#CBD5E1"
       />
     </svg>
   ),
@@ -207,6 +208,7 @@ export const Icons = {
         d="M2 2.5V18.5H14V2.5H2ZM1 0.5H15C15.5523 0.5 16 0.94772 16 1.5V19.5C16 20.0523 15.5523 20.5 15 20.5H1C0.44772 20.5 0 20.0523 0 19.5V1.5C0 0.94772 0.44772 0.5 1 0.5ZM8 15.5C8.5523 15.5 9 15.9477 9 16.5C9 17.0523 8.5523 17.5 8 17.5C7.4477 17.5 7 17.0523 7 16.5C7 15.9477 7.4477 15.5 8 15.5Z"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+        fill="#CBD5E1"
       />
     </svg>
   ),
@@ -222,6 +224,7 @@ export const Icons = {
         d="M2 2.5V18.5H12V2.5H2ZM1 0.5H13C13.5523 0.5 14 0.94772 14 1.5V19.5C14 20.0523 13.5523 20.5 13 20.5H1C0.44772 20.5 0 20.0523 0 19.5V1.5C0 0.94772 0.44772 0.5 1 0.5ZM7 15.5C7.5523 15.5 8 15.9477 8 16.5C8 17.0523 7.5523 17.5 7 17.5C6.4477 17.5 6 17.0523 6 16.5C6 15.9477 6.4477 15.5 7 15.5Z"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+        fill="#CBD5E1"
       />
     </svg>
   ),
@@ -237,6 +240,7 @@ export const Icons = {
         d="M18.1716 7.49955H11C7.68629 7.49955 5 10.1858 5 13.4996C5 16.8133 7.68629 19.4996 11 19.4996H20V21.4996H11C6.58172 21.4996 3 17.9178 3 13.4996C3 9.08127 6.58172 5.49955 11 5.49955H18.1716L15.636 2.96402L17.0503 1.5498L22 6.49955L17.0503 11.4493L15.636 10.0351L18.1716 7.49955Z"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+        fill="#CBD5E1"
       />
     </svg>
   ),
@@ -252,6 +256,7 @@ export const Icons = {
         d="M5.82843 7.49955L8.36396 10.0351L6.94975 11.4493L2 6.49955L6.94975 1.5498L8.36396 2.96402L5.82843 5.49955H13C17.4183 5.49955 21 9.08127 21 13.4996C21 17.9178 17.4183 21.4996 13 21.4996H4V19.4996H13C16.3137 19.4996 19 16.8133 19 13.4996C19 10.1858 16.3137 7.49955 13 7.49955H5.82843Z"
         strokeWidth={strokeWidth}
         stroke={strokeColor}
+        fill="#CBD5E1"
       />
     </svg>
   ),
@@ -289,7 +294,12 @@ export const Icons = {
     </svg>
   ),
   trash: (strokeColor, strokeWidth) => (
-    <svg viewBox="0 0 24 24" className="w-[24px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 24 24"
+      className="w-[24px]"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
@@ -304,6 +314,21 @@ export const Icons = {
           strokeWidth={strokeWidth}
         ></Path>{" "}
       </g>
+    </svg>
+  ),
+
+  arrow: (strokeColor, strokeWidth) => (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <Path
+        fill="#CBD5E1"
+        d="M11.7386 13.3406L16.5819 8.49741L17.9657 9.88119L11.7386 16.1083L5.51154 9.88119L6.89533 8.49741L11.7386 13.3406Z"
+      />
     </svg>
   ),
 };

@@ -45,8 +45,6 @@ export const Iframe = () => {
             <script src="/scripts/tailwindcss.js"></script>
             <script src="/scripts/alpine-morph.js" defer></script>
             <script src="/scripts/alpine.js" defer></script>
-            <script src=""></script>
-            <script src=""></script>
             <title>App</title>
           </head>
           <body>
@@ -71,8 +69,6 @@ export const Iframe = () => {
 
   return (
     <section className="relative flex-grow h-full">
-      {/* {showOverlay && (
-      )} */}
       <div
         ref={overlayRef}
         className={`absolute hidden w-full h-full bg-slate-400 z-10 opacity-[.5]`}
