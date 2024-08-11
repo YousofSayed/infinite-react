@@ -43,8 +43,8 @@ export const Iframe = () => {
             />
             <link rel="stylesheet" href="/styles/style.css" />
             <script src="/scripts/tailwindcss.js"></script>
-            <script src="/scripts/alpine-morph.js" defer></script>
-            <script src="/scripts/alpine.js" defer></script>
+            <!-- <script src="/scripts/alpine-morph.js" defer></script> -->
+            <!-- <script src="/scripts/alpine.js" defer></script> -->
             <title>App</title>
           </head>
           <body>

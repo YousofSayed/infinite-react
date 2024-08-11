@@ -18,7 +18,7 @@ export const Aside = ({ children, dir = "left" }) => {
       const wVal =
         dir == "left" ? window.innerWidth - e.clientX : e.clientX - 63;
       if (wVal < 200) {
-        isResize.current = false;
+        // isResize.current = false;
         setAsideWidth(210);
         return;
       }

@@ -10,7 +10,7 @@ export const Details = ({ children }) => {
       <div className={`flex items-center justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${showDetails ? 'bg-gray-900' : 'bg-slate-800'}`}>
         Layout{" "}
         <span
-          className="group  transition-all"
+          className="group  transition-all cursor-pointer"
           onClick={(ev) => {
             setTransition(()=>{
                 setShowDetails(!showDetails);

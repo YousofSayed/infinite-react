@@ -39,9 +39,9 @@ const domObserver = new MutationObserver((nodes) => {
       .forEach((chld) => {
         //Start handelling parent child
         const parentChildAttrs = Array.from(chld.getAttributeNames())
-          .filter((attr) => attr.startsWith("on"))
+          .filter((attr) => attr.startsWith("@"))
           .forEach((attr) => {
-            const eventName = attr.replace("on", "");
+            const eventName = attr.replace("@", "");
             chld.addEventListener(
               eventName,
               _callbacksContainer[chld.getAttribute(attr)]
@@ -53,7 +53,7 @@ const domObserver = new MutationObserver((nodes) => {
         const chldNodes = Array.from(chld.querySelectorAll("*"));
         const tes = chldNodes.map((chldNode) => {
           const filterAttr = Array.from(chldNode.getAttributeNames()).filter(
-            (attr) => attr.startsWith("on")
+            (attr) => attr.startsWith("@")
           );
           return filterAttr.length > 0
             ? { chldNode, filterAttr }
@@ -61,7 +61,7 @@ const domObserver = new MutationObserver((nodes) => {
         });
         tes.forEach(({ chldNode, filterAttr }) => {
           filterAttr.forEach((evAttr) => {
-            const eventName = evAttr.replace("on", "");
+            const eventName = evAttr.replace("@", "");
             chldNode.addEventListener(
               eventName,
               _callbacksContainer[chldNode.getAttribute(evAttr)]

@@ -51,3 +51,8 @@ body{
 .click{
     animation: clickframe  .2s  alternate linear;
 }
+
+.custom-font-size{
+   font-size:  clamp(5px, 1.2vw, 200px);
+   text-wrap: nowrap;
+}

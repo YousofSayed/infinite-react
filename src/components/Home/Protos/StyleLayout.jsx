@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { getPropVal } from "../../../helpers/functions";
+import { Property } from "./Property";
+import { Select } from "./Select";
+import { MultiProps } from "./MultiProps";
 
 const BorderLabel = ({ label, borderColor }) => (
   <div
@@ -14,41 +18,91 @@ const BorderLabel = ({ label, borderColor }) => (
 
 const Dimantions = ({ top = 0, right = 0, bottom = 0, left = 0 }) => (
   <>
-    <div className="absolute w-full flex justify-center items-center h-[25px] top-0 text-slate-200 font-bold">
+    <div className="absolute w-full flex justify-center items-center h-[25px] top-0 text-[1vw] text-slate-200 font-bold">
       {top}
     </div>
-    <div className="absolute w-full flex justify-center items-center h-[25px] bottom-0 text-slate-200 font-bold">
+    <div className="absolute w-full flex justify-center items-center h-[25px] bottom-0 text-[1vw] text-slate-200 font-bold">
       {bottom}
     </div>
-    <div className="absolute w-[25px] h-full flex justify-center items-center right-0 text-slate-200 font-bold">
+    <div className="absolute w-[25px] h-full flex justify-center items-center right-0 text-[1vw] text-slate-200 font-bold">
       {right}
     </div>
-    <div className="absolute w-[25px] h-full flex justify-center items-center left-0 text-slate-200 font-bold">
+    <div className="absolute w-[25px] h-full flex justify-center items-center left-0 text-[1vw] text-slate-200 font-bold">
       {left}
     </div>
   </>
 );
 
-export const StyleLayout = ({}) => {
+const SidesControllers = ({ option, setOption }) => {
+  /**
+   *
+   * @param {MouseEvent} ev
+   * @param {string} option
+   */
+  const onClick = (ev, option) => {
+    setOption(option);
+  };
+
   return (
-    <section className="my-5 flex justify-center ">
-      <div className="relative min-w-[100%] max-w-[300px] min-h-[250px] max-h-[300px] flex justify-center items-center bg-slate-800">
-        <BorderLabel borderColor={"slate-400"} label={"margin"} />
-        <Dimantions top={0} right={0} bottom={0} left={0} />
-        <div className="relative w-[calc(100%-60px)] h-[calc(100%-60px)] flex justify-center items-center bg-slate-700">
-          <BorderLabel borderColor={"slate-400"} label={"padding"} />
-          <Dimantions top={0} right={0} bottom={0} left={0} />
-          <div
-            className={`relative w-[calc(100%-60px)] h-[calc(100%-60px)] flex justify-center items-center bg-slate-600`}
-          >
-            <BorderLabel borderColor={"slate-400"} label={"border"} />
-            <Dimantions top={0} right={0} bottom={0} left={0} />
-            <div className="w-[80px] h-[35px] text-slate-200 flex justify-center items-center border-2 border-dotted  bg-slate-500">
-                0 X 0
-            </div>
-          </div>
-        </div>
-      </div>
+    <section className="p-2 w-full bg-slate-800 rounded-lg flex justify-between items-center">
+      <button
+        onClick={(ev) => {
+          onClick(ev, "all");
+        }}
+        className={`w-[20px] h-[20px] border-2 ${
+          option == "all" ? "border-blue-500" : "border-slate-500"
+        } cursor-pointer transition-all`}
+      ></button>
+      <button
+        onClick={(ev) => {
+          onClick(ev, "tb");
+        }}
+        className={`w-[20px] h-[20px] border-2 border-transparent ${
+          option == "tb"
+            ? "border-b-blue-500 border-t-blue-500"
+            : "border-b-slate-500 border-t-slate-500"
+        }  cursor-pointer transition-all`}
+      ></button>
+      <button
+        onClick={(ev) => {
+          onClick(ev, "lr");
+        }}
+        className={`w-[20px] h-[20px] border-2 border-transparent ${
+          option == "lr"
+            ? "border-l-blue-500 border-r-blue-500"
+            : "border-l-slate-500 border-r-slate-500"
+        } cursor-pointer transition-all`}
+      ></button>
     </section>
   );
 };
+
+/**
+ *
+ * @param {{currentEl:HTMLElement}} param0
+ * @returns
+ */
+export const StyleLayout = ({ currentEl }) => {
+  const [option, setOption] = useState();
+
+  return (
+    <section className="my-5 overflow-y-auto  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+      <SidesControllers option={option} setOption={setOption} />
+      <Property currentEl={currentEl} prop="padding" />
+      <Property currentEl={currentEl} prop="margin" />
+      <Property currentEl={currentEl} prop="border" />
+      <Property currentEl={currentEl} prop="color" />
+      <Select
+        label="filter"
+        cssProp="filter"
+        currentEl={currentEl}
+        keywords={["sepyia()", "huh()", "constract()", "blur()"]}
+      />
+      <MultiProps label={'Filter'}/>
+    </section>
+  );
+};
+
+window.addEventListener("click", () => {
+  console.log(window.currentEl);
+});

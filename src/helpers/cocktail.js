@@ -31,54 +31,54 @@ export const def = (callback) => {
   return uuid;
 };
 
-const domObserver = new MutationObserver((nodes) => {
-  nodes.forEach((node) => {
-    const chlds = Array.from(node.addedNodes);
-    chlds
-      .filter((chld) => chld instanceof HTMLElement)
-      .forEach((chld) => {
-        //Start handelling parent child
-        const parentChildAttrs = Array.from(chld.getAttributeNames())
-          .filter((attr) => attr.startsWith("on"))
-          .forEach((attr) => {
-            const eventName = attr.replace("on", "");
-            chld.addEventListener(
-              eventName,
-              _callbacksContainer[chld.getAttribute(attr)]
-            );
-            chld.removeAttribute(attr);
-          });
+// const domObserver = new MutationObserver((nodes) => {
+//   nodes.forEach((node) => {
+//     const chlds = Array.from(node.addedNodes);
+//     chlds
+//       .filter((chld) => chld instanceof HTMLElement)
+//       .forEach((chld) => {
+//         //Start handelling parent child
+//         const parentChildAttrs = Array.from(chld.getAttributeNames())
+//           .filter((attr) => attr.startsWith("@"))
+//           .forEach((attr) => {
+//             const eventName = attr.replace("@", "");
+//             chld.addEventListener(
+//               eventName,
+//               _callbacksContainer[chld.getAttribute(attr)]
+//             );
+//             chld.removeAttribute(attr);
+//           });
 
-        //Start handelling childs
-        const chldNodes = Array.from(chld.querySelectorAll("*"));
-        const tes = chldNodes.map((chldNode) => {
-          const filterAttr = Array.from(chldNode.getAttributeNames()).filter(
-            (attr) => attr.startsWith("on")
-          );
-          return filterAttr.length > 0
-            ? { chldNode, filterAttr }
-            : { chldNode, filterAttr: [] };
-        });
-        tes.forEach(({ chldNode, filterAttr }) => {
-          filterAttr.forEach((evAttr) => {
-            const eventName = evAttr.replace("on", "");
-            chldNode.addEventListener(
-              eventName,
-              _callbacksContainer[chldNode.getAttribute(evAttr)]
-            );
-            chldNode.removeAttribute(evAttr);
-          });
-        });
-      });
-  });
-});
+//         //Start handelling childs
+//         const chldNodes = Array.from(chld.querySelectorAll("*"));
+//         const tes = chldNodes.map((chldNode) => {
+//           const filterAttr = Array.from(chldNode.getAttributeNames()).filter(
+//             (attr) => attr.startsWith("@")
+//           );
+//           return filterAttr.length > 0
+//             ? { chldNode, filterAttr }
+//             : { chldNode, filterAttr: [] };
+//         });
+//         tes.forEach(({ chldNode, filterAttr }) => {
+//           filterAttr.forEach((evAttr) => {
+//             const eventName = evAttr.replace("@", "");
+//             chldNode.addEventListener(
+//               eventName,
+//               _callbacksContainer[chldNode.getAttribute(evAttr)]
+//             );
+//             chldNode.removeAttribute(evAttr);
+//           });
+//         });
+//       });
+//   });
+// });
 
-domObserver.observe(document.body, {
-  characterData: true,
-  childList: true,
-  attributes: true,
-  subtree: true,
-});
+// domObserver.observe(document.body, {
+//   characterData: true,
+//   childList: true,
+//   attributes: true,
+//   subtree: true,
+// });
 
 export const html = String.raw;
 export const css = String.raw;

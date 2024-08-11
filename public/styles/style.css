@@ -18,21 +18,40 @@
   border: 1.5px solid #000;
 } */
 
-
 [editable] {
-  padding: 10px;
-  border: 2px solid #000;
-  cursor: move;
+  border: 3px solid #000;
+  cursor: grab;
   transition: 0.3s ease;
   user-select: none;
   position: relative;
-  padding: 25px 0;
+  padding: 25px ;
 }
 
 [editable]:hover:not(:has(*:hover)),
 [editable] *:hover:not(:has(*:hover)) {
-  border: 2px solid blue;
+  border: 3px solid #2563eb;
 }
+
+[editable].showControllers {
+  position: relative;
+}
+
+[editable].showControllers::before{
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  border: 3px solid #2563eb !important;
+
+}
+
+[editable].drag{
+  /* background-color: #2564eb8a; */
+  cursor: grabbing !important;
+}
+
 
 [editable] .seperator {
   width: 100%;
@@ -44,7 +63,7 @@
   /* z-index: -1; */
 }
 
-[editable] .seperator:hover{
+[editable] .seperator:hover {
   user-select: none;
   border: none;
 }
@@ -80,15 +99,14 @@
   z-index: 1;
 }
 
-.ondragstart{
+.ondragstart {
   cursor: grab;
 }
 
-.ondragover.prevent{
+.ondragover.prevent {
   background-color: rgba(255, 0, 0, 0.445);
   cursor: not-allowed;
 }
-
 
 /* 
 @media(width < 512px) {
