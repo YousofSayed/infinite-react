@@ -3,6 +3,7 @@ import { Icons } from "../../Icons/Icons";
 import { getPropVal } from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
+import { useCloseMenu } from "../../../assets/hooks/useCloseMenu";
 
 /**
  *
@@ -22,20 +23,7 @@ export const Select = ({
   const inputRef = useRef();
   const selectRef = useRef();
 
-  useEffect(() => {
-    if (selectRef.current) {
-      const docClickCallback = (ev) => {
-        if (!selectRef.current.contains(ev.target)) {
-          setMenu(false);
-        }
-      };
-      document.addEventListener("click", docClickCallback);
-
-      return () => {
-        document.removeEventListener("click", docClickCallback);
-      };
-    }
-  });
+  useCloseMenu(selectRef , setMenu);
 
   const showMenuCallback = () => {
     inputRef.current.focus();

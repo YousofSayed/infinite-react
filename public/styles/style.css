@@ -25,6 +25,7 @@
   user-select: none;
   position: relative;
   padding: 25px ;
+  filter: blur(   1px)   brightness(98%  );
 }
 
 [editable]:hover:not(:has(*:hover)),
@@ -32,20 +33,22 @@
   border: 3px solid #2563eb;
 }
 
-[editable].showControllers {
+ [editable].showControllers {
   position: relative;
-}
+  outline: 3px solid #eb3225 !important;
 
+}
+/*
 [editable].showControllers::before{
   content: '';
   position: absolute;
-  left: -6px;
-  top: -6px;
-  width: calc(100% + 12px);
-  height: calc(100% + 12px);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   border: 3px solid #2563eb !important;
 
-}
+} */
 
 [editable].drag{
   /* background-color: #2564eb8a; */
@@ -55,12 +58,10 @@
 
 [editable] .seperator {
   width: 100%;
-  height: 15px;
+  height: 30%;
   transition: 0.3s;
-  /* background-color: rgba(101, 101, 255, 0.459); */
   position: absolute;
   left: 0;
-  /* z-index: -1; */
 }
 
 [editable] .seperator:hover {
@@ -78,14 +79,14 @@
 
 [editable] .seperator.right {
   height: 100%;
-  width: 15px;
-  left: calc(100% - 15px);
+  width: 15%;
+  left: calc(100% - 15%);
   top: 0;
 }
 
 [editable] .seperator.left {
   height: 100%;
-  width: 15px;
+  width: 15%;
   left: 0;
   top: 0;
 }

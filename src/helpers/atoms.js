@@ -9,28 +9,42 @@ export const widths = atom({
 });
 
 export const searchWord = atom({
-  key:'searchWord',
-  default:''
+  key: "searchWord",
+  default: "",
 });
 
 export const iframeBody = atom({
-  key:'iframeBody',
-  default:document
+  key: "iframeBody",
+  default: document,
 });
 
 export const iframeWindow = atom({
-  key:'iframeWindow',
-  default:window
+  key: "iframeWindow",
+  default: window,
 });
 
-export const refsStt = atom({
-  key:'refs',
-  default:{
+/**
+ * @type {{[key:string]:HTMLElement}}
+ */
+let refsSttType = {};
 
-  }
+export const refsStt = atom({
+  key: "refs",
+  default: refsSttType,
 });
 
 export const showOverlayIframState = atom({
   key: "showOverlay",
   default: false,
+});
+
+/**
+ * @let
+ * @type {HTMLElement}
+ */
+let currentElType;
+
+export const currentElState = atom({
+  key: "currentEl",
+  default: currentElType,
 });

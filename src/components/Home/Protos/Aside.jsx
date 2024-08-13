@@ -44,9 +44,11 @@ export const Aside = ({ children, dir = "left" }) => {
     <aside
       ref={asideRef}
       style={{ width: asideWidth }}
-      className={` relative  h-full flex flex-col gap-[15px] bg-slate-900 p-[10px] `}
+      className={` relative  h-full  bg-slate-900 p-3 `}
     >
-      {children}
+      <section className="h-full w-full flex flex-col gap-[15px] p-1 overflow-y-auto">
+        {children}
+      </section>
 
       <div
         id="resizer"

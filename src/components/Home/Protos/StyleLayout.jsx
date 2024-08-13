@@ -3,6 +3,9 @@ import { getPropVal } from "../../../helpers/functions";
 import { Property } from "./Property";
 import { Select } from "./Select";
 import { MultiProps } from "./MultiProps";
+import { filterTypes, filterUnits } from "../../../constants/constants";
+import { useRecoilValue } from "recoil";
+import { currentElState } from "../../../helpers/atoms";
 
 const BorderLabel = ({ label, borderColor }) => (
   <div
@@ -82,23 +85,37 @@ const SidesControllers = ({ option, setOption }) => {
  * @param {{currentEl:HTMLElement}} param0
  * @returns
  */
-export const StyleLayout = ({ currentEl }) => {
+export const StyleLayout = ({}) => {
   const [option, setOption] = useState();
+  const currentEl = useRecoilValue(currentElState);
 
   return (
-    <section className="my-5 overflow-y-auto  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+    <section className="mt-3 overflow-y-auto  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
       <SidesControllers option={option} setOption={setOption} />
-      <Property currentEl={currentEl} prop="padding" />
-      <Property currentEl={currentEl} prop="margin" />
-      <Property currentEl={currentEl} prop="border" />
-      <Property currentEl={currentEl} prop="color" />
+      <Property currentEl={currentEl} label="padding" cssProp="padding" />
+      <Property currentEl={currentEl} label="margin" cssProp="margin" />
+      <Property currentEl={currentEl} label="border" cssProp="border" />
+      <Property currentEl={currentEl} label="color" cssProp="color" />
       <Select
-        label="filter"
-        cssProp="filter"
+        label="display"
+        cssProp="display"
         currentEl={currentEl}
-        keywords={["sepyia()", "huh()", "constract()", "blur()"]}
+        keywords={[
+          "none",
+          "flex",
+          "grid",
+          "block",
+          "inline",
+          "inline-block",
+          "table",
+        ]}
       />
-      <MultiProps label={'Filter'}/>
+      <MultiProps
+        label={"Filter"}
+        keywords={filterTypes}
+        units={filterUnits}
+        cssProp="filter"
+      />
     </section>
   );
 };

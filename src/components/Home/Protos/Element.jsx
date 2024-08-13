@@ -3,6 +3,7 @@ import { Icons } from "../../Icons/Icons";
 import { useRecoilValue } from "recoil";
 import { refsStt, searchWord } from "../../../helpers/atoms";
 import { stringify } from "../../../helpers/cocktail";
+import { P } from "../../Protos/P";
 
 /**
  *
@@ -38,9 +39,10 @@ export const Element = ({ content='', inner='default', name ='', classes='text-r
       } group h-[90px] bg-slate-800 border-[1.5px] border-slate-400 rounded-lg flex items-center  justify-center flex-col gap-[15px]`}
     >
       {Icons.code()}
-      <p className="font-semibold text-white text-[13px] mb-[10px]">
-        {name || content.toLowerCase()}
-      </p>
+      <P className="font-semibold text-white custom-font-size mb-[10px]">
+      {name || content.toLowerCase()}
+      </P>
+
     </div>
   );
 };

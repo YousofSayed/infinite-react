@@ -3,6 +3,7 @@
 @tailwind utilities;
 body{
     cursor: url('./assets//images/mainCursor.png'),auto;
+    filter: blur() brightness(  );
 }
 
 .custom-grid-col{
@@ -53,6 +54,6 @@ body{
 }
 
 .custom-font-size{
-   font-size:  clamp(5px, 1.2vw, 200px);
+   font-size:  clamp(5px, .9vw, 50px);
    text-wrap: nowrap;
 }

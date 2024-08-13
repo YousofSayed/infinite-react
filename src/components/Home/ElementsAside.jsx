@@ -29,7 +29,7 @@ export const ElementsAside = () => {
   return (
     <Aside>
       <label htmlFor="selEl">
-        <p className="text-white font-semibold mb-[10px]">
+        <p className="text-white custom-font-size font-semibold mb-[10px]">
           {" "}
           Choose an element:
         </p>
