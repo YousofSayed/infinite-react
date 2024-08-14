@@ -12,7 +12,7 @@ import { currentElState } from "../../../helpers/atoms";
 export const Property = ({ label , cssProp, tailwindClass }) => {
     const currentEl = useRecoilValue(currentElState);
   const onInput = (ev) => {
-    currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`;
+    currentEl.style[toJsProp(cssProp)] = `${+ev.target.value?`${ev.target.value}px`:ev.target.value}`;
     console.log(currentEl.style.cssText);
 
     // ev.target.placeholder = ev.target.value;

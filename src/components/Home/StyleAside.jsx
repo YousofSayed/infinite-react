@@ -4,6 +4,7 @@ import { Details } from "./Protos/Details";
 import { StyleLayout } from "./Protos/StyleLayout";
 import { useSetRecoilState } from "recoil";
 import { currentElState } from "../../helpers/atoms";
+import { StyleTypography } from "./Protos/StyleTypography";
 
 export const StyleAside = () => {
   // const [currentEl, setCurrentEl] = useState();
@@ -26,8 +27,12 @@ export const StyleAside = () => {
   });
   return (
     <Aside dir="right">
-      <Details>
+      {/* <Details label={'Layout'}>
         <StyleLayout />
+      </Details> */}
+
+      <Details label={'Typography'}>
+        <StyleTypography/>
       </Details>
     </Aside>
   );

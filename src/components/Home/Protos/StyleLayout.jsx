@@ -90,7 +90,7 @@ export const StyleLayout = ({}) => {
   const currentEl = useRecoilValue(currentElState);
 
   return (
-    <section className="mt-3 overflow-y-auto  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+    <section className="mt-3  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
       <SidesControllers option={option} setOption={setOption} />
       <Property currentEl={currentEl} label="padding" cssProp="padding" />
       <Property currentEl={currentEl} label="margin" cssProp="margin" />

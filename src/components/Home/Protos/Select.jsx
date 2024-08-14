@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
-import { getPropVal } from "../../../helpers/functions";
+import { getPropVal, toJsProp } from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
 import { useCloseMenu } from "../../../assets/hooks/useCloseMenu";
@@ -22,8 +22,9 @@ export const Select = ({
   const [isPending, setTransition] = useTransition();
   const inputRef = useRef();
   const selectRef = useRef();
+  const menuRef = useRef();
 
-  useCloseMenu(selectRef , setMenu);
+  useCloseMenu(selectRef, setMenu);
 
   const showMenuCallback = () => {
     inputRef.current.focus();
@@ -38,7 +39,7 @@ export const Select = ({
    */
   const filterKeywords = (ev) => {
     const newKeyW = Array.from(keywords).filter((keyword) =>
-      keyword.includes(ev.target.value)
+      keyword.toLowerCase().includes(ev.target.value.toLowerCase())
     );
 
     currentEl && (currentEl.style.cssText += `${cssProp}:${ev.target.value};`);
@@ -83,10 +84,10 @@ export const Select = ({
         {showMenu && (
           <Menu
             keywords={newKeywords}
+            menuRef={menuRef}
             onItemClicked={(ev, keyword) => {
               console.log("clicked");
-              currentEl &&
-                (currentEl.style.cssText += `${cssProp}:${keyword};`);
+              currentEl && (currentEl.style[toJsProp(cssProp)] = `${keyword.split('-')[0] || keyword}`);
               inputRef.current.value = keyword;
               setMenu(false);
             }}
