@@ -1,3 +1,5 @@
+import { filterUnits } from "../constants/constants";
+
 /**
  *
  * @param {HTMLElement} el
@@ -7,8 +9,6 @@ export function getPropVal(el, val) {
   const prop = el
     ? window.getComputedStyle(el, null).getPropertyValue(val)
     : "";
-  console.log(prop);
-
   return prop == "none" ? " " : prop;
 }
 
@@ -39,7 +39,7 @@ export function toJsProp(prop) {
  */
 export function getAllValsFromMultiProp(el, prop) {
   const props = getPropVal(el, prop)?.split(" ") || "";
-  console.log(props);
+
   if (!props[0]) {
     return {
       props: [],
@@ -59,10 +59,11 @@ export function getAllValsFromMultiProp(el, prop) {
   const namesAndVals = {};
   for (let i = 0; i < names.length; i++) {
     namesAndVals[names[i]] =
-      +vals[i].match(/\d+/gi).join("") <= 0
-        ? +vals[i].match(/\d+/gi).join("") * 100
-        : +vals[i].match(/\d+/gi).join("");
+      +vals[i].match(/\d+/gi).join("") ;
   }
+
+  // console.log(namesAndVals, vals);
+
   return {
     props,
     names,
@@ -71,6 +72,21 @@ export function getAllValsFromMultiProp(el, prop) {
   };
 }
 
-export function getValsFromString(prop) {}
+/**
+ *
+ * @param {{prevObjVals:{[key:string]:string} ,cssProp:string, propVal:string , propName:string}} param0
+ */
+export function setMultiValInProp({ prevObjVals, cssProp, propVal, propName }) {
+  const vals = {
+    ...prevObjVals,
+    [propName]: +propVal <= 0 ? propVal * 100 : propVal,
+  };
+  !propName && delete vals[propName];
 
-console.log(getAllValsFromMultiProp(document.body, "transform").namesAndVals);
+  let finalVlaue = ``;
+  Object.keys(vals).forEach((val) => {
+    finalVlaue += `${val}(${vals[val]}${filterUnits[val]})`;
+  });
+
+  currentEl.style[toJsProp(cssProp)] = finalVlaue;
+}

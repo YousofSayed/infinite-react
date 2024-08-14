@@ -119,7 +119,3 @@ export const StyleLayout = ({}) => {
     </section>
   );
 };
-
-window.addEventListener("click", () => {
-  console.log(window.currentEl);
-});

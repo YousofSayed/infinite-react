@@ -131,7 +131,7 @@ function dropCallback(ev) {
     "drag",
     "showControllers"
   );
-
+  window.parent.currentEl = el;
   el.classList.remove("ondragover", "prevent", "drag", "showControllers");
 }
 

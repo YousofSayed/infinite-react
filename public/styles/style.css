@@ -25,7 +25,7 @@
   user-select: none;
   position: relative;
   padding: 25px ;
-  filter: blur(   1px)   brightness(98%  );
+  /* filter: blur(   1px)   brightness(98%  ); */
 }
 
 [editable]:hover:not(:has(*:hover)),
