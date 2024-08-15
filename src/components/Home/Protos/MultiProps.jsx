@@ -118,9 +118,6 @@ export const MultiProps = memo(({ label, cssProp, keywords }) => {
   const showMenuCallback = (ev) => {
     if (!currentEl) return;
     menuRef.current.classList.toggle('hidden');
-    // setTransition(() => {
-    //   setMenu(!showMenu);
-    // });
   };
 
   const removeFilter = (keyword) => {
