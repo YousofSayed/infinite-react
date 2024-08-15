@@ -69,8 +69,8 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
       if (currentChoose <= 0) return;
       if (currentChoose) setCurrentChoose(currentChoose - 1);
     } else if (ev.key == "Enter") {
-      currentEl && (currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`);
-      setVal(choosenKeyword.current.split("-")[0] || choosenKeyword.current);
+      currentEl && (currentEl.style[toJsProp(cssProp)] = `${choosenKeyword.current.split("-")[0] || choosenKeyword.current}`);
+      setVal(choosenKeyword.current);
       setMenu(false);
     }
   };
@@ -123,7 +123,8 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
                 (currentEl.style[toJsProp(cssProp)] = `${
                   keyword.split("-")[0] || keyword
                 }`);
-              inputRef.current.value = keyword;
+              // inputRef.current.value = keyword;
+              setVal(keyword);
               setMenu(false);
             }}
           />
