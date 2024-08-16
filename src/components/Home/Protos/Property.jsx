@@ -30,24 +30,27 @@ export const Property = ({ label, cssProp }) => {
   };
 
   /**
-   *
-   * @param {KeyboardEvent} ev
+   * 
+   * @param {{ev:KeyboardEvent , increase:boolean}} ev 
    */
   const onKeyDown = (ev) => {
     const handleChange = ({ ev, increase }) => {
       ev.target.value = `${
         increase
-          ? +parseInt(ev.target.value) + 1
-          : +parseInt(ev.target.value) - 1
-      }${ev.target.value.split(/\d+/gi).join("")}`;
+        ? +parseInt(ev.target.value) + 1
+        : +parseInt(ev.target.value) - 1
+        }${ev.target.value.split(/\d+/gi).join("")}`;
+        if(parseInt(ev.target.value) <= 0){ev.target.value = 0; return};
       currentEl.style[toJsProp(cssProp)] = `${
         +ev.target.value ? `${ev.target.value}px` : ev.target.value
       }`;
     };
 
     if (ev.key == "ArrowUp") {
+      ev.preventDefault();
       handleChange({ ev, increase: true });
     } else if (ev.key == "ArrowDown") {
+      ev.preventDefault();
       handleChange({ ev, increase: false });
     }
   };
@@ -58,6 +61,9 @@ export const Property = ({ label, cssProp }) => {
       <input
         type="text"
         value={val}
+        onFocus={(ev)=>{
+          ev.target.select();
+        }}
         onInput={onInput}
         onKeyDown={onKeyDown}
         className="w-[70%] h-full bg-gray-900 rounded-lg p-2 outline-none text-white"

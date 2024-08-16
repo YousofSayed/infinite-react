@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
-import { getPropVal, toJsProp } from "../../../helpers/functions";
+import { getPropVal, rgbStringToHex, toJsProp } from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
 import { useCloseMenu } from "../../../assets/hooks/useCloseMenu";
@@ -9,10 +9,10 @@ import { currentElState } from "../../../helpers/atoms";
 
 /**
  *
- * @param {{label:string , keywords:string[] , currentEl:HTMLElement,cssProp:string , tailwindClass:string}} param0
+ * @param {{label:string , keywords:string[] , currentEl:HTMLElement,cssProp:string , splitHyphen:boolean}} param0
  * @returns
  */
-export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
+export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
   const currentEl = useRecoilValue(currentElState);
   const [showMenu, setMenu] = useState(false);
   const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
@@ -27,7 +27,9 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
   useCloseMenu(selectRef, setMenu);
 
   useEffect(() => {
-    setVal(getPropVal(currentEl, cssProp));
+    const val = getPropVal(currentEl, cssProp);
+
+    setVal(val.includes('rgb')? rgbStringToHex(val) : val);
   }, [currentEl]);
 
   const showMenuCallback = () => {
@@ -46,6 +48,8 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
       keyword.toLowerCase().includes(ev.target.value.toLowerCase())
     );
 
+    newKeyW.length == 1 && setCurrentChoose(0);
+
     currentEl && (currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`);
 
     if (newKeyW.length && ev.target.value) {
@@ -62,15 +66,31 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
    * @param {KeyboardEvent} ev
    */
   const handleChooses = (ev) => {
+    let cloneCurrentChooseNum = currentChoose;
     if (ev.key == "ArrowDown") {
-      if (currentChoose >= keywords.length) return;
-      setCurrentChoose(currentChoose + 1);
+      ev.preventDefault();
+      console.log(newKeywords.length);
+      cloneCurrentChooseNum++;
+
+      if (cloneCurrentChooseNum >= newKeywords.length) {
+        setCurrentChoose(0);
+        return;
+      }
+      setCurrentChoose(cloneCurrentChooseNum);
     } else if (ev.key == "ArrowUp") {
-      if (currentChoose <= 0) return;
-      if (currentChoose) setCurrentChoose(currentChoose - 1);
+      ev.preventDefault();
+      cloneCurrentChooseNum--;
+      if (cloneCurrentChooseNum < 0) {
+        setCurrentChoose(newKeywords.length - 1);
+        return;
+      }
+      setCurrentChoose(cloneCurrentChooseNum);
     } else if (ev.key == "Enter") {
-      currentEl && (currentEl.style[toJsProp(cssProp)] = `${choosenKeyword.current.split("-")[0] || choosenKeyword.current}`);
-      setVal(choosenKeyword.current);
+      ev.preventDefault();
+      currentEl.style[toJsProp(cssProp)] = splitHyphen
+        ? choosenKeyword.current.split("-")[0]
+        : choosenKeyword.current;
+      setVal(choosenKeyword.current.split("-")[0]);
       setMenu(false);
     }
   };
@@ -84,6 +104,13 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
       <div className="w-[70%] relative">
         <input
           value={val}
+          onFocus={(ev) => {
+            setMenu(true);
+            keywords.forEach((keyword, i) => {
+              if(keyword.toLowerCase().includes(ev.target.value.toLowerCase()))setCurrentChoose(i);
+            });
+            ev.target.select();
+          }}
           onInput={(ev) => {
             if (!currentEl) {
               setVal("");
@@ -118,13 +145,11 @@ export const Select = ({ label, keywords, cssProp, tailwindClass }) => {
             choosenKeyword={choosenKeyword}
             currentChoose={currentChoose}
             onItemClicked={(ev, keyword) => {
-              console.log("clicked");
-              currentEl &&
-                (currentEl.style[toJsProp(cssProp)] = `${
-                  keyword.split("-")[0] || keyword
-                }`);
-              // inputRef.current.value = keyword;
-              setVal(keyword);
+              const nkeyw = splitHyphen
+              ? keyword.split("-")[0]
+              : keyword;
+              currentEl.style[toJsProp(cssProp)] = nkeyw;
+              setVal(nkeyw);
               setMenu(false);
             }}
           />

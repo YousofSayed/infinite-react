@@ -35,6 +35,37 @@ export const fontWeights = [
     "800 - Extra Bold",
     "900 - Black"
   ];
+
+  export const textDecorationLineValues = [
+    'none',            // No text decoration.
+    'underline',       // Underlines the text.
+    'overline',        // Adds a line above the text.
+    'line-through',    // Strikes through the text.
+    'blink',           // Makes the text blink (not widely supported and considered obsolete).
+    'inherit',         // Inherits the text-decoration value from its parent element.
+    'initial',         // Sets the property to its default value.
+    'unset',           // Removes any inherited value and sets it to initial or inherit, based on context.
+  ];
+
+  export const textDecorationStyleValues = [
+    'solid',           // A solid line (default).
+    'double',          // A double line.
+    'dotted',          // A dotted line.
+    'dashed',          // A dashed line.
+    'wavy',            // A wavy line.
+    'inherit',         // Inherits the value from its parent element.
+    'initial',         // Sets the property to its default value.
+    'unset'            // Removes any inherited value and sets it to initial or inherit, based on context.
+  ];
+  
+  
+  
+  export const wordBreakValues = [
+    'normal',       // Default. Uses the browser's default line break rules.
+    'break-all',    // Breaks words at any character to prevent overflow.
+    'keep-all',     // Keeps words unbroken unless a line break opportunity exists.
+    'break-word'    // Breaks words at the edge of the containing block (not standard, deprecated).
+  ];
   
 
 export const cssFonts = [

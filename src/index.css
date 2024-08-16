@@ -1,13 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body{
-    cursor: url('./assets//images/mainCursor.png'),auto;
-    filter: blur() brightness(  );
+* {
+  box-sizing: border-box;
+}
+body {
+  cursor: url("./assets//images/mainCursor.png"), auto;
+  filter: blur() brightness();
 }
 
-.custom-grid-col{
-    grid-template-columns: repeat(auto-fit , minmax(90px,1fr));
+.custom-grid-col {
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
 }
 
 /* *{
@@ -15,45 +18,93 @@ body{
     scrollbar-color: red;
 } */
 
-*::-webkit-scrollbar{
-    background-color: rgba(128, 128, 128, 0.315);
-    border-radius: 20px;
-    width: 5px;
-    position: relative;
-    overflow: hidden;
+*::-webkit-scrollbar {
+  background-color: rgba(128, 128, 128, 0.315);
+  border-radius: 20px;
+  width: 5px;
+  position: relative;
+  overflow: hidden;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: rgb(37 99 235 /1);
-    border-radius: 20px;
-    position: relative;
-    /* box-shadow: 0px -1000009px 10px 1000000px rgb(53, 53, 243); */
-    overflow: hidden;
+  background-color: rgb(37 99 235 /1);
+  border-radius: 20px;
+  position: relative;
+  /* box-shadow: 0px -1000009px 10px 1000000px rgb(53, 53, 243); */
+  overflow: hidden;
 }
 
 * {
-    scrollbar-color: rgb(37 99 235 /1) rgba(128, 128, 128, 0.315);
-    scrollbar-width: thin; /* 'thin' or 'auto' */
+  scrollbar-color: rgb(37 99 235 /1) rgba(128, 128, 128, 0.315);
+  scrollbar-width: thin; /* 'thin' or 'auto' */
 }
 
-@keyframes clickframe{
-    0%{
-        transform: scale(1);
-    }
-    50%{
-        transform: scale(.5);
-
-    }
-    100%    {
-        transform: scale(1);
-    }
+.hideScrollBar::-webkit-scrollbar {
+  background-color: rgba(128, 128, 128, 0.315);
+  border-radius: 20px;
+  width: unset !important;
+  position: relative;
+  overflow: hidden;
 }
 
-.click{
-    animation: clickframe  .2s  alternate linear;
+.hideScrollBar::-webkit-scrollbar-thumb {
+  background-color: rgb(37 99 235 /1);
+  border-radius: 20px;
+  position: relative;
+  /* box-shadow: 0px -1000009px 10px 1000000px rgb(53, 53, 243); */
+  overflow: hidden;
+  width: unset;
 }
 
-.custom-font-size{
-   font-size:  clamp(5px, .9vw, 50px);
-   text-wrap: nowrap;
+.hideScrollBar {
+  scrollbar-color: unset;
+  scrollbar-width: none; /* 'thin' or 'auto' */
+}
+
+@keyframes clickframe {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.click {
+  animation: clickframe 0.2s alternate linear;
+}
+
+.custom-font-size {
+  font-size: clamp(5px, 0.9vw, 50px);
+  text-wrap: nowrap;
+  /* text-decoration-style:dashed ;
+  text-decoration-line:underline ;
+  text-decoration-thickness:12px ; */
+}
+
+.react-colorful {
+  position: absolute !important ;
+  padding: 1px;
+  border-radius: 4px;
+  width: 100% !important;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+.react-colorful__saturation {
+  /* border-radius: 4px 4px 0 0; */
+  width: 100% !important;
+}
+
+.your-component .react-colorful__hue {
+  height: 40px;
+  border-radius: 0 0 4px 4px;
+}
+.your-component .react-colorful__hue-pointer {
+  width: 12px;
+  height: inherit;
+  border-radius: 0;
 }

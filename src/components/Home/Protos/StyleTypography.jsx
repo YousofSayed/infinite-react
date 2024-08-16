@@ -3,7 +3,8 @@ import { Property } from "./Property";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
 import { Select } from "./Select";
-import { cssFonts, fontWeights } from "../../../constants/constants";
+import { cssFonts, fontWeights, textDecorationLineValues, textDecorationStyleValues, wordBreakValues } from "../../../constants/constants";
+import { Color } from "./Color";
 
 export const StyleTypography = () => {
   const currentEl = useRecoilValue(currentElState);
@@ -20,11 +21,17 @@ export const StyleTypography = () => {
         cssProp="font-weight"
         currentEl={currentEl}
         keywords={fontWeights}
+        splitHyphen={true}
       />
-      <Property label="Size" cssProp="font-size" currentEl={currentEl} />
-      <Property label="spacing" cssProp="letter-space" currentEl={currentEl} />
-      <Property label="line height" cssProp="line-height" currentEl={currentEl} />
-      <Property label="indent" cssProp="text-indent" currentEl={currentEl} />
+      <Color cssProp={'color'}/> 
+      <Property label="Size" cssProp="font-size"  />
+      <Property label="spacing" cssProp="letter-space"  />
+      <Property label="line height" cssProp="line-height"  />
+      <Property label="indent" cssProp="text-indent"  />
+      <Select label="breaking" cssProp="word-break" keywords={wordBreakValues}  />
+      <Select label="decoration line" cssProp="text-decoration-line" keywords={textDecorationLineValues}  />
+      <Select label="decoration style" cssProp="text-decoration-style" keywords={textDecorationStyleValues}  />
+      <Property label="decoration thickness" cssProp="text-decoration-thickness"/>
     </section>
   );
 };

@@ -90,3 +90,56 @@ export function setMultiValInProp({ prevObjVals, cssProp, propVal, propName }) {
 
   currentEl.style[toJsProp(cssProp)] = finalVlaue;
 }
+
+
+export function hexToRgbA(hex) {
+  // Remove the '#' if it exists
+  let cleanedHex = hex.replace('#', '');
+
+  // Handle 3 or 4 character HEX codes (shorthand versions)
+  if (cleanedHex.length === 3 || cleanedHex.length === 4) {    cleanedHex = cleanedHex.split('').map(char => char + char).join('');
+  }
+
+  const r = parseInt(cleanedHex.substring(0, 2), 16);
+  const g = parseInt(cleanedHex.substring(2, 4), 16);
+  const b = parseInt(cleanedHex.substring(4, 6), 16);
+
+  // If HEX contains alpha (opacity) information
+  let a = 1; // Default to fully opaque
+  if (cleanedHex.length === 8) {
+    a = parseInt(cleanedHex.substring(6, 8), 16) / 255;
+  }
+
+  return {
+    rgb: `rgb(${r}, ${g}, ${b})`,
+    rgba: `rgba(${r}, ${g}, ${b}, ${a})`,
+    opacity: Math.round(a * 100)
+  };
+}
+
+export function rgbStringToHex(rgbString) {
+  // Extract the numbers from the string
+  const result = rgbString.match(/\d+/g);
+
+  // Convert the extracted numbers to hexadecimal
+  const r = parseInt(result[0], 10);
+  const g = parseInt(result[1], 10);
+  const b = parseInt(result[2], 10);
+
+  const toHex = (component) => {
+    const hex = component.toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  };
+
+  const hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+
+  // If the input includes an alpha channel, handle it
+  if (result.length === 4) {
+    const a = Math.round(parseFloat(result[3]) * 255);
+    const hexAlpha = toHex(a);
+    return hexColor + hexAlpha;
+  }
+
+  return hexColor;
+}
+

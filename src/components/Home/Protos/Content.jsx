@@ -24,7 +24,7 @@ export const Content = () => {
       //   }
     } else {
       setShowTextArea(false);
-      setWarnning(`Choose an element`);
+      setWarnning(`⚠ Choose an element`);
     }
   }, [currentEl]);
 
