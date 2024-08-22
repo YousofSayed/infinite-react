@@ -8,6 +8,7 @@ import {
   fontWeights,
   textDecorationLineValues,
   textDecorationStyleValues,
+  textOverflowValues,
   wordBreakValues,
 } from "../../../constants/constants";
 import { Color } from "./Color";
@@ -37,15 +38,13 @@ export const StyleTypography = () => {
       <Property label="spacing" cssProp="letter-spacing" />
       <Property label="line height" cssProp="line-height" />
 
-      <MultiChoice 
-        icons={
-          [
-            getIconForMultiChoice('textNone'),
-            getIconForMultiChoice('textCapitalize'),
-            getIconForMultiChoice('textLowercase'),
-            getIconForMultiChoice('textUppercase'),
-          ]
-        }
+      <MultiChoice
+        icons={[
+          getIconForMultiChoice("textNone"),
+          getIconForMultiChoice("textCapitalize"),
+          getIconForMultiChoice("textLowercase"),
+          getIconForMultiChoice("textUppercase"),
+        ]}
         cssProp="text-transform"
         choices={["none", "capitalize", "lowercase", " uppercase"]}
       />
@@ -61,6 +60,13 @@ export const StyleTypography = () => {
         ]}
         cssProp="text-align"
         choices={["start", "center", "end", "justify"]}
+      />
+
+      <Select
+        label="Overflow"
+        splitHyphen={false}
+        cssProp="text-overflow"
+        keywords={textOverflowValues}
       />
 
       <Select
@@ -82,8 +88,6 @@ export const StyleTypography = () => {
         label="decoration thickness"
         cssProp="text-decoration-thickness"
       />
-
-     
     </section>
   );
 };

@@ -120,7 +120,7 @@ export function hexToRgbA(hex) {
 
 export function rgbStringToHex(rgbString) {
   // Extract the numbers from the string
-  const result = rgbString.match(/\d+/g);
+  const result = rgbString.match(/\d+(\.\d+)?/g) || '';
 
   // Convert the extracted numbers to hexadecimal
   const r = parseInt(result[0], 10);
@@ -132,17 +132,17 @@ export function rgbStringToHex(rgbString) {
     return hex.length === 1 ? '0' + hex : hex;
   };
 
-  const hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+  let hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
 
   // If the input includes an alpha channel, handle it
   if (result.length === 4) {
     const a = Math.round(parseFloat(result[3]) * 255);
-    const hexAlpha = toHex(a);
-    return hexColor + hexAlpha;
+    const hexAlpha = toHex(a).toUpperCase();
+    hexColor += hexAlpha;
   }
-
-  return hexColor;
+  return result ?  hexColor : '';
 }
+
 
 export const getIconForMultiChoice = (iconName)=>{
   return (strokeColor) =>

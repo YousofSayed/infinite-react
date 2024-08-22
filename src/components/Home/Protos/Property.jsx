@@ -77,7 +77,7 @@ export const Property = ({ label, cssProp ,allowText = false}) => {
         }}
         onInput={onInput}
         onKeyDown={onKeyDown}
-        className="w-[70%] h-full bg-gray-900 rounded-lg p-2 outline-none text-white"
+        className="w-[70%] h-full  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white"
       />
     </section>
   );

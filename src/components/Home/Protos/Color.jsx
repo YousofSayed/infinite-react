@@ -1,17 +1,20 @@
-import React, { useRef, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
-import { hexToRgbA, toJsProp } from "../../../helpers/functions";
+import { getPropVal, hexToRgbA, rgbStringToHex, toJsProp } from "../../../helpers/functions";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
 
 export const Color = ({ cssProp }) => {
   const currentEl = useRecoilValue(currentElState);
   const [color, setColor] = useState("#111827");
   const [showHexColor, setShowHexColor] = useState(false);
-  const [val, setVal] = useState("");
   const [isPending, setTransition] = useTransition();
   const hexColorRef = useRef();
+
+  useEffect(()=>{
+    setColor(rgbStringToHex(getPropVal(currentEl , cssProp)));
+  },[currentEl])
 
   useCloseMenu(hexColorRef , setShowHexColor);
 
@@ -33,7 +36,6 @@ export const Color = ({ cssProp }) => {
             onChange={(color) => {
               currentEl.style[toJsProp(cssProp)] = color;
               setColor(color);
-              setVal(color);
             }}
             
           />
@@ -47,11 +49,10 @@ export const Color = ({ cssProp }) => {
         onInput={(ev) => {
           currentEl.style[toJsProp(cssProp)] = ev.target.value;
           setColor(ev.target.value);
-          setVal(ev.target.value);
         }}
         className={`bg-gray-900 p-2 outline-none text-center text-slate-200 font-semibold w-[50%] rounded-lg`}
         type="text"
-        value={val}
+        value={color}
       />
 
       <p

@@ -36,6 +36,14 @@ export const fontWeights = [
     "900 - Black"
   ];
 
+  export const textOverflowValues = [
+    "clip",
+    "ellipsis",
+    "inherit",
+    "unset"
+  ];
+  
+
   export const textDecorationLineValues = [
     'none',            // No text decoration.
     'underline',       // Underlines the text.

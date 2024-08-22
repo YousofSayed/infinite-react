@@ -123,7 +123,7 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
             handleChooses(ev);
           }}
           ref={inputRef}
-          className="w-full h-full bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
+          className="w-full h-full font-semibold bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
           type="text"
         />
 
