@@ -1,3 +1,4 @@
+import { Icons } from "../components/Icons/Icons";
 import { filterUnits } from "../constants/constants";
 
 /**
@@ -143,3 +144,11 @@ export function rgbStringToHex(rgbString) {
   return hexColor;
 }
 
+export const getIconForMultiChoice = (iconName)=>{
+  return (strokeColor) =>
+     Icons[iconName]({
+       strokeColor: strokeColor,
+       width: 16.5,
+       height: 16.5,
+     })
+ };

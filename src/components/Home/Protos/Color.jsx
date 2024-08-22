@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { hexToRgbA, toJsProp } from "../../../helpers/functions";
-import { useCloseMenu } from "../../../assets/hooks/useCloseMenu";
+import { useCloseMenu } from "../../../hooks/useCloseMenu";
 
 export const Color = ({ cssProp }) => {
   const currentEl = useRecoilValue(currentElState);

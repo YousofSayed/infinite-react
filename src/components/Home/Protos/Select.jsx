@@ -3,7 +3,7 @@ import { Icons } from "../../Icons/Icons";
 import { getPropVal, rgbStringToHex, toJsProp } from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
-import { useCloseMenu } from "../../../assets/hooks/useCloseMenu";
+import { useCloseMenu } from "../../../hooks/useCloseMenu";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
 

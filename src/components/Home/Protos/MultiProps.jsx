@@ -3,7 +3,7 @@ import { Button } from "../../Protos/Button";
 import { Icons } from "../../Icons/Icons";
 import { P } from "../../Protos/P";
 import { Menu } from "./Menu";
-import { useCloseMenu } from "../../../assets/hooks/useCloseMenu";
+import { useCloseMenu } from "../../../hooks/useCloseMenu";
 import {
   getAllValsFromMultiProp,
   getPropVal,

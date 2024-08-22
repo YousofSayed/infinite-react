@@ -3,44 +3,55 @@ import { getPropVal, toJsProp } from "../../../helpers/functions";
 import { P } from "../../Protos/P";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
-import { transformToNumInput } from "../../../helpers/cocktail";
+import {
+  isNumber,
+  isString,
+  transformToNumInput,
+} from "../../../helpers/cocktail";
 
 /**
  *
  * @param {{label:string, currentEl:HTMLElement , cssProp:string , tailwindClass:string}} param0
  * @returns
  */
-export const Property = ({ label, cssProp }) => {
+export const Property = ({ label, cssProp ,allowText = false}) => {
   const currentEl = useRecoilValue(currentElState);
-  const [render , setRerender] = useState('')
-  const [val , setVal] = useState('');
+  const [render, setRerender] = useState("");
+  const [val, setVal] = useState("");
 
-  useEffect(()=>{setVal(getPropVal(currentEl, cssProp))},[currentEl]);
+  useEffect(() => {
+    const valWithoutText = +parseInt(getPropVal(currentEl, cssProp)) ? getPropVal(currentEl, cssProp) : 0
+    setVal(allowText ? getPropVal(currentEl, cssProp) : valWithoutText);
+  }, [currentEl]);
 
   const onInput = (ev) => {
     if (!currentEl) {
-      setVal("")
+      setVal("");
       return;
     }
     currentEl.style[toJsProp(cssProp)] = `${
       +ev.target.value ? `${ev.target.value}px` : ev.target.value
     }`;
 
-    setVal(ev.target.value)
+    setVal(ev.target.value);
   };
 
   /**
-   * 
-   * @param {{ev:KeyboardEvent , increase:boolean}} ev 
+   *
+   * @param {{ev:KeyboardEvent , increase:boolean}} ev
    */
   const onKeyDown = (ev) => {
     const handleChange = ({ ev, increase }) => {
+      if (!ev.target.value) ev.target.value = 0;
       ev.target.value = `${
         increase
-        ? +parseInt(ev.target.value) + 1
-        : +parseInt(ev.target.value) - 1
-        }${ev.target.value.split(/\d+/gi).join("")}`;
-        if(parseInt(ev.target.value) <= 0){ev.target.value = 0; return};
+          ? +parseInt(ev.target.value) + 1
+          : +parseInt(ev.target.value) - 1
+      }${ev.target.value.split(/\d+/gi).join("")}`;
+      if (parseInt(ev.target.value) <= 0) {
+        ev.target.value = 0;
+        return;
+      }
       currentEl.style[toJsProp(cssProp)] = `${
         +ev.target.value ? `${ev.target.value}px` : ev.target.value
       }`;
@@ -61,7 +72,7 @@ export const Property = ({ label, cssProp }) => {
       <input
         type="text"
         value={val}
-        onFocus={(ev)=>{
+        onFocus={(ev) => {
           ev.target.select();
         }}
         onInput={onInput}

@@ -7,8 +7,8 @@ export const Details = ({ children , label }) => {
 
   return (
     <section className={`bg-slate-700 ${showDetails && 'p-2'} transition-all rounded-lg`}>
-      <div className={`flex items-center justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${showDetails ? 'bg-gray-900' : 'bg-slate-800'}`}>
-        {label}{" "}
+      <div className={`flex items-center  justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${showDetails ? 'bg-gray-900' : 'bg-slate-800'}`}>
+        <p className="capitalize">{label}{" "}</p>
         <span
           className="group  transition-all cursor-pointer"
           onClick={(ev) => {

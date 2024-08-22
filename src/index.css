@@ -4,9 +4,20 @@
 * {
   box-sizing: border-box;
 }
+@font-face {
+  font-family: 'poppins';
+  src: url('./assets/fonts/Poppins-Light.ttf') , local('poppins');
+  text-transform: none;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url('./assets/fonts/Roboto-Light.ttf') , local('poppins');
+}
+
 body {
-  cursor: url("./assets//images/mainCursor.png"), auto;
-  filter: blur() brightness();
+  cursor: url("./assets/images/mainCursor.png"), auto;
+  font-family:  system-ui, 'roboto' , 'poppins' ,;
 }
 
 .custom-grid-col {
@@ -80,6 +91,7 @@ body {
 .custom-font-size {
   font-size: clamp(5px, 0.9vw, 50px);
   text-wrap: nowrap;
+
   /* text-decoration-style:dashed ;
   text-decoration-line:underline ;
   text-decoration-thickness:12px ; */
