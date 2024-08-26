@@ -1,5 +1,6 @@
 import { Icons } from "../components/Icons/Icons";
 import { filterUnits } from "../constants/constants";
+import { css } from "./cocktail";
 
 /**
  *
@@ -59,8 +60,7 @@ export function getAllValsFromMultiProp(el, prop) {
   );
   const namesAndVals = {};
   for (let i = 0; i < names.length; i++) {
-    namesAndVals[names[i]] =
-      +vals[i].match(/\d+/gi).join("") ;
+    namesAndVals[names[i]] = +vals[i].match(/\d+/gi).join("");
   }
 
   // console.log(namesAndVals, vals);
@@ -92,13 +92,16 @@ export function setMultiValInProp({ prevObjVals, cssProp, propVal, propName }) {
   currentEl.style[toJsProp(cssProp)] = finalVlaue;
 }
 
-
 export function hexToRgbA(hex) {
   // Remove the '#' if it exists
-  let cleanedHex = hex.replace('#', '');
+  let cleanedHex = hex.replace("#", "");
 
   // Handle 3 or 4 character HEX codes (shorthand versions)
-  if (cleanedHex.length === 3 || cleanedHex.length === 4) {    cleanedHex = cleanedHex.split('').map(char => char + char).join('');
+  if (cleanedHex.length === 3 || cleanedHex.length === 4) {
+    cleanedHex = cleanedHex
+      .split("")
+      .map((char) => char + char)
+      .join("");
   }
 
   const r = parseInt(cleanedHex.substring(0, 2), 16);
@@ -114,13 +117,13 @@ export function hexToRgbA(hex) {
   return {
     rgb: `rgb(${r}, ${g}, ${b})`,
     rgba: `rgba(${r}, ${g}, ${b}, ${a})`,
-    opacity: Math.round(a * 100)
+    opacity: Math.round(a * 100),
   };
 }
 
 export function rgbStringToHex(rgbString) {
   // Extract the numbers from the string
-  const result = rgbString.match(/\d+(\.\d+)?/g) || '';
+  const result = rgbString.match(/\d+(\.\d+)?/g) || "";
 
   // Convert the extracted numbers to hexadecimal
   const r = parseInt(result[0], 10);
@@ -129,7 +132,7 @@ export function rgbStringToHex(rgbString) {
 
   const toHex = (component) => {
     const hex = component.toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
+    return hex.length === 1 ? "0" + hex : hex;
   };
 
   let hexColor = `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
@@ -140,15 +143,117 @@ export function rgbStringToHex(rgbString) {
     const hexAlpha = toHex(a).toUpperCase();
     hexColor += hexAlpha;
   }
-  return result ?  hexColor : '';
+  return result ? hexColor : "";
 }
 
-
-export const getIconForMultiChoice = (iconName)=>{
+export const getIconForMultiChoice = (iconName) => {
   return (strokeColor) =>
-     Icons[iconName]({
-       strokeColor: strokeColor,
-       width: 16.5,
-       height: 16.5,
-     })
- };
+    Icons[iconName]({
+      strokeColor: strokeColor,
+      width: 16.5,
+      height: 16.5,
+    });
+};
+
+export function getCSSPropertiesFromClass(cssClassName, cssFileContent) {
+  // Create a regex to find the class definition
+  const regex = new RegExp(`\\.${cssClassName}\\s*\\{([^}]*)\\}`, "g");
+
+  // Find the class definition
+  const match = regex.exec(cssFileContent);
+  if (!match) {
+    return null; // Class not found
+  }
+
+  // Extract the properties inside the class definition
+  const propertiesString = match[1].trim();
+
+  // Split the properties into key-value pairs
+  const propertiesArray = propertiesString
+    .split(";")
+    .filter((prop) => prop.trim() !== "");
+
+  // Convert the properties into an object
+  const properties = {};
+  propertiesArray.forEach((prop) => {
+    const [key, value] = prop.split(":").map((part) => part.trim());
+    if (key && value) {
+      properties[key] = value;
+    }
+  });
+
+  return properties;
+}
+
+export function replaceCSSProperties(
+  cssClassName,
+  cssFileContent,
+  newProperties
+) {
+  // Create a regex to find the class definition
+  const regex = new RegExp(`(\\.${cssClassName}\\s*\\{)([^}]*)\\}`, "g");
+
+  // Build the new properties string
+  const newPropertiesString = Object.entries(newProperties)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join(" ");
+
+  // Replace the old properties with the new properties
+  const newCSSFileContent = cssFileContent.replace(
+    regex,
+    `$1 ${newPropertiesString} }`
+  );
+
+  return newCSSFileContent;
+}
+
+// Example usage:
+// const cssContent = `
+// .myClass {
+//     color: red;
+//     margin: 10px;
+//     display: flex;
+// }
+
+// .anotherClass {
+//     background-color: blue;
+// }
+// `;
+
+// const className = "myClass";
+// const newProps = {
+//   color: "blue",
+//   margin: "20px",
+//   "flex-direction": "column",
+// };
+
+// const updatedCSS = replaceCSSProperties(className, cssContent, newProps);
+
+// console.log(updatedCSS);
+
+/**
+ *
+ * @param {{ifrDocument:Document , currentEl:HTMLElement , cssProp:string , value:string}} param0
+ */
+export function setClassForCurrentEl({
+  ifrDocument,
+  currentEl,
+  cssProp,
+  value,
+}) {
+  const cssClassesStyle = ifrDocument.head.querySelector("#elements-classes");
+  const oldCssProps = getCSSPropertiesFromClass(currentEl.id , cssClassesStyle.innerHTML);
+  const newCssProps = { ...oldCssProps, [cssProp]: value };
+  const newContent = replaceCSSProperties(
+    currentEl.id,
+    cssClassesStyle.innerHTML,
+    newCssProps
+  );
+  const newPropsString = Object.keys(newCssProps)
+    .map((key) => `${key}:${newCssProps[key]};`)
+    .toString();
+  const finalClass = `.${currentEl.id} {${newPropsString}}`;
+
+  cssClassesStyle.innerHTML = newContent ? newContent : finalClass;
+  currentEl.classList.add(currentEl.id);
+}

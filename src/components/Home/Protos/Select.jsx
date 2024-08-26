@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
-import { getPropVal, rgbStringToHex, toJsProp } from "../../../helpers/functions";
+import { getPropVal, rgbStringToHex, setClassForCurrentEl, toJsProp } from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
+import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 
 /**
  *
@@ -13,6 +14,7 @@ import { currentElState } from "../../../helpers/atoms";
  * @returns
  */
 export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
+  const setClass = useSetClassForCurrentEl();
   const currentEl = useRecoilValue(currentElState);
   const [showMenu, setMenu] = useState(false);
   const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
@@ -50,7 +52,12 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
 
     newKeyW.length == 1 && setCurrentChoose(0);
 
-    currentEl && (currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`);
+    // currentEl && (currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`);
+
+    setClass({
+      cssProp,
+      value:ev.target.value,
+    });
 
     if (newKeyW.length && ev.target.value) {
       setNewKeywords(newKeyW);
@@ -69,7 +76,6 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
     let cloneCurrentChooseNum = currentChoose;
     if (ev.key == "ArrowDown") {
       ev.preventDefault();
-      console.log(newKeywords.length);
       cloneCurrentChooseNum++;
 
       if (cloneCurrentChooseNum >= newKeywords.length) {
@@ -87,9 +93,14 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
       setCurrentChoose(cloneCurrentChooseNum);
     } else if (ev.key == "Enter") {
       ev.preventDefault();
-      currentEl.style[toJsProp(cssProp)] = splitHyphen
+      setClass({
+        cssProp,
+        value:splitHyphen
         ? choosenKeyword.current.split("-")[0]
-        : choosenKeyword.current;
+        : choosenKeyword.current,
+      });
+
+
       setVal(choosenKeyword.current.split("-")[0]);
       setMenu(false);
     }
@@ -148,7 +159,12 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
               const nkeyw = splitHyphen
               ? keyword.split("-")[0]
               : keyword;
-              currentEl.style[toJsProp(cssProp)] = nkeyw;
+
+              setClass({
+                cssProp,
+                value:nkeyw,
+              });
+
               setVal(nkeyw);
               setMenu(false);
             }}

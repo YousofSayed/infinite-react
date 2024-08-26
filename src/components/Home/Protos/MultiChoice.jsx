@@ -1,18 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { currentElState } from "../../../helpers/atoms";
+import { currentElState, ifrDocument } from "../../../helpers/atoms";
 import { getPropVal, toJsProp } from "../../../helpers/functions";
 import { isFunction } from "../../../helpers/cocktail";
+import { P } from "../../Protos/P";
+import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 
 /**
  *
- * @param {{icons:HTMLOrSVGElement[] , cssProp : string , choices:string[]}}} param0
+ * @param {{label:string, icons:HTMLOrSVGElement[] , cssProp : string , choices:string[]}}} param0
  * @returns
  */
-export const MultiChoice = ({ icons, cssProp, choices }) => {
+export const MultiChoice = ({ label , icons, cssProp, choices }) => {
+  const setClass= useSetClassForCurrentEl();
+  const currentEl = useRecoilValue(currentElState);
   const [currentChoice, setCurrentChoice] = useState(null);
   const lastIndex = useRef(null);
-  const currentEl = useRecoilValue(currentElState);
 
   useEffect(()=>{
     const currentElCssVal = getPropVal(currentEl , cssProp) ;
@@ -27,21 +30,30 @@ export const MultiChoice = ({ icons, cssProp, choices }) => {
     if(index == lastIndex.current){
         setCurrentChoice(null);
         lastIndex.current = null;
-        currentEl.style[toJsProp(cssProp)] = ``;
+        
+        setClass({
+          cssProp , 
+          value:'',
+        });
         return;
     }
-    currentEl.style[toJsProp(cssProp)] = choices[index];
+    
+    setClass({
+      cssProp , 
+      value: choices[index],
+    });
     lastIndex.current = index;
     setCurrentChoice(index);
 
   }
 
   return (
-    <ul className="flex justify-between items-center  w-full p-2 bg-slate-800 rounded-lg transition-all">
+    <ul className="flex justify-between flex-nowrap items-center  w-full p-2 bg-slate-800 rounded-lg transition-all">
       {icons.map((icon, i) => (
         <li
+        title={choices[i]}
           key={i}
-          className={`group cursor-pointer flex justify-center items-center w-[30px] h-[30px]   rounded-full ${i == currentChoice ? 'p-2 bg-gray-900 shadow-md shadow-gray-900 ' : ''}  transition-all`}
+          className={`group cursor-pointer flex justify-center items-center p-2   rounded-full ${i == currentChoice ? ' bg-gray-900 shadow-md shadow-gray-900 ' : ''}  transition-[background]`}
           onClick={(ev)=>{handleSelecting(i)}}
         >
           { icon(i == currentChoice ? 'white' : '')}

@@ -8,15 +8,15 @@ export const Details = ({ children, label }) => {
   return (
     <section
       className={`bg-slate-700 ${
-        showDetails && "p-2"
-      } transition-all rounded-lg`}
+        showDetails && "p-2 border-2 border-blue-600"
+      } transition-[padding] rounded-lg`}
     >
       <div
         onClick={(ev) => {
           setShowDetails(!showDetails);
           arrowIcon.current.classList.toggle("rotate-180");
         }}
-        className={`flex items-center  justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${
+        className={`flex items-center   justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${
           showDetails ? "bg-gray-900" : "bg-slate-800"
         }`}
       >

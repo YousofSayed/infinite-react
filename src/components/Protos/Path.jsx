@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Path = ({ d, strokeMiterlimit ,stroke='#64748B' ,strokeWidth='1.5' ,fill = "", group= true}) => {
+export const Path = ({ d,transform, strokeMiterlimit ,stroke='#64748B' ,strokeWidth='1.5' ,fill = "", group= true}) => {
   return (
     <path
         d={d}
@@ -11,7 +11,7 @@ export const Path = ({ d, strokeMiterlimit ,stroke='#64748B' ,strokeWidth='1.5' 
         className={`${group ? 'group-hover:stroke-white' : 'hover:stroke-white'} transition-all`}
         strokeLinejoin="round"
         fill={fill}
-
+        transform = {transform}
       />
   )
 }

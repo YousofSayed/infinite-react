@@ -1,50 +1,169 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Li } from "../../Protos/Li";
 import { Icons } from "../../Icons/Icons";
-import { useRecoilValue } from "recoil";
-// import style from "../../../styles/style.css?raw";
-import { iframeBody, iframeWindow, refsStt } from "../../../helpers/atoms";
-// import { appendStyle, iframeHandler } from "../../../helpers/functions";
-let i = 0,
-  maxStack = 5;
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  currentElState,
+  ifrDocument,
+  iframeWindow,
+  refsStt,
+  undoAndRedoState,
+} from "../../../helpers/atoms";
+import { MutateHandler } from "../../../helpers/undeAndRedo";
 
 export const IframeControllers = () => {
-  const iframeBodyVal = useRecoilValue(iframeBody);
-  const iframe = useRecoilValue(refsStt).ifrRef;
-  const iframeWindowVal = useRecoilValue(iframeWindow);
-  const [bodyContent, setBodyContent] = useState([""]);
+  const iframeDocVal = useRecoilValue(ifrDocument);
+  const undoAndRedoStyle = useRecoilValue(undoAndRedoState);
+  const currentEl = useRecoilValue(currentElState);
+  const setCurrentEl = useSetRecoilState(currentElState);
+  const styleIndex = useRef(0);
+  const styleElement = useRef();
+
+  /**
+   * @type {MutationRecord[]}
+   */
+  const typeOfUndoAndRedoData = [];
+  const index = useRef(0);
+  /**
+   * @type {MutationObserverInit}
+   */
+  const config = {
+    attributes: true,
+    childList: true,
+    characterData: true,
+    subtree: true,
+  };
+  const characterDataStack = useRef(Array.from(typeOfUndoAndRedoData));
+  const attributesStack = useRef(Array.from(typeOfUndoAndRedoData));
+  const childListStack = useRef(Array.from(typeOfUndoAndRedoData));
+  const childListIndex = useRef(0);
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      const realAddedNodes = Array.from(mutation.addedNodes).filter(
+        (addedNode) => addedNode.tagName
+      );
+
+      for (let i = 0; i < realAddedNodes.length; i++) {
+        if (realAddedNodes[i].hasAttribute("hide-in-observer")) {
+          return;
+        }
+      }
+      if (mutation.type == "childList") {
+        if (childListIndex.current > 0) {
+          console.log("lldsdao");
+
+          childListStack.current = childListStack.current.slice(
+            0,
+            childListIndex.current + 1
+          );
+        }
+        childListStack.current.push(mutation);
+
+        childListStack.current =
+          childListStack.current.length > 100
+            ? childListStack.current.slice(1)
+            : childListStack.current;
+
+        childListIndex.current = childListStack.current.length - 1;
+        console.log(childListStack.current);
+      } else if (mutation.type == "attributes") {
+        attributesStack.current.push(mutation);
+        attributesStack.current =
+          attributesStack.current.length > 50
+            ? attributesStack.current.slice(1)
+            : attributesStack.current;
+      } else if (mutation.type == "characterData") {
+        characterDataStack.current.push(mutation);
+        characterDataStack.current =
+          characterDataStack.current.length > 50
+            ? characterDataStack.current.slice(1)
+            : characterDataStack.current;
+      }
+    });
+  });
+
+  const undo = () => {
+    if (childListIndex.current <= -1) {
+      console.log("less");
+      return;
+    }
+
+    observer.disconnect();
+    const mutation = childListStack.current[childListIndex.current];
+    mutation.addedNodes.forEach((node) => node.remove());
+    mutation.removedNodes.forEach((node) => {
+      mutation.target.appendChild(node);
+    });
+
+    observer.observe(iframeDocVal.body, config);
+    childListIndex.current--;
+    if (childListIndex.current < 0) {
+      childListIndex.current = -1;
+    }
+  };
+
+  const redo = () => {
+    childListIndex.current++;
+    console.log(childListIndex.current);
+    if (childListIndex.current > childListStack.current.length - 1) {
+      childListIndex.current = childListStack.current.length - 1;
+      console.log("bigger");
+
+      return;
+    }
+
+    observer.disconnect();
+    const mutation = childListStack.current[childListIndex.current];
+    mutation.addedNodes.forEach((node) => {
+      mutation.target.appendChild(node);
+    });
+    mutation.removedNodes.forEach((node) => {
+      mutation.target.removeChild(node);
+    });
+
+    observer.observe(iframeDocVal.body, config);
+  };
 
   useEffect(() => {
     /**
      *
-     * @param {CustomEvent} ev
+     * @param {KeyboardEvent} ev
      */
-    const handleBodyChange = (ev) => {
-      setBodyContent([...bodyContent, ev.detail]);
-      i = bodyContent.length;
+    const handleCtrlZAndY = (ev) => {
+      // console.log(ev.key);
+      ev.stopPropagation();
 
-      if (bodyContent.length >= maxStack) {
-        setBodyContent(bodyContent.slice(1));
-        i = bodyContent.length - 1;
+      if (ev.ctrlKey && ev.key == "z") {
+        undo();
+      } else if (ev.ctrlKey && ev.key == "y") {
+        redo();
       }
-      console.log(i);
     };
-    window.addEventListener("iframeBodyChange", handleBodyChange);
+
+    window.addEventListener("keyup", handleCtrlZAndY);
     return () => {
-      window.removeEventListener("iframeBodyChange", handleBodyChange);
+      window.removeEventListener("keyup", handleCtrlZAndY);
     };
-  }, [bodyContent]);
+  }, [iframeDocVal]);
+
+  useEffect(() => {
+    if (iframeDocVal) {
+      // styleElement.current =
+      //   iframeDocVal.head.querySelector(`#elements-classes`);
+      observer.observe(iframeDocVal.body, config);
+      observer.takeRecords();
+    }
+  }, [iframeDocVal]);
+
+  useEffect(() => {}, [undoAndRedoStyle]);
 
   const clearIFrameBody = () => {
-   
-  };
-
-  const undo = () => {
-
-  };
-
-  const redo = () => {
-  
+    const allElementsIn = Array.from(iframeDocVal.body.querySelectorAll("*"))
+      .filter((el) => el.tagName != "style" || el.tagName != "script")
+      .forEach((el) => el.remove());
+      childListIndex.current = -1;
+    childListStack.current = Array.from(typeOfUndoAndRedoData);
   };
 
   return (

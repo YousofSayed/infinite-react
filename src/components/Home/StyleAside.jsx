@@ -6,6 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { currentElState } from "../../helpers/atoms";
 import { StyleTypography } from "./Protos/StyleTypography";
 import { Content } from "./Protos/Content";
+import { StyleSize } from "./Protos/StyleSize";
 
 export const StyleAside = () => {
   // const [currentEl, setCurrentEl] = useState();
@@ -36,7 +37,9 @@ export const StyleAside = () => {
         <StyleTypography/>
       </Details>
 
-
+      <Details label={'size'} >
+        <StyleSize />
+      </Details>
     </Aside>
   );
 };

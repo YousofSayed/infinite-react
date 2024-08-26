@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { useRecoilValue } from "recoil";
-import { currentElState } from "../../../helpers/atoms";
+import { currentElState, ifrDocument } from "../../../helpers/atoms";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
-import { getPropVal, hexToRgbA, rgbStringToHex, toJsProp } from "../../../helpers/functions";
+import { getPropVal, hexToRgbA, rgbStringToHex, setClassForCurrentEl, toJsProp } from "../../../helpers/functions";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
 
 export const Color = ({ cssProp }) => {
   const currentEl = useRecoilValue(currentElState);
+  const ifrDocumentVal = useRecoilValue(ifrDocument);
   const [color, setColor] = useState("#111827");
   const [showHexColor, setShowHexColor] = useState(false);
   const [isPending, setTransition] = useTransition();
@@ -34,7 +35,16 @@ export const Color = ({ cssProp }) => {
           <HexAlphaColorPicker
             color={color}
             onChange={(color) => {
-              currentEl.style[toJsProp(cssProp)] = color;
+              
+              // currentEl.style[toJsProp(cssProp)] = color;
+
+              setClassForCurrentEl({
+                cssProp , 
+                ifrDocument:ifrDocumentVal,
+                value:color,
+                currentEl,
+              });
+
               setColor(color);
             }}
             
@@ -47,7 +57,14 @@ export const Color = ({ cssProp }) => {
           ev.target.select();
         }}
         onInput={(ev) => {
-          currentEl.style[toJsProp(cssProp)] = ev.target.value;
+          // currentEl.style[toJsProp(cssProp)] = ev.target.value;
+          
+          setClassForCurrentEl({
+            cssProp , 
+            ifrDocument:ifrDocumentVal,
+            value:ev.target.value,
+            currentEl,
+          });
           setColor(ev.target.value);
         }}
         className={`bg-gray-900 p-2 outline-none text-center text-slate-200 font-semibold w-[50%] rounded-lg`}

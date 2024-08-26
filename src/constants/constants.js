@@ -43,6 +43,32 @@ export const fontWeights = [
     "unset"
   ];
   
+  export const overflowValues = [
+    'auto',
+    'hidden',
+    'visible',
+    'scroll',
+    'initial'
+  ];
+
+  export  const displayValues = [
+    'block',
+    'inline',
+    'inline-block',
+    'flex',
+    'grid',
+    'none',
+    'list-item'
+];
+
+export const flexDirectionValues = [
+  'row',
+  'row-reverse',
+  'column',
+  'column-reverse'
+];
+
+
 
   export const textDecorationLineValues = [
     'none',            // No text decoration.

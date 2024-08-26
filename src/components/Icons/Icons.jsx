@@ -531,6 +531,478 @@ export const Icons = {
       </g>
     </svg>
   ),
+  visible: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      viewBox="0 0 122.88 65.06"
+      xmlSpace="preserve"
+    >
+      <g
+        id="svgGroup"
+        strokeLinecap="round"
+        fillRule="evenodd"
+        stroke="#64748b"
+        strokeWidth="1.5"
+        fill="#cbd5e1"
+      >
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M0.95,30.01c2.92-3.53,5.98-6.74,9.15-9.63C24.44,7.33,41.46,0.36,59.01,0.01c17.51-0.35,35.47,5.9,51.7,19.29 c3.88,3.2,7.63,6.77,11.24,10.74c1.16,1.28,1.22,3.17,0.23,4.51c-4.13,5.83-8.88,10.82-14.07,14.96 C95.12,59.88,79.34,64.98,63.35,65.06c-15.93,0.07-32.06-4.86-45.8-14.57c-6.14-4.34-11.81-9.63-16.78-15.85 C-0.34,33.24-0.23,31.27,0.95,30.01L0.95,30.01z M61.44,26.46c0.59,0,1.17,0.09,1.71,0.24c-0.46,0.5-0.73,1.17-0.73,1.9 c0,1.56,1.26,2.82,2.82,2.82c0.77,0,1.46-0.3,1.97-0.8c0.2,0.6,0.3,1.24,0.3,1.9c0,3.35-2.72,6.07-6.07,6.07 c-3.35,0-6.07-2.72-6.07-6.07C55.37,29.18,58.09,26.46,61.44,26.46L61.44,26.46z M61.44,10.82c5.99,0,11.42,2.43,15.35,6.36 c3.93,3.93,6.36,9.35,6.36,15.35c0,5.99-2.43,11.42-6.36,15.35c-3.93,3.93-9.35,6.36-15.35,6.36c-5.99,0-11.42-2.43-15.35-6.36 c-3.93-3.93-6.36-9.35-6.36-15.35c0-5.99,2.43-11.42,6.36-15.35C50.02,13.25,55.45,10.82,61.44,10.82L61.44,10.82z M71.89,22.08 c-2.67-2.67-6.37-4.33-10.45-4.33c-4.08,0-7.78,1.65-10.45,4.33c-2.67,2.67-4.33,6.37-4.33,10.45c0,4.08,1.65,7.78,4.33,10.45 c2.67,2.67,6.37,4.33,10.45,4.33c4.08,0,7.78-1.65,10.45-4.33c2.67-2.67,4.33-6.37,4.33-10.45C76.22,28.45,74.56,24.75,71.89,22.08 L71.89,22.08z M14.89,25.63c-2.32,2.11-4.56,4.39-6.7,6.82c4.07,4.72,8.6,8.8,13.45,12.23c12.54,8.85,27.21,13.35,41.69,13.29 c14.42-0.07,28.65-4.67,40.37-14.02c4-3.19,7.7-6.94,11.03-11.25c-2.79-2.91-5.63-5.54-8.51-7.92C91.33,12.51,75,6.79,59.15,7.1 C43.34,7.42,27.93,13.76,14.89,25.63L14.89,25.63z"
+        />
+      </g>
+    </svg>
+  ),
+  hidden: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 122.879 79.699"
+      enableBackground="new 0 0 122.879 79.699"
+      xmlSpace="preserve"
+    >
+      <g
+        id="svgGroup"
+        strokeLinecap="round"
+        fillRule="evenodd"
+        stroke="#64748b"
+        strokeWidth="1.5"
+        fill="#cbd5e1"
+      >
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M0.955,37.326c2.922-3.528,5.981-6.739,9.151-9.625C24.441,14.654,41.462,7.684,59.01,7.334 c6.561-0.131,13.185,0.665,19.757,2.416l-5.904,5.904c-4.581-0.916-9.168-1.324-13.714-1.233 c-15.811,0.316-31.215,6.657-44.262,18.533l0,0c-2.324,2.115-4.562,4.39-6.702,6.82c4.071,4.721,8.6,8.801,13.452,12.227 c2.988,2.111,6.097,3.973,9.296,5.586l-5.262,5.262c-2.782-1.504-5.494-3.184-8.12-5.039c-6.143-4.338-11.813-9.629-16.78-15.85 C-0.338,40.563-0.228,38.59,0.955,37.326L0.955,37.326L0.955,37.326z M96.03,0l5.893,5.893L28.119,79.699l-5.894-5.895L96.03,0 L96.03,0z M97.72,17.609c4.423,2.527,8.767,5.528,12.994,9.014c3.877,3.196,7.635,6.773,11.24,10.735 c1.163,1.277,1.22,3.171,0.226,4.507c-4.131,5.834-8.876,10.816-14.069,14.963C95.119,67.199,79.338,72.305,63.352,72.377 c-6.114,0.027-9.798-3.141-15.825-4.576l3.545-3.543c4.065,0.705,8.167,1.049,12.252,1.031c14.421-0.064,28.653-4.668,40.366-14.02 c3.998-3.191,7.706-6.939,11.028-11.254c-2.787-2.905-5.627-5.543-8.508-7.918c-4.455-3.673-9.042-6.759-13.707-9.273L97.72,17.609 L97.72,17.609z M61.44,18.143c2.664,0,5.216,0.481,7.576,1.359l-5.689,5.689c-0.619-0.079-1.248-0.119-1.886-0.119 c-4.081,0-7.775,1.654-10.449,4.328c-2.674,2.674-4.328,6.369-4.328,10.45c0,0.639,0.04,1.268,0.119,1.885l-5.689,5.691 c-0.879-2.359-1.359-4.912-1.359-7.576c0-5.995,2.43-11.42,6.358-15.349C50.02,20.572,55.446,18.143,61.44,18.143L61.44,18.143z M82.113,33.216c0.67,2.09,1.032,4.32,1.032,6.634c0,5.994-2.43,11.42-6.357,15.348c-3.929,3.928-9.355,6.357-15.348,6.357 c-2.313,0-4.542-0.361-6.633-1.033l5.914-5.914c0.238,0.012,0.478,0.018,0.719,0.018c4.081,0,7.775-1.652,10.449-4.326 s4.328-6.369,4.328-10.449c0-0.241-0.006-0.48-0.018-0.72L82.113,33.216L82.113,33.216z"
+        />
+      </g>
+    </svg>
+  ),
+  scroll: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      viewBox="0 0 80.59 122.88"
+      xmlSpace="preserve"
+    >
+      {/* <style type="text/css">
+        .st0{{ "fill-rule": evenodd, "clip-rule": evenodd }}
+      </style> */}
+      <g
+        id="svgGroup"
+        strokeLinecap="round"
+        fillRule="evenodd"
+        stroke="#64748b"
+        strokeWidth="1.5"
+        fill="#cbd5e1"
+      >
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          class="st0"
+          d="M53.06,0l27.53,28.63H62.88v22.7H43.25v-22.7H25.53L53.06,0L53.06,0z M27.53,122.88L0,94.25h17.72v-22.7h19.62 v22.7h17.72L27.53,122.88L27.53,122.88z M17.72,68.05V54.49h19.62v13.56H17.72L17.72,68.05z M17.72,51.24v-7.7l19.62,0v7.7 L17.72,51.24L17.72,51.24z M62.88,71.64v7.7H43.25v-7.7H62.88L62.88,71.64z M62.88,54.84v13.56l-19.62,0V54.84L62.88,54.84 L62.88,54.84z"
+        />
+      </g>
+    </svg>
+  ),
+  initial: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      viewBox="0 0 122.88 122.88"
+      enableBackground="new 0 0 122.88 122.88"
+      xmlSpace="preserve"
+    >
+      <g
+        id="svgGroup"
+        strokeLinecap="round"
+        fillRule="evenodd"
+        stroke="#64748b"
+        strokeWidth="1.5"
+        fill="#cbd5e1"
+      >
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M61.438,0c33.93,0,61.441,27.512,61.441,61.441 c0,33.929-27.512,61.438-61.441,61.438C27.512,122.88,0,95.37,0,61.441C0,27.512,27.512,0,61.438,0L61.438,0z"
+        />
+      </g>
+    </svg>
+  ),
+  auto: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 35.152 11.392"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g
+        id="svgGroup"
+        strokeLinecap="round"
+        fillRule="evenodd"
+        stroke="#64748b"
+        fill="#cbd5e1"
+        fontSize="9pt"
+        strokeWidth="0.25mm"
+        // fill="#64748b"
+        style={{ stroke: "#64748b", strokeWidth: "0.25mm", fill: "#64748b" }}
+      >
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M 11.728 8.288 L 11.728 2.88 L 13.168 2.88 L 13.168 8.096 Q 13.168 9.072 13.584 9.592 A 1.345 1.345 0 0 0 14.402 10.075 A 2.049 2.049 0 0 0 14.8 10.112 Q 15.456 10.112 16.072 9.848 Q 16.688 9.584 17.168 9.136 L 17.168 2.88 L 18.608 2.88 L 18.608 9.04 Q 18.608 9.579 18.789 9.828 A 0.523 0.523 0 0 0 18.904 9.944 Q 19.2 10.16 19.552 10.16 L 19.248 11.28 Q 17.762 11.28 17.409 10.1 A 2.181 2.181 0 0 1 17.408 10.096 Q 16.848 10.672 16.112 11.032 Q 15.376 11.392 14.528 11.392 Q 13.808 11.392 13.168 11.088 Q 12.528 10.784 12.128 10.104 Q 11.815 9.571 11.747 8.759 A 5.66 5.66 0 0 1 11.728 8.288 Z M 10.368 10.8 L 8.976 11.36 L 7.728 8.16 L 2.544 8.16 L 1.296 11.328 L 0 10.8 L 4.384 0 L 6.048 0 L 10.368 10.8 Z M 21.792 8.336 L 21.792 4.432 L 20.352 4.432 L 20.352 3.184 L 21.824 3.184 L 22.128 0.56 L 23.232 0.56 L 23.232 3.184 L 25.536 3.184 L 25.536 4.432 L 23.232 4.432 L 23.232 8.448 A 3.449 3.449 0 0 0 23.259 8.895 Q 23.323 9.383 23.54 9.653 A 0.889 0.889 0 0 0 23.624 9.744 Q 24.016 10.112 24.56 10.112 Q 24.96 10.112 25.32 9.984 Q 25.68 9.856 25.984 9.68 L 26.384 10.832 A 2.967 2.967 0 0 1 26.125 10.969 Q 25.997 11.03 25.846 11.089 A 6.938 6.938 0 0 1 25.52 11.208 Q 24.976 11.392 24.384 11.392 Q 23.184 11.392 22.488 10.6 Q 21.792 9.808 21.792 8.336 Z M 29.626 11.178 A 4.354 4.354 0 0 0 31.008 11.392 A 4.916 4.916 0 0 0 31.372 11.379 A 4.041 4.041 0 0 0 33.128 10.848 Q 34.064 10.304 34.608 9.32 A 4.201 4.201 0 0 0 35.032 8.177 A 5.469 5.469 0 0 0 35.152 7.008 Q 35.152 5.68 34.6 4.712 Q 34.048 3.744 33.112 3.216 A 3.976 3.976 0 0 0 32.369 2.892 A 4.438 4.438 0 0 0 31.008 2.688 A 5.012 5.012 0 0 0 30.755 2.694 A 4.187 4.187 0 0 0 28.896 3.216 Q 27.952 3.744 27.408 4.72 A 4.164 4.164 0 0 0 26.968 5.934 A 5.601 5.601 0 0 0 26.864 7.04 A 5.575 5.575 0 0 0 26.906 7.731 Q 27.012 8.585 27.392 9.289 A 4.097 4.097 0 0 0 27.4 9.304 Q 27.936 10.288 28.88 10.84 A 3.929 3.929 0 0 0 29.626 11.178 Z M 31.008 10.112 A 2.999 2.999 0 0 0 31.844 10.001 A 2.24 2.24 0 0 0 32.976 9.256 A 3.008 3.008 0 0 0 33.587 7.962 A 4.337 4.337 0 0 0 33.68 7.04 A 3.42 3.42 0 0 0 33.484 5.874 A 3.202 3.202 0 0 0 33.328 5.512 Q 32.976 4.816 32.376 4.392 Q 31.776 3.968 31.008 3.968 A 3.08 3.08 0 0 0 30.172 4.075 A 2.246 2.246 0 0 0 29.04 4.8 Q 28.363 5.6 28.337 6.904 A 5.259 5.259 0 0 0 28.336 7.008 Q 28.336 7.84 28.688 8.552 A 3.11 3.11 0 0 0 29.253 9.358 A 2.82 2.82 0 0 0 29.64 9.688 Q 30.24 10.112 31.008 10.112 Z M 5.136 1.504 L 3.024 6.88 L 7.232 6.88 L 5.136 1.504 Z"
+          vector-effect="non-scaling-stroke"
+        />
+      </g>
+    </svg>
+  ),
+  justifyStart: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        // fill="#23282D"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M0 0H8V128H0zM16 16H48V112H16zM56 16H88V112H56z"
+      ></Path>
+    </svg>
+  ),
+  justifyCenter: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M60 0H68V128H60zM20 16H52V112H20zM76 16H108V112H76z"
+      ></Path>
+    </svg>
+  ),
+  justifyEnd: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+      class="bricks-svg"
+    >
+      <g fill="none" fill-rule="evenodd">
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M120 0H128V128H120z"
+        ></Path>
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          // fill="#23282D"
+          d="M80 16H112V112H80zM40 16H72V112H40z"
+          transform="matrix(1 0 0 -1 0 128)"
+        ></Path>
+      </g>
+    </svg>
+  ),
+  justifyBetween: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M120 0H128V128H120zM0 0H8V128H0zM12 16H44V112H12zM84 16H116V112H84z"
+      ></Path>
+    </svg>
+  ),
+  justifyAround: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M120 0H128V128H120zM0 0H8V128H0zM24 16H56V112H24zM72 16H104V112H72z"
+      ></path>
+    </svg>
+  ),
+  justifyEvenly: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+      class="bricks-svg"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M120 0H128V128H120zM0 0H8V128H0zM72 16H104V112H72zM24 16H56V112H24z"
+      ></Path>
+    </svg>
+  ),
+
+  alignStart: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M0 0H128V8H0zM28 16H60V112H28zM68 16H106V112H68z"
+      ></Path>
+    </svg>
+  ),
+  alignCenter: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M60 0H68V128H60zM20 16H52V112H20zM76 16H108V112H76z"
+      ></Path>
+    </svg>
+  ),
+  alignEnd: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M0 120H128V128H0zM28 16H60V112H28zM68 16H100V112H68z"
+      ></Path>
+    </svg>
+  ),
+  alignStrech: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M0 120H128V128H0zM0 0H128V8H0zM40 16H88V112H40z"
+      ></Path>
+    </svg>
+  ),
+  alignBaseline: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <g fill="none" fill-rule="evenodd">
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M0 60H128V68H0zM32 68H64V96H32zM72 68H104V112H72z"
+        ></Path>
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M35 31H61V63H35zM75 31H101V63H75z"
+        ></Path>
+      </g>
+    </svg>
+  ),
+
+  alignSelfStart: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M0 0H8V128H0zM16 28H112V60H16zM16 68H112V100H16z"
+      ></Path>
+    </svg>
+  ),
+
+  alignSelfCenter: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M60 0H68V24H60zM60 104H68V128H60zM16 28H112V60H16zM16 68H112V100H16z"
+      ></Path>
+    </svg>
+  ),
+
+  alignSelfEnd: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M120 0H128V128H120zM16 28H112V60H16zM16 68H112V100H16z"
+      ></Path>
+    </svg>
+  ),
+  alignSelfStretch: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+  }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M120 0H128V128H120zM0 0H8V128H0zM16 28H112V60H16zM16 68H112V100H16z"
+      ></Path>
+    </svg>
+  ),
+  columnDir: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+      class="bricks-svg"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M16 86H112V112H16zM16 51H112V77H16zM16 16H112V42H16z"
+      ></Path>
+    </svg>
+  ),
+  rowDir: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M86 16H112V112H86zM51 16H77V112H51zM16 16H42V112H16z"
+      ></Path>
+    </svg>
+  ),
+  reverseDir: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+    <svg
+      width={width}
+      height={height}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 128 128"
+    >
+      <g fill="none" fill-rule="evenodd">
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M56,19.9992122 L10,20 C4.4771525,20 -1.10000309e-15,15.5228475 0,10 C-6.61662521e-16,4.5971155 4.37990327,0.217212229 9.78278777,0.217212229 C9.8543947,0.217212229 9.92599948,0.217998439 9.99758914,0.219570718 L66.8367796,1.46789386 C70.9424147,1.55806332 74.3834686,4.27942675 75.5633162,7.9999083 L76,8 L76,32 L81.1715729,32 C81.7020059,32 82.2107137,32.2107137 82.5857864,32.5857864 C83.366835,33.366835 83.366835,34.633165 82.5857864,35.4142136 L82.5857864,35.4142136 L67.4142136,50.5857864 C66.633165,51.366835 65.366835,51.366835 64.5857864,50.5857864 L64.5857864,50.5857864 L49.4142136,35.4142136 C49.0391408,35.0391408 48.8284271,34.530433 48.8284271,34 C48.8284271,32.8954305 49.7238576,32 50.8284271,32 L50.8284271,32 L56,32 L56,19.9992122 Z"
+          transform="translate(30 24)"
+        ></Path>
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M56,20 L8,20 C3.581722,20 5.41083001e-16,16.418278 0,12 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 L68,0 C72.3349143,-7.96310831e-16 75.8645429,3.44783777 75.9961932,7.75082067 L76,8 L76,32 L81.1715729,32 C81.7020059,32 82.2107137,32.2107137 82.5857864,32.5857864 C83.366835,33.366835 83.366835,34.633165 82.5857864,35.4142136 L82.5857864,35.4142136 L67.4142136,50.5857864 C66.633165,51.366835 65.366835,51.366835 64.5857864,50.5857864 L64.5857864,50.5857864 L49.4142136,35.4142136 C49.0391408,35.0391408 48.8284271,34.530433 48.8284271,34 C48.8284271,32.8954305 49.7238576,32 50.8284271,32 L50.8284271,32 L56,32 L56,20 Z"
+          transform="rotate(180 49 52)"
+        ></Path>
+      </g>
+    </svg>
+  ),
   diminsions: () => (
     <svg
       width="101"

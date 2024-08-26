@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  iframeBody,
+  ifrDocument,
   iframeWindow,
   refsStt,
   showOverlayIframState,
@@ -18,6 +18,7 @@ export const Iframe = () => {
   const scriptLoaded = useRef(false);
   const showOverlay = useRecoilValue(showOverlayIframState);
   const setRefs = useSetRecoilState(refsStt);
+  const setIfrDocument = useSetRecoilState(ifrDocument);
 
   useEffect(() => {
     if (overlayRef.current) {
@@ -42,7 +43,8 @@ export const Iframe = () => {
               content="width=device-width, initial-scale=1.0"
             />
             <link rel="stylesheet" href="/styles/style.css" />
-            <script src="/scripts/tailwindcss.js"></script>
+            <style id="elements-classes"></style>
+            <!-- <script src="/scripts/tailwindcss.js"></script> -->
             <!-- <script src="/scripts/alpine-morph.js" defer></script> -->
             <!-- <script src="/scripts/alpine.js" defer></script> -->
             <title>App</title>
@@ -57,6 +59,15 @@ export const Iframe = () => {
           </body>
         </html>
       `;
+      ifrRef.current.addEventListener('load',(ev)=>{
+        console.log(ev.target.contentDocument);
+        setIfrDocument(ev.target.contentDocument);
+        
+      })
+      // document.addEventListener('DOMContentLoaded',(ev)=>{
+      //   console.log(ev.target);
+        
+      // })
     }
 
     return () => {
@@ -68,7 +79,7 @@ export const Iframe = () => {
   });
 
   return (
-    <section className="relative flex-grow h-full">
+    <section className="relative flex items-center bg-gray-950 justify-center flex-grow h-full">
       <div
         ref={overlayRef}
         className={`absolute hidden w-full h-full bg-slate-400 z-10 opacity-[.5]`}
@@ -77,7 +88,7 @@ export const Iframe = () => {
       <iframe
         ref={ifrRef}
         draggable={true}
-        className="w-full h-full"
+        className="w-full h-full bg-white  hideScrollBar"
         title="It is iframe"
         srcDoc=""
         onDragOver={(ev) => {

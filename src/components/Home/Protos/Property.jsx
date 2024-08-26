@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { getPropVal, toJsProp } from "../../../helpers/functions";
+import {
+  getPropVal,
+  setClassForCurrentEl,
+  toJsProp,
+} from "../../../helpers/functions";
 import { P } from "../../Protos/P";
 import { useRecoilValue } from "recoil";
-import { currentElState } from "../../../helpers/atoms";
+import { currentElState, ifrDocument } from "../../../helpers/atoms";
 import {
   isNumber,
   isString,
   transformToNumInput,
 } from "../../../helpers/cocktail";
+import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 
 /**
  *
  * @param {{label:string, currentEl:HTMLElement , cssProp:string , tailwindClass:string}} param0
  * @returns
  */
-export const Property = ({ label, cssProp ,allowText = false}) => {
+export const Property = ({ label, cssProp, allowText = false }) => {
   const currentEl = useRecoilValue(currentElState);
+  const ifrDocumentVal = useRecoilValue(ifrDocument);
+  const setClass = useSetClassForCurrentEl();
+
   const [render, setRerender] = useState("");
   const [val, setVal] = useState("");
 
   useEffect(() => {
-    const valWithoutText = +parseInt(getPropVal(currentEl, cssProp)) ? getPropVal(currentEl, cssProp) : 0
-    setVal(allowText ? getPropVal(currentEl, cssProp) : valWithoutText);
+    const valWithoutText = +parseInt(getPropVal(currentEl, cssProp))
+      ? +parseInt(getPropVal(currentEl, cssProp))
+      : 0;
+      
+    setVal(allowText ? getPropVal(currentEl, cssProp) : Math.round(valWithoutText));
   }, [currentEl]);
 
   const onInput = (ev) => {
@@ -29,9 +40,12 @@ export const Property = ({ label, cssProp ,allowText = false}) => {
       setVal("");
       return;
     }
-    currentEl.style[toJsProp(cssProp)] = `${
-      +ev.target.value ? `${ev.target.value}px` : ev.target.value
-    }`;
+
+    setClass({
+      cssProp,
+      value:`${+ev.target.value ? `${ev.target.value}px` : ev.target.value}`
+    });
+
 
     setVal(ev.target.value);
   };
@@ -52,9 +66,11 @@ export const Property = ({ label, cssProp ,allowText = false}) => {
         ev.target.value = 0;
         return;
       }
-      currentEl.style[toJsProp(cssProp)] = `${
-        +ev.target.value ? `${ev.target.value}px` : ev.target.value
-      }`;
+
+      setClass({
+        cssProp,
+        value:`${+ev.target.value ? `${ev.target.value}px` : ev.target.value}`
+      });
     };
 
     if (ev.key == "ArrowUp") {

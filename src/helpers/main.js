@@ -133,6 +133,17 @@ function dropCallback(ev) {
   );
   window.parent.currentEl = el;
   el.classList.remove("ondragover", "prevent", "drag", "showControllers");
+  console.log(el.parentNode.id);
+  
+  const iframeBodyChangeCEvent = new CustomEvent('iframeBodyChange',{detail:{
+    elAdded:el,
+    bodyInner:document.body.innerHTML,
+    data:{
+      dropped:el,
+      droppedIn:el.parentNode.id
+    }
+  }});
+  window.parent.dispatchEvent(iframeBodyChangeCEvent);
 }
 
 /**
@@ -206,10 +217,10 @@ function initSeperators(el) {
   el.insertAdjacentHTML(
     "beforeend",
     html`
-      <div class="seperator top"></div>
-      <div class="seperator bottom"></div>
-      <div class="seperator left"></div>
-      <div class="seperator right"></div>
+      <div class="seperator top" hide-in-observer="true"></div>
+      <div class="seperator bottom" hide-in-observer="true"></div>
+      <div class="seperator left" hide-in-observer="true"></div>
+      <div class="seperator right" hide-in-observer="true"></div>
     `
   );
 
