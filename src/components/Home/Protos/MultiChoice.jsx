@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { currentElState, ifrDocument } from "../../../helpers/atoms";
-import { getPropVal, toJsProp } from "../../../helpers/functions";
-import { isFunction } from "../../../helpers/cocktail";
-import { P } from "../../Protos/P";
+import { currentElState } from "../../../helpers/atoms";
+import { getPropVal } from "../../../helpers/functions";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 
 /**
@@ -13,18 +11,18 @@ import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl"
  */
 export const MultiChoice = ({ label , icons, cssProp, choices }) => {
   const setClass= useSetClassForCurrentEl();
-  const currentEl = useRecoilValue(currentElState);
+  const currentElObj = useRecoilValue(currentElState);
   const [currentChoice, setCurrentChoice] = useState(null);
   const lastIndex = useRef(null);
 
   useEffect(()=>{
-    const currentElCssVal = getPropVal(currentEl , cssProp) ;
+    const currentElCssVal = getPropVal(currentElObj.currentEl , cssProp) ;
     const currentElCssIndex = choices.findIndex(choice =>choice.trim() == currentElCssVal.trim() );
 
     
     setCurrentChoice(currentElCssIndex);
     
-  },[currentEl])
+  },[currentElObj])
 
   const handleSelecting = (index)=>{
     if(index == lastIndex.current){

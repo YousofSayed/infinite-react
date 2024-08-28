@@ -18,7 +18,7 @@ export const StyleAside = () => {
      * @param {CustomEvent} ev
      */
     const onCurrentEl = (ev) => {
-      setCurrentEl((oldVal)=>ev.detail.currentEl);
+      setCurrentEl((oldVal)=>({currentEl:ev.detail.currentEl}));
     };
 
     window.addEventListener("currentel", onCurrentEl);

@@ -1,170 +1,198 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Li } from "../../Protos/Li";
 import { Icons } from "../../Icons/Icons";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentElState,
   ifrDocument,
-  iframeWindow,
-  refsStt,
-  undoAndRedoState,
+  undoAndRedoStates,
 } from "../../../helpers/atoms";
-import { MutateHandler } from "../../../helpers/undeAndRedo";
+import { childListObserver } from "../../../observers/childListObserver";
+import { styleObserver } from "../../../observers/styleObserver";
+import { parseToHTML } from "../../../helpers/cocktail";
 
 export const IframeControllers = () => {
   const iframeDocVal = useRecoilValue(ifrDocument);
-  const undoAndRedoStyle = useRecoilValue(undoAndRedoState);
-  const currentEl = useRecoilValue(currentElState);
+  const undoAndRedoStatesVal = useRecoilValue(undoAndRedoStates);
+  const currentElObj = useRecoilValue(currentElState);
   const setCurrentEl = useSetRecoilState(currentElState);
-  const styleIndex = useRef(0);
-  const styleElement = useRef();
-
+  const setUndoAndRedoStates = useSetRecoilState(undoAndRedoStates);
+  const undoAndRedoRef = useRef(undoAndRedoStatesVal);
+  const styleElementRef = useRef();
   /**
    * @type {MutationRecord[]}
    */
   const typeOfUndoAndRedoData = [];
-  const index = useRef(0);
   /**
-   * @type {MutationObserverInit}
+   * @type {{current : MutationObserverInit}}
    */
-  const config = {
+  const config = useRef({
     attributes: true,
     childList: true,
     characterData: true,
     subtree: true,
-  };
-  const characterDataStack = useRef(Array.from(typeOfUndoAndRedoData));
-  const attributesStack = useRef(Array.from(typeOfUndoAndRedoData));
-  const childListStack = useRef(Array.from(typeOfUndoAndRedoData));
-  const childListIndex = useRef(0);
-
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      const realAddedNodes = Array.from(mutation.addedNodes).filter(
-        (addedNode) => addedNode.tagName
-      );
-
-      for (let i = 0; i < realAddedNodes.length; i++) {
-        if (realAddedNodes[i].hasAttribute("hide-in-observer")) {
-          return;
-        }
-      }
-      if (mutation.type == "childList") {
-        if (childListIndex.current > 0) {
-          console.log("lldsdao");
-
-          childListStack.current = childListStack.current.slice(
-            0,
-            childListIndex.current + 1
-          );
-        }
-        childListStack.current.push(mutation);
-
-        childListStack.current =
-          childListStack.current.length > 100
-            ? childListStack.current.slice(1)
-            : childListStack.current;
-
-        childListIndex.current = childListStack.current.length - 1;
-        console.log(childListStack.current);
-      } else if (mutation.type == "attributes") {
-        attributesStack.current.push(mutation);
-        attributesStack.current =
-          attributesStack.current.length > 50
-            ? attributesStack.current.slice(1)
-            : attributesStack.current;
-      } else if (mutation.type == "characterData") {
-        characterDataStack.current.push(mutation);
-        characterDataStack.current =
-          characterDataStack.current.length > 50
-            ? characterDataStack.current.slice(1)
-            : characterDataStack.current;
-      }
-    });
   });
 
+  const styleConfig = useRef({
+    characterData: true,
+    characterDataOldValue: true,
+    subtree: true,
+  });
+
+  const childListStack = useRef(Array.from(typeOfUndoAndRedoData));
+  const childListIndex = useRef(0);
+  const characterDataStack = useRef(['']);
+  const characterDataIndex = useRef(0);
+
+  const childListObserverRef = useRef(
+    childListObserver(childListStack, childListIndex)
+  );
+
+  const styleObserverRef = useRef(
+    styleObserver(characterDataStack, characterDataIndex)
+  );
+
   const undo = () => {
-    if (childListIndex.current <= -1) {
-      console.log("less");
-      return;
-    }
+    if (undoAndRedoStatesVal.isDropping) {
+      if (childListIndex.current <= -1) {
+        childListIndex.current = -1;
+        return;
+      }
 
-    observer.disconnect();
-    const mutation = childListStack.current[childListIndex.current];
-    mutation.addedNodes.forEach((node) => node.remove());
-    mutation.removedNodes.forEach((node) => {
-      mutation.target.appendChild(node);
-    });
+      childListObserverRef.current.disconnect();
 
-    observer.observe(iframeDocVal.body, config);
-    childListIndex.current--;
-    if (childListIndex.current < 0) {
-      childListIndex.current = -1;
+      const mutation = childListStack.current[childListIndex.current];
+      mutation.addedNodes.forEach((node) => node.remove());
+      mutation.removedNodes.forEach((node) => {
+        mutation.target.appendChild(node);
+      });
+
+      childListObserverRef.current.observe(iframeDocVal.body, config.current);
+      childListIndex.current--;
+    } else if (undoAndRedoStatesVal.isStyle) {
+      characterDataIndex.current--;
+
+      if (characterDataIndex.current <= 0) {
+        characterDataIndex.current = 0;
+      }
+
+      styleObserverRef.current.disconnect();
+      styleElementRef.current.textContent =
+        characterDataStack.current[characterDataIndex.current];
+      styleObserverRef.current.observe(
+        styleElementRef.current,
+        styleConfig.current
+      );
+   
+      setCurrentEl({ currentEl: currentElObj.currentEl });
+      
+      console.log(
+        characterDataIndex.current,
+        characterDataStack.current[characterDataIndex.current]
+      );
     }
   };
 
   const redo = () => {
-    childListIndex.current++;
-    console.log(childListIndex.current);
-    if (childListIndex.current > childListStack.current.length - 1) {
-      childListIndex.current = childListStack.current.length - 1;
-      console.log("bigger");
+    if (undoAndRedoStatesVal.isDropping) {
+      if (!undoAndRedoStatesVal.isDropping) return;
+      childListIndex.current++;
+      if (childListIndex.current > childListStack.current.length - 1) {
+        childListIndex.current = childListStack.current.length - 1;
+      }
 
-      return;
+      childListObserverRef.current.disconnect();
+      const mutation = childListStack.current[childListIndex.current];
+      mutation.addedNodes.forEach((node) => {
+        mutation.target.appendChild(node);
+      });
+      mutation.removedNodes.forEach((node) => {
+        mutation.target.removeChild(node);
+      });
+
+      childListObserverRef.current.observe(iframeDocVal.body, config.current);
+    } else if (undoAndRedoStatesVal.isStyle) {
+      styleObserverRef.current.disconnect();
+
+      characterDataIndex.current++;
+      if (characterDataIndex.current > characterDataStack.current.length - 1) {
+        characterDataIndex.current = characterDataStack.current.length - 1;
+      }
+      styleElementRef.current.textContent =
+        characterDataStack.current[characterDataIndex.current];
+      styleObserverRef.current.observe(
+        styleElementRef.current,
+        styleConfig.current
+      );
+
+      setCurrentEl({ currentEl: currentElObj.currentEl });
     }
-
-    observer.disconnect();
-    const mutation = childListStack.current[childListIndex.current];
-    mutation.addedNodes.forEach((node) => {
-      mutation.target.appendChild(node);
-    });
-    mutation.removedNodes.forEach((node) => {
-      mutation.target.removeChild(node);
-    });
-
-    observer.observe(iframeDocVal.body, config);
   };
 
-  useEffect(() => {
-    /**
-     *
-     * @param {KeyboardEvent} ev
-     */
-    const handleCtrlZAndY = (ev) => {
-      // console.log(ev.key);
-      ev.stopPropagation();
-
-      if (ev.ctrlKey && ev.key == "z") {
-        undo();
-      } else if (ev.ctrlKey && ev.key == "y") {
-        redo();
-      }
-    };
-
-    window.addEventListener("keyup", handleCtrlZAndY);
-    return () => {
-      window.removeEventListener("keyup", handleCtrlZAndY);
-    };
-  }, [iframeDocVal]);
-
-  useEffect(() => {
-    if (iframeDocVal) {
-      // styleElement.current =
-      //   iframeDocVal.head.querySelector(`#elements-classes`);
-      observer.observe(iframeDocVal.body, config);
-      observer.takeRecords();
+  /**
+   *
+   * @param {KeyboardEvent} ev
+   */
+  const handleCtrlZAndY = (ev) => {
+    if (ev.ctrlKey && ev.key == "z") {
+      undo();
+    } else if (ev.ctrlKey && ev.key == "y") {
+      redo();
     }
-  }, [iframeDocVal]);
+  };
 
-  useEffect(() => {}, [undoAndRedoStyle]);
+  const focusIn = (ev) => {
+    setUndoAndRedoStates({ isStyle: false, isDropping: true });
+  };
 
   const clearIFrameBody = () => {
     const allElementsIn = Array.from(iframeDocVal.body.querySelectorAll("*"))
       .filter((el) => el.tagName != "style" || el.tagName != "script")
       .forEach((el) => el.remove());
-      childListIndex.current = -1;
+    childListIndex.current = -1;
     childListStack.current = Array.from(typeOfUndoAndRedoData);
   };
+  
+  useEffect(() => {
+    /**
+     *
+     * @param {CustomEvent} ev
+     */
+    const onCurrentEl = (ev) => {
+      characterDataStack.current = [''];
+    };
+
+    window.addEventListener("currentel", onCurrentEl);
+
+    return () => {
+      window.removeEventListener("currentel", onCurrentEl);
+    };
+  });
+
+  useEffect(() => {
+    if (iframeDocVal) {
+      const styleElement = iframeDocVal.head.querySelector("#elements-classes");
+      styleElementRef.current = styleElement;
+      styleObserverRef.current.observe(styleElement, styleConfig.current);
+
+      childListObserverRef.current.observe(iframeDocVal.body, config.current);
+    }
+
+    return () => {
+      childListObserverRef.current.disconnect();
+    };
+  }, [iframeDocVal]);
+
+  useEffect(() => {
+    undoAndRedoRef.current = undoAndRedoStatesVal;
+    window.addEventListener("iframeWindowIn", focusIn);
+    window.addEventListener("keyup", handleCtrlZAndY);
+
+    return () => {
+      window.removeEventListener("iframeWindowIn", focusIn);
+      window.removeEventListener("keyup", handleCtrlZAndY);
+    };
+  }, [undoAndRedoStatesVal]);
 
   return (
     <ul className="flex gap-[15px] items-center border-r-2 pr-2 mr-2 border-slate-800">

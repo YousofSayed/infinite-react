@@ -15,7 +15,7 @@ import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl"
  */
 export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
   const setClass = useSetClassForCurrentEl();
-  const currentEl = useRecoilValue(currentElState);
+  const currentElObj = useRecoilValue(currentElState);
   const [showMenu, setMenu] = useState(false);
   const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
   const [isPending, setTransition] = useTransition();
@@ -29,10 +29,10 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
   useCloseMenu(selectRef, setMenu);
 
   useEffect(() => {
-    const val = getPropVal(currentEl, cssProp);
+    const val = getPropVal(currentElObj.currentEl, cssProp);
 
     setVal(val.includes('rgb')? rgbStringToHex(val) : val);
-  }, [currentEl]);
+  }, [currentElObj]);
 
   const showMenuCallback = () => {
     inputRef.current.focus();

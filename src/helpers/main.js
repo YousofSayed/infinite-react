@@ -133,17 +133,9 @@ function dropCallback(ev) {
   );
   window.parent.currentEl = el;
   el.classList.remove("ondragover", "prevent", "drag", "showControllers");
-  console.log(el.parentNode.id);
   
-  const iframeBodyChangeCEvent = new CustomEvent('iframeBodyChange',{detail:{
-    elAdded:el,
-    bodyInner:document.body.innerHTML,
-    data:{
-      dropped:el,
-      droppedIn:el.parentNode.id
-    }
-  }});
-  window.parent.dispatchEvent(iframeBodyChangeCEvent);
+ const ifrmaWindowFocusChange = new CustomEvent('iframeWindowIn');
+  window.parent.dispatchEvent(ifrmaWindowFocusChange);
 }
 
 /**
@@ -369,3 +361,10 @@ function initControllers(el) {
 }
 
 console.log("loloer 7");
+
+window.addEventListener('click',()=>{
+  console.log('innner');
+  window.parent.focus();
+  const ifrmaWindowFocusChange = new CustomEvent('iframeWindowIn');
+  window.parent.dispatchEvent(ifrmaWindowFocusChange);
+})

@@ -35,7 +35,7 @@ export const StyleTypography = () => {
       />
       <Color cssProp={"color"} />
       <Property label="Size" cssProp="font-size" />
-      <Property label="spacing" cssProp="letter-spacing" />
+      <Property label="spacing" cssProp="letter-spacing"  />
       <Property label="line height" cssProp="line-height" />
 
       <MultiChoice

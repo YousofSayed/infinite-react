@@ -1,40 +1,41 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { currentElState } from "../../../helpers/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { currentElState, undoAndRedoStates } from "../../../helpers/atoms";
 import { getPropVal } from "../../../helpers/functions";
 
 export const Content = () => {
-  const currentEl = useRecoilValue(currentElState);
+  const currentElObj = useRecoilValue(currentElState);
+  const setUndoAndRedoState = useSetRecoilState(undoAndRedoStates);;
+  const undoAndRedoStatesVal = useRecoilValue(undoAndRedoStates);
   const [showTextArea, setShowTextArea] = useState(false);
   const [warnning, setWarnning] = useState("");
   const [val , setVal] = useState();
 
+
   useEffect(() => {
-    if (currentEl) {
+    if (currentElObj.currentEl) {
       setShowTextArea(true);
       setWarnning(false);
-      setVal(currentEl.childNodes[0].textContent)
-      console.log(parseInt(`16px`));
-      //   if (currentEl.children.length >= 4) {
-      //     setShowTextArea(false);
-      //     setWarnning(` ⚠ You can’t type any thing because the element has children , you
-      //       should type in element which includes text only{" "}`);
-      //   }else{
-
-      //   }
+      setVal(currentElObj.currentEl.childNodes[0].textContent)
+ 
+      
     } else {
       setShowTextArea(false);
       setWarnning(`⚠ Choose an element`);
     }
-  }, [currentEl]);
-
+  }, [currentElObj]);
+  
   /**
    *
    * @param {InputEvent} ev
-   */
-  const onInput = (ev) => {
-    currentEl.childNodes[0].textContent = ev.target.value;
-    setVal(ev.target.value)
+  */
+ const onInput = (ev) => {
+   console.log('loer');
+   ev.preventDefault();
+   ev.stopPropagation();
+   currentEl.childNodes[0].textContent = ev.target.value;
+   setVal(ev.target.value);
+   setUndoAndRedoState({isStyle:false , isDropping:false });
   };
 
   return (

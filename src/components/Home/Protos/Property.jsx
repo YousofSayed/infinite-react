@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
+  getOriginalCSSValue,
   getPropVal,
   setClassForCurrentEl,
   toJsProp,
 } from "../../../helpers/functions";
 import { P } from "../../Protos/P";
-import { useRecoilValue } from "recoil";
-import { currentElState, ifrDocument } from "../../../helpers/atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  currentElState,
+  ifrDocument,
+  undoAndRedoStates,
+} from "../../../helpers/atoms";
 import {
   isNumber,
   isString,
@@ -16,36 +21,51 @@ import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl"
 
 /**
  *
- * @param {{label:string, currentEl:HTMLElement , cssProp:string , tailwindClass:string}} param0
+ * @param {{label:string, currentEl:HTMLElement , cssProp:string , allowText:boolean}} param0
  * @returns
  */
 export const Property = ({ label, cssProp, allowText = false }) => {
-  const currentEl = useRecoilValue(currentElState);
+  const currentElObj = useRecoilValue(currentElState);
   const ifrDocumentVal = useRecoilValue(ifrDocument);
   const setClass = useSetClassForCurrentEl();
-
-  const [render, setRerender] = useState("");
+  const setUndoAndRedoStatesVal = useSetRecoilState(undoAndRedoStates);
   const [val, setVal] = useState("");
 
+  useEffect(() => {}, [currentElObj]);
+
   useEffect(() => {
-    const valWithoutText = +parseInt(getPropVal(currentEl, cssProp))
-      ? +parseInt(getPropVal(currentEl, cssProp))
-      : 0;
-      
-    setVal(allowText ? getPropVal(currentEl, cssProp) : Math.round(valWithoutText));
-  }, [currentEl]);
+    if (ifrDocumentVal && currentElObj.currentEl) {
+      const styleElement =
+        ifrDocumentVal.head.querySelector("#elements-classes");
+      const prop = getOriginalCSSValue(
+        currentElObj.currentEl,
+        styleElement,
+        cssProp
+      );
+      const valWithoutText = +parseInt(
+        getPropVal(currentElObj.currentEl, cssProp)
+      )
+        ? +parseInt(getPropVal(currentElObj.currentEl, cssProp))
+        : 0;
+      const finalVal = allowText
+        ? getPropVal(currentElObj.currentEl, cssProp)
+        : Math.round(valWithoutText);
+      setVal(prop || finalVal || 0);
+      // allowText ? getPropVal(currentElObj.currentEl, cssProp) : Math.round(valWithoutText)
+      console.log();
+    }
+  }, [currentElObj, ifrDocumentVal]);
 
   const onInput = (ev) => {
-    if (!currentEl) {
+    if (!currentElObj.currentEl) {
       setVal("");
       return;
     }
 
     setClass({
       cssProp,
-      value:`${+ev.target.value ? `${ev.target.value}px` : ev.target.value}`
+      value: `${+ev.target.value ? `${ev.target.value}px` : ev.target.value}`,
     });
-
 
     setVal(ev.target.value);
   };
@@ -56,21 +76,25 @@ export const Property = ({ label, cssProp, allowText = false }) => {
    */
   const onKeyDown = (ev) => {
     const handleChange = ({ ev, increase }) => {
-      if (!ev.target.value) ev.target.value = 0;
-      ev.target.value = `${
-        increase
+      const finalVal = `${
+        increase  
           ? +parseInt(ev.target.value) + 1
-          : +parseInt(ev.target.value) - 1
-      }${ev.target.value.split(/\d+/gi).join("")}`;
-      if (parseInt(ev.target.value) <= 0) {
-        ev.target.value = 0;
-        return;
+          : +parseInt(ev.target.value) <= 0 ?  0  : +parseInt(ev.target.value) - 1 
+      }${ev.target.value.split(/\d+/g).join("") || "px"}`;
+      // setVal(finalVal);
+
+      if (+parseInt(ev.target.value) < 0) {
+        console.log("lesssss");
+        setVal(0);
       }
+
 
       setClass({
         cssProp,
-        value:`${+ev.target.value ? `${ev.target.value}px` : ev.target.value}`
+        value: finalVal,
       });
+
+      setVal(finalVal);
     };
 
     if (ev.key == "ArrowUp") {
@@ -90,10 +114,14 @@ export const Property = ({ label, cssProp, allowText = false }) => {
         value={val}
         onFocus={(ev) => {
           ev.target.select();
+          setUndoAndRedoStatesVal({
+            isStyle: true,
+            isDropping: false,
+          });
         }}
         onInput={onInput}
         onKeyDown={onKeyDown}
-        className="w-[70%] h-full  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white"
+        className="w-[70%] h-full shadow-inner shadow-gray-950  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white"
       />
     </section>
   );

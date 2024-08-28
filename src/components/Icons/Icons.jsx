@@ -463,10 +463,10 @@ export const Icons = {
     >
       <g
         id="svgGroup"
-        stroke-linecap="round"
-        fill-rule="evenodd"
+        strokeLinecap="round"
+        fillRule="evenodd"
         stroke="#64748b"
-        stroke-width="1.5"
+        strokeWidth="1.5"
         fill="#cbd5e1"
       >
         <Path

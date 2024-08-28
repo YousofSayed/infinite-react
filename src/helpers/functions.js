@@ -14,6 +14,26 @@ export function getPropVal(el, val) {
   return prop == "none" ? " " : prop;
 }
 
+export const getOriginalCSSValue = (element, styleElement,property) => {
+  // Find the <style> element
+
+  if (styleElement && styleElement.sheet) {
+      const sheet = styleElement.sheet; // Access the stylesheet object
+
+      // Loop through all CSS rules in the stylesheet
+      for (const rule of sheet.cssRules) {
+          if (rule.selectorText && element.matches(rule.selectorText)) {
+              // If the rule matches the element, return the original value
+              const value = rule.style.getPropertyValue(property);
+              if (value) {
+                  return value; // Return the original value (e.g., "1.5rem")
+              }
+          }
+      }
+  }
+  return null; // Return null if no matching rule or property is found
+};
+
 /**
  *
  * @param {string} prop

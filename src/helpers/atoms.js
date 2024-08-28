@@ -36,12 +36,12 @@ export const mediaHandlerState = atom({
   },
 });
 
-export const undoAndRedoState = atom({
-  key:'undoAndRedoState',
-  default:{
-    isStyle:false,
-    styleInner:['']
-  }
+export const undoAndRedoStates = atom({
+  key: "undoAndRedoStates",
+  default: {
+    isStyle: false,
+    isDropping: true,
+  },
 });
 
 /**
@@ -61,11 +61,13 @@ export const showOverlayIframState = atom({
 
 /**
  * @let
- * @type {HTMLElement}
+ * @type {{currentEl:HTMLElement}}
  */
-let currentElType;
+let currentElType = {
+  currentEl:null
+};
 
 export const currentElState = atom({
   key: "currentEl",
-  default: currentElType,
+  default:currentElType,
 });

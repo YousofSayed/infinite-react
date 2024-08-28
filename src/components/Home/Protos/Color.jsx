@@ -3,10 +3,11 @@ import { useRecoilValue } from "recoil";
 import { currentElState, ifrDocument } from "../../../helpers/atoms";
 import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
 import { getPropVal, hexToRgbA, rgbStringToHex, setClassForCurrentEl, toJsProp } from "../../../helpers/functions";
-import { useCloseMenu } from "../../../hooks/useCloseMenu";
+import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 
 export const Color = ({ cssProp }) => {
-  const currentEl = useRecoilValue(currentElState);
+  const setClass = useSetClassForCurrentEl();
+  const currentElObj = useRecoilValue(currentElState);
   const ifrDocumentVal = useRecoilValue(ifrDocument);
   const [color, setColor] = useState("#111827");
   const [showHexColor, setShowHexColor] = useState(false);
@@ -14,10 +15,9 @@ export const Color = ({ cssProp }) => {
   const hexColorRef = useRef();
 
   useEffect(()=>{
-    setColor(rgbStringToHex(getPropVal(currentEl , cssProp)));
-  },[currentEl])
+    setColor(rgbStringToHex(getPropVal(currentElObj.currentEl , cssProp)));
+  },[currentElObj])
 
-  useCloseMenu(hexColorRef , setShowHexColor);
 
   return (
     <section className="relative flex justify-between items-center bg-slate-800 w-full p-2 rounded-lg">
@@ -34,15 +34,15 @@ export const Color = ({ cssProp }) => {
         <section ref={hexColorRef} className="absolute left-[0]  top-[calc(100%+5px)] w-full">
           <HexAlphaColorPicker
             color={color}
+            onBlur={(ev)=>{
+              setShowHexColor(false);
+            }}
             onChange={(color) => {
               
-              // currentEl.style[toJsProp(cssProp)] = color;
 
-              setClassForCurrentEl({
+              setClass({
                 cssProp , 
-                ifrDocument:ifrDocumentVal,
                 value:color,
-                currentEl,
               });
 
               setColor(color);
@@ -57,17 +57,13 @@ export const Color = ({ cssProp }) => {
           ev.target.select();
         }}
         onInput={(ev) => {
-          // currentEl.style[toJsProp(cssProp)] = ev.target.value;
-          
-          setClassForCurrentEl({
+          setClass({
             cssProp , 
-            ifrDocument:ifrDocumentVal,
             value:ev.target.value,
-            currentEl,
           });
           setColor(ev.target.value);
         }}
-        className={`bg-gray-900 p-2 outline-none text-center text-slate-200 font-semibold w-[50%] rounded-lg`}
+        className={`bg-gray-900 shadow-inner shadow-gray-950 p-2 outline-none text-center text-slate-200 font-semibold w-[50%] rounded-lg`}
         type="text"
         value={color}
       />

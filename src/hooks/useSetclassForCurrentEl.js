@@ -6,7 +6,7 @@ import {
 import {
   currentElState,
   ifrDocument,
-  undoAndRedoState,
+  undoAndRedoStates,
 } from "../helpers/atoms";
 
 /**
@@ -15,44 +15,41 @@ import {
  */
 export function useSetClassForCurrentEl() {
   const iframeDocumentVal = useRecoilValue(ifrDocument);
-  const currentEl = useRecoilValue(currentElState);
-  const setUndeoAndRedo = useSetRecoilState(undoAndRedoState);
+  const currentElObj = useRecoilValue(currentElState);
+  const setUndeoAndRedo = useSetRecoilState(undoAndRedoStates);
+  const setUndoAndRedoStates = useSetRecoilState(undoAndRedoStates);
+  const undoAndRedoStatesVal = useRecoilValue(undoAndRedoStates);
 
   const cssClassesStyle =
     iframeDocumentVal.head.querySelector("#elements-classes");
 
   return ({ cssProp, value }) => {
     const oldCssProps = getCSSPropertiesFromClass(
-      currentEl.id,
+      currentElObj.currentEl.id,
       cssClassesStyle.innerHTML
     );
     const newCssProps = { ...oldCssProps, [cssProp]: value };
 
     const newContent = replaceCSSProperties(
-      currentEl.id,
-      cssClassesStyle.innerHTML,
+      currentElObj.currentEl.id,
+      cssClassesStyle.textContent,
       newCssProps
     );
     const newPropsString = Object.keys(newCssProps)
       .map((key) => `${key}:${newCssProps[key]};`)
       .toString();
-    const finalClass = `.${currentEl.id} {${newPropsString}}`;
+    const finalClass = `.${currentElObj.currentEl.id} {${newPropsString}}`;
 
-    console.log(currentEl.id, newContent, finalClass);
 
-    if (newContent.includes(currentEl.id)) {
-      cssClassesStyle.innerHTML = newContent;
+    if (newContent.includes(currentElObj.currentEl.id)) {
+      cssClassesStyle.textContent = newContent;
     } else {
-      cssClassesStyle.innerHTML += finalClass;
+      cssClassesStyle.textContent += finalClass;
     }
 
     // cssClassesStyle.innerHTML = newContent ? newContent : finalClass;
-    currentEl.classList.add(currentEl.id);
-    setUndeoAndRedo((old) => {
-      return {
-        isStyle: true,
-        styleInner: [...old.styleInner, cssClassesStyle.innerHTML],
-      };
-    });
+    currentElObj.currentEl.classList.add(currentElObj.currentEl.id);
+
+    setUndoAndRedoStates((old) => ({ isStyle: true, isDropping: false }));
   };
 }
