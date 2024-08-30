@@ -42,13 +42,13 @@ export function useSetClassForCurrentEl() {
 
 
     if (newContent.includes(currentElObj.currentEl.id)) {
-      cssClassesStyle.textContent = newContent;
+      cssClassesStyle.textContent = newContent.split(' ').join("");
     } else {
-      cssClassesStyle.textContent += finalClass;
+      cssClassesStyle.textContent += finalClass.split(' ').join("");
     }
 
     // cssClassesStyle.innerHTML = newContent ? newContent : finalClass;
-    currentElObj.currentEl.classList.add(currentElObj.currentEl.id);
+    !currentElObj.currentEl.classList.contains(currentElObj.currentEl.id) && currentElObj.currentEl.classList.add(currentElObj.currentEl.id);
 
     setUndoAndRedoStates((old) => ({ isStyle: true, isDropping: false }));
   };

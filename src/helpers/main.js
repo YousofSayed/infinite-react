@@ -1,15 +1,11 @@
 import {
   html,
-  parse,
-  parseToHTML,
-  stringify,
   uniqueID,
-  isHTMLElement,
-  def,
+  makeAppResponsive,
 } from "/scripts/cocktail.js";
 
 let body = document.body;
-body.style.height = `${window.innerHeight}px`;
+body.style.minHeight = `${window.innerHeight}px`;
 
 const scriptsSrc = [
   "/scripts/tailwindcss.js",
@@ -23,6 +19,8 @@ const scriptsSrc = [
 window.addEventListener("DOMContentLoaded", () => {
   //  For body
   initDragEvents(body);
+  console.log('loaded');
+  
   //  For body
 
   const domObsever = new MutationObserver((entries) => {
@@ -32,7 +30,9 @@ window.addEventListener("DOMContentLoaded", () => {
         !entry.addedNodes[0].hasAttribute("once")
         // !entry.addedNodes[0].parentNode.hasAttribute("once")
       ) {
-        entry.addedNodes[0].setAttribute("once", "");
+        console.log(entry);
+        
+        entry.addedNodes[0].setAttribute("once", "true");
         initDragEvents(entry.addedNodes[0]);
         initControllers(entry.addedNodes[0]);
         entry.addedNodes[0].children.length <= 0 &&
@@ -43,7 +43,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   domObsever.observe(document.body, {
     subtree: true,
-    attributes: true,
+    // attributes: true,
     childList: true,
   });
 });
@@ -136,6 +136,15 @@ function dropCallback(ev) {
   
  const ifrmaWindowFocusChange = new CustomEvent('iframeWindowIn');
   window.parent.dispatchEvent(ifrmaWindowFocusChange);
+
+  const undoRedoEvent = new CustomEvent('undo:redo',{
+    detail:{
+      bodyInner : body.innerHTML
+    }
+  });
+
+  window.parent.dispatchEvent(undoRedoEvent);
+  window.parent.focus();
 }
 
 /**
@@ -156,6 +165,8 @@ function dragEnterCallback(ev) {
   body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`)
     ? ev.target.classList.add("ondragover", "prevent")
     : null;
+
+    
 }
 
 /**

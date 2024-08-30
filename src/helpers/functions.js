@@ -14,6 +14,11 @@ export function getPropVal(el, val) {
   return prop == "none" ? " " : prop;
 }
 
+export const isValidCssUnit = (value) => {
+  const cssUnitRegex = /(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc|fr|deg|grad|rad|turn|s|ms|hz|khz)/i;
+  return cssUnitRegex.test(value);
+};
+
 export const getOriginalCSSValue = (element, styleElement,property) => {
   // Find the <style> element
 

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   getOriginalCSSValue,
   getPropVal,
+  isValidCssUnit,
   setClassForCurrentEl,
   toJsProp,
 } from "../../../helpers/functions";
@@ -30,18 +31,16 @@ export const Property = ({ label, cssProp, allowText = false }) => {
   const setClass = useSetClassForCurrentEl();
   const setUndoAndRedoStatesVal = useSetRecoilState(undoAndRedoStates);
   const [val, setVal] = useState("");
-
-  useEffect(() => {}, [currentElObj]);
+  const isCurrentELChange = useRef(false);
 
   useEffect(() => {
     if (ifrDocumentVal && currentElObj.currentEl) {
       const styleElement =
         ifrDocumentVal.head.querySelector("#elements-classes");
-      const prop = getOriginalCSSValue(
-        currentElObj.currentEl,
-        styleElement,
-        cssProp
-      );
+      const prop =
+        getOriginalCSSValue(currentElObj.currentEl, styleElement, cssProp) ||
+        "";
+
       const valWithoutText = +parseInt(
         getPropVal(currentElObj.currentEl, cssProp)
       )
@@ -50,44 +49,62 @@ export const Property = ({ label, cssProp, allowText = false }) => {
       const finalVal = allowText
         ? getPropVal(currentElObj.currentEl, cssProp)
         : Math.round(valWithoutText);
-      setVal(prop || finalVal || 0);
-      // allowText ? getPropVal(currentElObj.currentEl, cssProp) : Math.round(valWithoutText)
-      console.log();
+
+      setVal(prop);
     }
   }, [currentElObj, ifrDocumentVal]);
 
+  /**
+   *
+   * @param {InputEvent} ev
+   * @returns
+   */
   const onInput = (ev) => {
+    if (isCurrentELChange.current) {
+      console.log("isCurrentELChange", isCurrentELChange.current);
+      return;
+    }
+
     if (!currentElObj.currentEl) {
       setVal("");
       return;
     }
 
-    setClass({
-      cssProp,
-      value: `${+ev.target.value ? `${ev.target.value}px` : ev.target.value}`,
-    });
+    const finalVal = `${+parseInt(ev.target.value)}${
+      isValidCssUnit(ev.target.value.split(/\d+/g).join(""))
+        ? ev.target.value.split(/\d+/g).join("")
+        : "px"
+    }`;
 
     setVal(ev.target.value);
+
+    setClass({
+      cssProp: ev.target.value ? cssProp : "",
+      value: ev.target.value ? finalVal : "",
+    });
   };
 
   /**
    *
-   * @param {{ev:KeyboardEvent , increase:boolean}} ev
+   * @param {KeyboardEvent} ev
    */
   const onKeyDown = (ev) => {
+    /**
+     *
+     * @param {{ev:KeyboardEvent , increase:boolean}} ev
+     */
     const handleChange = ({ ev, increase }) => {
       const finalVal = `${
-        increase  
+        increase
           ? +parseInt(ev.target.value) + 1
-          : +parseInt(ev.target.value) <= 0 ?  0  : +parseInt(ev.target.value) - 1 
-      }${ev.target.value.split(/\d+/g).join("") || "px"}`;
-      // setVal(finalVal);
-
-      if (+parseInt(ev.target.value) < 0) {
-        console.log("lesssss");
-        setVal(0);
-      }
-
+          : +parseInt(ev.target.value) <= 0
+          ? 0
+          : +parseInt(ev.target.value) - 1
+      }${
+        isValidCssUnit(ev.target.value.split(/\d+/g).join(""))
+          ? ev.target.value.split(/\d+/g).join("")
+          : "px"
+      }`;
 
       setClass({
         cssProp,
@@ -104,6 +121,20 @@ export const Property = ({ label, cssProp, allowText = false }) => {
       ev.preventDefault();
       handleChange({ ev, increase: false });
     }
+
+    if ((ev.ctrlKey && ev.key == "z") || (ev.ctrlKey && ev.key == "y")) {
+      isCurrentELChange.current = true;
+    }
+  };
+
+  /**
+   *
+   * @param {KeyboardEvent} ev
+   */
+  const onKeyUp = (ev) => {
+    if ((ev.ctrlKey && ev.key == "z") || (ev.ctrlKey && ev.key == "y")) {
+      isCurrentELChange.current = false;
+    }
   };
 
   return (
@@ -119,6 +150,7 @@ export const Property = ({ label, cssProp, allowText = false }) => {
             isDropping: false,
           });
         }}
+        onKeyUp={onKeyUp}
         onInput={onInput}
         onKeyDown={onKeyDown}
         className="w-[70%] h-full shadow-inner shadow-gray-950  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white"

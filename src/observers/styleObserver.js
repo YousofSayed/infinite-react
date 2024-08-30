@@ -15,7 +15,7 @@ export const styleObserver = (characterDataStack, characterDataIndex) => {
       characterDataStack.current = Array.from(new Set(characterDataStack.current));
 
       characterDataIndex.current = characterDataStack.current.length - 1;
-      console.log(characterDataStack.current);
+      console.log(characterDataStack.current , characterDataIndex.current);
     });
   });
 };

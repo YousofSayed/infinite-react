@@ -29,8 +29,8 @@ export const Iframe = () => {
       const iframeDocument = ifrRef.current.contentDocument;
       const iframeWindow = ifrRef.current.contentWindow;
 
-      iframeDocument.body.querySelector("#mainScript")
-        ? iframeDocument.body.querySelector("#mainScript").remove()
+      iframeDocument.head.querySelector("#mainScript")
+        ? iframeDocument.head.querySelector("#mainScript").remove()
         : null;
 
       ifrRef.current.srcdoc = html`
@@ -47,15 +47,16 @@ export const Iframe = () => {
             <!-- <script src="/scripts/tailwindcss.js"></script> -->
             <!-- <script src="/scripts/alpine-morph.js" defer></script> -->
             <!-- <script src="/scripts/alpine.js" defer></script> -->
+            <script src="/scripts/cocktail.js" type="module" defer></script>
+            <script id="mainScript" type="module" defer>
+              ${mainScript};
+            </script>
             <title>App</title>
           </head>
           <body>
             ${iframeDocument.body.innerHTML}
 
-            <script src="/scripts/cocktail.js" type="module"></script>
-            <script id="mainScript" type="module">
-              ${mainScript};
-            </script>
+            
           </body>
         </html>
       `;

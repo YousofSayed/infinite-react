@@ -20,16 +20,16 @@ export const IframeControllers = () => {
   const undoAndRedoRef = useRef(undoAndRedoStatesVal);
   const styleElementRef = useRef();
   /**
-   * @type {MutationRecord[]}
+   * @type {{   droppedEl:HTMLElement, droppedElParentNode:HTMLElement, droppedElId:string, droppedElParentNodeId:string }[]}
    */
-  const typeOfUndoAndRedoData = [];
+  const typeOfUndoAndRedoData = [''];
   /**
    * @type {{current : MutationObserverInit}}
    */
   const config = useRef({
-    attributes: true,
+    // attributes: true,
     childList: true,
-    characterData: true,
+    // characterData: true,
     subtree: true,
   });
 
@@ -41,7 +41,7 @@ export const IframeControllers = () => {
 
   const childListStack = useRef(Array.from(typeOfUndoAndRedoData));
   const childListIndex = useRef(0);
-  const characterDataStack = useRef(['']);
+  const characterDataStack = useRef([""]);
   const characterDataIndex = useRef(0);
 
   const childListObserverRef = useRef(
@@ -52,23 +52,47 @@ export const IframeControllers = () => {
     styleObserver(characterDataStack, characterDataIndex)
   );
 
+  useEffect(() => {
+    /**
+     *
+     * @param {CustomEvent} ev
+     */
+    const handleUndoAndeRedoEventCallback = (ev) => {
+      childListStack.current = childListStack.current.slice(
+        0,
+        childListIndex.current + 1
+      );
+      childListStack.current.push(ev.detail.bodyInner);
+      childListStack.current = Array.from(new Set(childListStack.current));
+
+      childListStack.current =
+        childListStack.current.length > 100
+          ? childListStack.current.slice(1)
+          : childListStack.current;
+
+      childListIndex.current = childListStack.current.length - 1;
+      console.log(childListStack.current, childListIndex.current);
+    };
+    window.addEventListener("undo:redo", handleUndoAndeRedoEventCallback);
+
+    return () => {
+      window.removeEventListener("undo:redo", handleUndoAndeRedoEventCallback);
+    };
+  });
+
   const undo = () => {
+    
     if (undoAndRedoStatesVal.isDropping) {
+      childListIndex.current--;
       if (childListIndex.current <= -1) {
         childListIndex.current = -1;
         return;
       }
 
-      childListObserverRef.current.disconnect();
+      const obj = childListStack.current[childListIndex.current];
+      iframeDocVal.body.innerHTML = obj;
+ 
 
-      const mutation = childListStack.current[childListIndex.current];
-      mutation.addedNodes.forEach((node) => node.remove());
-      mutation.removedNodes.forEach((node) => {
-        mutation.target.appendChild(node);
-      });
-
-      childListObserverRef.current.observe(iframeDocVal.body, config.current);
-      childListIndex.current--;
     } else if (undoAndRedoStatesVal.isStyle) {
       characterDataIndex.current--;
 
@@ -79,38 +103,25 @@ export const IframeControllers = () => {
       styleObserverRef.current.disconnect();
       styleElementRef.current.textContent =
         characterDataStack.current[characterDataIndex.current];
-      styleObserverRef.current.observe(
-        styleElementRef.current,
-        styleConfig.current
-      );
-   
-      setCurrentEl({ currentEl: currentElObj.currentEl });
-      
-      console.log(
-        characterDataIndex.current,
-        characterDataStack.current[characterDataIndex.current]
-      );
+        styleObserverRef.current.observe(
+          styleElementRef.current,
+          styleConfig.current
+        );
+    
+        setCurrentEl({ currentEl: currentElObj.currentEl });
     }
   };
 
   const redo = () => {
     if (undoAndRedoStatesVal.isDropping) {
-      if (!undoAndRedoStatesVal.isDropping) return;
       childListIndex.current++;
       if (childListIndex.current > childListStack.current.length - 1) {
         childListIndex.current = childListStack.current.length - 1;
       }
 
-      childListObserverRef.current.disconnect();
-      const mutation = childListStack.current[childListIndex.current];
-      mutation.addedNodes.forEach((node) => {
-        mutation.target.appendChild(node);
-      });
-      mutation.removedNodes.forEach((node) => {
-        mutation.target.removeChild(node);
-      });
+      const obj = childListStack.current[childListIndex.current];
+      iframeDocVal.body.innerHTML = obj;
 
-      childListObserverRef.current.observe(iframeDocVal.body, config.current);
     } else if (undoAndRedoStatesVal.isStyle) {
       styleObserverRef.current.disconnect();
 
@@ -135,8 +146,12 @@ export const IframeControllers = () => {
    */
   const handleCtrlZAndY = (ev) => {
     if (ev.ctrlKey && ev.key == "z") {
+      ev.preventDefault();
+      // ev.stopPropagation();
       undo();
     } else if (ev.ctrlKey && ev.key == "y") {
+      ev.preventDefault();
+      // ev.stopPropagation();
       redo();
     }
   };
@@ -152,14 +167,14 @@ export const IframeControllers = () => {
     childListIndex.current = -1;
     childListStack.current = Array.from(typeOfUndoAndRedoData);
   };
-  
+
   useEffect(() => {
     /**
      *
      * @param {CustomEvent} ev
      */
     const onCurrentEl = (ev) => {
-      characterDataStack.current = [''];
+      characterDataStack.current = [""];
     };
 
     window.addEventListener("currentel", onCurrentEl);
