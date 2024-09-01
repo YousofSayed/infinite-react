@@ -8,6 +8,7 @@ import {
   ifrDocument,
   undoAndRedoStates,
 } from "../helpers/atoms";
+import { cloneObject, random } from "../helpers/cocktail";
 
 /**
  *
@@ -28,7 +29,30 @@ export function useSetClassForCurrentEl() {
       currentElObj.currentEl.id,
       cssClassesStyle.innerHTML
     );
-    const newCssProps = { ...oldCssProps, [cssProp]: value };
+    let newCssProps = {...oldCssProps};
+
+    if(Array.isArray(cssProp) && Array.isArray(value)){
+      console.log('is');
+      
+      cssProp.forEach((prop , i)=>{
+        newCssProps = {...newCssProps , [prop]: value[i]}
+      });
+    }
+    else if(Array.isArray(cssProp) && !Array.isArray(value)){
+      
+      cssProp.forEach((prop , i)=>{
+        console.log(prop);
+        
+        newCssProps = {...newCssProps , [prop]: value}
+      });
+      console.log('not' , cssProp , oldCssProps,newCssProps);
+    }
+    else{
+      console.log('single');
+      
+      newCssProps = {...newCssProps , [cssProp]: value}
+    }
+    // const newCssProps = { ...oldCssProps, [cssProp]: value };
 
     const newContent = replaceCSSProperties(
       currentElObj.currentEl.id,
@@ -42,9 +66,9 @@ export function useSetClassForCurrentEl() {
 
 
     if (newContent.includes(currentElObj.currentEl.id)) {
-      cssClassesStyle.textContent = newContent.split(' ').join("");
+      cssClassesStyle.textContent = newContent;
     } else {
-      cssClassesStyle.textContent += finalClass.split(' ').join("");
+      cssClassesStyle.textContent += finalClass;
     }
 
     // cssClassesStyle.innerHTML = newContent ? newContent : finalClass;

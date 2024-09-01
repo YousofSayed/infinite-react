@@ -23,6 +23,7 @@ body {
 
 .custom-grid-col {
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  /* aspect-ratio: ; */
 }
 
 /* *{

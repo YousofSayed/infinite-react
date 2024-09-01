@@ -24,6 +24,7 @@ export const StyleSize = () => {
         <Property label="Max W" cssProp="max-width" />
         <Property label="Max H" cssProp="max-height" />
         {/* </li> */}
+        <Property label="Aspect ratio" cssProp="aspect-ratio" special={true}  />
       </ul>
       {/* <section className="flex bg-slate-800 flex-col  rounded-lg  py-1">
         <p className="font-bold text-[14px] pl-2 text-slate-300">Overflow: </p>

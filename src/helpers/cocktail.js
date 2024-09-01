@@ -368,7 +368,10 @@ export function createBlobFileAs(data, mimeType) {
  * @param {HTMLInputElement} inputElement
  */
 export function transformToNumInput(inputElement) {
-  inputElement.value = inputElement.value.split(/\D+/gi).join("");
+  const rgx = /(-)?(\d+)?/ig;
+  // console.log(inputElement.value.match(rgx)[0]);
+  
+  inputElement.value = rgx.test(inputElement.value) ? inputElement.value?.match(rgx)[0] : '' ;
 }
 
 /**

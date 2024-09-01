@@ -7,6 +7,8 @@ import { currentElState } from "../../helpers/atoms";
 import { StyleTypography } from "./Protos/StyleTypography";
 import { Content } from "./Protos/Content";
 import { StyleSize } from "./Protos/StyleSize";
+import { Positioning } from "./Protos/Positioning";
+import { Border } from "./Protos/Border";
 
 export const StyleAside = () => {
   // const [currentEl, setCurrentEl] = useState();
@@ -39,6 +41,14 @@ export const StyleAside = () => {
 
       <Details label={'size'} >
         <StyleSize />
+      </Details>
+
+      <Details label={'Positioning'}>
+        <Positioning />
+      </Details>
+
+      <Details label={'border'}>
+        <Border/>
       </Details>
     </Aside>
   );

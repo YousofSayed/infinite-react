@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
-import { getPropVal, rgbStringToHex, setClassForCurrentEl, toJsProp } from "../../../helpers/functions";
+import { getOriginalCSSValue, getPropVal, rgbStringToHex, setClassForCurrentEl, toJsProp } from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
+import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] , currentEl:HTMLElement,cssProp:string , splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] , cssProp:string , splitHyphen:boolean}} param0
  * @returns
  */
 export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
@@ -27,12 +28,7 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
   const choosenKeyword = useRef();
 
   useCloseMenu(selectRef, setMenu);
-
-  useEffect(() => {
-    const val = getPropVal(currentElObj.currentEl, cssProp);
-
-    setVal(val.includes('rgb')? rgbStringToHex(val) : val);
-  }, [currentElObj]);
+  useUpdateInputValue({setVal : setVal , cssProp})
 
   const showMenuCallback = () => {
     inputRef.current.focus();
@@ -123,7 +119,7 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
             ev.target.select();
           }}
           onInput={(ev) => {
-            if (!currentEl) {
+            if (!currentElObj.currentEl) {
               setVal("");
               return;
             }

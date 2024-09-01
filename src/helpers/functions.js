@@ -15,10 +15,20 @@ export function getPropVal(el, val) {
 }
 
 export const isValidCssUnit = (value) => {
-  const cssUnitRegex = /(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc|fr|deg|grad|rad|turn|s|ms|hz|khz)/i;
+  // Updated regex to match valid CSS units, calc(), or var(), but not single numbers
+  const cssUnitRegex = /^\s*(-?\d+(\.\d+)?\s*(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc|fr|deg|grad|rad|turn|s|ms|hz|khz)|calc\([^()]*\)|var\(--[a-zA-Z0-9-]+\))\s*$/i;
   return cssUnitRegex.test(value);
 };
 
+
+
+/**
+ * 
+ * @param {HTMLElement} element 
+ * @param {HTMLStyleElement} styleElement 
+ * @param {string} property 
+ * @returns 
+ */
 export const getOriginalCSSValue = (element, styleElement,property) => {
   // Find the <style> element
 
@@ -27,9 +37,10 @@ export const getOriginalCSSValue = (element, styleElement,property) => {
 
       // Loop through all CSS rules in the stylesheet
       for (const rule of sheet.cssRules) {
-          if (rule.selectorText && element.matches(rule.selectorText)) {
-              // If the rule matches the element, return the original value
-              const value = rule.style.getPropertyValue(property);
+        
+        if (rule.selectorText && element.matches(rule.selectorText)) {
+          // If the rule matches the element, return the original value
+          const value = rule.style.getPropertyValue(property);
               if (value) {
                   return value; // Return the original value (e.g., "1.5rem")
               }

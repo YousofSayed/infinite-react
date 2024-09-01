@@ -1003,7 +1003,7 @@ export const Icons = {
       </g>
     </svg>
   ),
-  diminsions: () => (
+  diminsions: ({width , height}) => (
     <svg
       width="101"
       height="51"

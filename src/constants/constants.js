@@ -68,6 +68,18 @@ export const flexDirectionValues = [
   'column-reverse'
 ];
 
+export const positionValues = [
+  "static",
+  "relative",
+  "absolute",
+  "fixed",
+  "sticky",
+  "initial",
+  "inherit",
+  "revert",
+  "unset"
+];
+
 
 
   export const textDecorationLineValues = [

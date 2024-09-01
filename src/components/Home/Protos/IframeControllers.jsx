@@ -91,6 +91,7 @@ export const IframeControllers = () => {
 
       const obj = childListStack.current[childListIndex.current];
       iframeDocVal.body.innerHTML = obj;
+      // iframeDocVal.body.insertAdjacentHTML('beforeend',obj)
  
 
     } else if (undoAndRedoStatesVal.isStyle) {
@@ -121,6 +122,8 @@ export const IframeControllers = () => {
 
       const obj = childListStack.current[childListIndex.current];
       iframeDocVal.body.innerHTML = obj;
+      // iframeDocVal.body.insertAdjacentHTML('beforeend',obj);
+
 
     } else if (undoAndRedoStatesVal.isStyle) {
       styleObserverRef.current.disconnect();

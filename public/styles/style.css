@@ -36,7 +36,7 @@
 }
 
  [editable].showControllers {
-  position: relative;
+  /* position: relative; */
   outline: 3px solid #eb3225 !important;
 
 }

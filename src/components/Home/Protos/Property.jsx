@@ -3,8 +3,6 @@ import {
   getOriginalCSSValue,
   getPropVal,
   isValidCssUnit,
-  setClassForCurrentEl,
-  toJsProp,
 } from "../../../helpers/functions";
 import { P } from "../../Protos/P";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -13,19 +11,28 @@ import {
   ifrDocument,
   undoAndRedoStates,
 } from "../../../helpers/atoms";
-import {
-  isNumber,
-  isString,
-  transformToNumInput,
-} from "../../../helpers/cocktail";
+import { transformToNumInput } from "../../../helpers/cocktail";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
+import {
+  onFocus,
+  onInput,
+  onKeyDown,
+  onKeyUp,
+} from "../../../helpers/propertyInputHandlers";
 
 /**
  *
- * @param {{label:string, currentEl:HTMLElement , cssProp:string , allowText:boolean}} param0
+ * @param {{label:string,  cssProp:string , sectionClassName:string ,inputClassName:string , allowText:boolean , special:boolean}} param0
  * @returns
  */
-export const Property = ({ label, cssProp, allowText = false }) => {
+export const Property = ({
+  label,
+  cssProp,
+  sectionClassName = "",
+  inputClassName = "",
+  allowText = false,
+  special = false,
+}) => {
   const currentElObj = useRecoilValue(currentElState);
   const ifrDocumentVal = useRecoilValue(ifrDocument);
   const setClass = useSetClassForCurrentEl();
@@ -54,106 +61,112 @@ export const Property = ({ label, cssProp, allowText = false }) => {
     }
   }, [currentElObj, ifrDocumentVal]);
 
-  /**
-   *
-   * @param {InputEvent} ev
-   * @returns
-   */
-  const onInput = (ev) => {
-    if (isCurrentELChange.current) {
-      console.log("isCurrentELChange", isCurrentELChange.current);
-      return;
-    }
+  // /**
+  //  *
+  //  * @param {InputEvent} ev
+  //  * @returns
+  //  */
+  // const onInput = (ev) => {
+  //   special && transformToNumInput(ev.target);
+  //   if (isCurrentELChange.current) {
+  //     console.log("isCurrentELChange", isCurrentELChange.current);
+  //     return;
+  //   }
 
-    if (!currentElObj.currentEl) {
-      setVal("");
-      return;
-    }
+  //   if (!currentElObj.currentEl) {
+  //     setVal("");
+  //     return;
+  //   }
+  //   const finalVal = special ? ev.target.value : isValidCssUnit(ev.target.value) ? ev.target.value : 0;
+  //   setVal(ev.target.value);
 
-    const finalVal = `${+parseInt(ev.target.value)}${
-      isValidCssUnit(ev.target.value.split(/\d+/g).join(""))
-        ? ev.target.value.split(/\d+/g).join("")
-        : "px"
-    }`;
+  //   setClass({
+  //     cssProp: cssProp,
+  //     value:  finalVal ,
+  //   });
+  // };
 
-    setVal(ev.target.value);
+  // /**
+  //  *
+  //  * @param {KeyboardEvent} ev
+  //  */
+  // const onKeyDown = (ev) => {
+  //   /**
+  //    *
+  //    * @param {{ev:KeyboardEvent , increase:boolean}} ev
+  //    */
+  //   const handleChange = ({ ev, increase }) => {
+  //     const finalVal = `${
+  //       increase
+  //         ? +parseInt(ev.target.value) + 1
+  //         : +parseInt(ev.target.value) <= 0
+  //         ? 0
+  //         : +parseInt(ev.target.value) - 1
+  //     }${
+  //       isValidCssUnit(ev.target.value.split(/\d+/g).join(""))
+  //         ? ev.target.value.split(/\d+/g).join("")
+  //         : "px"
+  //     }`;
 
-    setClass({
-      cssProp: ev.target.value ? cssProp : "",
-      value: ev.target.value ? finalVal : "",
-    });
-  };
+  //     console.log(+parseInt(ev.target.value));
 
-  /**
-   *
-   * @param {KeyboardEvent} ev
-   */
-  const onKeyDown = (ev) => {
-    /**
-     *
-     * @param {{ev:KeyboardEvent , increase:boolean}} ev
-     */
-    const handleChange = ({ ev, increase }) => {
-      const finalVal = `${
-        increase
-          ? +parseInt(ev.target.value) + 1
-          : +parseInt(ev.target.value) <= 0
-          ? 0
-          : +parseInt(ev.target.value) - 1
-      }${
-        isValidCssUnit(ev.target.value.split(/\d+/g).join(""))
-          ? ev.target.value.split(/\d+/g).join("")
-          : "px"
-      }`;
+  //     setClass({
+  //       cssProp,
+  //       value: +parseInt(ev.target.value) ? finalVal : isValidCssUnit(ev.target.value) ? ev.target.value : 0,
+  //     });
 
-      setClass({
-        cssProp,
-        value: finalVal,
-      });
+  //     setVal(ev.target.value);
+  //   };
 
-      setVal(finalVal);
-    };
+  //   if (ev.key == "ArrowUp") {
+  //     ev.preventDefault();
+  //     handleChange({ ev, increase: true });
+  //   } else if (ev.key == "ArrowDown") {
+  //     ev.preventDefault();
+  //     handleChange({ ev, increase: false });
+  //   }
 
-    if (ev.key == "ArrowUp") {
-      ev.preventDefault();
-      handleChange({ ev, increase: true });
-    } else if (ev.key == "ArrowDown") {
-      ev.preventDefault();
-      handleChange({ ev, increase: false });
-    }
+  //   if ((ev.ctrlKey && ev.key == "z") || (ev.ctrlKey && ev.key == "y")) {
+  //     isCurrentELChange.current = true;
+  //   }
+  // };
 
-    if ((ev.ctrlKey && ev.key == "z") || (ev.ctrlKey && ev.key == "y")) {
-      isCurrentELChange.current = true;
-    }
-  };
-
-  /**
-   *
-   * @param {KeyboardEvent} ev
-   */
-  const onKeyUp = (ev) => {
-    if ((ev.ctrlKey && ev.key == "z") || (ev.ctrlKey && ev.key == "y")) {
-      isCurrentELChange.current = false;
-    }
-  };
+  // /**
+  //  *
+  //  * @param {KeyboardEvent} ev
+  //  */
+  // const onKeyUp = (ev) => {
+  //   if ((ev.ctrlKey && ev.key == "z") || (ev.ctrlKey && ev.key == "y")) {
+  //     isCurrentELChange.current = false;
+  //   }
+  // };
 
   return (
-    <section className="flex flex-nowrap justify-between   items-center  bg-slate-800 p-1 px-2 rounded-lg">
-      <P>{label} : </P>
+    <section
+      className={`${sectionClassName} flex flex-nowrap justify-between   items-center  bg-slate-800 p-1 px-2 rounded-lg`}
+    >
+      {label ? <P>{label} : </P> : ""}
       <input
         type="text"
         value={val}
         onFocus={(ev) => {
-          ev.target.select();
-          setUndoAndRedoStatesVal({
-            isStyle: true,
-            isDropping: false,
+          onFocus({
+            ev,
+            setUndoAndRedoStatesVal,
           });
         }}
-        onKeyUp={onKeyUp}
-        onInput={onInput}
-        onKeyDown={onKeyDown}
-        className="w-[70%] h-full shadow-inner shadow-gray-950  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white"
+        onKeyUp={(ev) => {
+          onKeyUp({ ev, isCurrentELChange });
+        }}
+        onInput={(ev) => {
+          onInput({ ev, isCurrentELChange, setClass, setVal , special , currentElObj , cssProp});
+        }}
+        onKeyDown={(ev) => {
+          onKeyDown({ ev, setClass, setVal , isCurrentELChange , cssProp});
+        }}
+        className={`${
+          inputClassName ? inputClassName : "w-[70%]"
+        } h-full shadow-inner shadow-gray-950  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white`}
       />
     </section>
   );
