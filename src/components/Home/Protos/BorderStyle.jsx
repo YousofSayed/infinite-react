@@ -1,40 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { P } from "../../Protos/P";
-import { Color } from "./Color";
 import { SelectedBorder } from "./SelectedBorder";
+import { Select } from "./Select";
+import { borderStyles } from "../../../constants/constants";
+import { P } from "../../Protos/P";
 
-export const BorderColor = () => {
+export const BorderStyle = () => {
   const [option, setOption] = useState("");
-  const [cssProps, setCssProps] = useState([]);
+  const [cssProps, setCssProps] = useState("");
+
   const handleCssProps = () => {
     switch (option) {
       case "top":
-        setCssProps("border-top-color");
+        setCssProps("border-top-style");
         break;
       case "right":
-        setCssProps("border-right-color");
+        setCssProps("border-right-style");
         break;
       case "bottom":
-        setCssProps("border-bottom-color");
+        setCssProps("border-bottom-style");
         break;
       case "left":
-        setCssProps("border-left-color");
+        setCssProps("border-left-style");
         break;
       case "all":
-        setCssProps("border-color");
+        setCssProps("border-style");
         break;
       default:
         break;
     }
   };
-  useEffect(() => {
+
+  useEffect(()=>{
     handleCssProps();
-  }, [option]);
+  },[option])
 
   return (
-    <section className="flex flex-col gap-3 justify-between py-3 ">
-      <P>border color: </P>
-
+    <section className={`flex flex-col gap-3`}>
+      <P>border style: </P>
       <section className="flex justify-between gap-1">
         <SelectedBorder
           borderName={"border-t-2"}
@@ -67,9 +69,7 @@ export const BorderColor = () => {
           setOption={setOption}
         />
       </section>
-      <div className="flex gap-2">
-        <Color cssProp={cssProps} />
-      </div>
+      <Select cssProp={cssProps} keywords={borderStyles} label="border style"/>
     </section>
   );
 };

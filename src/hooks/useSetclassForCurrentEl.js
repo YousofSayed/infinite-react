@@ -29,28 +29,22 @@ export function useSetClassForCurrentEl() {
       currentElObj.currentEl.id,
       cssClassesStyle.innerHTML
     );
-    let newCssProps = {...oldCssProps};
+    let newCssProps = { ...oldCssProps };
 
-    if(Array.isArray(cssProp) && Array.isArray(value)){
-      console.log('is');
-      
-      cssProp.forEach((prop , i)=>{
-        newCssProps = {...newCssProps , [prop]: value[i]}
+    if (Array.isArray(cssProp) && Array.isArray(value)) {
+      cssProp.forEach((prop, i) => {
+        if (!CSS.supports(prop, value[i]) && value[i]) return;
+        newCssProps = { ...newCssProps, [prop]: value[i] };
       });
-    }
-    else if(Array.isArray(cssProp) && !Array.isArray(value)){
-      
-      cssProp.forEach((prop , i)=>{
-        console.log(prop);
-        
-        newCssProps = {...newCssProps , [prop]: value}
+    } else if (Array.isArray(cssProp) && !Array.isArray(value)) {
+      cssProp.forEach((prop, i) => {
+        if (!CSS.supports(prop, value) && value) return;
+        newCssProps = { ...newCssProps, [prop]: value };
       });
-      console.log('not' , cssProp , oldCssProps,newCssProps);
-    }
-    else{
-      console.log('single');
-      
-      newCssProps = {...newCssProps , [cssProp]: value}
+      console.log("not", cssProp, oldCssProps, newCssProps);
+    } else {
+      console.log("single" , value);
+      newCssProps = CSS.supports(cssProp,value) || !value? { ...newCssProps, [cssProp]: value } : {...newCssProps};
     }
     // const newCssProps = { ...oldCssProps, [cssProp]: value };
 
@@ -64,7 +58,6 @@ export function useSetClassForCurrentEl() {
       .toString();
     const finalClass = `.${currentElObj.currentEl.id} {${newPropsString}}`;
 
-
     if (newContent.includes(currentElObj.currentEl.id)) {
       cssClassesStyle.textContent = newContent;
     } else {
@@ -72,7 +65,8 @@ export function useSetClassForCurrentEl() {
     }
 
     // cssClassesStyle.innerHTML = newContent ? newContent : finalClass;
-    !currentElObj.currentEl.classList.contains(currentElObj.currentEl.id) && currentElObj.currentEl.classList.add(currentElObj.currentEl.id);
+    !currentElObj.currentEl.classList.contains(currentElObj.currentEl.id) &&
+      currentElObj.currentEl.classList.add(currentElObj.currentEl.id);
 
     setUndoAndRedoStates((old) => ({ isStyle: true, isDropping: false }));
   };

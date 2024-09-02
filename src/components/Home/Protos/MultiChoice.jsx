@@ -6,10 +6,10 @@ import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl"
 
 /**
  *
- * @param {{label:string, icons:HTMLOrSVGElement[] , cssProp : string , choices:string[]}}} param0
+ * @param {{label:string, icons:HTMLOrSVGElement[] ,setChoice:(choice:string)=>void ,cssProp : string , choices:string[]}}} param0
  * @returns
  */
-export const MultiChoice = ({ label , icons, cssProp, choices }) => {
+export const MultiChoice = ({ label , icons, cssProp, choices , setChoice = (_)=>{} }) => {
   const setClass= useSetClassForCurrentEl();
   const currentElObj = useRecoilValue(currentElState);
   const [currentChoice, setCurrentChoice] = useState(null);
@@ -31,15 +31,17 @@ export const MultiChoice = ({ label , icons, cssProp, choices }) => {
         
         setClass({
           cssProp , 
-          value:'',
+          value:'unset',
         });
         return;
     }
+    setChoice(choices[index]);
     
     setClass({
       cssProp , 
       value: choices[index],
     });
+
     lastIndex.current = index;
     setCurrentChoice(index);
 
@@ -51,7 +53,7 @@ export const MultiChoice = ({ label , icons, cssProp, choices }) => {
         <li
         title={choices[i]}
           key={i}
-          className={`group cursor-pointer flex justify-center items-center p-2   rounded-full ${i == currentChoice ? ' bg-gray-900 shadow-md shadow-gray-900 ' : ''}  transition-[background]`}
+          className={`group cursor-pointer flex justify-center items-center p-[11px]  rounded-full ${i == currentChoice ? ' bg-gray-900 shadow-md shadow-gray-900 ' : ''}  transition-[background]`}
           onClick={(ev)=>{handleSelecting(i)}}
         >
           { icon(i == currentChoice ? 'white' : '')}

@@ -17,7 +17,13 @@
 
 body {
   cursor: url("./assets/images/mainCursor.png"), auto;
-  font-family:  system-ui, 'roboto' , 'poppins' ,;
+  font-family:  system-ui, 'roboto' , 'poppins' ;
+  /* flex-basis: content; */
+  /* flex-wrap: ; */
+  /* flex-direction: ; */
+  /* : ; */
+  /* border-top-right-radius: ; */
+  /* border-bottom-left-radius:  ; */
 }
 
 

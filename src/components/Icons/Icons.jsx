@@ -686,7 +686,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
-        // fill="#23282D"
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M0 0H8V128H0zM16 16H48V112H16zM56 16H88V112H56z"
@@ -706,6 +706,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M60 0H68V128H60zM20 16H52V112H20zM76 16H108V112H76z"
@@ -718,15 +719,16 @@ export const Icons = {
       height={height}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      class="bricks-svg"
     >
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <Path
+        fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M120 0H128V128H120z"
         ></Path>
         <Path
+        fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           // fill="#23282D"
@@ -749,6 +751,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M120 0H128V128H120zM0 0H8V128H0zM12 16H44V112H12zM84 16H116V112H84z"
@@ -767,11 +770,12 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
     >
-      <path
+      <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M120 0H128V128H120zM0 0H8V128H0zM24 16H56V112H24zM72 16H104V112H72z"
-      ></path>
+      ></Path>
     </svg>
   ),
   justifyEvenly: ({
@@ -785,9 +789,9 @@ export const Icons = {
       height={height}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      class="bricks-svg"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M120 0H128V128H120zM0 0H8V128H0zM72 16H104V112H72zM24 16H56V112H24z"
@@ -803,6 +807,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M0 0H128V8H0zM28 16H60V112H28zM68 16H106V112H68z"
@@ -817,6 +822,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M60 0H68V128H60zM20 16H52V112H20zM76 16H108V112H76z"
@@ -831,6 +837,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M0 120H128V128H0zM28 16H60V112H28zM68 16H100V112H68z"
@@ -845,6 +852,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M0 120H128V128H0zM0 0H128V8H0zM40 16H88V112H40z"
@@ -863,13 +871,15 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
     >
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <Path
+        fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M0 60H128V68H0zM32 68H64V96H32zM72 68H104V112H72z"
         ></Path>
         <Path
+        fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M35 31H61V63H35zM75 31H101V63H75z"
@@ -891,6 +901,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M0 0H8V128H0zM16 28H112V60H16zM16 68H112V100H16z"
@@ -911,6 +922,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M60 0H68V24H60zM60 104H68V128H60zM16 28H112V60H16zM16 68H112V100H16z"
@@ -926,6 +938,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M120 0H128V128H120zM16 28H112V60H16zM16 68H112V100H16z"
@@ -945,6 +958,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M120 0H128V128H120zM0 0H8V128H0zM16 28H112V60H16zM16 68H112V100H16z"
@@ -957,9 +971,10 @@ export const Icons = {
       height={height}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
-      class="bricks-svg"
+      className="bricks-svg"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M16 86H112V112H16zM16 51H112V77H16zM16 16H112V42H16z"
@@ -974,6 +989,7 @@ export const Icons = {
       viewBox="0 0 128 128"
     >
       <Path
+        fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M86 16H112V112H86zM51 16H77V112H51zM16 16H42V112H16z"
@@ -987,14 +1003,16 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 128 128"
     >
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <Path
+          fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M56,19.9992122 L10,20 C4.4771525,20 -1.10000309e-15,15.5228475 0,10 C-6.61662521e-16,4.5971155 4.37990327,0.217212229 9.78278777,0.217212229 C9.8543947,0.217212229 9.92599948,0.217998439 9.99758914,0.219570718 L66.8367796,1.46789386 C70.9424147,1.55806332 74.3834686,4.27942675 75.5633162,7.9999083 L76,8 L76,32 L81.1715729,32 C81.7020059,32 82.2107137,32.2107137 82.5857864,32.5857864 C83.366835,33.366835 83.366835,34.633165 82.5857864,35.4142136 L82.5857864,35.4142136 L67.4142136,50.5857864 C66.633165,51.366835 65.366835,51.366835 64.5857864,50.5857864 L64.5857864,50.5857864 L49.4142136,35.4142136 C49.0391408,35.0391408 48.8284271,34.530433 48.8284271,34 C48.8284271,32.8954305 49.7238576,32 50.8284271,32 L50.8284271,32 L56,32 L56,19.9992122 Z"
           transform="translate(30 24)"
         ></Path>
         <Path
+          fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M56,20 L8,20 C3.581722,20 5.41083001e-16,16.418278 0,12 L0,8 C-5.41083001e-16,3.581722 3.581722,8.11624501e-16 8,0 L68,0 C72.3349143,-7.96310831e-16 75.8645429,3.44783777 75.9961932,7.75082067 L76,8 L76,32 L81.1715729,32 C81.7020059,32 82.2107137,32.2107137 82.5857864,32.5857864 C83.366835,33.366835 83.366835,34.633165 82.5857864,35.4142136 L82.5857864,35.4142136 L67.4142136,50.5857864 C66.633165,51.366835 65.366835,51.366835 64.5857864,50.5857864 L64.5857864,50.5857864 L49.4142136,35.4142136 C49.0391408,35.0391408 48.8284271,34.530433 48.8284271,34 C48.8284271,32.8954305 49.7238576,32 50.8284271,32 L50.8284271,32 L56,32 L56,20 Z"
@@ -1003,7 +1021,7 @@ export const Icons = {
       </g>
     </svg>
   ),
-  diminsions: ({width , height}) => (
+  diminsions: ({ width, height }) => (
     <svg
       width="101"
       height="51"

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Aside } from "./Protos/Aside";
 import { Details } from "./Protos/Details";
-import { StyleLayout } from "./Protos/StyleLayout";
+import { Layout } from "./Protos/Layout";
 import { useSetRecoilState } from "recoil";
 import { currentElState } from "../../helpers/atoms";
 import { StyleTypography } from "./Protos/StyleTypography";
@@ -49,6 +49,10 @@ export const StyleAside = () => {
 
       <Details label={'border'}>
         <Border/>
+      </Details>
+
+      <Details label={'layout'}>
+        <Layout />
       </Details>
     </Aside>
   );

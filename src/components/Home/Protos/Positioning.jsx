@@ -12,7 +12,6 @@ export const Positioning = () => {
         <Property label='bottom' cssProp='bottom' />
         <Property label='left' cssProp='left' />
         <Property label='z-index' cssProp='z-index' special={true}/>
-        <Property label='order' cssProp='order' special={true} />
     </section>
   )
 }

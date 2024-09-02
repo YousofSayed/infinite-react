@@ -10,6 +10,7 @@ import {
   toJsProp,
 } from "../../../helpers/functions";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
+import { useCloseMenu } from "../../../hooks/useCloseMenu";
 
 /**
  *
@@ -34,12 +35,10 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
         behavior: "smooth",
         block: "center",
       });
-      console.log(hexColorRef.current.getBoundingClientRect().top, "top");
-      console.log(hexColorRef.current.getBoundingClientRect().bottom, "bottom");
-    } else {
-      console.log("fuck");
-    }
+    } 
   }, [showHexColor]);
+
+  useCloseMenu(hexColorRef , setShowHexColor);
 
   useEffect(() => {
     setColor(rgbStringToHex(getPropVal(currentElObj.currentEl, cssProp)));

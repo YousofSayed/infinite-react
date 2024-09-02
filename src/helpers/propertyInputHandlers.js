@@ -17,7 +17,6 @@ export const onInput = ({
 }) => {
   special && transformToNumInput(ev.target);
   if (isCurrentELChange.current) {
-    console.log("isCurrentELChange", isCurrentELChange.current);
     return;
   }
 
@@ -25,16 +24,16 @@ export const onInput = ({
     setVal("");
     return;
   }
-  const finalVal = special
-    ? ev.target.value
-    : isValidCssUnit(ev.target.value)
-    ? ev.target.value
-    : 0;
+  // const finalVal = special
+  //   ? ev.target.value
+  //   : isValidCssUnit(ev.target.value)
+  //   ? ev.target.value
+  //   : 0;
   setVal(ev.target.value);
 
   setClass({
     cssProp: cssProp,
-    value: finalVal,
+    value: ev.target.value,
   });
 };
 

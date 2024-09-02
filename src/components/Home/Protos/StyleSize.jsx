@@ -37,6 +37,8 @@ export const StyleSize = () => {
         ]} />
       </section> */}
       <Select label="overflow" cssProp="overflow" keywords={overflowValues}/>
+      <Select label="overflow-X" cssProp="overflow-x" keywords={overflowValues}/>
+      <Select label="overflow-Y" cssProp="overflow-y" keywords={overflowValues}/>
     </section>
   );
 };

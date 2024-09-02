@@ -11,10 +11,10 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] , cssProp:string , splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] , cssProp:string ,  wrap:boolean, setKeyword:(keyword:string)=>void ,splitHyphen:boolean}} param0
  * @returns
  */
-export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
+export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=false, splitHyphen = false }) => {
   const setClass = useSetClassForCurrentEl();
   const currentElObj = useRecoilValue(currentElState);
   const [showMenu, setMenu] = useState(false);
@@ -50,10 +50,10 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
 
     // currentEl && (currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`);
 
-    setClass({
-      cssProp,
-      value:ev.target.value,
-    });
+    // setClass({
+    //   cssProp,
+    //   value:ev.target.value,
+    // });
 
     if (newKeyW.length && ev.target.value) {
       setNewKeywords(newKeyW);
@@ -89,15 +89,16 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
       setCurrentChoose(cloneCurrentChooseNum);
     } else if (ev.key == "Enter") {
       ev.preventDefault();
+      const finalVal = splitHyphen
+      ? choosenKeyword.current.split("-")[0]
+      : choosenKeyword.current;
       setClass({
         cssProp,
-        value:splitHyphen
-        ? choosenKeyword.current.split("-")[0]
-        : choosenKeyword.current,
+        value:finalVal,
       });
 
-
-      setVal(choosenKeyword.current.split("-")[0]);
+      setKeyword(finalVal);
+      setVal(finalVal);
       setMenu(false);
     }
   };
@@ -105,12 +106,15 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
   return (
     <section
       ref={selectRef}
-      className="w-full p-1 px-2 rounded-lg flex justify-between items-center bg-slate-800"
+      className={`w-full p-1 px-2 rounded-lg flex ${wrap && 'flex-wrap gap-3 py-3'}  justify-between items-center bg-slate-800`}
     >
       <P>{label}: </P>
-      <div className="w-[70%] relative">
+      <div className="w-[55%] relative">
         <input
           value={val}
+          ref={inputRef}
+          className="w-full h-full font-semibold bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
+          type="text"
           onFocus={(ev) => {
             setMenu(true);
             keywords.forEach((keyword, i) => {
@@ -129,9 +133,7 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
           onKeyDown={(ev) => {
             handleChooses(ev);
           }}
-          ref={inputRef}
-          className="w-full h-full font-semibold bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
-          type="text"
+         
         />
 
         <i
@@ -160,7 +162,7 @@ export const Select = ({ label, keywords, cssProp, splitHyphen = false }) => {
                 cssProp,
                 value:nkeyw,
               });
-
+              setKeyword(nkeyw);
               setVal(nkeyw);
               setMenu(false);
             }}
