@@ -6,30 +6,36 @@ import {
 import {
   currentElState,
   ifrDocument,
+  refsStt,
   undoAndRedoStates,
 } from "../helpers/atoms";
-import { cloneObject, random } from "../helpers/cocktail";
+import { cloneObject, random, uniqueID } from "../helpers/cocktail";
+import { updateSelectedWrapper } from "../helpers/customEvents";
+import { gjsEditor } from "../helpers/globals";
+import { useEditor, useEditorMaybe } from "@grapesjs/react";
+import { useEffect, useRef } from "react";
 
 /**
  *
  * @param {{ifrDocument:Document , currentEl:HTMLElement , cssProp:string , value:string}} param0
  */
 export function useSetClassForCurrentEl() {
-  const iframeDocumentVal = useRecoilValue(ifrDocument);
-  const currentElObj = useRecoilValue(currentElState);
-  const setUndeoAndRedo = useSetRecoilState(undoAndRedoStates);
-  const setUndoAndRedoStates = useSetRecoilState(undoAndRedoStates);
-  const undoAndRedoStatesVal = useRecoilValue(undoAndRedoStates);
-
-  const cssClassesStyle =
-    iframeDocumentVal.head.querySelector("#elements-classes");
+  const editor = useEditorMaybe();
+  // const 
+  /**
+   * @type {{current:HTMLElement}}
+   */
+  const selectedEl = useRef();
+ 
+  useEffect(()=>{
+    if(!editor)return;
+   selectedEl.current = editor.getSelected()
+  },[editor])
 
   return ({ cssProp, value }) => {
-    const oldCssProps = getCSSPropertiesFromClass(
-      currentElObj.currentEl.id,
-      cssClassesStyle.innerHTML
-    );
-    let newCssProps = { ...oldCssProps };
+
+    const state = editor.Selectors.getState();
+    let newCssProps = {};
 
     if (Array.isArray(cssProp) && Array.isArray(value)) {
       cssProp.forEach((prop, i) => {
@@ -41,33 +47,22 @@ export function useSetClassForCurrentEl() {
         if (!CSS.supports(prop, value) && value) return;
         newCssProps = { ...newCssProps, [prop]: value };
       });
-      console.log("not", cssProp, oldCssProps, newCssProps);
     } else {
-      console.log("single" , value);
-      newCssProps = CSS.supports(cssProp,value) || !value? { ...newCssProps, [cssProp]: value } : {...newCssProps};
-    }
-    // const newCssProps = { ...oldCssProps, [cssProp]: value };
-
-    const newContent = replaceCSSProperties(
-      currentElObj.currentEl.id,
-      cssClassesStyle.textContent,
-      newCssProps
-    );
-    const newPropsString = Object.keys(newCssProps)
-      .map((key) => `${key}:${newCssProps[key]};`)
-      .toString();
-    const finalClass = `.${currentElObj.currentEl.id} {${newPropsString}}`;
-
-    if (newContent.includes(currentElObj.currentEl.id)) {
-      cssClassesStyle.textContent = newContent;
-    } else {
-      cssClassesStyle.textContent += finalClass;
+      newCssProps =
+        CSS.supports(cssProp, value) || !value
+          ? { ...newCssProps, [cssProp]: value }
+          : { ...newCssProps };
     }
 
-    // cssClassesStyle.innerHTML = newContent ? newContent : finalClass;
-    !currentElObj.currentEl.classList.contains(currentElObj.currentEl.id) &&
-      currentElObj.currentEl.classList.add(currentElObj.currentEl.id);
 
-    setUndoAndRedoStates((old) => ({ isStyle: true, isDropping: false }));
+    console.log(state);
+
+    if (state.includes("before") || state.includes("after")) {
+      newCssProps["content"] = "";
+    }
+    console.log(newCssProps);
+    selectedEl.current.addStyle(newCssProps);
+    console.log(editor.getCss());
+    
   };
 }

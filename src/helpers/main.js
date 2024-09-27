@@ -3,14 +3,6 @@ import { html, uniqueID, makeAppResponsive } from "/scripts/cocktail.js";
 let body = document.body;
 body.style.minHeight = `${window.innerHeight}px`;
 
-const scriptsSrc = [
-  "/scripts/tailwindcss.js",
-  "/scripts/htmx.js",
-  "/scripts/alpine.js",
-  "/scripts/alpine-morph.js",
-  "/scripts/htmx-clinet-side-template.js",
-  "/scripts/mustache.js",
-];
 
 window.addEventListener("DOMContentLoaded", () => {
   //  For body
@@ -26,16 +18,22 @@ window.addEventListener("DOMContentLoaded", () => {
       );
       addedNodesWithoutTextNode.forEach((node, i) => {
         if (
-          node instanceof HTMLElement &&
-          !node.classList.contains("seperator")
-        ) {
-          console.log(entry);
+          !node instanceof HTMLElement ||
+          node.classList.contains("seperator") ||
+          node.tagName == "button" ||
+          node.tagName == "img" ||
+          node.tagName == "video" ||
+          node.tagName == "audio" ||
+          node.hasAttribute("r-once")
+        )
+          return;
 
-          node.setAttribute("class", node.id);
-          initDragEvents(node);
-          initControllers(node);
-          node.children.length <= 0 && initSeperators(node);
-        }
+        console.log(entry);
+
+        node.setAttribute("class", node.id);
+        initDragEvents(node);
+        initControllers(node);
+        node.children.length <= 0 && initSeperators(node);
       });
     });
     console.log(entries);
@@ -143,6 +141,8 @@ function dropCallback(ev) {
       bodyInner: body.innerHTML,
     },
   });
+
+  // body.querySelector(`#selected-wrapper`).style.display = 'none'
 
   window.parent.dispatchEvent(undoRedoEvent);
   window.parent.focus();
@@ -363,17 +363,18 @@ function initControllers(el) {
     );
   });
 
-  window.addEventListener("click", (ev) => {
-    ev.stopPropagation();
-    window.parent.currentEl?.classList.remove("showControllers");
-  });
+  // window.addEventListener("click", (ev) => {
+  //   ev.stopPropagation();
+  //   window.parent.currentEl?.classList.remove("showControllers");
+  // });
 }
 
 console.log("loloer 7");
 
-window.addEventListener("click", () => {
+window.addEventListener("click", (ev) => {
+  // ev.stopPropagation();
   console.log("innner");
-  window.parent.focus();
+  // window.parent.focus();
   const ifrmaWindowFocusChange = new CustomEvent("iframeWindowIn");
   window.parent.dispatchEvent(ifrmaWindowFocusChange);
 });

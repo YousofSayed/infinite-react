@@ -15,12 +15,13 @@ import { Color } from "./Color";
 import { MultiChoice } from "./MultiChoice";
 import { Icons } from "../../Icons/Icons";
 import { getIconForMultiChoice } from "../../../helpers/functions";
+import { SelectStyle } from "./SelectStyle";
 
 export const StyleTypography = () => {
   const currentEl = useRecoilValue(currentElState);
   return (
     <section className="mt-3  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
-      <Select
+      <SelectStyle
         label="Font"
         cssProp="font-family"
         currentEl={currentEl}

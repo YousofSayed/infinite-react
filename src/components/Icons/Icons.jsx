@@ -76,7 +76,7 @@ export const Icons = {
     </svg>
   ),
 
-  logo: () => (
+  logo: (strokeColor, strokeWidth) => (
     <svg
       width="43"
       height="43"
@@ -90,6 +90,26 @@ export const Icons = {
         stroke="white"
         strokeWidth="1.5"
       />
+    </svg>
+  ),
+  square: (strokeColor, strokeWidth) => (
+    <svg style={{ display: "block", maxWidth: "22px" }} viewBox="0 0 24 24">
+      <Path
+        fill="#cbd5e1"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M15,5H17V3H15M15,21H17V19H15M11,5H13V3H11M19,5H21V3H19M19,9H21V7H19M19,21H21V19H19M19,13H21V11H19M19,17H21V15H19M3,5H5V3H3M3,9H5V7H3M3,13H5V11H3M3,17H5V15H3M3,21H5V19H3M11,21H13V19H11M7,21H9V19H7M7,5H9V3H7V5Z"
+      ></Path>
+    </svg>
+  ),
+  layers: (strokeColor, strokeWidth) => (
+    <svg style={{display: 'block', maxWidth:'22px'}} viewBox="0 0 24 24">
+      <Path
+        fill="#cbd5e1"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M12,16L19.36,10.27L21,9L12,2L3,9L4.63,10.27M12,18.54L4.62,12.81L3,14.07L12,21.07L21,14.07L19.37,12.8L12,18.54Z"
+      ></Path>
     </svg>
   ),
   stNote: (strokeColor, strokeWidth) => (
@@ -722,13 +742,13 @@ export const Icons = {
     >
       <g fill="none" fillRule="evenodd">
         <Path
-        fill="#cbd5e1"
+          fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M120 0H128V128H120z"
         ></Path>
         <Path
-        fill="#cbd5e1"
+          fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           // fill="#23282D"
@@ -873,13 +893,13 @@ export const Icons = {
     >
       <g fill="none" fillRule="evenodd">
         <Path
-        fill="#cbd5e1"
+          fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M0 60H128V68H0zM32 68H64V96H32zM72 68H104V112H72z"
         ></Path>
         <Path
-        fill="#cbd5e1"
+          fill="#cbd5e1"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M35 31H61V63H35zM75 31H101V63H75z"

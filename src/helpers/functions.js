@@ -1,6 +1,8 @@
+import { createRoot } from "react-dom/client";
 import { Icons } from "../components/Icons/Icons";
 import { filterUnits } from "../constants/constants";
-import { css } from "./cocktail";
+import { css, html, parseToHTML, uniqueID } from "./cocktail";
+import { dispatchCurrentEl } from "./customEvents";
 
 /**
  *
@@ -16,36 +18,34 @@ export function getPropVal(el, val) {
 
 export const isValidCssUnit = (value) => {
   // Updated regex to match valid CSS units, calc(), or var(), but not single numbers
-  const cssUnitRegex = /^\s*(-?\d+(\.\d+)?\s*(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc|fr|deg|grad|rad|turn|s|ms|hz|khz)|calc\([^()]*\)|var\(--[a-zA-Z0-9-]+\))\s*$/i;
+  const cssUnitRegex =
+    /^\s*(-?\d+(\.\d+)?\s*(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|in|pt|pc|fr|deg|grad|rad|turn|s|ms|hz|khz)|calc\([^()]*\)|var\(--[a-zA-Z0-9-]+\))\s*$/i;
   return cssUnitRegex.test(value);
 };
 
-
-
 /**
- * 
- * @param {HTMLElement} element 
- * @param {HTMLStyleElement} styleElement 
- * @param {string} property 
- * @returns 
+ *
+ * @param {HTMLElement} element
+ * @param {HTMLStyleElement} styleElement
+ * @param {string} property
+ * @returns
  */
-export const getOriginalCSSValue = (element, styleElement,property) => {
+export const getOriginalCSSValue = (element, styleElement, property) => {
   // Find the <style> element
 
   if (styleElement && styleElement.sheet) {
-      const sheet = styleElement.sheet; // Access the stylesheet object
+    const sheet = styleElement.sheet; // Access the stylesheet object
 
-      // Loop through all CSS rules in the stylesheet
-      for (const rule of sheet.cssRules) {
-        
-        if (rule.selectorText && element.matches(rule.selectorText)) {
-          // If the rule matches the element, return the original value
-          const value = rule.style.getPropertyValue(property);
-              if (value) {
-                  return value; // Return the original value (e.g., "1.5rem")
-              }
-          }
+    // Loop through all CSS rules in the stylesheet
+    for (const rule of sheet.cssRules) {
+      if (rule.selectorText && element.matches(rule.selectorText)) {
+        // If the rule matches the element, return the original value
+        const value = rule.style.getPropertyValue(property);
+        if (value) {
+          return value; // Return the original value (e.g., "1.5rem")
+        }
       }
+    }
   }
   return null; // Return null if no matching rule or property is found
 };
@@ -278,7 +278,10 @@ export function setClassForCurrentEl({
   value,
 }) {
   const cssClassesStyle = ifrDocument.head.querySelector("#elements-classes");
-  const oldCssProps = getCSSPropertiesFromClass(currentEl.id , cssClassesStyle.innerHTML);
+  const oldCssProps = getCSSPropertiesFromClass(
+    currentEl.id,
+    cssClassesStyle.innerHTML
+  );
   const newCssProps = { ...oldCssProps, [cssProp]: value };
   const newContent = replaceCSSProperties(
     currentEl.id,
@@ -293,3 +296,100 @@ export function setClassForCurrentEl({
   cssClassesStyle.innerHTML = newContent ? newContent : finalClass;
   currentEl.classList.add(currentEl.id);
 }
+
+/**
+ *
+ * @param {{typeOfEl : keyof HTMLElementTagNameMap , inner:string , attrs : Partial<HTMLElementTagNameMap[keyof HTMLElementTagNameMap]>}} param0
+ * @returns
+ */
+export const createBlock = ({ typeOfEl, inner, attrs }) => {
+  const el = document.createElement(typeOfEl);
+
+  el.addEventListener("click", (ev) => {
+    dispatchCurrentEl(ev.target);
+  });
+
+  console.log("true", attrs);
+  for (const key in attrs) {
+    el.setAttribute(key, attrs[key]);
+  }
+
+  if (!inner) return el;
+  const parsedInner = parseToHTML(inner);
+  el.appendChild(parsedInner);
+  return el;
+};
+
+/**
+ *
+ * @param {import('grapesjs').Block[]} blocks
+ * @param {import('grapesjs').Editor} editor
+ * @returns {{[categoryName : string] : import('grapesjs').BlockProperties[]}}
+ */
+export function handleCustomBlock(blocks, editor) {
+  /**
+   * @type {{[categoryName : string] : import('grapesjs').BlockProperties[]}}
+   */
+  const ctgs = {};
+  console.log(blocks);
+
+  blocks.forEach((block) => {
+    const id = block.attributes.category.id || block.attributes.category;
+
+    if (Array.isArray(ctgs[id])) {
+      ctgs[id].push(editor.Blocks.render(block.attributes, { external: true }));
+    } else {
+      ctgs[id] = [];
+      ctgs[id].push(editor.Blocks.render(block.attributes, { external: true }));
+    }
+  });
+
+  console.log(ctgs);
+
+  return ctgs;
+}
+
+/**
+ *
+ * @param {{commandName:string , editor : import('grapesjs').Editor , commandCallback:(editor:import('grapesjs').Editor)=>void , label:string}} param0
+ */
+export function addItemInToolBarForEditor({
+  commandName,
+  editor,
+  commandCallback = (_) => {},
+  label,
+}) {
+  !editor.Commands.has(commandName) &&
+    editor.Commands.add(commandName, commandCallback);
+  const selectedEl = editor.getSelected();
+  const toolbar = selectedEl.get("toolbar");
+  const isExist = toolbar.find((item) => item.command == commandName);
+
+  if (!isExist) {
+    selectedEl.set({
+      toolbar: [
+        {
+          label: label,
+          command: commandName,
+        },
+        ...toolbar,
+      ],
+    });
+  }
+}
+
+/**
+ *
+ * @param {{editor: import('grapesjs').Editor , titleJsx:import('react').ReactNode , contentJsx:import('react').ReactNode}} param0
+ */
+export const createModal = ({ editor, titleJsx, contentJsx }) => {
+  const titleId = uniqueID();
+  const contentId = uniqueID();
+  editor.Modal.open({
+    title: html`<h1 id="${titleId}"></h1>`,
+    content: html`<main id="${contentId}"></main>`,
+  });
+
+  createRoot(document.querySelector(`#${titleId}`)).render(titleJsx);
+  createRoot(document.querySelector(`#${contentId}`)).render(contentJsx);
+};

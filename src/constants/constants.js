@@ -24,6 +24,73 @@ export const filterUnits = {
   sepia: "%", // Typically used with percentages
 };
 
+export const pseudoElements = [
+  "::after",
+  "::before",
+  "::first-letter",
+  "::first-line",
+  "::marker",
+  "::placeholder",
+  "::selection",
+  "::backdrop",
+  "::cue",
+  "::file-selector-button",
+  "::part",
+  "::slotted",
+  "::grammar-error",
+  "::spelling-error"
+];
+ 
+export const pseudoClasses = [
+  ":active",
+  ":any-link",
+  ":checked",
+  ":default",
+  ":defined",
+  ":dir()", // Example: :dir(ltr), :dir(rtl)
+  ":disabled",
+  ":empty",
+  ":enabled",
+  ":first",
+  ":first-child",
+  ":first-of-type",
+  ":focus",
+  ":focus-visible",
+  ":focus-within",
+  ":fullscreen",
+  ":has()", // CSS4
+  ":hover",
+  ":in-range",
+  ":indeterminate",
+  ":invalid",
+  ":is()", // CSS4
+  ":lang()", // Example: :lang(en), :lang(fr)
+  ":last-child",
+  ":last-of-type",
+  ":link",
+  ":not()", // Example: :not(.class)
+  ":nth-child()", // Example: :nth-child(2n)
+  ":nth-last-child()", // Example: :nth-last-child(2n)
+  ":nth-last-of-type()", // Example: :nth-last-of-type(2n)
+  ":nth-of-type()", // Example: :nth-of-type(2n)
+  ":only-child",
+  ":only-of-type",
+  ":optional",
+  ":out-of-range",
+  ":placeholder-shown",
+  ":read-only",
+  ":read-write",
+  ":required",
+  ":root",
+  ":scope",
+  ":target",
+  ":valid",
+  ":visited",
+  ":where()" // CSS4
+];
+
+export const allPesodus = pseudoElements.concat(pseudoClasses);
+
 export const fontWeights = [
   "100 - Thin",
   "200 - Extra Light",

@@ -14,30 +14,47 @@
   margin: auto;
 }
 
+#editorjs{
+  min-height: 100%;
+  width: 100%;
+}
+
 /* .edite-container {
   border: 1.5px solid #000;
 } */
 
 [editable] {
-  border: 3px solid #000;
+  /* border: 3px solid #000; */
   cursor: grab;
-  transition: 0.3s ease;
+  /* transition: 0.3s ease; */
   user-select: none;
   position: relative;
-  padding: 25px ;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  /* padding: 25px ; */
   /* font-family: ; */
   /* font-weight: ; */
   /* filter: blur(   1px)   brightness(98%  ); */
 }
 
-[editable]:hover:not(:has(*:hover)),
-[editable] *:hover:not(:has(*:hover)) {
-  border: 3px solid #2563eb;
+[editable]:hover:not(:has([editable]:hover)),
+[editable] [editable]:hover:not(:has([editable]:hover)) {
+  outline: 3px dashed #2563eb;
+}
+
+.wrapper{
+  border: 2.5px dashed #2563eb;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  padding: 5px;
+  /* background-color: red; */
 }
 
  [editable].showControllers {
   /* position: relative; */
-  outline: 3px solid #eb3225 !important;
+  outline: 3px dashed #2563eb !important;
 
 }
 /*
@@ -64,6 +81,7 @@
   transition: 0.3s;
   position: absolute;
   left: 0;
+  /* z-index: -1; */
 }
 
 [editable] .seperator:hover {

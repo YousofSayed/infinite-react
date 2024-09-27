@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { currentElState, undoAndRedoStates } from "../../../helpers/atoms";
 import { getPropVal } from "../../../helpers/functions";
+import { updateSelectedWrapper } from "../../../helpers/customEvents";
 
 export const Content = () => {
   const currentElObj = useRecoilValue(currentElState);
@@ -17,10 +18,10 @@ export const Content = () => {
       setShowTextArea(true);
       setWarnning(false);
       setVal(currentElObj.currentEl.childNodes[0].textContent)
- 
+      updateSelectedWrapper({selectedEl:currentElObj.currentEl})
       
     } else {
-      setShowTextArea(false);
+      setShowTextArea(false); 
       setWarnning(`⚠ Choose an element`);
     }
   }, [currentElObj]);
@@ -33,7 +34,8 @@ export const Content = () => {
    console.log('loer');
    ev.preventDefault();
    ev.stopPropagation();
-   currentEl.childNodes[0].textContent = ev.target.value;
+   currentElObj.currentEl.childNodes[0].textContent = ev.target.value;
+   updateSelectedWrapper({selectedEl:currentElObj.currentEl})
    setVal(ev.target.value);
    setUndoAndRedoState({isStyle:false , isDropping:false });
   };

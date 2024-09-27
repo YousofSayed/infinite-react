@@ -20,15 +20,15 @@ import { getOriginalCSSValue } from "../../../helpers/functions";
 
 /**
  *
- * @param {{tProp:string , rProp:string , bProp:string , lProp:string}} param0
+ * @param {{defultoption:string, tProp:string , rProp:string , bProp:string , lProp:string}} param0
  * @returns
  */
-export const DirectionsModel = ({ tProp, rProp, bProp, lProp }) => {
+export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp }) => {
   const currentElObj = useRecoilValue(currentElState);
   const ifrDocVal = useRecoilValue(ifrDocument);
   const setUndoAndRedoStatesVal = useSetRecoilState(undoAndRedoStates);
   const setClass = useSetClassForCurrentEl();
-  const [option, setOption] = useState("");
+  const [option, setOption] = useState(defultoption);
   const [vals, setVal] = useState({
     tVal: "",
     rVal: "",
@@ -160,7 +160,7 @@ export const DirectionsModel = ({ tProp, rProp, bProp, lProp }) => {
         </div>
         <figure className="flex items-center justify-center gap-3">
           <input
-          placeholder="Right"
+          placeholder="Left"
             value={vals.lVal}
             onInput={(ev) => {
               onInput({
@@ -188,15 +188,13 @@ export const DirectionsModel = ({ tProp, rProp, bProp, lProp }) => {
                 },
               });
             }}
-            onFocus={(ev) => {
-              onFocus({ ev, setUndoAndRedoStatesVal });
-            }}
+           
             type="text"
             className="p-2 bg-slate-800 text-center rounded-lg w-[30%] max-w-[100px] text-slate-200 outline-none font-semibold"
           />
           <img src={directionsImg} className="w-[40%]  object-fill" alt="" />
           <input
-          placeholder="Bottom"
+          placeholder="Right"
             value={vals.rVal}
             onInput={(ev) => {
               onInput({
@@ -224,16 +222,14 @@ export const DirectionsModel = ({ tProp, rProp, bProp, lProp }) => {
                 },
               });
             }}
-            onFocus={(ev) => {
-              onFocus({ ev, setUndoAndRedoStatesVal });
-            }}
+           
             type="text"
             className="p-2 bg-slate-800 text-center rounded-lg w-[30%] max-w-[100px] text-slate-200 outline-none font-semibold"
           />
         </figure>
         <div className="flex items-center justify-center">
           <input
-          placeholder="Left"
+          placeholder="Bottom"
             value={vals.bVal}
             onInput={(ev) => {
               onInput({
@@ -261,9 +257,7 @@ export const DirectionsModel = ({ tProp, rProp, bProp, lProp }) => {
                 },
               });
             }}
-            onFocus={(ev) => {
-              onFocus({ ev, setUndoAndRedoStatesVal });
-            }}
+           
             type="text"
             className="p-2 bg-slate-800 text-center rounded-lg w-[35%] text-slate-200 outline-none font-semibold"
           />

@@ -1,12 +1,14 @@
 import React, { useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
+import { P } from "../../Protos/P";
 
-export const Details = ({ children, label }) => {
+export const Details = ({ children, label, ref, id , containerClassName = '' }) => {
   const [showDetails, setShowDetails] = useState(false);
   const arrowIcon = useRef();
 
   return (
     <section
+      ref={ref}
       className={`bg-slate-700 ${
         showDetails && "p-2 border-2 border-blue-600"
       } transition-[padding] rounded-lg`}
@@ -20,13 +22,13 @@ export const Details = ({ children, label }) => {
           showDetails ? "bg-gray-900" : "bg-slate-800"
         }`}
       >
-        <p className="capitalize">{label} </p>
+        <P className="capitalize">{label} </P>
         <span ref={arrowIcon} className="group transition-all cursor-pointer">
           {Icons.arrow()}
         </span>
       </div>
 
-      {showDetails && children}
+      <section id={id} className={containerClassName + `${showDetails ? ' ' : ' hidden '} mt-2  `}>{ children}</section>
     </section>
   );
 };

@@ -1,10 +1,11 @@
+import React from "react";
 import { atom } from "recoil";
 
 export const widths = atom({
   key: "widths",
   default: {
-    ifrWidth: undefined,
-    asideWidth: 300,
+    leftAside: 300,
+    rightAside: 300,
   },
 });
 
@@ -12,6 +13,16 @@ export const searchWord = atom({
   key: "searchWord",
   default: "",
 });
+
+/**
+ * @type {import('grapesjs').Block[]}
+ */
+let blocksType = [];
+
+export const blocksStt = atom({
+  key:'blocks',
+  default: blocksType
+})
 
 /**
  * @type {Document}
@@ -45,7 +56,7 @@ export const undoAndRedoStates = atom({
 });
 
 /**
- * @type {{[key:string]:HTMLElement}}
+ * @type {{iframe:HTMLIFrameElement , blocksStyle:HTMLStyleElement , [key:string]:HTMLElement}}
  */
 let refsSttType = {};
 
@@ -59,15 +70,39 @@ export const showOverlayIframState = atom({
   default: false,
 });
 
+
+
 /**
  * @let
- * @type {{currentEl:HTMLElement}}
+ * @type {{render:(children:React.ReactNode)=>void}}
+ */
+let render;
+
+export const iframeRoot = atom({
+  key: "iframeRoot",
+  default: render,
+});
+
+
+/**
+ * @let
+ * @type {{currentEl:HTMLElement , addStyle:({[cssProp:string]:string})}}
  */
 let currentElType = {
-  currentEl:null
+  currentEl: null,
 };
-
 export const currentElState = atom({
   key: "currentEl",
-  default:currentElType,
+  default: currentElType,
 });
+
+/**
+ * @type {import('grapesjs').Editor}
+ */
+let editor;
+
+export const editorStt = atom({
+  key: "editor",
+  default: editor,
+});
+

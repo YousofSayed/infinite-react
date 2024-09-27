@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
-import { getOriginalCSSValue, getPropVal, rgbStringToHex, setClassForCurrentEl, toJsProp } from "../../../helpers/functions";
+import {
+  getOriginalCSSValue,
+  getPropVal,
+  rgbStringToHex,
+  setClassForCurrentEl,
+  toJsProp,
+} from "../../../helpers/functions";
 import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
@@ -11,12 +17,22 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] , cssProp:string ,  wrap:boolean, setKeyword:(keyword:string)=>void ,splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] , placeholder:string, cssProp:string , value:string, onItemClicked:(item : string , index : number)=>void , onEnterPress: (keyword:string)=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string)=>void ,splitHyphen:boolean}} param0
  * @returns
  */
-export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=false, splitHyphen = false }) => {
-  const setClass = useSetClassForCurrentEl();
-  const currentElObj = useRecoilValue(currentElState);
+export const Select = ({
+  label,
+  keywords,
+  cssProp,
+  setKeyword = (_) => {},
+  onItemClicked = (_) => {},
+  onInput = (_) => {},
+  onEnterPress = (_)=>{},
+  placeholder = "",
+  wrap = false,
+  value = '',
+  splitHyphen = false,
+}) => {
   const [showMenu, setMenu] = useState(false);
   const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
   const [isPending, setTransition] = useTransition();
@@ -28,7 +44,7 @@ export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=f
   const choosenKeyword = useRef();
 
   useCloseMenu(selectRef, setMenu);
-  useUpdateInputValue({setVal : setVal , cssProp})
+  // useUpdateInputValue({ setVal: setVal, cssProp });
 
   const showMenuCallback = () => {
     inputRef.current.focus();
@@ -42,21 +58,19 @@ export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=f
    * @param {InputEvent} ev
    */
   const filterKeywords = (ev) => {
-    const newKeyW = Array.from(keywords).filter((keyword) =>
+    const newKeyW = Array.from(keywords).filter((keyword, i) =>
       keyword.toLowerCase().includes(ev.target.value.toLowerCase())
     );
 
-    newKeyW.length == 1 && setCurrentChoose(0);
-
-    // currentEl && (currentEl.style[toJsProp(cssProp)] = `${ev.target.value}`);
-
-    // setClass({
-    //   cssProp,
-    //   value:ev.target.value,
-    // });
+   
 
     if (newKeyW.length && ev.target.value) {
       setNewKeywords(newKeyW);
+      const index = newKeyW.findIndex((value, i) =>
+        value.toLowerCase().includes(ev.target.value)
+      );
+      setCurrentChoose(index);
+      choosenKeyword.current = newKeyW[index];
       setMenu(true);
     } else {
       setMenu(false);
@@ -90,12 +104,16 @@ export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=f
     } else if (ev.key == "Enter") {
       ev.preventDefault();
       const finalVal = splitHyphen
-      ? choosenKeyword.current.split("-")[0]
-      : choosenKeyword.current;
-      setClass({
-        cssProp,
-        value:finalVal,
-      });
+        ? choosenKeyword.current.split("-")[0]
+        : choosenKeyword.current;
+      // cssProp &&
+      //   setClass({
+      //     cssProp,
+      //     value: finalVal,
+      //   });
+
+      onEnterPress(finalVal);
+
 
       setKeyword(finalVal);
       setVal(finalVal);
@@ -106,34 +124,34 @@ export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=f
   return (
     <section
       ref={selectRef}
-      className={`w-full p-1 px-2 rounded-lg flex ${wrap && 'flex-wrap gap-3 py-3'}  justify-between items-center bg-slate-800`}
+      className={`w-full p-1 px-2 rounded-lg flex ${
+        wrap && "flex-wrap gap-3 py-3"
+      }  justify-between items-center bg-slate-800`}
     >
-      <P>{label}: </P>
-      <div className="w-[55%] relative">
+      {label ? <P>{label}: </P> : null}
+      <div className={`${label ? "w-[55%]" : "w-full"} relative`}>
         <input
-          value={val}
+          value={value}
           ref={inputRef}
           className="w-full h-full font-semibold bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
           type="text"
+          placeholder={placeholder}
           onFocus={(ev) => {
             setMenu(true);
             keywords.forEach((keyword, i) => {
-              if(keyword.toLowerCase().includes(ev.target.value.toLowerCase()))setCurrentChoose(i);
+              if (keyword.toLowerCase().includes(ev.target.value.toLowerCase()))
+                setCurrentChoose(i);
             });
             ev.target.select();
           }}
-          onInput={(ev) => {
-            if (!currentElObj.currentEl) {
-              setVal("");
-              return;
-            }
+          onInput={(ev)=>{
+            onInput(ev.target.value);
             setVal(ev.target.value);
             filterKeywords(ev);
           }}
           onKeyDown={(ev) => {
             handleChooses(ev);
           }}
-         
         />
 
         <i
@@ -153,15 +171,10 @@ export const Select = ({ label, keywords, cssProp, setKeyword = (_)=>{} , wrap=f
             menuRef={menuRef}
             choosenKeyword={choosenKeyword}
             currentChoose={currentChoose}
-            onItemClicked={(ev, keyword) => {
-              const nkeyw = splitHyphen
-              ? keyword.split("-")[0]
-              : keyword;
+            onItemClicked={(ev, keyword , i) => {
+              const nkeyw = splitHyphen ? keyword.split("-")[0] : keyword;
 
-              setClass({
-                cssProp,
-                value:nkeyw,
-              });
+              onItemClicked(nkeyw , i);
               setKeyword(nkeyw);
               setVal(nkeyw);
               setMenu(false);

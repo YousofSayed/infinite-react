@@ -28,6 +28,16 @@ export const BorderStyle = () => {
       default:
         break;
     }
+
+    console.log(option);
+    
+
+    // if(option == 'top')setCssProps("border-top-style");
+    // else if(option == 'right')setCssProps("border-right-style");
+    // else if(option == 'bottom')setCssProps("border-bottom-style");
+    // else if(option == 'left')setCssProps("border-left-style");
+    // else if(option == 'all')setCssProps("border-style");
+
   };
 
   useEffect(()=>{

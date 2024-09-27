@@ -9,9 +9,18 @@ import { Content } from "./Protos/Content";
 import { StyleSize } from "./Protos/StyleSize";
 import { Positioning } from "./Protos/Positioning";
 import { Border } from "./Protos/Border";
+import { Select } from "./Protos/Select";
+import { allPesodus } from "../../constants/constants";
+import { useEditorMaybe } from "@grapesjs/react";
 
-export const StyleAside = () => {
+/**
+ *
+ * @param {{className:string}} param0
+ * @returns
+ */
+export const StyleAside = ({ className }) => {
   // const [currentEl, setCurrentEl] = useState();
+  const editor = useEditorMaybe();
   const setCurrentEl = useSetRecoilState(currentElState);
 
   useEffect(() => {
@@ -20,7 +29,7 @@ export const StyleAside = () => {
      * @param {CustomEvent} ev
      */
     const onCurrentEl = (ev) => {
-      setCurrentEl((oldVal)=>({currentEl:ev.detail.currentEl}));
+      setCurrentEl((oldVal) => ({ currentEl: ev.detail.currentEl }));
     };
 
     window.addEventListener("currentel", onCurrentEl);
@@ -29,29 +38,46 @@ export const StyleAside = () => {
       window.removeEventListener("currentel", onCurrentEl);
     };
   });
+
+
   return (
-    <Aside dir="right">
-      <Details label={'content'}>
+    <Aside className={className} dir="right">
+      {/* <Details label={'content'}>
         <Content />
+      </Details> */}
+
+      {/* <section id="styles"></section> */}
+
+      <Select
+      placeholder="state"
+        keywords={allPesodus}
+        setKeyword={(keyword) => {
+          editor.Selectors.setState(keyword.replace(':',''));
+          console.log(editor.Selectors.getState());
+          console.log(editor.Selectors.all);
+          console.log(editor.getStyle().models[editor.getStyle().models.length-1]);
+          console.log(editor.getStyle().models[editor.getStyle().models.length-1].changed);
+          setCurrentEl({currentEl:editor.getSelected().getEl()});
+        }}
+      />
+
+      <Details label={"Typography"}>
+        <StyleTypography />
       </Details>
 
-      <Details label={'Typography'}>
-        <StyleTypography/>
-      </Details>
-
-      <Details label={'size'} >
+      <Details label={"size"}>
         <StyleSize />
       </Details>
 
-      <Details label={'Positioning'}>
+      <Details label={"Positioning"}>
         <Positioning />
       </Details>
 
-      <Details label={'border'}>
-        <Border/>
+      <Details label={"border"}>
+        <Border />
       </Details>
 
-      <Details label={'layout'}>
+      <Details label={"layout"}>
         <Layout />
       </Details>
     </Aside>

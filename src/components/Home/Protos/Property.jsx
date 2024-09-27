@@ -1,9 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  getOriginalCSSValue,
-  getPropVal,
-  isValidCssUnit,
-} from "../../../helpers/functions";
 import { P } from "../../Protos/P";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -11,7 +6,6 @@ import {
   ifrDocument,
   undoAndRedoStates,
 } from "../../../helpers/atoms";
-import { transformToNumInput } from "../../../helpers/cocktail";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import {
   onFocus,
@@ -19,6 +13,8 @@ import {
   onKeyDown,
   onKeyUp,
 } from "../../../helpers/propertyInputHandlers";
+import { useEditor, useEditorMaybe } from "@grapesjs/react";
+import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
@@ -40,27 +36,32 @@ export const Property = ({
   const setUndoAndRedoStatesVal = useSetRecoilState(undoAndRedoStates);
   const [val, setVal] = useState("");
   const isCurrentELChange = useRef(false);
+  const editor =useEditorMaybe();
 
-  useEffect(() => {
-    if (ifrDocumentVal && currentElObj.currentEl) {
-      const styleElement =
-        ifrDocumentVal.head.querySelector("#elements-classes");
-      const prop =
-        getOriginalCSSValue(currentElObj.currentEl, styleElement, cssProp) ||
-        "";
+  useUpdateInputValue({setVal,cssProp})
 
-      const valWithoutText = +parseInt(
-        getPropVal(currentElObj.currentEl, cssProp)
-      )
-        ? +parseInt(getPropVal(currentElObj.currentEl, cssProp))
-        : 0;
-      const finalVal = allowText
-        ? getPropVal(currentElObj.currentEl, cssProp)
-        : Math.round(valWithoutText);
+  // useEffect(() => {
+  //   if ( currentElObj.currentEl) {
+  //     setVal(editor.getSelected().getStyle()[cssProp] || '');
 
-      setVal(prop);
-    }
-  }, [currentElObj, ifrDocumentVal]);
+  //   //   const styleElement =
+  //   //     ifrDocumentVal.head.querySelector("#elements-classes");
+  //   //   const prop =
+  //   //     getOriginalCSSValue(currentElObj.currentEl, styleElement, cssProp) ||
+  //   //     "";
+
+  //   //   const valWithoutText = +parseInt(
+  //   //     getPropVal(currentElObj.currentEl, cssProp)
+  //   //   )
+  //   //     ? +parseInt(getPropVal(currentElObj.currentEl, cssProp))
+  //   //     : 0;
+  //   //   const finalVal = allowText
+  //   //     ? getPropVal(currentElObj.currentEl, cssProp)
+  //   //     : Math.round(valWithoutText);
+
+  //   //   setVal(prop);
+  //   }
+  // }, [currentElObj]);
 
   
 
