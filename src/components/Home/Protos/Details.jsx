@@ -22,7 +22,7 @@ export const Details = ({ children, label, ref, id , setIsShow = (_)=>{} , conta
           // ev.currentTarget.parentNode.scrollIntoView({behavior:'smooth' , block:'center'})
           
         }}
-        className={`flex items-center   justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${
+        className={`flex items-center border-l-[5px] border-l-blue-600  justify-between p-3 rounded-lg text-slate-300 text-lg font-bold ${
           showDetails ? "bg-gray-800 " : "bg-slate-800"
         }`}
       >
@@ -31,6 +31,7 @@ export const Details = ({ children, label, ref, id , setIsShow = (_)=>{} , conta
           {Icons.arrow()}
         </span>
       </div>
+  
           {showDetails && children}
       {/* <section id={id} className={containerClassName + `${showDetails ? ' ' : ' hidden '} mt-2  `}>{ children}</section> */}
     </section>

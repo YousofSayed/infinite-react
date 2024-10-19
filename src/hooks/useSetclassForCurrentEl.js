@@ -8,6 +8,7 @@ import {
   ifrDocument,
   isRuleState,
   refsStt,
+  selectorState,
   undoAndRedoStates,
 } from "../helpers/atoms";
 import { cloneObject, random, uniqueID } from "../helpers/cocktail";
@@ -23,6 +24,7 @@ import { useEffect, useRef } from "react";
 export function useSetClassForCurrentEl() {
   const editor = useEditorMaybe();
   const rule = useRecoilValue(isRuleState);
+  const selector = useRecoilValue(selectorState);
   // // const
   // /**
   //  * @type {{current:HTMLElement}}
@@ -61,10 +63,12 @@ export function useSetClassForCurrentEl() {
       newCssProps["content"] = "";
     }
     console.log(newCssProps);
-    rule.is
-      ? editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyles:true})
-      : editor.getSelected().addStyle(newCssProps);
-    // editor.getSelected().addStyle(newCssProps);
+    const currentSelector = selector ? selector : `#${editor.getSelected().getEl().id}` ;
+    // rule.is
+    //   ? editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyles:true})
+    //   : editor.getSelected().addStyle(newCssProps);
+      // editor.getSelected().addStyle(newCssProps);
+      editor.Css.setRule(`${currentSelector}${rule.ruleString}`, newCssProps , {addStyles:true})
   //  const rulee =  editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyle:true})
     // console.log(rulee.toCSS());
     

@@ -14,6 +14,7 @@ import { Select } from "./Protos/Select";
 import { useEditorMaybe } from "@grapesjs/react";
 import { AsideControllers } from "./Protos/AsideControllers";
 import { SelectState } from "./Protos/SelectState";
+import { SelectClass } from "./Protos/SelectClass";
 
 /**
  *
@@ -51,10 +52,14 @@ export const StyleAside = ({ className }) => {
       {/* <section id="styles"></section> */}
         <AsideControllers/>
   
+     <Details label={'classes'}>
+      <SelectClass/>
+     </Details>
 
      <Details label={'states'}>
      <SelectState />
      </Details>
+
 
       <Details label={"Typography"}>
         <StyleTypography />

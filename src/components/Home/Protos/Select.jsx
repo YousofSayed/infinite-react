@@ -17,7 +17,7 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] , placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onItemClicked:(keyword ,index : number)=>void , onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] , placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
  * @returns
  */
 export const Select = ({
@@ -27,11 +27,14 @@ export const Select = ({
   onItemClicked = (_) => {},
   onInput = (_) => {},
   onEnterPress = (_, _2) => {},
+  onMenuOpen = (_) => {},
+  onMenuClose = (_) => {},
+  onKeywordsSeted = (_)=>{},
   placeholder = "",
   wrap = false,
   respectParenthesis = false,
-  val ,
-  setVal ,
+  val,
+  setVal,
   singleValInInput = true,
   splitHyphen = false,
 }) => {
@@ -54,6 +57,24 @@ export const Select = ({
       respectParenthesisHandler();
     }
   }, [val]);
+
+  useEffect(()=>{
+    onKeywordsSeted(newKeywords);
+  },[keywords])
+
+  useEffect(() => {
+    showMenu
+      ? onMenuOpen({
+          menu: menuRef.current,
+          setKeywords: setNewKeywords,
+          keywords: newKeywords,
+        })
+      : onMenuClose({
+          menu: menuRef.current,
+          setKeywords: setNewKeywords,
+          keywords: newKeywords,
+        });
+  }, [showMenu]);
 
   useCloseMenu(selectRef, setMenu);
   // useUpdateInputValue({ setVal: setVal, cssProp });

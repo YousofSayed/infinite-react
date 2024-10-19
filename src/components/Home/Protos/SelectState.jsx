@@ -9,7 +9,7 @@ import { addClickClass, cloneObject } from "../../../helpers/cocktail";
 import { SmallButton } from "./SmallButton";
 import { ChoicesForStates } from "./ChoicesForStates";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentElState, isRuleState } from "../../../helpers/atoms";
+import { currentElState, isRuleState, selectorState } from "../../../helpers/atoms";
 
 // console.log({0:[],1:[]});
 
@@ -17,8 +17,9 @@ export const SelectState = ({ placeholder }) => {
   const editor = useEditorMaybe();
   const setRule = useSetRecoilState(isRuleState);
   const rule = useRecoilValue(isRuleState);
+  const selector = useRecoilValue(selectorState); 
   const selectedEl = useRecoilValue(currentElState);
-  const [val , setVal] = useState('');
+  const [val, setVal] = useState("");
   const [states, setStates] = useState(stateType);
   const [state, setState] = useState("");
   const [currentStateIndex, setCurrentStateIndex] = useState(
@@ -30,17 +31,19 @@ export const SelectState = ({ placeholder }) => {
     if (!selectedEl.currentEl || selectedEl.currentEl.tagName == "body") return;
     console.log(selectedEl.currentEl);
     extractRules();
-  }, [selectedEl]);
+  }, [selectedEl , selector]);
 
   function extractRules() {
     const rules = { 0: [] };
     const rgx = /\:(\:)?\w+/gi;
-    const myRrules = editor.Css.getRules(`#${selectedEl.currentEl.id}`).filter(
+    const currentSelector = selector ? selector : `#${selectedEl.currentEl.id}`;
+    const myRrules = editor.Css.getRules(currentSelector).filter(
       (rule) =>
         rule
-      .toCSS()
-      .split(/\{.+\}/gi)
-      .join("").match(rgx)
+          .toCSS()
+          .split(/\{.+\}/gi)
+          .join("")
+          .match(rgx)
     );
 
     myRrules.forEach((rule, i) => {
@@ -51,7 +54,7 @@ export const SelectState = ({ placeholder }) => {
         .match(rgx);
       rules[i] = ruleArr || [];
     });
-   
+
     console.log(myRrules, currentStateIndex);
 
     setStates({ ...rules });
@@ -76,9 +79,7 @@ export const SelectState = ({ placeholder }) => {
     // editor.getSelected().getstates().set()
     setStates({ ...newObj });
 
-
     setRule({
-    
       is: true,
       ruleString: `${newObj[currentStateIndex].join("")}`,
     });
@@ -92,13 +93,18 @@ export const SelectState = ({ placeholder }) => {
     const rule = editor.Css.getRule(ruleString);
     const oldRuleStyle = rule.toJSON().style;
     console.log(rule, "s rule", rule.toJSON().style);
+
     editor.Css.remove(rule);
 
     const newArr = states[keywordsIndex].filter(
       (keywordArr) => keywordArr != keyword
     );
     setStates({ ...states, [keywordsIndex]: newArr });
-    editor.Css.setRule(`#${selectedEl.currentEl.id}${newArr.join('')}` , oldRuleStyle);
+    states[keywordsIndex].length > 1 &&
+      editor.Css.setRule(
+        `#${selectedEl.currentEl.id}${newArr.join("")}`,
+        oldRuleStyle
+      );
     setRule({
       is: true,
       ruleString: `${newArr.join("")}`,
@@ -129,7 +135,7 @@ export const SelectState = ({ placeholder }) => {
 
     setRule((old) => ({
       is: currentStateIndex == keywordsIndex ? !old.is : true,
-      ruleString: old.ruleString ? '' :  `${states[keywordsIndex].join("")}`,
+      ruleString: old.ruleString ? "" : `${states[keywordsIndex].join("")}`,
     }));
   }
 

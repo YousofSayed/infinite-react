@@ -113,3 +113,8 @@ export const isRuleState = atom({
   key:'isRule',
   default:rule
 });
+
+export const selectorState = atom({
+  key:'selectorState',
+  default:''
+})

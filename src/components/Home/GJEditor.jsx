@@ -81,22 +81,11 @@ export const GJEditor = ({ children }) => {
         jsInHtml: true,
 
         plugins: [addDevices],
-        pluginsOpts: {
-          // [tui]: {
-          //   config: {
-          //     includeUI: {
-          //       initMenu: "filter",
-          //     },
-          //   },
-          // },
-          // [gjsSymbolsPlugin]: {
-          //   appendTo: "#symbols",
-          // },
-        },
+        
       }}
       onEditor={(ev) => {
         setEditor(ev);
-        ev.addStyle(`body [data-gjs-type="wrapper"] [id]::before{content:''}`);
+        ev.addStyle(`body [data-gjs-type="wrapper"] [id]::before{content:''} .lol{font-size:32px}`);
         ev.Blocks.categories.add({ id: "others", label: "Others" });
         setBlocksAtom({
           ...handleCustomBlock(ev.Blocks.getAll().models, ev),
