@@ -12,7 +12,7 @@ export const Details = ({ children, label, ref, id , setIsShow = (_)=>{} , conta
       className={`bg-slate-950 ${
         showDetails && "p-2 border-2 border-blue-600"
       } transition-[padding] rounded-lg`}
-    >
+    > 
       <div
         onClick={(ev) => {
           setShowDetails(!showDetails);
