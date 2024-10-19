@@ -27,7 +27,7 @@ export const StyleTypography = () => {
         currentEl={currentEl}
         keywords={cssFonts}
       />
-      <Select
+      <SelectStyle
         label="weight"
         cssProp="font-weight"
         currentEl={currentEl}
@@ -63,24 +63,24 @@ export const StyleTypography = () => {
         choices={["start", "center", "end", "justify"]}
       />
 
-      <Select
+      <SelectStyle
         label="Overflow"
         splitHyphen={false}
         cssProp="text-overflow"
         keywords={textOverflowValues}
       />
 
-      <Select
+      <SelectStyle
         label="breaking"
         cssProp="word-break"
         keywords={wordBreakValues}
       />
-      <Select
+      <SelectStyle
         label="decoration line"
         cssProp="text-decoration-line"
         keywords={textDecorationLineValues}
       />
-      <Select
+      <SelectStyle
         label="decoration style"
         cssProp="text-decoration-style"
         keywords={textDecorationStyleValues}

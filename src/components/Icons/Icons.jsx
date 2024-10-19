@@ -15,6 +15,34 @@ export const Icons = {
       />
     </svg>
   ),
+  select: (strokeColor, strokeWidth , fill) => (
+    <svg viewBox="0 0 24 24" fill="none" width={24} xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <Path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12.0001 5.49939C8.40993 5.49939 5.49951 8.40981 5.49951 12C5.49951 15.5902 8.40993 18.5006 12.0001 18.5006C15.5903 18.5006 18.5007 15.5902 18.5007 12C18.5007 8.40981 15.5903 5.49939 12.0001 5.49939ZM3.99951 12C3.99951 7.58139 7.58151 3.99939 12.0001 3.99939C16.4187 3.99939 20.0007 7.58139 20.0007 12C20.0007 16.4186 16.4187 20.0006 12.0001 20.0006C7.58151 20.0006 3.99951 16.4186 3.99951 12Z"
+          fill={fill}
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        ></Path>
+        <Path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M12.0002 9.5C10.6194 9.5 9.50016 10.6193 9.50016 12C9.50016 13.3807 10.6194 14.5 12.0002 14.5C13.3809 14.5 14.5002 13.3807 14.5002 12C14.5002 10.6193 13.3809 9.5 12.0002 9.5ZM8.00016 12C8.00016 9.79086 9.79102 8 12.0002 8C14.2093 8 16.0002 9.79086 16.0002 12C16.0002 14.2091 14.2093 16 12.0002 16C9.79102 16 8.00016 14.2091 8.00016 12Z"
+          fill={fill}
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        ></Path>
+      </g>
+    </svg>
+  ),
   db: (strokeColor, strokeWidth) => (
     <svg
       width="25"
@@ -37,6 +65,15 @@ export const Icons = {
         d="M19 7.65V12.65C19 15.77 16.09 18 12.5 18C8.91 18 6 15.77 6 12.65V7.65C6 4.53 8.91 2 12.5 2C14.3 2 15.92 2.63 17.1 3.65C18.27 4.68 19 6.09 19 7.65Z"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
+      />
+    </svg>
+  ),
+  close: (strokeColor, strokeWidth, fill) => (
+    <svg viewBox="0 0 1024 1024" fill={fill} height="24" width="24">
+      <Path
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"
       />
     </svg>
   ),
@@ -93,7 +130,7 @@ export const Icons = {
     </svg>
   ),
   square: (strokeColor, strokeWidth) => (
-    <svg style={{ display: "block", maxWidth: "22px" }} viewBox="0 0 24 24">
+    <svg width="23" height="23" fill="none" viewBox="0 0 24 24">
       <Path
         fill="#cbd5e1"
         stroke={strokeColor}
@@ -102,14 +139,60 @@ export const Icons = {
       ></Path>
     </svg>
   ),
+  newLine: (strokeColor, strokeWidth) => (
+    <svg
+      fill="transparent"
+      width="20px"
+      height="20px"
+      viewBox="0 0 32 32"
+      id="icon"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <title>new-line</title>
+        <Path
+          fill="#cbd5e1"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M20.5859,14.4141,24.1719,18H6V8H4V18a2.0024,2.0024,0,0,0,2,2H24.1719L20.586,23.5859,22,25l6-6-6-6Z"
+        ></Path>
+        <rect
+          id="_Transparent_Rectangle_"
+          data-name="<Transparent Rectangle>"
+          className="cls-1"
+          width="24"
+          height="24"
+        ></rect>
+      </g>
+    </svg>
+  ),
   layers: (strokeColor, strokeWidth) => (
-    <svg style={{display: 'block', maxWidth:'22px'}} viewBox="0 0 24 24">
+    <svg width="23" height="23" fill="none" viewBox="0 0 24 24">
       <Path
         fill="#cbd5e1"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M12,16L19.36,10.27L21,9L12,2L3,9L4.63,10.27M12,18.54L4.62,12.81L3,14.07L12,21.07L21,14.07L19.37,12.8L12,18.54Z"
       ></Path>
+    </svg>
+  ),
+  style: (strokeColor, strokeWidth) => (
+    <svg width="25" height="25" fill="none" viewBox="0 0 24 24">
+      <Path
+        fill="#cbd5e1"
+        stroke={strokeColor}
+        strokeWidth={strokeWidth}
+        fillRule="evenodd"
+        d="M13 21v-8h8v8h-8zm2-6h4v4h-4v-4zM3 11V3h8v8H3zm2-6h4v4H5V5z"
+        clipRule="evenodd"
+      />
+      <path fill="#cbd5e1" d="M18 6v6h-2V8h-4V6h6zM12 18H6v-6h2v4h4v2z" />
     </svg>
   ),
   stNote: (strokeColor, strokeWidth) => (

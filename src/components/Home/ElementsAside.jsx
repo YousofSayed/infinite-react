@@ -8,11 +8,12 @@ import { useEditorMaybe } from "@grapesjs/react";
 import { handleCustomBlock } from "../../helpers/functions";
 import { blocksType } from "../../helpers/jsDocs";
 import { DetailsForBlocks } from "./Protos/DetailsForBlocks";
+import { AsideControllers } from "./Protos/AsideControllers";
+import { Outlet } from "react-router-dom";
 
 export const ElementsAside = () => {
   const [elementsTarget, setElementTarget] = useState("all");
   // const blocks = useRecoilValue(blocksStt);
-  const blocksAtom = useRecoilValue(blocksStt);
   const [blocks, setBlocks] = useState([blocksType]);
   const setSearchW = useSetRecoilState(searchWord);
   const editor = useEditorMaybe();
@@ -33,7 +34,8 @@ export const ElementsAside = () => {
   // }, [blocksAtom]);
 
   return (
-    <Aside>
+    <section className="flex flex-col gap-3">
+      {/* <AsideControllers/> */}
       {/* <label htmlFor="selEl">
         <p className="text-white custom-font-size font-semibold mb-[10px]">
           {" "}
@@ -63,15 +65,9 @@ export const ElementsAside = () => {
           className="w-full bg-slate-800 p-[10px] rounded-lg focus:outline-none text-white"
         />  
       </section> */}
-      
-      {
-      Object.keys(blocksAtom).map((ctg , i) => {
-        return <DetailsForBlocks key={i} label={ctg} HTMLChildren={blocksAtom[ctg]}/>
-      })}
 
-      <section id="blocks" className="grid custom-grid-col  overflow-x-auto ">
-        {/* {Elements[elementsTarget]} */}
-      </section>
-    </Aside>
+      <Outlet/>
+      
+    </section>
   );
 };

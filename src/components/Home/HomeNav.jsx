@@ -10,7 +10,7 @@ export const HomeNav = () => {
           {Icons.logo()}
         </figure>
         <ul className="flex flex-col gap-5 items-center">
-          <Li>{Icons.plus()}</Li>
+          {/* <Li>{Icons.plus()}</Li> */}
           <Li>{Icons.components()}</Li>
           <Li>{Icons.stNote()}</Li>
           <Li>{Icons.db()}</Li>
@@ -21,7 +21,7 @@ export const HomeNav = () => {
 
       <div>
         <ul className="flex flex-col gap-5 items-center">
-          <Li>{Icons.headphone()}</Li>
+          {/* <Li>{Icons.headphone()}</Li> */}
           <Li>{Icons.setting()}</Li>
           <Li>{Icons.logOut()}</Li>
         </ul>

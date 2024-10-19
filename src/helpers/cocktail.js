@@ -105,7 +105,7 @@ export function $a(root) {
 /**
  * Parse Html to document
  * @param {string} text
- * @returns {Document}
+ * @returns {HTMLElement}
  */
 export function parseToHTML(text) {
   const div = document.createElement('div');

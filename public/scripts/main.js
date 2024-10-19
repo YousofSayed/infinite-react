@@ -59,7 +59,7 @@ function dropCallback(ev) {
   body.appendChild(droppedEl);
   body.classList.remove("ondragover");
   // initSeperators(initDropEl(droppedEl, data));
-  data.oldId ? body.querySelector(`#${data.oldId}`).remove() : "";
+  data.oldId ? body.querystate(`#${data.oldId}`).remove() : "";
   iframeBodyChange(body.innerHTML);
 }
 

@@ -60,7 +60,7 @@ const jsxComponent = () => {
     </div>
   );
 };
-
+let str = "${x}";
 /**
  * @type {import('grapesjs').BlockProperties[]}
  */
@@ -113,33 +113,105 @@ export const blocks = [
   {
     id: "button",
     category: "Basic",
+    media: html`<svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#ffffff"
+      stroke="#ffffff"
+      style="width:24px;height:24px"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M20.5 17h-17A2.502 2.502 0 0 1 1 14.5v-4A2.502 2.502 0 0 1 3.5 8h17a2.502 2.502 0 0 1 2.5 2.5v4a2.502 2.502 0 0 1-2.5 2.5zm-17-8A1.502 1.502 0 0 0 2 10.5v4A1.502 1.502 0 0 0 3.5 16h17a1.502 1.502 0 0 0 1.5-1.5v-4A1.502 1.502 0 0 0 20.5 9zM17 12H7v1h10z"
+        ></path>
+        <path fill="none" d="M0 0h24v24H0z"></path>
+      </g>
+    </svg>`,
     label: html`<p class="custom-font-size">Button</p>`,
     content: html` <button x-on:click="console.log('haha')">Click me</button> `,
   },
   {
     id: "row",
-    category: "row",
-    label: html`<p class="custom-font-size">Row</p>`,
+    category: "Basic",
+    label: html`<p class="custom-font-size ">Row</p>`,
     content: {
       // attributes:{},
-      components:html`
-      <section class="parent">
-        <div class="row"></div>
-        <div class="row"></div>
-      </section>
+      resizable: true,
+      components: html`
+        <section class="parent">
+          <div class="row"></div>
+          <div class="row"></div>
+        </section>
 
-      <style>
-        .parent {
-          display: flex;
-          padding: 10px;
-        }
-        .row {
-          min-height: 75px;
-          flex-grow: 1;
-        }
-      </style>
-    `
+        <style>
+          .parent {
+            display: flex;
+            padding: 10px;
+          }
+          .row {
+            min-height: 75px;
+            flex-grow: 1;
+          }
+        </style>
+      `,
     },
     default: {},
+  },
+  {
+    id: "looper",
+    label: "Lopper",
+    media: html`<svg
+      fill="#ffffff"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="#ffffff"
+      style="width:24px;height:24px"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M18,7a7.669,7.669,0,0,0-6,3.19A7.669,7.669,0,0,0,6,7C2.313,7,1,9.583,1,12c0,3.687,2.583,5,5,5a7.669,7.669,0,0,0,6-3.19A7.669,7.669,0,0,0,18,17c2.417,0,5-1.313,5-5C23,9.583,21.687,7,18,7ZM6,15a2.689,2.689,0,0,1-3-3A2.689,2.689,0,0,1,6,9c2.579,0,4.225,2.065,4.837,3C10.225,12.935,8.579,15,6,15Zm12,0c-2.579,0-4.225-2.065-4.837-3,.612-.935,2.258-3,4.837-3a2.689,2.689,0,0,1,3,3A2.689,2.689,0,0,1,18,15Z"
+        ></path>
+      </g>
+    </svg>`,
+    category: "Basic",
+    content: {
+      components: html`
+        <section class="parent">
+          <section class="row parent">
+            <div class="row">
+              <!-- <div _="set i to me"></div> -->
+            </div>
+
+            <section id="looper-items-container"></section>
+          </section>
+        </section>
+
+        <style>
+          .p {
+            padding: 10px;
+          }
+          .parent {
+            display: flex;
+            padding: 10px;
+          }
+          .row {
+            min-height: 75px;
+            flex-grow: 1;
+          }
+        </style>
+      `,
+    },
   },
 ];

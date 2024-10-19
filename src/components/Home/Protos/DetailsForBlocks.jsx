@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Details } from "./Details";
 import { refType } from "../../../helpers/jsDocs";
 
@@ -8,6 +8,7 @@ import { refType } from "../../../helpers/jsDocs";
  * @returns
  */
 export const DetailsForBlocks = ({ label, HTMLChildren }) => {
+  const [isShow , setIsShow] = useState(false);
   const blocksContainerRef = useRef(refType);
   useEffect(() => {
     if (!blocksContainerRef.current) return;
@@ -16,10 +17,11 @@ export const DetailsForBlocks = ({ label, HTMLChildren }) => {
     HTMLChildren.forEach((HTMLChild) => {
       blocksContainerRef.current.appendChild(HTMLChild);
     });
-  });
+  },[isShow]);
+
   return (
-    <Details label={label}>
-      <section id={label} ref={blocksContainerRef} className="grid custom-grid-col"></section>
+    <Details label={label} setIsShow={setIsShow}>
+      <section id={label} ref={blocksContainerRef} className="mt-3 grid custom-grid-col"></section>
     </Details>
   );
 };

@@ -17,31 +17,43 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] , placeholder:string, cssProp:string , value:string, onItemClicked:(item : string , index : number)=>void , onEnterPress: (keyword:string)=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string)=>void ,splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] , placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onItemClicked:(keyword ,index : number)=>void , onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
  * @returns
  */
 export const Select = ({
   label,
   keywords,
-  cssProp,
-  setKeyword = (_) => {},
+  setKeyword = (_, _2) => {},
   onItemClicked = (_) => {},
   onInput = (_) => {},
-  onEnterPress = (_)=>{},
+  onEnterPress = (_, _2) => {},
   placeholder = "",
   wrap = false,
-  value = '',
+  respectParenthesis = false,
+  val ,
+  setVal ,
+  singleValInInput = true,
   splitHyphen = false,
 }) => {
   const [showMenu, setMenu] = useState(false);
   const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
   const [isPending, setTransition] = useTransition();
   const [currentChoose, setCurrentChoose] = useState(0);
-  const [val, setVal] = useState("");
+  // const [val, setVal] = useState('');
   const inputRef = useRef();
   const selectRef = useRef();
   const menuRef = useRef();
   const choosenKeyword = useRef();
+
+  useEffect(() => {
+    if (
+      respectParenthesis &&
+      inputRef.current.value.lastIndexOf(")") ==
+        inputRef.current.value.length - 1
+    ) {
+      respectParenthesisHandler();
+    }
+  }, [val]);
 
   useCloseMenu(selectRef, setMenu);
   // useUpdateInputValue({ setVal: setVal, cssProp });
@@ -62,8 +74,6 @@ export const Select = ({
       keyword.toLowerCase().includes(ev.target.value.toLowerCase())
     );
 
-   
-
     if (newKeyW.length && ev.target.value) {
       setNewKeywords(newKeyW);
       const index = newKeyW.findIndex((value, i) =>
@@ -78,12 +88,25 @@ export const Select = ({
     }
   };
 
+  const respectParenthesisHandler = () => {
+    const value = inputRef.current.value;
+    const openIndex = value.lastIndexOf("(");
+    const closeIndex = value.lastIndexOf(")");
+    if (openIndex !== -1 && closeIndex !== -1 && closeIndex > openIndex) {
+      // Place the cursor right after the last opening parenthesis
+      const cursorPosition = openIndex + 1;
+      inputRef.current.setSelectionRange(cursorPosition, cursorPosition);
+    }
+  };
+
   /**
    *
    * @param {KeyboardEvent} ev
    */
   const handleChooses = (ev) => {
     let cloneCurrentChooseNum = currentChoose;
+    console.log(ev.key);
+
     if (ev.key == "ArrowDown") {
       ev.preventDefault();
       cloneCurrentChooseNum++;
@@ -93,6 +116,8 @@ export const Select = ({
         return;
       }
       setCurrentChoose(cloneCurrentChooseNum);
+    } else if (ev.ctrlKey && ev.key == " ") {
+      showMenuCallback();
     } else if (ev.key == "ArrowUp") {
       ev.preventDefault();
       cloneCurrentChooseNum--;
@@ -106,17 +131,11 @@ export const Select = ({
       const finalVal = splitHyphen
         ? choosenKeyword.current.split("-")[0]
         : choosenKeyword.current;
-      // cssProp &&
-      //   setClass({
-      //     cssProp,
-      //     value: finalVal,
-      //   });
 
-      onEnterPress(finalVal);
-
-
+      const singleOrMultiVal = singleValInInput ? finalVal : val + finalVal;
       setKeyword(finalVal);
       setVal(finalVal);
+      onEnterPress(finalVal);
       setMenu(false);
     }
   };
@@ -131,20 +150,31 @@ export const Select = ({
       {label ? <P>{label}: </P> : null}
       <div className={`${label ? "w-[55%]" : "w-full"} relative`}>
         <input
-          value={value}
+          value={val}
           ref={inputRef}
           className="w-full h-full font-semibold bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
           type="text"
           placeholder={placeholder}
-          onFocus={(ev) => {
-            setMenu(true);
-            keywords.forEach((keyword, i) => {
-              if (keyword.toLowerCase().includes(ev.target.value.toLowerCase()))
-                setCurrentChoose(i);
-            });
-            ev.target.select();
+          onClick={(ev) => {
+            showMenuCallback();
+            setCurrentChoose(
+              newKeywords.findIndex((keyword) =>
+                keyword.toLowerCase().includes(ev.target.value.toLowerCase())
+              )
+            );
+            // ev.target.select();
           }}
-          onInput={(ev)=>{
+          // onFocus={(ev) => {
+          // !showMenu && setMenu(true);
+
+          //   setCurrentChoose(
+          //     newKeywords.findIndex((keyword) =>
+          //       keyword.toLowerCase().includes(ev.target.value.toLowerCase())
+          //     )
+          //   );
+          //   ev.target.select();
+          // }}
+          onInput={(ev) => {
             onInput(ev.target.value);
             setVal(ev.target.value);
             filterKeywords(ev);
@@ -171,10 +201,10 @@ export const Select = ({
             menuRef={menuRef}
             choosenKeyword={choosenKeyword}
             currentChoose={currentChoose}
-            onItemClicked={(ev, keyword , i) => {
+            onItemClicked={(ev, keyword, i) => {
               const nkeyw = splitHyphen ? keyword.split("-")[0] : keyword;
-
-              onItemClicked(nkeyw , i);
+              const singleOrMultiVal = singleValInInput ? nkeyw : val + nkeyw;
+              onItemClicked(nkeyw, i);
               setKeyword(nkeyw);
               setVal(nkeyw);
               setMenu(false);

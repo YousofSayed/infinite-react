@@ -5,6 +5,7 @@ import { overflowValues } from "../../../constants/constants";
 import { getIconForMultiChoice } from "../../../helpers/functions";
 import { P } from "../../Protos/P";
 import { Select } from "./Select";
+import { SelectStyle } from "./SelectStyle";
 
 export const StyleSize = () => {
   return (
@@ -36,9 +37,9 @@ export const StyleSize = () => {
             getIconForMultiChoice('initial'),
         ]} />
       </section> */}
-      <Select label="overflow" cssProp="overflow" keywords={overflowValues}/>
-      <Select label="overflow-X" cssProp="overflow-x" keywords={overflowValues}/>
-      <Select label="overflow-Y" cssProp="overflow-y" keywords={overflowValues}/>
+      <SelectStyle label="overflow" cssProp="overflow" keywords={overflowValues}/>
+      <SelectStyle label="overflow-X" cssProp="overflow-x" keywords={overflowValues}/>
+      <SelectStyle label="overflow-Y" cssProp="overflow-y" keywords={overflowValues}/>
     </section>
   );
 };

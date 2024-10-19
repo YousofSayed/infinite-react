@@ -6,6 +6,7 @@ import { MultiChoice } from "./MultiChoice";
 import { P } from "../../Protos/P";
 import { Select } from "./Select";
 import { Property } from "./Property";
+import { SelectStyle } from "./SelectStyle";
 
 export const FlexLayout = () => {
   const [dir, setDir] = useState("");
@@ -32,7 +33,7 @@ export const FlexLayout = () => {
 
       <SharedBetweenFlexAndGridLayout />
 
-      <Select
+      <SelectStyle
         label="flex wrap"
         splitHyphen={false}
         cssProp="flex-wrap"
@@ -42,7 +43,7 @@ export const FlexLayout = () => {
       <Property label="row gap" cssProp="row-gap" />
       <Property label="flex grow" cssProp="flex-grow" special={true} />
       <Property label="flex shrink" cssProp="flex-shrink" special={true} />
-      <Select
+      <SelectStyle
         label="flex basis"
         cssProp="flex-basis"
         keywords={["auto", "content"]}

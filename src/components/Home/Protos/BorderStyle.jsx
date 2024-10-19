@@ -3,6 +3,7 @@ import { SelectedBorder } from "./SelectedBorder";
 import { Select } from "./Select";
 import { borderStyles } from "../../../constants/constants";
 import { P } from "../../Protos/P";
+import { SelectStyle } from "./SelectStyle";
 
 export const BorderStyle = () => {
   const [option, setOption] = useState("");
@@ -79,7 +80,7 @@ export const BorderStyle = () => {
           setOption={setOption}
         />
       </section>
-      <Select cssProp={cssProps} keywords={borderStyles} label="border style"/>
+      <SelectStyle cssProp={cssProps} keywords={borderStyles} label="border style"/>
     </section>
   );
 };

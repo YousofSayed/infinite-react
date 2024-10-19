@@ -8,25 +8,26 @@ import {
   useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
-import { blocksStt, currentElState, widths } from "../../helpers/atoms";
+import { blocksStt, currentElState, isRuleState, widths } from "../../helpers/atoms";
 import { blocks } from "../../Blocks/blocks.jsx";
 import { createRoot } from "react-dom/client";
 import { AssetsManager } from "./AssetsManager.jsx";
-import userBlocks from "grapesjs-user-blocks";
 import { editorType, refType } from "../../helpers/jsDocs.js";
 import {
   addItemInToolBarForEditor,
   createModal,
   handleCustomBlock,
 } from "../../helpers/functions.js";
-import tui from "grapesjs-tui-image-editor";
 import { editorIcons } from "../Icons/editorIcons.js";
 import { ReuseableSympol } from "./Modals/ReuseableSympol.jsx";
-import gjsSymbolsPlugin from "@silexlabs/grapesjs-symbols";
+import { useNavigate, useNavigation } from "react-router-dom";
+import { addDevices } from "../../plugins/addDevices.js";
 
 export const GJEditor = ({ children }) => {
   const setBlocksAtom = useSetRecoilState(blocksStt);
   const setSelectedEl = useSetRecoilState(currentElState);
+  const setRule = useSetRecoilState(isRuleState);
+  const navigate = useNavigate();
   const editorBlocks = useRecoilValue(blocksStt);
 
   const [editor, setEditor] = useState(editorType);
@@ -40,7 +41,7 @@ export const GJEditor = ({ children }) => {
   //     const blockEl = editor.Blocks.render(block.attributes, {
   //       external: true,
   //     });
-  //     const el = document.querySelector(`#blocks-ctg-${block.category.id}`);
+  //     const el = document.querystate(`#blocks-ctg-${block.category.id}`);
   //     console.log(block.category.id);
 
   //     el.append(blockEl);
@@ -53,6 +54,7 @@ export const GJEditor = ({ children }) => {
       options={{
         height: "100%",
         width: "100%",
+
         storageManager: false,
         panels: { defaults: [] },
         blockManager: {
@@ -60,11 +62,25 @@ export const GJEditor = ({ children }) => {
           blocks: blocks,
           custom: true,
         },
+       
+        // plugins:[mutationPlugin],
         canvas: {
-          scripts: [{ src: "/scripts/alpine.js" }],
+          scripts: [
+            // { src: "/scripts/alpine.js", },
+            // {src : "/scripts/hyperScriptFunctions._hs" , type:'text/hyperscript'},
+            // {src : "https://unpkg.com/hyperscript.org@0.9.12"},
+            // { src: "https://unpkg.com/lucia", type:'module' },
+            // {
+            //   src: "https://unpkg.com/petite-vue",
+            //   defer: true,
+            //   init: true,
+            // },
+            // { src: "/scripts/cock.js" },
+          ],
         },
         jsInHtml: true,
-        // plugins: [],
+
+        plugins: [addDevices],
         pluginsOpts: {
           // [tui]: {
           //   config: {
@@ -86,6 +102,7 @@ export const GJEditor = ({ children }) => {
           ...handleCustomBlock(ev.Blocks.getAll().models, ev),
           symbols: [],
         });
+        ev.runCommand("core:component-outline");
 
         ev.on(
           "block:add",
@@ -106,8 +123,9 @@ export const GJEditor = ({ children }) => {
 
         ev.on("component:selected", () => {
           const selectedEl = ev.getSelected();
-          ev.Commands.has();
           setSelectedEl({ currentEl: selectedEl.getEl() });
+          setRule({is:false , ruleString:''});
+          console.log("select");
 
           addItemInToolBarForEditor({
             commandCallback: (ed) => {
@@ -125,6 +143,7 @@ export const GJEditor = ({ children }) => {
             commandName: "open:create:symbol:model",
             editor: ev,
           });
+          navigate("edite/styling");
         });
 
         ev.on("redo", (args) => {

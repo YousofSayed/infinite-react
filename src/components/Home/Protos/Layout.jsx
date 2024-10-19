@@ -24,6 +24,7 @@ import { Details } from "./Details";
 import { SharedBetweenFlexAndGridLayout } from "./SharedBetweenFlexAndGridLayout";
 import { GridLayout } from "./GridLayout";
 import { FlexLayout } from "./FlexLayout";
+import { SelectStyle } from "./SelectStyle";
 
 
 
@@ -44,7 +45,7 @@ export const Layout = ({}) => {
   return (
     <>
       <section className="mt-3 flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
-        <Select
+        <SelectStyle
           label="display"
           cssProp="display"
           keywords={displayValues}
@@ -52,10 +53,10 @@ export const Layout = ({}) => {
         />
       </section>
 
-     {option.length ?  <section className="mt-3 flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+     {(option.includes('flex') || option.includes('grid')) &&  <section className="mt-3 flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
        {option.includes('flex') && <FlexLayout />}
        {option.includes('grid') && <GridLayout />}
-      </section> : ''}
+      </section> }
     </>
   );
 };

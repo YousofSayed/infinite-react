@@ -45,7 +45,7 @@ export const Property = ({
   //     setVal(editor.getSelected().getStyle()[cssProp] || '');
 
   //   //   const styleElement =
-  //   //     ifrDocumentVal.head.querySelector("#elements-classes");
+  //   //     ifrDocumentVal.head.querystate("#elements-classes");
   //   //   const prop =
   //   //     getOriginalCSSValue(currentElObj.currentEl, styleElement, cssProp) ||
   //   //     "";

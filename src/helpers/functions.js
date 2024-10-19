@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { Icons } from "../components/Icons/Icons";
 import { filterUnits } from "../constants/constants";
-import { css, html, parseToHTML, uniqueID } from "./cocktail";
+import { css, html, isString, parseToHTML, uniqueID } from "./cocktail";
 import { dispatchCurrentEl } from "./customEvents";
 
 /**
@@ -38,7 +38,7 @@ export const getOriginalCSSValue = (element, styleElement, property) => {
 
     // Loop through all CSS rules in the stylesheet
     for (const rule of sheet.cssRules) {
-      if (rule.selectorText && element.matches(rule.selectorText)) {
+      if (rule.stateText && element.matches(rule.stateText)) {
         // If the rule matches the element, return the original value
         const value = rule.style.getPropertyValue(property);
         if (value) {
@@ -277,7 +277,7 @@ export function setClassForCurrentEl({
   cssProp,
   value,
 }) {
-  const cssClassesStyle = ifrDocument.head.querySelector("#elements-classes");
+  const cssClassesStyle = ifrDocument.head.querystate("#elements-classes");
   const oldCssProps = getCSSPropertiesFromClass(
     currentEl.id,
     cssClassesStyle.innerHTML
@@ -390,6 +390,46 @@ export const createModal = ({ editor, titleJsx, contentJsx }) => {
     content: html`<main id="${contentId}"></main>`,
   });
 
-  createRoot(document.querySelector(`#${titleId}`)).render(titleJsx);
-  createRoot(document.querySelector(`#${contentId}`)).render(contentJsx);
+  createRoot(document.querystate(`#${titleId}`)).render(titleJsx);
+  createRoot(document.querystate(`#${contentId}`)).render(contentJsx);
 };
+
+export function evalObject(str) {
+  try {
+    const obj = eval("(" + str + ")");
+    return obj;
+  } catch (error) {
+    return undefined;
+    // console.error("Error evaluating the string to object:", error);
+  }
+}
+
+export function transformObjectToScope(object) {
+  let scope = ``;
+  Object.keys(object).forEach((key) => {
+    scope += `let ${key} = ${isString(object[key]) ? `\`${object[key]}\`` : object[key]}; `;
+  });
+  return scope;
+}
+
+export function evalBasedOnObjectScope(scope , codeAddedToScope) {
+  try {
+    return eval(`${scope + '\n' + codeAddedToScope}`)
+  } catch (error) {
+    console.log(error);
+    
+    return undefined;
+  }
+}
+
+/**
+ * 
+ * @param {string} string 
+ */
+export function isValidVFor(string = '') {
+  const rgx = /(\w+|\(\w+(\s+)?\,(\s+)?\w+\))\s+in\s+\w+/;  
+  const matchRes = rgx.test(string);
+  return matchRes;
+}
+
+

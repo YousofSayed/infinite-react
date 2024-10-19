@@ -50,7 +50,7 @@ const domObserver = new MutationObserver((nodes) => {
           });
 
         //Start handelling childs
-        const chldNodes = Array.from(chld.querySelectorAll("*"));
+        const chldNodes = Array.from(chld.querystateAll("*"));
         const tes = chldNodes.map((chldNode) => {
           const filterAttr = Array.from(chldNode.getAttributeNames()).filter(
             (attr) => attr.startsWith("@")
@@ -89,7 +89,7 @@ export const css = String.raw;
  * @returns {Element | HTMLElement | HTMLVideoElement | HTMLImageElement |HTMLDivElement}
  */
 export const $ = (root) => {
-  const el = document.querySelector(root);
+  const el = document.querystate(root);
   return el;
 };
 
@@ -99,7 +99,7 @@ export const $ = (root) => {
  * @returns
  */
 export function $a(root) {
-  return document.querySelectorAll(root);
+  return document.querystateAll(root);
 }
 
 /**
@@ -120,7 +120,7 @@ export function parseToHTML(text) {
  */
 export function renderTemplates(components) {
   const rgx = /{{.+}}/gi;
-  const templates = Array.from(document.querySelectorAll("template"));
+  const templates = Array.from(document.querystateAll("template"));
   const templatesFilter = templates.filter((template) =>
     template.innerHTML.match(rgx)
   );
@@ -160,7 +160,7 @@ const domObserverForAnimtaions = new MutationObserver((nodes) => {
       .forEach((nodeChild) => {
         const animatedElements = [
           nodeChild.hasAttribute("animate") ? nodeChild : null,
-          ...nodeChild.querySelectorAll("[animate]"),
+          ...nodeChild.querystateAll("[animate]"),
         ];
         animatedElements[0] ? observeAnimatedElement(animatedElements) : null;
       });
@@ -207,7 +207,7 @@ export function useAnimation(thresholdNum) {
   })
 
   const animatedElements = Array.from(
-    document.body.querySelectorAll("[animate]")
+    document.body.querystateAll("[animate]")
   );
   observeAnimatedElement(animatedElements);
 }
@@ -402,7 +402,7 @@ export function generateThumnail({ blob, videoEl, width, height }) {
  * @param {string} root
  */
 export function makeAppResponsive(root) {
-  const el = document.querySelector(root);
+  const el = document.querystate(root);
   if (!el) throw new Error(`Your element root "${root}" is ${el}`);
   el.style.height = `${window.innerHeight}px`;
   window.addEventListener(

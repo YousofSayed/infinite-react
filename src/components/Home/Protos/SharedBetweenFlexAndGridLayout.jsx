@@ -10,6 +10,7 @@ import {
 } from "../../../constants/constants";
 import { getIconForMultiChoice } from "../../../helpers/functions";
 import { Select } from "./Select";
+import { SelectStyle } from "./SelectStyle";
 
 export const SharedBetweenFlexAndGridLayout = () => {
   return (
@@ -45,25 +46,25 @@ export const SharedBetweenFlexAndGridLayout = () => {
         />
       </section> */}
 
-      <Select
+      <SelectStyle
         splitHyphen={false}
         label="align items"
         cssProp="align-items"
         keywords={alignItemsValues}
       />
-      <Select
+      <SelectStyle
         splitHyphen={false}
         label="justify items"
         cssProp="justify-items"
         keywords={justifyItemsValues}
       />
-      <Select
+      <SelectStyle
         splitHyphen={false}
         label="align content"
         cssProp="align-content"
         keywords={alignContentValues}
       />
-      <Select
+      <SelectStyle
         splitHyphen={false}
         label="justify content"
         cssProp="justify-content"

@@ -6,6 +6,7 @@ import {
 import {
   currentElState,
   ifrDocument,
+  isRuleState,
   refsStt,
   undoAndRedoStates,
 } from "../helpers/atoms";
@@ -21,19 +22,19 @@ import { useEffect, useRef } from "react";
  */
 export function useSetClassForCurrentEl() {
   const editor = useEditorMaybe();
-  // const 
-  /**
-   * @type {{current:HTMLElement}}
-   */
-  const selectedEl = useRef();
- 
-  useEffect(()=>{
-    if(!editor)return;
-   selectedEl.current = editor.getSelected()
-  },[editor])
+  const rule = useRecoilValue(isRuleState);
+  // // const
+  // /**
+  //  * @type {{current:HTMLElement}}
+  //  */
+  // const selectedEl = useRef();
+
+  // useEffect(()=>{
+  //   if(!editor)return;
+  //  selectedEl.current = editor.getSelected()
+  // },[editor])
 
   return ({ cssProp, value }) => {
-
     const state = editor.Selectors.getState();
     let newCssProps = {};
 
@@ -54,15 +55,19 @@ export function useSetClassForCurrentEl() {
           : { ...newCssProps };
     }
 
-
     console.log(state);
 
     if (state.includes("before") || state.includes("after")) {
       newCssProps["content"] = "";
     }
     console.log(newCssProps);
-    selectedEl.current.addStyle(newCssProps);
-    console.log(editor.getCss());
+    rule.is
+      ? editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyles:true})
+      : editor.getSelected().addStyle(newCssProps);
+    // editor.getSelected().addStyle(newCssProps);
+  //  const rulee =  editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyle:true})
+    // console.log(rulee.toCSS());
     
+    console.log(rule.ruleString,'%$%%$#$',editor.getCss());
   };
 }

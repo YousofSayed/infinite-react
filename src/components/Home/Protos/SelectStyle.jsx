@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Select } from "./Select";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
+import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
@@ -19,8 +20,10 @@ export const SelectStyle = ({
   const setClass = useSetClassForCurrentEl();
   const [val , setVal] = useState('');
 
+  useUpdateInputValue({setVal , cssProp});
+
   const onInput = (value) => {
-    // setVal(ev.target.value);
+    setVal(value);
     // setKeyword(ev.target.value);
     // filterKeywords(ev);
   };
@@ -48,9 +51,11 @@ export const SelectStyle = ({
         keywords={keywords}
         wrap={wrap}
         setKeyword={setKeyword}
-        onInput={onInput}
+        // onInput={onInput}
         onItemClicked={onItemClicked}
         onEnterPress={onEnterPress}
+        val={val}
+        setVal={setVal}
       />
     </section>
   );

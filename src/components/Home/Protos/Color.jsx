@@ -11,6 +11,7 @@ import {
 } from "../../../helpers/functions";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
+import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
@@ -40,9 +41,11 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
 
   useCloseMenu(hexColorRef , setShowHexColor);
 
-  useEffect(() => {
-    setColor(rgbStringToHex(getPropVal(currentElObj.currentEl, cssProp)));
-  }, [currentElObj]);
+  // useEffect(() => {
+  //   setColor(rgbStringToHex(getPropVal(currentElObj.currentEl, cssProp)));
+  // }, [currentElObj]);
+
+  useUpdateInputValue({setVal:setColor , cssProp})
 
   return (
     <section
@@ -104,7 +107,7 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
         <p
           className={`w-[20%] p-2 text-slate-200 text-[14px] font-bold flex justify-center items-center rounded-lg  bg-gray-900`}
         >
-          {hexToRgbA(color).opacity}
+          {hexToRgbA(color||'').opacity}
         </p>
       )}
     </section>

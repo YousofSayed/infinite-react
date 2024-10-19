@@ -34,7 +34,7 @@ export const pseudoElements = [
   "::selection",
   "::backdrop",
   "::cue",
-  "::file-selector-button",
+  "::file-state-button",
   "::part",
   "::slotted",
   "::grammar-error",
@@ -89,7 +89,7 @@ export const pseudoClasses = [
   ":where()" // CSS4
 ];
 
-export const allPesodus = pseudoElements.concat(pseudoClasses);
+export const statesKeys = pseudoElements.concat(pseudoClasses).sort();
 
 export const fontWeights = [
   "100 - Thin",

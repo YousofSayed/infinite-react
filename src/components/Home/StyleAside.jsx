@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Aside } from "./Protos/Aside";
 import { Details } from "./Protos/Details";
 import { Layout } from "./Protos/Layout";
-import { useSetRecoilState } from "recoil";
+import { selector, useSetRecoilState } from "recoil";
 import { currentElState } from "../../helpers/atoms";
 import { StyleTypography } from "./Protos/StyleTypography";
 import { Content } from "./Protos/Content";
@@ -10,8 +10,10 @@ import { StyleSize } from "./Protos/StyleSize";
 import { Positioning } from "./Protos/Positioning";
 import { Border } from "./Protos/Border";
 import { Select } from "./Protos/Select";
-import { allPesodus } from "../../constants/constants";
+// import {  selectors } from "../../constants/constants";
 import { useEditorMaybe } from "@grapesjs/react";
+import { AsideControllers } from "./Protos/AsideControllers";
+import { SelectState } from "./Protos/SelectState";
 
 /**
  *
@@ -41,25 +43,18 @@ export const StyleAside = ({ className }) => {
 
 
   return (
-    <Aside className={className} dir="right">
+    <>
       {/* <Details label={'content'}>
         <Content />
       </Details> */}
 
       {/* <section id="styles"></section> */}
+        <AsideControllers/>
+  
 
-      <Select
-      placeholder="state"
-        keywords={allPesodus}
-        setKeyword={(keyword) => {
-          editor.Selectors.setState(keyword.replace(':',''));
-          console.log(editor.Selectors.getState());
-          console.log(editor.Selectors.all);
-          console.log(editor.getStyle().models[editor.getStyle().models.length-1]);
-          console.log(editor.getStyle().models[editor.getStyle().models.length-1].changed);
-          setCurrentEl({currentEl:editor.getSelected().getEl()});
-        }}
-      />
+     <Details label={'states'}>
+     <SelectState />
+     </Details>
 
       <Details label={"Typography"}>
         <StyleTypography />
@@ -80,6 +75,6 @@ export const StyleAside = ({ className }) => {
       <Details label={"layout"}>
         <Layout />
       </Details>
-    </Aside>
+    </>
   );
 };

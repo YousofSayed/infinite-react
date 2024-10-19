@@ -7,6 +7,9 @@ import { RecoilRoot } from "recoil";
 import { StyleAside } from "../components/Home/StyleAside";
 import { GJEditor } from "../components/Home/GJEditor";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { TraitsAside } from "../components/Home/TraitsAside";
+import { Aside } from "../components/Home/Protos/Aside";
+import { Outlet, Route, Router, Routes } from "react-router-dom";
 
 export const Home = () => {
   console.log(Math.trunc((window.innerWidth - 60) * (30 / 100)));
@@ -21,11 +24,11 @@ export const Home = () => {
 
 
             <PanelGroup direction="horizontal">
-              <Panel
+              {/* <Panel
                 defaultSize={300}
               >
-                <StyleAside />
-              </Panel>
+                <TraitsAside/>
+              </Panel> */}
 
               <Panel
                 defaultSize={Math.trunc((window.innerWidth - 660) )}
@@ -38,7 +41,13 @@ export const Home = () => {
               className="bg-red-900 w-fit"
                 defaultSize={300}
               >
-                <ElementsAside />
+                {/* <ElementsAside /> */}
+
+                <Aside>
+                  {/* <Routes> */}
+                    <Outlet/>
+                  {/* </Routes> */}
+                </Aside>
               </Panel>
             </PanelGroup>
           </section>

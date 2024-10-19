@@ -33,7 +33,7 @@ export const IframeControllers = () => {
       <Li onClick={undo}>{Icons.undo()}</Li>
       <Li onClick={redo}>{Icons.redo()}</Li>
       <Li onClick={setComponentsView}>{Icons.square()}</Li>
-      <Li>{Icons.layers()}</Li>
+      <Li to={'/layers'} icon={Icons.layers}/>
     </ul>
   );
 };

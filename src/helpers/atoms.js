@@ -86,7 +86,7 @@ export const iframeRoot = atom({
 
 /**
  * @let
- * @type {{currentEl:HTMLElement , addStyle:({[cssProp:string]:string})}}
+ * @type {{currentEl:import('grapesjs').Component | HTMLElement , addStyle:({[cssProp:string]:string})}}
  */
 let currentElType = {
   currentEl: null,
@@ -106,3 +106,10 @@ export const editorStt = atom({
   default: editor,
 });
 
+
+let rule = {is:false , ruleString:''};
+
+export const isRuleState = atom({
+  key:'isRule',
+  default:rule
+});

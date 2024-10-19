@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "../Protos/Button";
-import { useEditor, useEditorMaybe } from "@grapesjs/react";
 import {
   addClickClass,
-  createBlobFileAs,
   uniqueID,
 } from "../../helpers/cocktail";
 import { Icons } from "../Icons/Icons";
 import { P } from "../Protos/P";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 
 /**
  *
@@ -119,8 +115,8 @@ export const AssetsManager = ({ editor }) => {
                 className="relative p-2 h-[150px] cursor-pointer rounded-lg  bg-gray-800"
                 key={uniqueID()}
               >
-              <div className="absolute group-hover:flex z-20 right-[-5px] top-[-5px] bg-red-600 hidden justify-center items-center rounded-full w-[20px] h-[20px]">
-                <FontAwesomeIcon icon={faX} className="text-white text-[11px]" />
+              <div className="absolute group-hover:flex z-20 right-[-5px] top-[-5px] bg-blue-600 fill-gray-800 hidden justify-center items-center rounded-full w-[20px] h-[20px]">
+                <Icons.close />
               </div>
 
                 {(file.type == "video" && (

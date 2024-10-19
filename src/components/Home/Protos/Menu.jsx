@@ -20,8 +20,6 @@ export const Menu = ({
 
   useEffect(() => {
     if (menuRef && menuRef.current) {
-      console.log( menuRef.current.parentNode.getBoundingClientRect().top);
-      
       menuRef.current.parentNode.getBoundingClientRect().top <= 300 
         ? menuRef.current.classList.add("top-[calc(100%+5px)]")
         : menuRef.current.classList.add("bottom-[calc(100%+5px)]");

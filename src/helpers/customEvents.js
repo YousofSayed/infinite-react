@@ -42,3 +42,17 @@ export const dispatchCurrentEl =  (el)=>{
     })
   )
 };
+
+/**
+ * 
+ * @param {HTMLElement} el 
+ */
+export const dispatchVMount = (el)=>{
+  window.parent.dispatchEvent(
+    new CustomEvent('mount:app',{
+      detail:{
+        el
+      }
+    })
+  )
+}

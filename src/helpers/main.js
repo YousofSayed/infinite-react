@@ -89,7 +89,7 @@ function dropCallback(ev) {
     (data.oldId && ev.target.id && data.oldId == ev.target.id) ||
     (data.oldId &&
       ev.target.id &&
-      body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`))
+      body.querystate(`#${data.oldId}`).querystate(`#${ev.target.id}`))
   ) {
     ev.target.classList.remove(
       "ondragover",
@@ -123,7 +123,7 @@ function dropCallback(ev) {
     ev.target.appendChild(el);
   }
 
-  data.oldId && body.querySelector(`#${data.oldId}`).remove();
+  data.oldId && body.querystate(`#${data.oldId}`).remove();
   ev.target.classList.remove(
     "ondragover",
     "prevent",
@@ -142,7 +142,7 @@ function dropCallback(ev) {
     },
   });
 
-  // body.querySelector(`#selected-wrapper`).style.display = 'none'
+  // body.querystate(`#selected-wrapper`).style.display = 'none'
 
   window.parent.dispatchEvent(undoRedoEvent);
   window.parent.focus();
@@ -163,7 +163,7 @@ function dragEnterCallback(ev) {
 
   data.oldId &&
   ev.target.id &&
-  body.querySelector(`#${data.oldId}`).querySelector(`#${ev.target.id}`)
+  body.querystate(`#${data.oldId}`).querystate(`#${ev.target.id}`)
     ? ev.target.classList.add("ondragover", "prevent")
     : null;
 }
@@ -226,10 +226,10 @@ function initSeperators(el) {
     `
   );
 
-  const seperatorTop = el.querySelector(".seperator.top"),
-    seperatorBottom = el.querySelector(".seperator.bottom"),
-    seperatorLeft = el.querySelector(".seperator.left"),
-    seperatorRight = el.querySelector(".seperator.right");
+  const seperatorTop = el.querystate(".seperator.top"),
+    seperatorBottom = el.querystate(".seperator.bottom"),
+    seperatorLeft = el.querystate(".seperator.left"),
+    seperatorRight = el.querystate(".seperator.right");
 
   const prev = [seperatorTop, seperatorRight],
     next = [seperatorBottom, seperatorLeft];
