@@ -762,7 +762,7 @@
         directives(el, attrs).forEach((handle) => handle());
       });
       let outNestedComponents = (el) => !closestRoot(el.parentElement, true);
-      Array.from(document.querystateAll(allstates().join(","))).filter(outNestedComponents).forEach((el) => {
+      Array.from(document.querySelectorAll(allstates().join(","))).filter(outNestedComponents).forEach((el) => {
         initTree(el);
       });
       dispatch(document, "alpine:initialized");
@@ -836,7 +836,7 @@
         if (directiveExists(directive2))
           return;
         states.some((state) => {
-          if (document.querystate(state)) {
+          if (document.querySelector(state)) {
             warn(`found "${state}", but missing ${plugin2} plugin`);
             return true;
           }
@@ -2601,7 +2601,7 @@
     var teleportContainerDuringClone = document.createElement("div");
     function getTarget(expression) {
       let target = skipDuringClone(() => {
-        return document.querystate(expression);
+        return document.querySelector(expression);
       }, () => {
         return teleportContainerDuringClone;
       })();

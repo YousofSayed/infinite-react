@@ -92,7 +92,7 @@ export const AssetsManager = ({ editor }) => {
   return (
     <main className="w-full h-[500px]">
       <section className="container h-full m-auto  rounded-lg flex flex-col gap-2">
-        <header className="flex justify-between items-center p-2 rounded-tl-full rounded-tr-2xl rounded-br-2xl rounded-bl-full bg-gray-950 ">
+        <header className="flex justify-between items-center p-2 rounded-lg rounded-tl-full rounded-tr-2xl rounded-br-2xl rounded-bl-full bg-gray-950 ">
           {Icons.logo()}
           {warn && (
             <p className="font-semibold text-xl bg-red-700 p-2 rounded-lg">

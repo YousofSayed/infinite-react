@@ -8,7 +8,7 @@ import {
   useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
-import { blocksStt, currentElState, isRuleState, widths } from "../../helpers/atoms";
+import { blocksStt, currentElState, ruleState, widths } from "../../helpers/atoms";
 import { blocks } from "../../Blocks/blocks.jsx";
 import { createRoot } from "react-dom/client";
 import { AssetsManager } from "./AssetsManager.jsx";
@@ -26,7 +26,7 @@ import { addDevices } from "../../plugins/addDevices.js";
 export const GJEditor = ({ children }) => {
   const setBlocksAtom = useSetRecoilState(blocksStt);
   const setSelectedEl = useSetRecoilState(currentElState);
-  const setRule = useSetRecoilState(isRuleState);
+  const setRule = useSetRecoilState(ruleState);
   const navigate = useNavigate();
   const editorBlocks = useRecoilValue(blocksStt);
 
@@ -41,7 +41,7 @@ export const GJEditor = ({ children }) => {
   //     const blockEl = editor.Blocks.render(block.attributes, {
   //       external: true,
   //     });
-  //     const el = document.querystate(`#blocks-ctg-${block.category.id}`);
+  //     const el = document.querySelector(`#blocks-ctg-${block.category.id}`);
   //     console.log(block.category.id);
 
   //     el.append(blockEl);

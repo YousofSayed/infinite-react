@@ -38,7 +38,7 @@ export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp })
 
   useEffect(() => {
     if (currentElObj && ifrDocVal) {
-      const styleElement = ifrDocVal.head.querystate("#elements-classes");
+      const styleElement = ifrDocVal.head.querySelector("#elements-classes");
       const getVal = (prop) =>
         getOriginalCSSValue(currentElObj.currentEl, styleElement, prop) || "";
       setVal({

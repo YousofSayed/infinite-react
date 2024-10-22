@@ -277,7 +277,7 @@ export function setClassForCurrentEl({
   cssProp,
   value,
 }) {
-  const cssClassesStyle = ifrDocument.head.querystate("#elements-classes");
+  const cssClassesStyle = ifrDocument.head.querySelector("#elements-classes");
   const oldCssProps = getCSSPropertiesFromClass(
     currentEl.id,
     cssClassesStyle.innerHTML
@@ -390,8 +390,8 @@ export const createModal = ({ editor, titleJsx, contentJsx }) => {
     content: html`<main id="${contentId}"></main>`,
   });
 
-  createRoot(document.querystate(`#${titleId}`)).render(titleJsx);
-  createRoot(document.querystate(`#${contentId}`)).render(contentJsx);
+  createRoot(document.querySelector(`#${titleId}`)).render(titleJsx);
+  createRoot(document.querySelector(`#${contentId}`)).render(contentJsx);
 };
 
 export function evalObject(str) {

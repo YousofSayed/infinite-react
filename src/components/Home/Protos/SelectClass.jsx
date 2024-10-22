@@ -16,7 +16,10 @@ export const SelectClass = () => {
   const [classesKeywrods, setClassesKeywords] = useState(
     editor.getSelected().getClasses()
   );
-  const [selectedClassName, setSelectedClassName] = useState({className:"bg-gray-900", index:null});
+  const [selectedClassName, setSelectedClassName] = useState({
+    className: "bg-gray-900",
+    index: null,
+  });
 
   useEffect(() => {
     setClassesKeywords(editor.getSelected().getClasses());
@@ -29,6 +32,11 @@ export const SelectClass = () => {
     editor.getSelected().addClass(newArr);
   };
 
+  const removeClass = (classNameKeyword = "") => {
+    editor.getSelected().removeClass(classNameKeyword);
+    setClassesKeywords(editor.getSelected().getClasses());
+  };
+
   return (
     <section className="mt-3 flex flex-col gap-3">
       <section className="flex gap-3">
@@ -36,7 +44,12 @@ export const SelectClass = () => {
           val={val}
           setVal={setVal}
           placeholder="Calss name"
-          keywords={editor.getCss().match(/\.\w+/gi) || ["No classes found..!"]}
+          keywords={
+            editor
+              .getCss()
+              ?.match(/\.\w+/gi)
+              ?.map((st) => st.replace(".", "")) || ["No classes found..!"]
+          }
           onMenuOpen={({ menu, setKeywords, keywords }) => {
             setKeywords(
               editor.getCss().match(/\.\w+/gi) || ["No classes found..!"]
@@ -57,16 +70,22 @@ export const SelectClass = () => {
         <Choices
           keywords={classesKeywrods}
           className="flex-wrap flex-center"
-          onItemClick={({ ev, keyword, index }) => {
-            setSelectedClassName({
-              className:'bg-blue-600',
-              index
-            })
-            setSelector((selector) =>
-              selector == `.${keyword}` ? "" : `.${keyword}`
-            );
+          onCloseClick={(ev, keyword) => {
+            removeClass(keyword);
           }}
-          itemClassName={selectedClassName}
+          onActive={({ keyword, index }) => {
+            setSelector(`.${keyword}`);
+          }}
+          onUnActive={({ keyword, index }) => {
+            setSelector('');
+          }}
+          // onItemClick={({ ev, keyword, index }) => {
+          //   setSelectedClassName(`${ selector == `.${keyword}` && `);
+          // setSelector((selector) =>
+          //   selector == `.${keyword}` ? "" : `.${keyword}`
+          // );
+          // }}
+          enableSelecting={true}
         />
       </section>
     </section>

@@ -843,7 +843,7 @@ var pn = Object.defineProperty,
       Xe = (e, t) => {
         if ("#" !== t[0]) e.innerHTML = t;
         else {
-          const n = document.querystate(t);
+          const n = document.querySelector(t);
           e.appendChild(n.content.cloneNode(!0));
         }
       },
@@ -975,13 +975,13 @@ var pn = Object.defineProperty,
               return n ? ((t.dirs[e] = n), this) : t.dirs[e];
             },
             mount(e) {
-              if ("string" == typeof e && !(e = document.querystate(e)))
+              if ("string" == typeof e && !(e = document.querySelector(e)))
                 return;
               let s;
               return (
                 (s = (e = e || document.documentElement).hasAttribute("v-scope")
                   ? [e]
-                  : [...e.querystateAll("[v-scope]")].filter(
+                  : [...e.querySelectorAll("[v-scope]")].filter(
                       (e) => !e.matches("[v-scope] [v-scope]")
                     )),
                 s.length || (s = [e]),

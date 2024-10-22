@@ -6,7 +6,7 @@ import {
 import {
   currentElState,
   ifrDocument,
-  isRuleState,
+  ruleState,
   refsStt,
   selectorState,
   undoAndRedoStates,
@@ -23,7 +23,7 @@ import { useEffect, useRef } from "react";
  */
 export function useSetClassForCurrentEl() {
   const editor = useEditorMaybe();
-  const rule = useRecoilValue(isRuleState);
+  const rule = useRecoilValue(ruleState);
   const selector = useRecoilValue(selectorState);
   // // const
   // /**

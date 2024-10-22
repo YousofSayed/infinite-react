@@ -109,8 +109,8 @@ export const editorStt = atom({
 
 let rule = {is:false , ruleString:''};
 
-export const isRuleState = atom({
-  key:'isRule',
+export const ruleState = atom({
+  key:'ruleState',
   default:rule
 });
 

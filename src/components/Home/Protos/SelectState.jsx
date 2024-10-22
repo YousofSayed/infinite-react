@@ -9,14 +9,14 @@ import { addClickClass, cloneObject } from "../../../helpers/cocktail";
 import { SmallButton } from "./SmallButton";
 import { ChoicesForStates } from "./ChoicesForStates";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentElState, isRuleState, selectorState } from "../../../helpers/atoms";
+import { currentElState, ruleState, selectorState } from "../../../helpers/atoms";
 
 // console.log({0:[],1:[]});
 
 export const SelectState = ({ placeholder }) => {
   const editor = useEditorMaybe();
-  const setRule = useSetRecoilState(isRuleState);
-  const rule = useRecoilValue(isRuleState);
+  const setRule = useSetRecoilState(ruleState);
+  const rule = useRecoilValue(ruleState);
   const selector = useRecoilValue(selectorState); 
   const selectedEl = useRecoilValue(currentElState);
   const [val, setVal] = useState("");
@@ -86,7 +86,8 @@ export const SelectState = ({ placeholder }) => {
   }
 
   function removeState(keyword, keywordsIndex) {
-    const ruleString = `#${editor.getSelected().getEl().id}${states[
+    const currentSelector = selector ? selector : `#${selectedEl.currentEl.id}`;
+    const ruleString = `${currentSelector}${states[
       keywordsIndex
     ].join("")}`;
 
@@ -102,7 +103,7 @@ export const SelectState = ({ placeholder }) => {
     setStates({ ...states, [keywordsIndex]: newArr });
     states[keywordsIndex].length > 1 &&
       editor.Css.setRule(
-        `#${selectedEl.currentEl.id}${newArr.join("")}`,
+        `${currentSelector}${newArr.join("")}`,
         oldRuleStyle
       );
     setRule({
@@ -135,7 +136,7 @@ export const SelectState = ({ placeholder }) => {
 
     setRule((old) => ({
       is: currentStateIndex == keywordsIndex ? !old.is : true,
-      ruleString: old.ruleString ? "" : `${states[keywordsIndex].join("")}`,
+      ruleString: currentStateIndex == keywordsIndex && old.ruleString ? "" : `${states[keywordsIndex].join("")}`,
     }));
   }
 

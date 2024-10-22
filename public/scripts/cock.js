@@ -39,7 +39,7 @@ function mutateDom(el) {
       // }
       // const scope =   mutation.target.getAttribute('v-scope') || mutation.oldValue;
       // console.log(scope , mutation.target.getAttribute('v-scope') ,  mutation.oldValue );
-      // // const scopes = document.querystateAll(`[v-scope]`);
+      // // const scopes = document.querySelectorAll(`[v-scope]`);
       // // console.log(scopes , 'before mount');
       // const mount = app.mount();
       // mutation.target.setAttribute('v-scope',scope);
@@ -97,13 +97,13 @@ window.parent.addEventListener(
    */
   (event) => {
     const scopes = Array.from(
-      document.querystateAll(
+      document.querySelectorAll(
         `[v-scope] , [v-for] , [v-model] , [v-text] , [v-effect] , [v-if] , [v-show]`
       )
     ).map((el) => el.cloneNode(true));
     console.log("app mounted", scopes);
 
-    Array.from(document.querystateAll(`[i-for-delete]`)).forEach(el=>{
+    Array.from(document.querySelectorAll(`[i-for-delete]`)).forEach(el=>{
       !el.hasAttribute('v-for') ? el.remove() : null;
     })
 
@@ -116,7 +116,7 @@ window.parent.addEventListener(
       (scope) => {
         scope.getAttributeNames().forEach((attr) => {
           document
-            .querystate(`#${scope.id}`)
+            .querySelector(`#${scope.id}`)
             .setAttribute(attr, scope.getAttribute(attr));
         });
         console.log(scope.getAttribute("v-scope"));

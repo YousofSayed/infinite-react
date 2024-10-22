@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Icons } from "../../Icons/Icons";
 import { SmallButton } from "./SmallButton";
 import { useRecoilValue } from "recoil";
-import { selectorState } from "../../../helpers/atoms";
+import { currentElState, selectorState } from "../../../helpers/atoms";
 
 /**
  *
- * @param {{keywords : string[] , className:string , onItemClick : ({ev , keyword , index} : {ev:MouseEvent , keyword:string , index:number})=>void,  itemClassName:React.HTMLAttributes.className,  onCloseClick : (ev : MouseEvent , keyword : string , index:number) => void , }} param0
+ * @param {{keywords : string[] , className:string , onActive : ({ keyword , index} : { keyword:string , index:number})=>void, onUnActive : ({ keyword , index} : { keyword:string , index:number})=>void,  enableSelecting:boolean,  onCloseClick : (ev : MouseEvent , keyword : string , index:number) => void , }} param0
  * @returns
  */
 export const Choices = ({
   keywords,
-  itemClassName = "bg-blue-600",
-  className='',
-  onItemClick = (_ev, _keyword, _index) => {},
+  enableSelecting = false,
+  className = "",
+  onActive = (_ev, _keyword, _index) => {},
+  onUnActive = (_ev, _keyword, _index) => {},
   onCloseClick = (_, _1) => {},
 }) => {
-  const selector = useRecoilValue(selectorState);
+  const sle = useRecoilValue(currentElState);
+  const [active, setActive] = useState(false);
+  const [keyword, setKeyword] = useState("");
+  const currentIndex = useRef();
+
+  useEffect(()=>{
+    setActive(false);
+  },[sle])
+
+  useEffect(() => {
+    active
+      ? onActive({ keyword, index: currentIndex.current })
+      : onUnActive({ keyword, index: currentIndex.current });
+  }, [active, keyword]);
+
   return (
     <section
       className={`w-full min-h-[50px]   overflow-x-auto gap-2 flex items-center py-[5px] px-2 rounded-lg bg-slate-800 ${className}`}
@@ -27,10 +42,18 @@ export const Choices = ({
             <p
               onClick={(ev) => {
                 ev.stopPropagation();
-                onItemClick({ ev, keyword, index: i });
+                setActive(!active);
+                currentIndex.current = i;
+                setKeyword(keyword);
               }}
               key={i}
-              className={`relative group px-[20px] w-fit cursor-pointer select-none  flex-shrink-0 py-[10px] text-white ${itemClassName.index == i ? itemClassName.className : 'bg-gray-900'} transition-all rounded-lg font-semibold`}
+              className={`relative group px-[20px] w-fit cursor-pointer select-none  flex-shrink-0 py-[10px] text-white ${
+                enableSelecting && active && currentIndex.current == i
+                  ? "bg-blue-600"
+                  : enableSelecting
+                  ? "bg-gray-900"
+                  : "bg-blue-600"
+              }  transition-all rounded-lg font-semibold`}
             >
               {keyword}
               <i

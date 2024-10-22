@@ -3,7 +3,7 @@ import { Choices } from "./Choices";
 import { SmallButton } from "./SmallButton";
 import { Icons } from "../../Icons/Icons";
 import { useRecoilValue } from "recoil";
-import { isRuleState } from "../../../helpers/atoms";
+import { ruleState } from "../../../helpers/atoms";
 
 /**
  *
@@ -18,7 +18,7 @@ export const ChoicesForStates = ({
   onDelete = (ev, index) => {},
   onSelect = (ev, index) => {},
 }) => {
-  const rule = useRecoilValue(isRuleState);
+  const rule = useRecoilValue(ruleState);
 
   return (
     <section
