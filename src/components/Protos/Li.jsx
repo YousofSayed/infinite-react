@@ -8,25 +8,26 @@ export const Li = ({
   hover = true,
   to,
   onClick = () => {},
-  icon = (strokeColor , strokeWidth)=>{}
+  icon = (strokeColor, strokeWidth) => {},
 }) => {
   const path = useResolvedPath().pathname;
+
   return (
-    <Link
-      to={to}
-      className={`group  w-[35px] h-[35px] rounded-lg grid place-items-center transition-all ${path == to && 'bg-blue-600'} ${className}  ${
-        hover ? "hover:bg-slate-800" : ""
-      }`}
-      onClick={(ev) => {
-        console.log(path.pathname , to);
-        addClickClass(ev.currentTarget, "click");
-        onClick(ev);
-      }}
-    >
-      <li>
-        {icon(path == to ? 'white' : undefined)}
+    <li  className={`group  w-[35px] h-[35px] rounded-lg cursor-pointer grid place-items-center transition-all ${
+      path == to && "bg-blue-600"
+    } ${className}  ${hover ? "hover:bg-blue-700" : ""}`}>
+      <Link 
+        to={to}
+       className="w-full h-full flex justify-center items-center"
+        onClick={(ev) => {
+          console.log(path.pathname, to);
+          addClickClass(ev.currentTarget, "click");
+          onClick(ev);
+        }}
+      >
+        {icon(path == to ? "white" : undefined)}
         {children}
-        </li>
-    </Link>
+      </Link>
+    </li>
   );
 };

@@ -219,3 +219,49 @@ body {
 #gjs-mdl-c .modal-content.gjs-sm-properties > div > div:nth-child(3) {
   @apply flex gap-[10px] items-center;
 }
+
+.gjs-layer-title{
+  @apply text-[15px] font-bold;
+}
+
+.gjs-layer-item{
+  @apply p-3 bg-gray-800 transition-all mt-2
+}
+
+.gjs-layer-item:hover{
+  @apply bg-gray-700 !important;
+}
+
+.gjs-layer-caret {
+  @apply w-[25px] text-blue-400 !important;
+}
+
+.gjs-selected [data-toggle-select=""] .gjs-layer-caret  {
+  @apply text-white font-bold w-[27px] !important;
+}
+
+.gjs-layer-vis-on , .gjs-layer-vis{
+  @apply w-[20px] !important;
+}
+
+.gjs-layer-count{
+  @apply text-[16px] font-semibold text-blue-400 !important;
+
+}
+
+
+.gjs-selected [data-toggle-select=""] .gjs-layer-count{
+  @apply text-white font-bold !important;
+}
+
+
+
+.gjs-layer-move{
+  @apply z-50  w-[22px];
+}
+
+.gjs-selected [data-toggle-select=""] {
+  @apply bg-blue-600 !important;
+}
+
+

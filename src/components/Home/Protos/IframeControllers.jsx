@@ -2,9 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Li } from "../../Protos/Li";
 import { Icons } from "../../Icons/Icons";
 import { useEditorMaybe } from "@grapesjs/react";
+import { useSetRecoilState } from "recoil";
+import { showLayersState } from "../../../helpers/atoms";
 
 export const IframeControllers = () => {
   const editor = useEditorMaybe();
+  const setShowLayers = useSetRecoilState(showLayersState);
 
   const undo = () => {
     editor.runCommand("core:undo");
@@ -33,7 +36,7 @@ export const IframeControllers = () => {
       <Li onClick={undo}>{Icons.undo()}</Li>
       <Li onClick={redo}>{Icons.redo()}</Li>
       <Li onClick={setComponentsView}>{Icons.square()}</Li>
-      <Li to={'/layers'} icon={Icons.layers}/>
+      <Li onClick={(ev)=>{setShowLayers(old=>!old)}}  icon={Icons.layers}/>
     </ul>
   );
 };

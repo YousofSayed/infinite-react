@@ -117,4 +117,9 @@ export const ruleState = atom({
 export const selectorState = atom({
   key:'selectorState',
   default:''
-})
+});
+
+export const showLayersState = atom({
+  key:'showLayers',
+  default:false
+});

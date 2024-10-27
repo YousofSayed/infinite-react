@@ -24,7 +24,7 @@ export const Aside = ({ children, className = "", dir = "left" }) => {
       </section>
 
       <PanelResizeHandle
-        className={`flex  items-center justify-center opacity-0 z-30 hover:opacity-[1] select-none transition-all absolute w-[5px] h-full  top-0 ${
+        className={`flex  items-center justify-center opacity-0 z-30 hover:opacity-[1] select-none transition-all absolute w-[8px] h-full  top-0 ${
           dir == "left" ? "left-0" : "right-0"
         } bg-blue-600 cursor-col-resize`}
       />
