@@ -107,17 +107,17 @@ export const AssetsManager = ({ editor }) => {
           </Button>
         </header>
 
-        <section className={`w-full h-full  bg-gray-950 rounded-lg p-2 overflow-auto grid custom-grid-col-150 gap-[15px] `}>
-          {files.map((file) => (
-            <article className={`group relative ${files.length > 1 ? '':'w-[150px]'} flex flex-col justify-center items-center gap-2`}>
-              <figure
-                onClick={(ev) => onItemClicked(ev, file)}
-                className="relative p-2 h-[150px] cursor-pointer rounded-lg  bg-gray-800"
-                key={uniqueID()}
-              >
+        <section className={`w-full h-full  bg-gray-950 rounded-lg p-2 overflow-auto grid grid-cols-[repeat(auto-fill,minmax(25%,1fr))] grid-rows-[repeat(auto-fill,minmax(200px,200px))] justify-start gap-[15px] `}>
+          {files.map((file , i) => (
+            <article key={i} className={`group relative rounded-lg bg-gray-900  flex flex-col justify-center items-center gap-2`}>
               <div className="absolute group-hover:flex z-20 right-[-5px] top-[-5px] bg-blue-600 fill-gray-800 hidden justify-center items-center rounded-full w-[20px] h-[20px]">
                 <Icons.close />
               </div>
+              
+              <figure
+                onClick={(ev) => {ev.stopPropagation(); onItemClicked(ev, file)}}
+                className=" p-2 h-[150px]  cursor-pointer rounded-lg  "
+              >
 
                 {(file.type == "video" && (
                   <>

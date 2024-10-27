@@ -24,16 +24,19 @@ export const Home = () => {
           <HomeHeader />
 
           <PanelGroup tagName="section" direction="horizontal">
-            <Panel
-              style={{ display: showLayers ? "block" : "none" }}
-              defaultSize={300}
-            >
-              <Aside dir="right">
-                <Layers />
-              </Aside>
+            <Panel style={{display:showLayers ? "block" : "none"}} defaultSize={300}>
+                <Aside  dir="right">
+                  <Layers />
+                </Aside>
             </Panel>
 
-            <Panel defaultSize={Math.trunc(window.innerWidth - 660)}>
+            <Panel
+              defaultSize={
+                showLayers
+                  ? Math.trunc(window.innerWidth - 660)
+                  : Math.trunc(window.innerWidth - 360)
+              }
+            >
               <Iframe />
             </Panel>
 
