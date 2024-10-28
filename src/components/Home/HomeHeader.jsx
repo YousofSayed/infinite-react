@@ -1,10 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Icons } from "../Icons/Icons";
 import { Li } from "../Protos/Li";
-import { Button } from "../Protos/Button";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { refsStt } from "../../helpers/atoms";
-// import { appendStyle } from "../../helpers/functions";
 import { IframeControllers } from "./Protos/IframeControllers";
 import { useEditorMaybe } from "@grapesjs/react";
 import { Input } from "./Protos/Input";
@@ -30,8 +26,6 @@ export const HomeHeader = () => {
       height: heightRef.current + (heightRef.current && "px") || undefined,
       widthMedia: widthRef.current ? widthRef.current + "px" : undefined,
     });
-    console.log(editor.Layers.render());
-    
 
     editor.DeviceManager.select(customDevice.current);
   };
@@ -61,7 +55,7 @@ export const HomeHeader = () => {
           {Icons.mopile()}
         </Li>
 
-        <section className="flex items-center gap-4">
+        <li className="flex items-center gap-4">
           <Input
             onInput={(ev) => {
               transformToNumInput(ev.target);
@@ -79,7 +73,7 @@ export const HomeHeader = () => {
             placeholder="Height"
             className="bg-gray-800 w-[100px] p-[7.5px] font-bold text-sm"
           />
-        </section>
+        </li>
       </ul>
 
       <div className="flex items-center gap-[10px]">

@@ -18,9 +18,7 @@
 body {
   cursor: url("./assets/images/mainCursor.png"), auto;
   font-family: system-ui, "roboto", "poppins";
-
 }
-
 
 .custom-grid-col {
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
@@ -29,9 +27,14 @@ body {
   gap: 7px;
 }
 
+.bg-blur {
+  background: rgba(255, 255, 255, 0.1); /* Adjust opacity as needed */
+  backdrop-filter: blur(3px); /* Adjust the blur amount */
+}
+
 .custom-grid-col-150 {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 35px ;
+  gap: 35px;
   align-items: start;
 }
 
@@ -157,12 +160,12 @@ body {
   color: white;
 }
 
-.gjs-block-category.gjs-open{
+.gjs-block-category.gjs-open {
   all: unset;
 }
 
 .gjs-block {
-  @apply  w-full bg-gray-900 border-none p-2 m-0 shadow-none rounded-lg hover:text-slate-200 text-slate-300  font-bold flex justify-center items-center;
+  @apply w-full bg-gray-900 border-none p-2 m-0 shadow-none rounded-lg hover:text-slate-200 text-slate-300  font-bold flex justify-center items-center;
 }
 
 .gjs-btn-prim {
@@ -173,46 +176,46 @@ body {
   @apply flex justify-between gap-[15px] w-full;
 }
 
-.gjs-blocks-c{
+.gjs-blocks-c {
   /* all: uns */
   /* @apply max-w-[50%] !important; */
 }
 
-.gjs-block-categories{
-  @apply gap-4 ;
+.gjs-block-categories {
+  @apply gap-4;
 }
 
-.gjs-block-category .gjs-title{
-  @apply py-2 ;
+.gjs-block-category .gjs-title {
+  @apply py-2;
 }
 
 .gjs-field {
   @apply p-2 rounded-lg;
 }
 
-
-.gjs-title , .gjs-sm-sector-title {
+.gjs-title,
+.gjs-sm-sector-title {
   direction: rtl;
   @apply w-full bg-slate-800  p-[10px] flex justify-between items-center  rounded-lg text-slate-300 break-all capitalize custom-font-size  font-bold h-full mr-2 !important;
 }
 
-.gjs-blocks-cs.gjs-one-bg.gjs-two-color{
-  @apply h-fit bg-transparent p-0 bottom-0 shadow-none ;
+.gjs-blocks-cs.gjs-one-bg.gjs-two-color {
+  @apply h-fit bg-transparent p-0 bottom-0 shadow-none;
 }
 
-.gjs-blocks-no-cat{
+.gjs-blocks-no-cat {
   /* @apply hidden; */
 }
 
-.gjs-sm-properties{
-  @apply py-3 px-2 bg-slate-800 ;
+.gjs-sm-properties {
+  @apply py-3 px-2 bg-slate-800;
 }
 
-.gjs-sm-property{
-  @apply w-full text-slate-300 custom-font-size font-bold bg-gray-900 py-1 rounded-lg flex justify-between items-center ;
+.gjs-sm-property {
+  @apply w-full text-slate-300 custom-font-size font-bold bg-gray-900 py-1 rounded-lg flex justify-between items-center;
 }
 
-.gjs-block-category .gjs-title{
+.gjs-block-category .gjs-title {
   @apply hidden !important;
 }
 
@@ -220,48 +223,44 @@ body {
   @apply flex gap-[10px] items-center;
 }
 
-.gjs-layer-title{
+.gjs-layer-title {
   @apply text-[15px] font-bold;
 }
 
-.gjs-layer-item{
-  @apply p-3 bg-gray-800 transition-all mt-2
+.gjs-layer-item {
+  @apply p-3 bg-gray-800 transition-all mt-2;
 }
 
-.gjs-layer-item:hover{
-  @apply bg-gray-700 !important;
+.gjs-layer-item:hover {
+  /* all: unset !important; */
+  @apply bg-gray-800 !important;
 }
 
 .gjs-layer-caret {
   @apply w-[25px] text-blue-400 !important;
 }
 
-.gjs-selected [data-toggle-select=""] .gjs-layer-caret  {
+.gjs-selected [data-toggle-select=""] .gjs-layer-caret {
   @apply text-white font-bold w-[27px] !important;
 }
 
-.gjs-layer-vis-on , .gjs-layer-vis{
+.gjs-layer-vis-on,
+.gjs-layer-vis {
   @apply w-[20px] !important;
 }
 
-.gjs-layer-count{
+.gjs-layer-count {
   @apply text-[16px] font-semibold text-blue-400 !important;
-
 }
 
-
-.gjs-selected [data-toggle-select=""] .gjs-layer-count{
+.gjs-selected [data-toggle-select=""] .gjs-layer-count {
   @apply text-white font-bold !important;
 }
 
-
-
-.gjs-layer-move{
+.gjs-layer-move {
   @apply z-50  w-[22px];
 }
 
 .gjs-selected [data-toggle-select=""] {
   @apply bg-blue-600 !important;
 }
-
-

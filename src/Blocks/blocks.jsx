@@ -140,27 +140,12 @@ export const blocks = [
     id: "row",
     category: "Basic",
     label: html`<p class="custom-font-size ">Row</p>`,
-    content: {
-      // attributes:{},
-      resizable: true,
-      components: html`
-        <section class="parent">
-          <div class="row"></div>
-          <div class="row"></div>
-        </section>
-
-        <style>
-          .parent {
-            display: flex;
-            padding: 10px;
-          }
-          .row {
-            min-height: 75px;
-            flex-grow: 1;
-          }
-        </style>
-      `,
-    },
+    content: html`
+      <section class="parent">
+        <div class="row"></div>
+        <div class="row"></div>
+      </section>
+    `,
     default: {},
   },
   {

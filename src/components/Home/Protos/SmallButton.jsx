@@ -10,7 +10,7 @@ export const SmallButton = ({onClick = (_)=>{} , className='', children}) => {
   return (
     <button
       onClick={(ev) => {
-        addClickClass(ev.currentTarget, "click");
+        addClickClass(ev.currentTarget, "click"); 
         onClick(ev);
       }}
       className={`w-[48px] transition-all hover:bg-blue-600 flex rounded-lg cursor-pointer items-center justify-center bg-slate-800 ${className}`}

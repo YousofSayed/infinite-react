@@ -56,3 +56,31 @@ export const dispatchVMount = (el)=>{
     })
   )
 }
+
+/**
+ * 
+ * @param {{title:string , JSXModal:import('react').JSX}} param0 
+ * @returns 
+ */
+export const openCustomModal = ({title , JSXModal})=>{
+  return new CustomEvent('open:custom:modal',{
+    detail:{
+      title,
+      JSXModal
+    }
+  })
+}
+
+/**
+ * 
+ * @param {{title:string , JSXModal:import('react').JSX}} param0 
+ * @returns 
+ */
+export const closeCustomModal = ({title , JSXModal})=>{
+  return new CustomEvent('close:custom:modal',{
+    detail:{
+      title,
+      JSXModal
+    }
+  })
+}

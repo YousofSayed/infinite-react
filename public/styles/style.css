@@ -8,11 +8,23 @@
   box-sizing: border-box;
 }
 
+.parent {
+  display: flex;
+  padding: 10px;
+}
+.row {
+  min-height: 75px;
+  flex-grow: 1;
+}
+
 .container {
   /* width: 95%;
   padding: 0 15px; */
+  /* background-image:  ; */
   margin: auto;
 }
+
+
 
 #editorjs{
   min-height: 100%;
@@ -147,3 +159,6 @@
         background-color: gold;
     }
 } */
+
+
+

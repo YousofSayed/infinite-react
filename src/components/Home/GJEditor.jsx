@@ -8,7 +8,12 @@ import {
   useResetRecoilState,
   useSetRecoilState,
 } from "recoil";
-import { blocksStt, currentElState, ruleState, widths } from "../../helpers/atoms";
+import {
+  blocksStt,
+  currentElState,
+  ruleState,
+  widths,
+} from "../../helpers/atoms";
 import { blocks } from "../../Blocks/blocks.jsx";
 import { createRoot } from "react-dom/client";
 import { AssetsManager } from "./AssetsManager.jsx";
@@ -22,6 +27,7 @@ import { editorIcons } from "../Icons/editorIcons.js";
 import { ReuseableSympol } from "./Modals/ReuseableSympol.jsx";
 import { useNavigate, useNavigation } from "react-router-dom";
 import { addDevices } from "../../plugins/addDevices.js";
+import { customModal } from "../../plugins/cutomModal.js";
 
 export const GJEditor = ({ children }) => {
   const setBlocksAtom = useSetRecoilState(blocksStt);
@@ -62,7 +68,7 @@ export const GJEditor = ({ children }) => {
           blocks: blocks,
           custom: true,
         },
-       
+
         // plugins:[mutationPlugin],
         canvas: {
           scripts: [
@@ -77,15 +83,17 @@ export const GJEditor = ({ children }) => {
             // },
             // { src: "/scripts/cock.js" },
           ],
+          styles: [{ href: "/styles/style.css" }],
         },
         jsInHtml: true,
 
-        plugins: [addDevices],
-        
+        plugins: [addDevices , customModal],
       }}
       onEditor={(ev) => {
         setEditor(ev);
-        ev.addStyle(`body [data-gjs-type="wrapper"] [id]::before{content:''} .lol{font-size:32px}`);
+        ev.addStyle(
+          `body [data-gjs-type="wrapper"] [id]::before{content:''} .lol{font-size:32px}`
+        );
         ev.Blocks.categories.add({ id: "others", label: "Others" });
         setBlocksAtom({
           ...handleCustomBlock(ev.Blocks.getAll().models, ev),
@@ -113,7 +121,7 @@ export const GJEditor = ({ children }) => {
         ev.on("component:selected", () => {
           const selectedEl = ev.getSelected();
           setSelectedEl({ currentEl: selectedEl.getEl() });
-          setRule({is:false , ruleString:''});
+          setRule({ is: false, ruleString: "" });
           console.log("select");
 
           addItemInToolBarForEditor({
@@ -158,22 +166,10 @@ export const GJEditor = ({ children }) => {
           getSymbol(ev.DomComponents.getById(eve.target.id));
         });
 
-        // ev.on('component:add', (droppedComponent) => {
-        //   const parentComponent = droppedComponent.parent();  // Get the parent component
-
-        //   console.log('Dropped component:', droppedComponent); // The dropped component
-        //   console.log('Dropped into parent:', parentComponent); // The parent component where it was dropped
-
-        //   return;
-        // });
-
-        const assetManager = ev.AssetManager;
-        ev.on("asset:open", (args) => {
-          assetManager.root = assetManager.root
-            ? assetManager.root
-            : createRoot(assetManager.getContainer());
-          assetManager.root.render(<AssetsManager editor={ev} />);
-        });
+       ev.on('component:styleUpdate',(args)=>{
+        console.log(args);
+        
+       })
       }}
     >
       {children}

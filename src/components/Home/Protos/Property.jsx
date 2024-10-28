@@ -18,7 +18,7 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string,  cssProp:string , sectionClassName:string ,inputClassName:string , allowText:boolean , wrap:boolean , special:boolean}} param0
+ * @param {{label:string,  placeholder:string, cssProp:string , sectionClassName:string ,inputClassName:string , allowText:boolean , wrap:boolean , special:boolean}} param0
  * @returns
  */
 export const Property = ({
@@ -26,6 +26,7 @@ export const Property = ({
   cssProp,
   sectionClassName = "",
   inputClassName = "",
+  placeholder='',
   allowText = false,
   wrap=false,
   special = false,
@@ -73,6 +74,7 @@ export const Property = ({
       <input
         type="text"
         value={val}
+        placeholder={placeholder}
         onFocus={(ev) => {
           onFocus({
             ev,

@@ -123,3 +123,16 @@ export const showLayersState = atom({
   key:'showLayers',
   default:false
 });
+
+export const cssPropForAssetsManagerState =atom({
+  key:'cssPropForAssetsManagerState ',
+  default:''
+});
+
+export const modalDataState = atom({
+  key:'modalDataState',
+  default:{
+    title:'',
+    JSXModal : <section></section>
+  }
+})

@@ -2,7 +2,7 @@ import React from "react";
 
 /**
  *
- * @param {{type : string , autoFocus:boolean, className:string , placeholder:string , onInput:(ev:InputEvent)=>void , onChange::(ev:InputEvent)=>void}} param0
+ * @param {{type : string , value:string , autoFocus:boolean, className:string , placeholder:string , onInput:(ev:InputEvent)=>void , onChange::(ev:InputEvent)=>void}} param0
  * @returns
  */
 export const Input = ({
@@ -10,6 +10,7 @@ export const Input = ({
   autoFocus = false,
   className = "",
   placeholder = "",
+  value='',
   onInput = (_) => {},
   onChange = (_) => {},
 }) => {
@@ -17,6 +18,7 @@ export const Input = ({
     <input
       autoFocus={autoFocus}
       type={type}
+      value={value}
       placeholder={placeholder}
       className={`p-2 outline-none text-white  rounded-lg ${className}`}
       onInput={onInput}

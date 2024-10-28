@@ -15,6 +15,7 @@ import { useEditorMaybe } from "@grapesjs/react";
 import { AsideControllers } from "./Protos/AsideControllers";
 import { SelectState } from "./Protos/SelectState";
 import { SelectClass } from "./Protos/SelectClass";
+import { Background } from "./Protos/Background";
 
 /**
  *
@@ -79,6 +80,10 @@ export const StyleAside = ({ className }) => {
 
       <Details label={"layout"}>
         <Layout />
+      </Details>
+
+      <Details label={'background'}>
+        <Background/>
       </Details>
     </>
   );
