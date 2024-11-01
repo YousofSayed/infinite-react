@@ -17,12 +17,13 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] , placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] ,className:string ,placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
  * @returns
  */
 export const Select = ({
   label,
   keywords,
+  className = '',
   setKeyword = (_, _2) => {},
   onItemClicked = (_) => {},
   onInput = (_) => {},
@@ -126,7 +127,6 @@ export const Select = ({
    */
   const handleChooses = (ev) => {
     let cloneCurrentChooseNum = currentChoose;
-    console.log(ev.key);
 
     if (ev.key == "ArrowDown") {
       ev.preventDefault();
@@ -166,7 +166,7 @@ export const Select = ({
       ref={selectRef}
       className={`w-full p-1 px-2 rounded-lg flex ${
         wrap && "flex-wrap gap-3 py-3"
-      }  justify-between items-center bg-slate-800`}
+      }  justify-between items-center bg-slate-800 ${className}`}
     >
       {label ? <P>{label}: </P> : null}
       <div className={`${label ? "w-[55%]" : "w-full"} relative`}>

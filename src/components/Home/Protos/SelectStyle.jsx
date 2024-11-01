@@ -25,7 +25,7 @@ export const SelectStyle = ({
   const onInput = (value) => {
     setVal(value);
     // setKeyword(ev.target.value);
-    // filterKeywords(ev);
+    // filterKeywords(ev); 
   };
 
   const onItemClicked = (item) => {

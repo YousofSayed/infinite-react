@@ -9,13 +9,13 @@ export const AsideControllers = () => {
       <Li
       to={'/edite/traits'}
         className={`w-[50%] h-[40px] hover:bg-blue-600 `}
-        icon={Icons.setting}
+        icon={Icons.command}
       />
 
       <Li
       to={'/edite/styling'}
         className={`w-[50%] h-[40px] hover:bg-blue-600 `}
-        icon={Icons.style}
+        icon={Icons.prush}
       />
 
       

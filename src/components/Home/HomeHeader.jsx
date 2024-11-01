@@ -11,6 +11,11 @@ export const HomeHeader = () => {
   const widthRef = useRef("");
   const heightRef = useRef("");
   const customDevice = useRef();
+  const [dimansions , setDimaonsion] = useState({
+    width:'',
+    height:''
+  });
+
 
   const setCustomDevice = (prop, value) => {
     prop == "width" && (widthRef.current = value);
@@ -57,21 +62,25 @@ export const HomeHeader = () => {
 
         <li className="flex items-center gap-4">
           <Input
+            placeholder="Width"
+            className="bg-gray-800 w-[100px] p-[7.5px] font-bold text-sm"
+            value={dimansions.width}
             onInput={(ev) => {
               transformToNumInput(ev.target);
               setCustomDevice("width", ev.target.value);
+              setDimaonsion({...dimansions , width:ev.target.value})
             }}
-            placeholder="Width"
-            className="bg-gray-800 w-[100px] p-[7.5px] font-bold text-sm"
           />
 
           <Input
+            value={dimansions.height}
+            placeholder="Height"
+            className="bg-gray-800 w-[100px] p-[7.5px] font-bold text-sm"
             onInput={(ev) => {
               transformToNumInput(ev.target);
               setCustomDevice("height", ev.target.value);
+              setDimaonsion({...dimansions , height:ev.target.value})
             }}
-            placeholder="Height"
-            className="bg-gray-800 w-[100px] p-[7.5px] font-bold text-sm"
           />
         </li>
       </ul>

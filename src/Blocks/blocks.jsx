@@ -94,9 +94,14 @@ export const blocks = [
     category: "Basic",
     label: html`<p class="custom-font-size">Image</p>`,
     media: svgImage,
-    content: { type: "image" },
+    content: { type: "image" , onActive(ev){
+      console.log('lol');
+      
+    } },
     activate: true,
+    
     select: true,
+    
   },
   {
     id: "video",

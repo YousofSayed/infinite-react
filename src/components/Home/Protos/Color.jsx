@@ -14,8 +14,6 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
  */
 export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
   const setClass = useSetClassForCurrentEl();
-  const currentElObj = useRecoilValue(currentElState);
-  const ifrDocumentVal = useRecoilValue(ifrDocument);
   const [color, setColor] = useState("#111827");
   const [showHexColor, setShowHexColor] = useState(false);
   const [isPending, setTransition] = useTransition();
@@ -23,7 +21,6 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
    * @type {{current:HTMLElement}}
    */
   const hexColorRef = useRef();
-  const parentRef = useRef(null);
   useEffect(() => {
     if (hexColorRef.current) {
       hexColorRef.current.scrollIntoView({

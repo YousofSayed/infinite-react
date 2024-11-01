@@ -126,18 +126,22 @@ export const GJEditor = ({ children }) => {
 
           addItemInToolBarForEditor({
             commandCallback: (ed) => {
-              createModal({
-                editor: ev,
-                titleJsx: (
-                  <h1 class="text-slate-300 font-bold">
-                    Create Sympol (Reusable Component)
-                  </h1>
-                ),
-                contentJsx: <ReuseableSympol editor={ev} />,
-              });
+              ed.runCommand('open:custom:modal',{
+                title:`Create Sympol (Reusable Component)`,
+                JSXModal : <ReuseableSympol editor={ev} />
+              })
+              // createModal({
+              //   editor: ev,
+              //   titleJsx: (
+              //     <h1 class="text-slate-300 font-bold">
+              //       Create Sympol (Reusable Component)
+              //     </h1>
+              //   ),
+              //   contentJsx: <ReuseableSympol editor={ev} />,
+              // });
             },
             label: editorIcons.reuseable,
-            commandName: "open:create:symbol:model",
+            commandName: "open:symbol:model",
             editor: ev,
           });
           navigate("edite/styling");
@@ -151,9 +155,6 @@ export const GJEditor = ({ children }) => {
           setSelectedEl({ currentEl: ev?.getSelected()?.getEl() });
         });
 
-        ev.on("component:drag:start", (ev) => {
-          console.log(ev, "comp");
-        });
 
         ev.on("canvas:dragover", (eve) => {
           /**
@@ -166,10 +167,6 @@ export const GJEditor = ({ children }) => {
           getSymbol(ev.DomComponents.getById(eve.target.id));
         });
 
-       ev.on('component:styleUpdate',(args)=>{
-        console.log(args);
-        
-       })
       }}
     >
       {children}

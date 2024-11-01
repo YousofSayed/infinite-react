@@ -91,6 +91,54 @@ export const pseudoClasses = [
 
 export const statesKeys = pseudoElements.concat(pseudoClasses).sort();
 
+export  const backgroundRepeatValues = [
+  "repeat",
+  "repeat-x",
+  "repeat-y",
+  "no-repeat",
+  "space",
+  "round"
+];
+
+export const backgroundSize = [
+  'auto',
+  'cover',
+  'contain',
+]
+
+export const backgroundClipValues = [
+  "border-box",
+  "padding-box",
+  "content-box",
+  "text"
+];
+
+export const backgroundAttachmentValues = [
+  "scroll",
+  "fixed",
+  "local"
+];
+
+export const backgroundBlendModeValues = [
+  "normal",
+  "multiply",
+  "screen",
+  "overlay",
+  "darken",
+  "lighten",
+  "color-dodge",
+  "color-burn",
+  "hard-light",
+  "soft-light",
+  "difference",
+  "exclusion",
+  "hue",
+  "saturation",
+  "color",
+  "luminosity"
+];
+
+
 export const fontWeights = [
   "100 - Thin",
   "200 - Extra Light",

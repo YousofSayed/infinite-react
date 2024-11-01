@@ -12,7 +12,7 @@ import { currentElState, selectorState } from "../../../helpers/atoms";
 export const Choices = ({
   keywords,
   enableSelecting = false,
-  className = "",
+  className = "", 
   onActive = (_ev, _keyword, _index) => {},
   onUnActive = (_ev, _keyword, _index) => {},
   onCloseClick = (_, _1) => {},
@@ -34,7 +34,7 @@ export const Choices = ({
 
   return (
     <section
-      className={`w-full min-h-[50px]   overflow-x-auto gap-2 flex items-center py-[5px] px-2 rounded-lg bg-slate-800 ${className}`}
+      className={`w-full min-h-[50px]   overflow-x-auto gap-2 flex items-center py-[5px] px-2 rounded-lg  ${className ? className : 'bg-slate-800'}`}
     >
       {keywords.map((keyword, i) => {
         return (
