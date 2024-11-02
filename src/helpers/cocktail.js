@@ -108,9 +108,9 @@ export function $a(root) {
  * @returns {HTMLElement}
  */
 export function parseToHTML(text) {
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.innerHTML = text;
-  return div.children[0]
+  return div.children[0];
 }
 
 /**
@@ -136,15 +136,16 @@ export function renderTemplates(components) {
 
 /*===================(Start Animtaion)===================*/
 
-const _Animations = {} ;
+const _Animations = {};
 const animateObserver = new IntersectionObserver(
   (nodes) => {
     nodes.forEach((node) => {
       const animtaionName = node.target.getAttribute("animate");
-      if(node.isIntersecting){
+      if (node.isIntersecting) {
         node.target.classList.add(animtaionName);
-        if(node.target.getAttribute('once') != 'false') animateObserver.unobserve(node.target);
-      }else if(!node.isIntersecting){
+        if (node.target.getAttribute("once") != "false")
+          animateObserver.unobserve(node.target);
+      } else if (!node.isIntersecting) {
         node.target.classList.remove(animtaionName);
       }
     });
@@ -173,9 +174,8 @@ const domObserverForAnimtaions = new MutationObserver((nodes) => {
  * options : KeyframeAnimationOptions
  * }} param0
  */
-export function defineAnimation({ name, options}) {
-  _Animations[name] =  options ;
-
+export function defineAnimation({ name, options }) {
+  _Animations[name] = options;
 }
 
 function observeAnimatedElement(els) {
@@ -189,21 +189,27 @@ function observeAnimatedElement(els) {
  * @param {number} thresholdNum
  */
 export function useAnimation(thresholdNum) {
-  document.body.insertAdjacentHTML('beforeend','<style id="animationsClasses"></style>');
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    '<style id="animationsClasses"></style>'
+  );
 
-  Object.keys(_Animations).forEach((animationName)=>{
+  Object.keys(_Animations).forEach((animationName) => {
     let animProp = `animation: ${animationName} `;
 
     for (const option in _Animations[animationName]) {
-      animProp += _Animations[animationName][option] + ' ';
+      animProp += _Animations[animationName][option] + " ";
     }
 
-    $('#animationsClasses').insertAdjacentHTML('beforeend',` 
+    $("#animationsClasses").insertAdjacentHTML(
+      "beforeend",
+      ` 
         .${animationName}{
           ${animProp};
         }
-      `)
-  })
+      `
+    );
+  });
 
   const animatedElements = Array.from(
     document.body.querySelectorAll("[animate]")
@@ -304,7 +310,7 @@ export function OTP(length) {
 }
 
 export function uniqueID() {
-  return hash(crypto.randomUUID()).replaceAll('=','');
+  return hash(crypto.randomUUID()).replaceAll("=", "");
 }
 
 /**
@@ -368,10 +374,12 @@ export function createBlobFileAs(data, mimeType) {
  * @param {HTMLInputElement} inputElement
  */
 export function transformToNumInput(inputElement) {
-  const rgx = /(-)?(\d+)?/ig;
+  const rgx = /(-)?(\d+)?/gi;
   // console.log(inputElement.value.match(rgx)[0]);
-  
-  inputElement.value = rgx.test(inputElement.value) ? inputElement.value?.match(rgx)[0] : '' ;
+
+  inputElement.value = rgx.test(inputElement.value)
+    ? inputElement.value?.match(rgx)[0]
+    : "";
 }
 
 /**
@@ -1346,4 +1354,20 @@ export function getCookies() {
 export function deleteCookie(key) {
   const value = getCookies()[key];
   document.cookie = `${key}=${value}; Expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+}
+
+/**
+ * 
+ * @param {{arr:array , oldContet:any , content:any}} param0 
+ * @returns 
+ */
+export function pushBetween({arr, oldContet,content}) {
+  const newArr = [...arr];
+
+  const index = newArr.indexOf(oldContet);
+
+  if (index !== -1) {
+    newArr.splice(index + 1, 0, content);
+  }
+  return newArr;
 }

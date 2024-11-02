@@ -17,7 +17,7 @@ export const Aside = ({ children, className = "", dir = "left" }) => {
   return (
     <aside
       ref={asideRef}
-      className={`${className}  relative w-full backdrop-blur-lg  h-full  bg-slate-900 p-3 `}
+      className={`${className}  relative w-full backdrop-blur-lg  h-full  bg-slate-900 p-2 `}
     >
       <section className="h-full w-full flex flex-col gap-[15px]  overflow-y-auto hideScrollBar">
         {children}

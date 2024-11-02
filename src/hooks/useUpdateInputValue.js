@@ -5,13 +5,12 @@ import { useEditorMaybe } from "@grapesjs/react";
 
 /**
  *
- * @param {{jsutProp:boolean , allowText:boolean , cssProp:string ,setVal:Function }}} param0
+ * @param {{ cssProp:string ,setVal:Function , onEffect :(cssProp:string , setVal : Function)=>{} }}} param0
  */
 export const useUpdateInputValue = ({
-  justProp = false,
-  allowText,
   cssProp,
   setVal = (_) => {},
+  onEffect = (cssProp , setVal)=>{}
 }) => {
   const currentElObj = useRecoilValue(currentElState);
   const editor = useEditorMaybe();
@@ -29,13 +28,9 @@ export const useUpdateInputValue = ({
         const outPut = editor.Css.getRule(
           `${currentSelector}${rule.ruleString}`
         )?.toJSON()?.style;
-
-        console.log(outPut);
-
         return outPut || {};
       };
 
-      console.log(selector , rule.ruleString);
 
       if ((cssProp && selector) || (cssProp && rule.is))
         setVal(getRuleStyle()[cssProp] || "");

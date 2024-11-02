@@ -23,7 +23,13 @@ import { getOriginalCSSValue } from "../../../helpers/functions";
  * @param {{defultoption:string, tProp:string , rProp:string , bProp:string , lProp:string}} param0
  * @returns
  */
-export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp }) => {
+export const DirectionsModel = ({
+  defultoption = "",
+  tProp,
+  rProp,
+  bProp,
+  lProp,
+}) => {
   const currentElObj = useRecoilValue(currentElState);
   const ifrDocVal = useRecoilValue(ifrDocument);
   const setUndoAndRedoStatesVal = useSetRecoilState(undoAndRedoStates);
@@ -160,7 +166,7 @@ export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp })
         </div>
         <figure className="flex items-center justify-center gap-3">
           <input
-          placeholder="Left"
+            placeholder="Left"
             value={vals.lVal}
             onInput={(ev) => {
               onInput({
@@ -188,13 +194,12 @@ export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp })
                 },
               });
             }}
-           
             type="text"
             className="p-2 bg-slate-800 text-center rounded-lg w-[30%] max-w-[100px] text-slate-200 outline-none font-semibold"
           />
           <img src={directionsImg} className="w-[40%]  object-fill" alt="" />
           <input
-          placeholder="Right"
+            placeholder="Right"
             value={vals.rVal}
             onInput={(ev) => {
               onInput({
@@ -222,14 +227,13 @@ export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp })
                 },
               });
             }}
-           
             type="text"
             className="p-2 bg-slate-800 text-center rounded-lg w-[30%] max-w-[100px] text-slate-200 outline-none font-semibold"
           />
         </figure>
         <div className="flex items-center justify-center">
           <input
-          placeholder="Bottom"
+            placeholder="Bottom"
             value={vals.bVal}
             onInput={(ev) => {
               onInput({
@@ -257,7 +261,6 @@ export const DirectionsModel = ({defultoption="" , tProp, rProp, bProp, lProp })
                 },
               });
             }}
-           
             type="text"
             className="p-2 bg-slate-800 text-center rounded-lg w-[35%] text-slate-200 outline-none font-semibold"
           />

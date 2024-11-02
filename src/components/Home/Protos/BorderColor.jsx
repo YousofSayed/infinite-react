@@ -32,10 +32,10 @@ export const BorderColor = () => {
   }, [option]);
 
   return (
-    <section className="flex flex-col gap-3 justify-between py-3 ">
+    <section className="flex flex-col gap-3  justify-between py-3 ">
       <P>border color: </P>
 
-      <section className="flex justify-between gap-1">
+      <section className="flex justify-between gap-1 bg-gray-950 p-2 rounded-lg">
         <SelectedBorder
           borderName={"border-t-2"}
           borderDir="top"

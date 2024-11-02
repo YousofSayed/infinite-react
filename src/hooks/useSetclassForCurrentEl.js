@@ -25,16 +25,6 @@ export function useSetClassForCurrentEl() {
   const editor = useEditorMaybe();
   const rule = useRecoilValue(ruleState);
   const selector = useRecoilValue(selectorState);
-  // // const
-  // /**
-  //  * @type {{current:HTMLElement}}
-  //  */
-  // const selectedEl = useRef();
-
-  // useEffect(()=>{
-  //   if(!editor)return;
-  //  selectedEl.current = editor.getSelected()
-  // },[editor])
 
   return ({ cssProp, value }) => {
     const state = editor.Selectors.getState();
@@ -57,21 +47,18 @@ export function useSetClassForCurrentEl() {
           : { ...newCssProps };
     }
 
-    console.log(state);
-
     if (state.includes("before") || state.includes("after")) {
       newCssProps["content"] = "";
     }
     console.log(newCssProps);
-    const currentSelector = selector ? selector : `#${editor.getSelected().getEl().id}` ;
-    // rule.is
-    //   ? editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyles:true})
-    //   : editor.getSelected().addStyle(newCssProps);
-      // editor.getSelected().addStyle(newCssProps);
-      editor.Css.setRule(`${currentSelector}${rule.ruleString}`, newCssProps , {addStyles:true})
-  //  const rulee =  editor.Css.setRule(`#${editor.getSelected().getEl().id}${rule.ruleString}`, newCssProps , {addStyle:true})
-    // console.log(rulee.toCSS());
-    
-    console.log(rule.ruleString,'%$%%$#$',editor.getCss());
+    const currentSelector = selector
+      ? selector
+      : `#${editor.getSelected().getEl().id}`;
+
+    editor.Css.setRule(`${currentSelector}${rule.ruleString}`, newCssProps, {
+      addStyles: true,
+    });
+
+    console.log(rule.ruleString, "%$%%$#$", editor.getCss());
   };
 }

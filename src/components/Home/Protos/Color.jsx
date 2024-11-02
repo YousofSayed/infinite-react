@@ -1,22 +1,38 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
-import { useRecoilValue } from "recoil";
-import { currentElState, ifrDocument } from "../../../helpers/atoms";
-import { HexAlphaColorPicker, HexColorInput } from "react-colorful";
+import {
+  HexAlphaColorPicker,
+  HexColorInput,
+  HexColorPicker,
+  HslColorPicker,
+  HsvaColorPicker,
+} from "react-colorful";
 import { hexToRgbA } from "../../../helpers/functions";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
 import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
+import { useEditorMaybe } from "@grapesjs/react";
+import { useRecoilValue } from "recoil";
+import { currentElState } from "../../../helpers/atoms";
+import { ColorPicker } from "./ColorPicker";
 
 /**
  *
- * @param {{cssProp:string , placeholder:string , hideOpacityField:boolean}} param0
+ * @param {{cssProp:string , placeholder:string , hideOpacityField:boolean ,disableSetClassMethod:boolean , colorState:string ,  onColorChange : (color:string)=>void}} param0
  * @returns
  */
-export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
+export const Color = ({
+  cssProp,
+  placeholder,
+  hideOpacityField = false,
+  disableSetClassMethod = false,
+  colorState = "",
+  onColorChange = (_) => {},
+}) => {
   const setClass = useSetClassForCurrentEl();
-  const [color, setColor] = useState("#111827");
+  const [color, setColor] = useState(colorState);
   const [showHexColor, setShowHexColor] = useState(false);
   const [isPending, setTransition] = useTransition();
+  const selectedEl = useRecoilValue(currentElState);
   /**
    * @type {{current:HTMLElement}}
    */
@@ -30,9 +46,10 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
     }
   }, [showHexColor]);
 
+
   useCloseMenu(hexColorRef, setShowHexColor);
 
-  useUpdateInputValue({ setVal: setColor, cssProp });
+  !disableSetClassMethod && useUpdateInputValue({ setVal: setColor, cssProp });
 
   return (
     <section
@@ -40,34 +57,20 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
         hideOpacityField ? "p-1 gap-2" : "p-2"
       } rounded-lg`}
     >
-      <button
-        onClick={(ev) => {
-          setTransition(() => {
-            setShowHexColor(!showHexColor);
-          });
-        }}
-        style={{ backgroundColor: color }}
-        className={`w-[30px] h-[30px] shadow-md shadow-gray-950 rounded-lg border-[2.3px] border-slate-600  bg-gray-900 cursor-pointer`}
-      ></button>
-      {showHexColor && (
-        <section
-          ref={hexColorRef}
-          className="absolute left-[0] z-[1]  top-[calc(100%+5px)] w-full"
-        >
-          <HexAlphaColorPicker
-            color={color}
-            className="z-40"
-            onChange={(color) => {
-              setClass({
-                cssProp,
-                value: color,
-              });
+      <ColorPicker
+        color={color}
+        setColor={setColor}
+        onEffect={(color, setColor) => {
+          if (!color) return;
+          !disableSetClassMethod &&
+            setClass({
+              cssProp,
+              value: color,
+            });
 
-              setColor(color);
-            }}
-          />
-        </section>
-      )}
+          onColorChange(color);
+        }}
+      />
 
       <input
         placeholder={placeholder}
@@ -75,10 +78,12 @@ export const Color = ({ cssProp, placeholder, hideOpacityField = false }) => {
           ev.target.select();
         }}
         onInput={(ev) => {
-          setClass({
-            cssProp,
-            value: ev.target.value,
-          });
+          !disableSetClassMethod &&
+            setClass({
+              cssProp,
+              value: ev.target.value,
+            });
+          onColorChange(color);
           setColor(ev.target.value);
         }}
         className={`bg-gray-900 shadow-inner shadow-gray-950 p-2 outline-none text-center text-slate-200 font-semibold ${

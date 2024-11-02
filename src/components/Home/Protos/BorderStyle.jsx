@@ -48,7 +48,7 @@ export const BorderStyle = () => {
   return (
     <section className={`flex flex-col gap-3`}>
       <P>border style: </P>
-      <section className="flex justify-between gap-1">
+      <section className="flex justify-between gap-1 p-2 bg-gray-950 rounded-lg">
         <SelectedBorder
           borderName={"border-t-2"}
           borderDir="top"

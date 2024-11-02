@@ -433,3 +433,11 @@ export function isValidVFor(string = '') {
 }
 
 
+export
+const getCloneArray = (values) => {
+  /**
+   * @type {import("../../../helpers/types").gradientValues}
+   */
+  const cloneValues = [...values];
+  return cloneValues;
+};

@@ -13,9 +13,16 @@ export const SmallButton = ({onClick = (_)=>{} , className='', children}) => {
         addClickClass(ev.currentTarget, "click"); 
         onClick(ev);
       }}
-      className={`w-[48px] transition-all hover:bg-blue-600 flex rounded-lg cursor-pointer items-center justify-center  ${className ? className : 'bg-slate-800'}`}
+      className={`w-[48px] shadow-md shadow-gray-950 transition-all hover:bg-blue-600 flex rounded-lg cursor-pointer items-center justify-center  ${className ? className : 'bg-slate-800'}`}
     >
       {children}
     </button>
   );
 };
+
+let l ={
+  0:{
+    color:'',
+    opacity:'',
+  }
+}

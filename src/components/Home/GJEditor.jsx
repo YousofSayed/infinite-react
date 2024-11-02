@@ -60,7 +60,7 @@ export const GJEditor = ({ children }) => {
       options={{
         height: "100%",
         width: "100%",
-
+        exportWrapper: true,
         storageManager: false,
         panels: { defaults: [] },
         blockManager: {
@@ -87,7 +87,7 @@ export const GJEditor = ({ children }) => {
         },
         jsInHtml: true,
 
-        plugins: [addDevices , customModal],
+        plugins: [addDevices, customModal],
       }}
       onEditor={(ev) => {
         setEditor(ev);
@@ -101,6 +101,8 @@ export const GJEditor = ({ children }) => {
         });
         ev.runCommand("core:component-outline");
 
+
+        
         ev.on(
           "block:add",
           /**
@@ -126,10 +128,10 @@ export const GJEditor = ({ children }) => {
 
           addItemInToolBarForEditor({
             commandCallback: (ed) => {
-              ed.runCommand('open:custom:modal',{
-                title:`Create Sympol (Reusable Component)`,
-                JSXModal : <ReuseableSympol editor={ev} />
-              })
+              ed.runCommand("open:custom:modal", {
+                title: `Create Sympol (Reusable Component)`,
+                JSXModal: <ReuseableSympol editor={ev} />,
+              });
               // createModal({
               //   editor: ev,
               //   titleJsx: (
@@ -155,6 +157,13 @@ export const GJEditor = ({ children }) => {
           setSelectedEl({ currentEl: ev?.getSelected()?.getEl() });
         });
 
+        ev.on("undo", () => {
+          setSelectedEl(editor.getSelected().getEl());
+        });
+
+        ev.on("redo", () => {
+          setSelectedEl(editor.getSelected().getEl());
+        });
 
         ev.on("canvas:dragover", (eve) => {
           /**
@@ -166,7 +175,6 @@ export const GJEditor = ({ children }) => {
           };
           getSymbol(ev.DomComponents.getById(eve.target.id));
         });
-
       }}
     >
       {children}

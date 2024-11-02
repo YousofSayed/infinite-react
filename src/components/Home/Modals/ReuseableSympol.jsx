@@ -35,11 +35,12 @@ export const ReuseableSympol = ({ editor }) => {
     const mainSympol = editor.DomComponents.addSymbol(selectedEl);
 
     if (info) {
-      editor.Modal.close();
+      editor.runCommand("close:custom:modal");
       return;
     }
 
     selectedEl.replaceWith(mainSympol);
+    console.log(props.category);
 
     editor.BlockManager.add(uniqueID(), {
       id: uniqueID(),
@@ -52,11 +53,11 @@ export const ReuseableSympol = ({ editor }) => {
          * @type {import('grapesjs').Component}
          */
         const mySymbol = editor.mySymbol;
-       
+
         if (mySymbol && editor.DomComponents.getSymbolInfo(mySymbol).isSymbol) {
-          editor.Modal.close();
+          editor.runCommand("close:custom:modal");
           createModal({
-            editor:editor,
+            editor: editor,
             titleJsx: <P>Error: can not create the symbol</P>,
             contentJsx: <ErrorModal editor={editor} />,
           });
@@ -90,6 +91,7 @@ export const ReuseableSympol = ({ editor }) => {
     <section className="w-full p-2 flex flex-col gap-4 h-[500px] overflow-auto bg-gray-800 rounded-lg ">
       <header className="p-2 rounded-lg flex gap-4 justify-between bg-gray-900">
         <Input
+          value={props.name}
           autoFocus={true}
           placeholder="Name"
           onInput={(ev) => {
@@ -98,18 +100,21 @@ export const ReuseableSympol = ({ editor }) => {
           className="bg-gray-800 w-[40%]"
         />
         <Select
+          setVal={(value) => {
+            setProps({ ...props, category: value });
+          }}
           keywords={keywordsCtg}
           placeholder="Category"
-          onInput={(value) => {
-            onInput(value, "category");
-          }}
+          // onInput={(value) => {
+          //   onInput(value, "category");
+          // }}
           value={props.category}
           className="bg-gray-800 w-[40%]"
           onItemClicked={(value) => onInput(value, "category")}
         />
         <Button onClick={onSave}>Save</Button>
       </header>
-      <main className="bg-gray-900 grid place-items-center rounded-lg p-2 h-[100%]">
+      <main className="bg-gray-900 overflow-auto grid place-items-center rounded-lg p-2 h-[100%]">
         <img
           ref={contentRef}
           className="w-full border-2 border-slate-400"

@@ -12,7 +12,7 @@ export const SidesControllers = ({ option, setOption }) => {
   };
 
   return (
-    <section className="p-2 w-full  rounded-lg  flex justify-between items-center">
+    <section className="p-2 w-full  rounded-lg bg-gray-950 flex justify-between items-center">
 
       <SelectedBorder
         borderDir={"all"}

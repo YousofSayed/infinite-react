@@ -19,14 +19,9 @@ import {
 } from "../../../constants/constants";
 import { AddMultiValuestoSingleProp } from "./AddMultiValuestoSingleProp";
 import { Gradient } from "./Gradient";
+import { MiniTitle } from "./MiniTitle";
 
-const MiniTitle = ({ children }) => {
-  return (
-    <section className="bg-blue-700 p-2  text-center rounded-lg w-[50%]">
-      <p className="text-white font-bold">{children}</p>
-    </section>
-  );
-};
+
 
 export const Background = () => {
   const editor = useEditorMaybe();
