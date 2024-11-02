@@ -281,13 +281,17 @@ export const Gradient = () => {
       removeProp({ cssProp: "background" });
   };
 
-  useEffect(() => {
-    setValues(updatedValue ? parseGradient(updatedValue) : []);
-  }, [updatedValue]);
-
+  // useEffect(() => {
+  // }, [updatedValue]);
+  
   useUpdateInputValue({
     cssProp: "background",
     setVal: setUpdateValue,
+    onEffect(cssProp , value){
+      console.log(value , 'changeeee');
+      
+      setValues(value ? parseGradient(value) : []); 
+    }
   });
 
   return (

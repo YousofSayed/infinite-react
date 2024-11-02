@@ -5,12 +5,12 @@ import { useEditorMaybe } from "@grapesjs/react";
 
 /**
  *
- * @param {{ cssProp:string ,setVal:Function , onEffect :(cssProp:string , setVal : Function)=>{} }}} param0
+ * @param {{ cssProp:string ,setVal:Function , onEffect :(cssProp:string , Value : Function)=>{} }}} param0
  */
 export const useUpdateInputValue = ({
   cssProp,
   setVal = (_) => {},
-  onEffect = (cssProp , setVal)=>{}
+  onEffect = (cssProp, setVal) => {},
 }) => {
   const currentElObj = useRecoilValue(currentElState);
   const editor = useEditorMaybe();
@@ -31,11 +31,16 @@ export const useUpdateInputValue = ({
         return outPut || {};
       };
 
-
-      if ((cssProp && selector) || (cssProp && rule.is))
+      if ((cssProp && selector) || (cssProp && rule.is)) {
         setVal(getRuleStyle()[cssProp] || "");
-      else if (slElStyles[cssProp]) setVal(slElStyles[cssProp] || "");
-      else setVal("");
+        onEffect(cssProp ,getRuleStyle()[cssProp] || "");
+      } else if (slElStyles[cssProp]) {
+        setVal(slElStyles[cssProp] || "");
+        onEffect(cssProp , slElStyles[cssProp] || "");
+      } else {
+        setVal("");
+        onEffect(cssProp, "");
+      }
     }
   }, [currentElObj, rule, selector]);
 };

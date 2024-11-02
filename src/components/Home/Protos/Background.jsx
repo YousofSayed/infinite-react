@@ -8,7 +8,6 @@ import { useEditorMaybe } from "@grapesjs/react";
 import { useSetRecoilState } from "recoil";
 import { cssPropForAssetsManagerState } from "../../../helpers/atoms";
 import { AssetsManager } from "../AssetsManager";
-import { P } from "../../Protos/P";
 import { SelectStyle } from "./SelectStyle";
 import {
   backgroundAttachmentValues,
