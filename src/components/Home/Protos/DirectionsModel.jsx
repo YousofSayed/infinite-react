@@ -4,35 +4,23 @@ import { Property } from "./Property";
 import directionsImg from "../../../assets/images/directions.png";
 import { SidesControllers } from "./SideControllers";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  currentElState,
-  ifrDocument,
-  undoAndRedoStates,
-} from "../../../helpers/atoms";
-import {
-  onFocus,
-  onInput,
-  onKeyDown,
-  onKeyUp,
-} from "../../../helpers/propertyInputHandlers";
+import { currentElState, ifrDocument } from "../../../helpers/atoms";
+
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
-import { getOriginalCSSValue } from "../../../helpers/functions";
+import { SidesInput } from "./SidesInput";
 
 /**
  *
- * @param {{defultoption:string, tProp:string , rProp:string , bProp:string , lProp:string}} param0
+ * @param {{defultoption: 'all' | 'lr' | 'tb',  tProp:string , rProp:string , bProp:string , lProp:string}} param0
  * @returns
  */
 export const DirectionsModel = ({
-  defultoption = "",
+  defultoption = "all",
   tProp,
   rProp,
   bProp,
   lProp,
 }) => {
-  const currentElObj = useRecoilValue(currentElState);
-  const ifrDocVal = useRecoilValue(ifrDocument);
-  const setUndoAndRedoStatesVal = useSetRecoilState(undoAndRedoStates);
   const setClass = useSetClassForCurrentEl();
   const [option, setOption] = useState(defultoption);
   const [vals, setVal] = useState({
@@ -42,19 +30,6 @@ export const DirectionsModel = ({
     lVal: "",
   });
 
-  useEffect(() => {
-    if (currentElObj && ifrDocVal) {
-      const styleElement = ifrDocVal.head.querySelector("#elements-classes");
-      const getVal = (prop) =>
-        getOriginalCSSValue(currentElObj.currentEl, styleElement, prop) || "";
-      setVal({
-        tVal: getVal(tProp),
-        rVal: getVal(rProp),
-        bVal: getVal(bProp),
-        lVal: getVal(lProp),
-      });
-    }
-  }, [currentElObj, ifrDocVal]);
   const isCurrentELChange = useRef(false);
 
   /**
@@ -94,6 +69,7 @@ export const DirectionsModel = ({
     const allProps = [tProp, rProp, bProp, lProp];
     const tbProp = [tProp, bProp];
     const lrProp = [lProp, rProp];
+
     if (option == "all") {
       setClass({
         cssProp: allProps,
@@ -124,145 +100,47 @@ export const DirectionsModel = ({
   //   const onInput = (ev) => {};
 
   return (
-    <section className="flex flex-col gap-[15px]">
+    <section className="flex flex-col gap-2">
       <SidesControllers option={option} setOption={setOption} />
-      <section className="flex flex-col gap-2 justify-center items-center">
+      <section className="flex flex-col gap-2 justify-center items-center bg-gray-950 p-2 rounded-lg">
         <div className="flex items-center justify-center">
-          <input
+          <SidesInput
             value={vals.tVal}
-            placeholder="Top"
-            onInput={(ev) => {
-              onInput({
-                cssProp: tProp,
-                ev,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "tVal");
-                },
-                isCurrentELChange,
-                currentElObj,
-              });
-            }}
-            onKeyUp={(ev) => {
-              onKeyUp({ ev, isCurrentELChange });
-            }}
-            onKeyDown={(ev) => {
-              onKeyDown({
-                ev,
-                isCurrentELChange,
-                cssProp: tProp,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "tVal");
-                },
-              });
-            }}
-            onFocus={(ev) => {
-              onFocus({ ev, setUndoAndRedoStatesVal });
-            }}
-            type="text"
-            className="p-2 text-center bg-slate-800 rounded-lg w-[35%] text-slate-200 outline-none font-semibold"
+            placeholder={"Top"}
+            cssProp={tProp}
+            handleClass={handleClass}
+            handleVals={handleVals}
+            isCurrentELChange={isCurrentELChange}
           />
         </div>
         <figure className="flex items-center justify-center gap-3">
-          <input
-            placeholder="Left"
+          <SidesInput
             value={vals.lVal}
-            onInput={(ev) => {
-              onInput({
-                cssProp: lProp,
-                ev,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "lVal");
-                },
-                isCurrentELChange,
-                currentElObj,
-              });
-            }}
-            onKeyUp={(ev) => {
-              onKeyUp({ ev, isCurrentELChange });
-            }}
-            onKeyDown={(ev) => {
-              onKeyDown({
-                ev,
-                isCurrentELChange,
-                cssProp: lProp,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "lVal");
-                },
-              });
-            }}
-            type="text"
-            className="p-2 bg-slate-800 text-center rounded-lg w-[30%] max-w-[100px] text-slate-200 outline-none font-semibold"
+            placeholder={"Left"}
+            cssProp={lProp}
+            handleClass={handleClass}
+            handleVals={handleVals}
+            isCurrentELChange={isCurrentELChange}
           />
+
           <img src={directionsImg} className="w-[40%]  object-fill" alt="" />
-          <input
-            placeholder="Right"
+          <SidesInput
             value={vals.rVal}
-            onInput={(ev) => {
-              onInput({
-                cssProp: rProp,
-                ev,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "rVal");
-                },
-                isCurrentELChange,
-                currentElObj,
-              });
-            }}
-            onKeyUp={(ev) => {
-              onKeyUp({ ev, isCurrentELChange });
-            }}
-            onKeyDown={(ev) => {
-              onKeyDown({
-                ev,
-                isCurrentELChange,
-                cssProp: rProp,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "rVal");
-                },
-              });
-            }}
-            type="text"
-            className="p-2 bg-slate-800 text-center rounded-lg w-[30%] max-w-[100px] text-slate-200 outline-none font-semibold"
+            placeholder={"Right"}
+            cssProp={rProp}
+            handleClass={handleClass}
+            handleVals={handleVals}
+            isCurrentELChange={isCurrentELChange}
           />
         </figure>
         <div className="flex items-center justify-center">
-          <input
-            placeholder="Bottom"
+          <SidesInput
             value={vals.bVal}
-            onInput={(ev) => {
-              onInput({
-                cssProp: bProp,
-                ev,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "bVal");
-                },
-                isCurrentELChange,
-                currentElObj,
-              });
-            }}
-            onKeyUp={(ev) => {
-              onKeyUp({ ev, isCurrentELChange });
-            }}
-            onKeyDown={(ev) => {
-              onKeyDown({
-                ev,
-                isCurrentELChange,
-                cssProp: bProp,
-                setClass: handleClass,
-                setVal: (val) => {
-                  handleVals(val, "bVal");
-                },
-              });
-            }}
-            type="text"
-            className="p-2 bg-slate-800 text-center rounded-lg w-[35%] text-slate-200 outline-none font-semibold"
+            placeholder="Bottom"
+            cssProp={bProp}
+            handleClass={handleClass}
+            handleVals={handleVals}
+            isCurrentELChange={isCurrentELChange}
           />
         </div>
       </section>

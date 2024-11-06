@@ -72,6 +72,9 @@ export const Property = ({
     >
       {label ? <P>{label} : </P> : ""}
       <input
+        className={`${
+          inputClassName ? inputClassName : `${wrap ? 'w-full' : 'w-[55%]'}`
+        } h-full shadow-inner shadow-gray-950  font-semibold bg-gray-900 rounded-lg p-2 outline-none border-2 border-transparent focus:border-blue-600 transition-colors text-white`}
         type="text"
         value={val}
         placeholder={placeholder}
@@ -90,9 +93,6 @@ export const Property = ({
         onKeyDown={(ev) => {
           onKeyDown({ ev, setClass, setVal , isCurrentELChange , cssProp});
         }}
-        className={`${
-          inputClassName ? inputClassName : `${wrap ? 'w-full' : 'w-[55%]'}`
-        } h-full shadow-inner shadow-gray-950  font-semibold bg-gray-900 rounded-lg p-2 outline-none text-white`}
       />
     </section>
   );

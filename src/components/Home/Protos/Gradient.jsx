@@ -37,7 +37,7 @@ const valueInit = {
 const stringifyValues = (values, type) => {
   const finalVal = [];
   values.forEach((key, i) => {
-    if(!key.type || !key.direction || !key.colors.length)return;
+    if(!key.type || !key.direction || !key.colors.length || key.colors.length < 2)return;
     finalVal.push(
       `${key.type}-gradient(${key.direction} ,  ${key.colors.map(
         (colorObj) => `${colorObj.color} ${colorObj.opacity}`
@@ -82,7 +82,7 @@ function parseGradient(input = "") {
  * @returns
  */
 
-const GradientHandler = ({ values, setValues, index, type }) => {
+const GradientHandler = ({ values, setValues, index, type , deleteAllContainer=(_ , _1)=>{} }) => {
   const setClass = useSetClassForCurrentEl();
   const removeProp = useRemoveCssProp();
 

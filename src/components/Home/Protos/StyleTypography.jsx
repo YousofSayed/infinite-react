@@ -36,31 +36,29 @@ export const StyleTypography = () => {
       />
       <Color cssProp={"color"} />
       <Property label="Size" cssProp="font-size" />
-      <Property label="spacing" cssProp="letter-spacing"  />
+      <Property label="spacing" cssProp="letter-spacing" />
       <Property label="line height" cssProp="line-height" />
 
       <MultiChoice
-        icons={[
-          getIconForMultiChoice("textNone"),
-          getIconForMultiChoice("textCapitalize"),
-          getIconForMultiChoice("textLowercase"),
-          getIconForMultiChoice("textUppercase"),
-        ]}
         cssProp="text-transform"
-        choices={["none", "capitalize", "lowercase", " uppercase"]}
+        choices={[
+          { choice: "none", Icon: Icons.textNone },
+          { choice: "capitalize", Icon: Icons.textCapitalize },
+          { choice: "lowercase", Icon: Icons.textLowercase },
+          { choice: "uppercase", Icon: Icons.textUppercase },
+        ]}
       />
 
       <Property label="indent" cssProp="text-indent" />
 
       <MultiChoice
-        icons={[
-          getIconForMultiChoice("textStart"),
-          getIconForMultiChoice("textCenter"),
-          getIconForMultiChoice("textEnd"),
-          getIconForMultiChoice("textJustify"),
-        ]}
         cssProp="text-align"
-        choices={["start", "center", "end", "justify"]}
+        choices={[
+          { choice: "start", Icon: Icons.textStart },
+          { choice: "center", Icon: Icons.textCenter },
+          { choice: "end", Icon: Icons.textEnd },
+          { choice: "justify", Icon: Icons.textJustify },
+        ]}
       />
 
       <SelectStyle

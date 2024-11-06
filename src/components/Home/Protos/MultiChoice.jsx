@@ -9,10 +9,11 @@ import { getPropVal } from "../../../helpers/functions";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import { useEditorMaybe } from "@grapesjs/react";
 import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
+import { useRemoveCssProp } from "../../../hooks/useRemoveCssProp";
 
 /**
  *
- * @param {{label:string, icons:HTMLOrSVGElement[] ,setChoice:(choice:string)=>void ,cssProp : string , choices:string[]}}} param0
+ * @param {{label:string , setChoice:(choice:string)=>void ,cssProp : string , choices :{choice:string , Icon: HTMLOrSVGElement}[]}} param0
  * @returns
  */
 export const MultiChoice = ({
@@ -26,12 +27,13 @@ export const MultiChoice = ({
   const [currentChoice, setCurrentChoice] = useState(null);
   const lastIndex = useRef(null);
   const [val, setVal] = useState("");
+  const removeProp = useRemoveCssProp(); 
 
   useUpdateInputValue({ setVal, cssProp });
 
   useEffect(() => {
     const currentElCssIndex = choices.findIndex(
-      (choice) => choice.trim() == val?.trim()
+      ({choice}) => choice.trim() == val?.trim()
     );
 
     setCurrentChoice(currentElCssIndex);
@@ -42,17 +44,14 @@ export const MultiChoice = ({
       setCurrentChoice(null);
       lastIndex.current = null;
 
-      setClass({
-        cssProp,
-        value: "unset",
-      });
+      removeProp({cssProp})
       return;
     }
-    setChoice(choices[index]);
+    setChoice(choices[index].choice);
 
     setClass({
       cssProp,
-      value: choices[index],
+      value: choices[index].choice,
     });
 
     lastIndex.current = index;
@@ -60,19 +59,19 @@ export const MultiChoice = ({
   };
 
   return (
-    <ul className="flex justify-between flex-nowrap items-center  w-full p-2 bg-slate-800 rounded-lg transition-all">
-      {icons.map((icon, i) => (
+    <ul  className="flex ll justify-between flex-nowrap items-center  w-full p-2 bg-slate-800 rounded-lg transition-all">
+      {choices.map(({choice , Icon}, i) => (
         <li
-          title={choices[i]}
+          title={choice}
           key={i}
-          className={`group cursor-pointer flex justify-center items-center p-[11px]  rounded-full ${
+          className={`group cursor-pointer flex flex-shrink-0 justify-center items-center w-[37.5px] h-[37.5px] rounded-full ${
             i == currentChoice ? " bg-gray-900 shadow-md shadow-gray-900 " : ""
           }  transition-[background]`}
           onClick={(ev) => {
             handleSelecting(i);
           }}
         >
-          {icon(i == currentChoice ? "white" : "")}
+          {Icon({fill : i == currentChoice ? "white" : "" , strokeColor: i == currentChoice ? "white" : "", width:19})}
         </li>
       ))}
     </ul>

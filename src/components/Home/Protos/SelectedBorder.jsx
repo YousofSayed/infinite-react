@@ -8,7 +8,7 @@ export const SelectedBorder = ({
   setOption,
 }) => {
   return (
-    <div
+    <button
       onClick={(ev) => {
         addClickClass(ev.currentTarget, "click");
         setOption(option == borderDir ? "" : borderDir);
@@ -20,6 +20,6 @@ export const SelectedBorder = ({
           option != borderDir ? "border-slate-500" : "border-blue-500"
         } `}
       ></div>
-    </div>
+    </button>
   );
 };

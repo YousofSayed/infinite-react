@@ -32,11 +32,11 @@ export const IframeControllers = () => {
 
   return (
     <ul className="flex gap-[15px] items-center border-r-2 pr-2 mr-2 border-slate-800">
-      <Li onClick={clearIFrameBody}>{Icons.trash()}</Li>
-      <Li onClick={undo}>{Icons.undo()}</Li>
-      <Li onClick={redo}>{Icons.redo()}</Li>
-      <Li onClick={setComponentsView}>{Icons.square()}</Li>
-      <Li onClick={(ev)=>{setShowLayers(old=>!old)}}  icon={Icons.layers}/>
+      <Li onClick={clearIFrameBody} label="clear canvas">{Icons.trash()}</Li>
+      <Li onClick={undo} label="undo">{Icons.undo()}</Li>
+      <Li onClick={redo} label="redo">{Icons.redo()}</Li>
+      <Li onClick={setComponentsView} label="hash elements">{Icons.square()}</Li>
+      <Li onClick={(ev)=>{setShowLayers(old=>!old)}}  icon={Icons.layers} label="show layers"/>
     </ul>
   );
 };

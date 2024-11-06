@@ -1,17 +1,35 @@
-import React from 'react'
+import React from "react";
 
-export const Path = ({ d,transform, strokeMiterlimit ,stroke='#64748B' ,strokeWidth='1.5' ,fill = "", group= true}) => {
+export const Path = ({
+  d,
+  transform,
+  strokeMiterlimit,
+  stroke = "#64748B",
+  strokeWidth = "1.5",
+  dontHover = false,
+  fill = "",
+  justFillOnHover = false,
+  group = true,
+}) => {
   return (
     <path
-        d={d}
-        strokeMiterlimit={strokeMiterlimit}
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        strokeLinecap="round"
-        className={`${group ? 'group-hover:stroke-white' : 'hover:stroke-white'} transition-all`}
-        strokeLinejoin="round"
-        fill={fill}
-        transform = {transform}
-      />
-  )
-}
+      d={d}
+      strokeMiterlimit={strokeMiterlimit}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      className={`${
+        group && !dontHover && "group-hover:stroke-white" 
+      } ${
+        justFillOnHover && !dontHover
+          ? group &&
+            !dontHover &&
+            "group-hover:fill-white" 
+          : ""
+      } transition-all`}
+      strokeLinejoin="round"
+      fill={fill}
+      transform={transform}
+    />
+  );
+};

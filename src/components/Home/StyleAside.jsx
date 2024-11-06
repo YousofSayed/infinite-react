@@ -6,7 +6,7 @@ import { selector, useSetRecoilState } from "recoil";
 import { currentElState } from "../../helpers/atoms";
 import { StyleTypography } from "./Protos/StyleTypography";
 import { Content } from "./Protos/Content";
-import { StyleSize } from "./Protos/StyleSize";
+import { Size } from "./Protos/Size";
 import { Positioning } from "./Protos/Positioning";
 import { Border } from "./Protos/Border";
 import { Select } from "./Protos/Select";
@@ -16,6 +16,7 @@ import { AsideControllers } from "./Protos/AsideControllers";
 import { SelectState } from "./Protos/SelectState";
 import { SelectClass } from "./Protos/SelectClass";
 import { Background } from "./Protos/Background";
+import { Filters } from "./Protos/Filters";
 
 /**
  *
@@ -62,28 +63,25 @@ export const StyleAside = ({ className }) => {
      </Details>
 
 
+     <Details label={"layout"}>
+        <Layout />
+      </Details>
+
       <Details label={"Typography"}>
         <StyleTypography />
       </Details>
 
-      <Details label={"size"}>
-        <StyleSize />
-      </Details>
-
-      <Details label={"Positioning"}>
-        <Positioning />
-      </Details>
 
       <Details label={"border"}>
         <Border />
       </Details>
 
-      <Details label={"layout"}>
-        <Layout />
-      </Details>
-
       <Details label={'background'}>
         <Background/>
+      </Details>
+
+      <Details label={'Filters'}>
+        <Filters/>
       </Details>
     </>
   );

@@ -1,15 +1,13 @@
 import { addClickClass } from "../../../helpers/cocktail";
+import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 import { SelectedBorder } from "./SelectedBorder";
 
 export const SidesControllers = ({ option, setOption }) => {
-  /**
-   *
-   * @param {MouseEvent} ev
-   * @param {string} option
-   */
-  const onClick = (ev, optionVal) => {
-    setOption(option == optionVal ? "" : optionVal);
-  };
+
+  // useUpdateInputValue({
+  //   cssProp:option,
+  //   setVal:setOption,
+  // })
 
   return (
     <section className="p-2 w-full  rounded-lg bg-gray-950 flex justify-between items-center">

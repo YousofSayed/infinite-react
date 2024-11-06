@@ -20,7 +20,7 @@ export const Input = ({
       type={type}
       value={value}
       placeholder={placeholder}
-      className={`p-2 outline-none text-white  rounded-lg ${className}`}
+      className={`p-2 outline-none text-white border-2 border-transparent focus:border-blue-600  rounded-lg ${className}`}
       onInput={onInput}
       onChange={onChange}
     />

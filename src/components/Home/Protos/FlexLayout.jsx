@@ -7,6 +7,7 @@ import { P } from "../../Protos/P";
 import { Select } from "./Select";
 import { Property } from "./Property";
 import { SelectStyle } from "./SelectStyle";
+import { Icons } from "../../Icons/Icons";
 
 export const FlexLayout = () => {
   const [dir, setDir] = useState("");
@@ -17,17 +18,17 @@ export const FlexLayout = () => {
         <P>flex direction: </P>
         <MultiChoice
           choices={[
-            "column",
-            "row",
-            `${dir.includes("column") ? "column-reverse" : "row-reverse"}`,
+            { choice: "column", Icon: Icons.columnDir },
+            { choice: "row", Icon: Icons.rowDir },
+            {
+              choice: `${
+                dir.includes("column") ? "column-reverse" : "row-reverse"
+              }`,
+              Icon: Icons.reverseDir,
+            },
           ]}
           setChoice={setDir}
           cssProp="flex-direction"
-          icons={[
-            getIconForMultiChoice("columnDir"),
-            getIconForMultiChoice("rowDir"),
-            getIconForMultiChoice("reverseDir"),
-          ]}
         />
       </section>
 

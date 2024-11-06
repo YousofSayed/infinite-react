@@ -6,10 +6,13 @@ import { getIconForMultiChoice } from "../../../helpers/functions";
 import { P } from "../../Protos/P";
 import { Select } from "./Select";
 import { SelectStyle } from "./SelectStyle";
+import { MiniTitle } from "./MiniTitle";
 
-export const StyleSize = () => {
+export const Size = () => {
   return (
-    <section className="mt-3  flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+    <section className="flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+            <MiniTitle>size</MiniTitle>
+
       <ul className="flex flex-col gap-2 pb-3 border-b-2 border-b-slate-600">
         {/* <li className='flex items-center justify-between gap-2'> */}
         <Property label="width" cssProp="width" />

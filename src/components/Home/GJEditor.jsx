@@ -132,20 +132,13 @@ export const GJEditor = ({ children }) => {
                 title: `Create Sympol (Reusable Component)`,
                 JSXModal: <ReuseableSympol editor={ev} />,
               });
-              // createModal({
-              //   editor: ev,
-              //   titleJsx: (
-              //     <h1 class="text-slate-300 font-bold">
-              //       Create Sympol (Reusable Component)
-              //     </h1>
-              //   ),
-              //   contentJsx: <ReuseableSympol editor={ev} />,
-              // });
             },
             label: editorIcons.reuseable,
             commandName: "open:symbol:model",
             editor: ev,
           });
+
+          // addItemInToolBarForEditor
           navigate("edite/styling");
         });
 
@@ -158,11 +151,11 @@ export const GJEditor = ({ children }) => {
         });
 
         ev.on("undo", () => {
-          setSelectedEl(editor.getSelected().getEl());
+          setSelectedEl(ev.getSelected().getEl());
         });
 
         ev.on("redo", () => {
-          setSelectedEl(editor.getSelected().getEl());
+          setSelectedEl(ev.getSelected().getEl());
         });
 
         ev.on("canvas:dragover", (eve) => {

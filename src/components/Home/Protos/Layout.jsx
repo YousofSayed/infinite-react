@@ -1,32 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { getIconForMultiChoice, getPropVal } from "../../../helpers/functions";
-import { Property } from "./Property";
-import { Select } from "./Select";
-import { MultiProps } from "./MultiProps";
-import {
-  alignContentValues,
-  alignItemsValues,
-  alignSelfValues,
-  displayValues,
-  filterTypes,
-  filterUnits,
-  flexDirectionValues,
-  justifyContentValues,
-  justifyItemsValues,
-  justifySelfValues,
-} from "../../../constants/constants";
+import { displayValues } from "../../../constants/constants";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
-import { Icons } from "../../Icons/Icons";
-import { MultiChoice } from "./MultiChoice";
-import { P } from "../../Protos/P";
-import { Details } from "./Details";
-import { SharedBetweenFlexAndGridLayout } from "./SharedBetweenFlexAndGridLayout";
 import { GridLayout } from "./GridLayout";
 import { FlexLayout } from "./FlexLayout";
 import { SelectStyle } from "./SelectStyle";
-
-
+import { Size } from "./Size";
+import { MiniTitle } from "./MiniTitle";
+import { Positioning } from "./Positioning";
+import { Paddaing } from "./Paddding";
+import { Margin } from "./Margin";
 
 /**
  *
@@ -37,14 +20,22 @@ export const Layout = ({}) => {
   const [option, setOption] = useState("");
   const currentEl = useRecoilValue(currentElState);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(option);
-    
-  },[option])
+  }, [option]);
 
   return (
-    <>
-      <section className="mt-3 flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+    <section className="mt-3 flex flex-col gap-2">
+      <Size />
+
+      <Paddaing />
+
+      <Margin />
+      
+      <Positioning />
+
+      <section className=" flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+        <MiniTitle>display</MiniTitle>
         <SelectStyle
           label="display"
           cssProp="display"
@@ -53,10 +44,13 @@ export const Layout = ({}) => {
         />
       </section>
 
-     {(option.includes('flex') || option.includes('grid')) &&  <section className="mt-3 flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
-       {option.includes('flex') && <FlexLayout />}
-       {option.includes('grid') && <GridLayout />}
-      </section> }
-    </>
+      {(option.includes("flex") || option.includes("grid")) && (
+        <section className=" flex flex-col gap-2 p-2 rounded-lg bg-gray-900">
+          {option.includes("flex") && <FlexLayout />}
+          {option.includes("grid") && <GridLayout />}
+        </section>
+      )}
+
+    </section>
   );
 };

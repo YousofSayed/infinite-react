@@ -104,8 +104,8 @@ export const Icons = {
   ),
   plus: (strokeColor, strokeWidth) => (
     <svg
-      width="15"
-      height="14"
+      width="20"
+      height="20"
       viewBox="0 0 15 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +180,8 @@ export const Icons = {
   layers: (strokeColor, strokeWidth) => (
     <svg width="23" height="23" fill="none" viewBox="0 0 24 24">
       <Path
-        fill="#cbd5e1"
+        justFillOnHover={true}
+        fill="#64748B"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M12,16L19.36,10.27L21,9L12,2L3,9L4.63,10.27M12,18.54L4.62,12.81L3,14.07L12,21.07L21,14.07L19.37,12.8L12,18.54Z"
@@ -337,7 +338,13 @@ export const Icons = {
     </svg>
   ),
   prush: (strokeColor, strokeWidth) => (
-    <svg viewBox="0 0 24 24" height={24} width={24} xmlns="http://www.w3.org/2000/svg" fill="#CBD5E1">
+    <svg
+      viewBox="0 0 24 24"
+      height={24}
+      width={24}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#64748B"
+    >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
@@ -348,9 +355,11 @@ export const Icons = {
         {" "}
         <Path
           d="M23.14.93l-.07-.07A2.926 2.926 0 0 0 20.98 0a2.886 2.886 0 0 0-2.08.86L8.858 10.9a3.04 3.04 0 0 0-.53.72 7.793 7.793 0 0 0-4.1 1.621c-.191.144-.36.316-.5.51a6.08 6.08 0 0 0-.98 1.961c-.25.69-.59 1.631-1.22 3-.42.91-.75 1.541-.98 1.981a3.092 3.092 0 0 0-.54 1.631c.014.206.08.406.19.58a2.64 2.64 0 0 0 2.23 1.07 10.462 10.462 0 0 0 8.161-3.371c.378-.44.692-.932.93-1.461a7.882 7.882 0 0 0 .69-3.361.142.142 0 0 1 .02-.04c.325-.144.62-.347.87-.6L23.14 5.1A2.888 2.888 0 0 0 24 3.021 2.927 2.927 0 0 0 23.14.93zM9.7 18.317c-.17.368-.388.711-.65 1.02a8.393 8.393 0 0 1-6.891 2.6c.05-.1.11-.21.17-.32.24-.46.58-1.11 1.02-2.061a39.058 39.058 0 0 0 1.28-3.151c.14-.491.355-.957.64-1.381.062-.08.133-.154.21-.22a5.221 5.221 0 0 1 2.59-1.14c.121.537.396 1.027.79 1.411l.07.07c.35.357.788.616 1.27.75a5.614 5.614 0 0 1-.499 2.422zM21.73 3.691L11.678 13.735a.947.947 0 0 1-.67.28.983.983 0 0 1-.67-.28l-.07-.07a.948.948 0 0 1 0-1.34L20.309 2.271c.18-.173.42-.27.671-.271a.937.937 0 0 1 .67.27l.08.08c.36.374.36.967 0 1.341z"
-          fill="#CBD5E1"
-          stroke={strokeColor}
+          fill="white"
+          stroke={""}
           strokeWidth={strokeWidth}
+          justFillOnHover={true}
+          dontHover={true}
           fillRule="evenodd"
         ></Path>{" "}
       </g>
@@ -397,6 +406,7 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
     >
       <Path
+        justFillOnHover={true}
         d="M12.0003 3.5C17.3924 3.5 21.8784 7.37976 22.8189 12.5C21.8784 17.6202 17.3924 21.5 12.0003 21.5C6.60812 21.5 2.12215 17.6202 1.18164 12.5C2.12215 7.37976 6.60812 3.5 12.0003 3.5ZM12.0003 19.5C16.2359 19.5 19.8603 16.552 20.7777 12.5C19.8603 8.44803 16.2359 5.5 12.0003 5.5C7.7646 5.5 4.14022 8.44803 3.22278 12.5C4.14022 16.552 7.7646 19.5 12.0003 19.5ZM12.0003 17C9.51498 17 7.50026 14.9853 7.50026 12.5C7.50026 10.0147 9.51498 8 12.0003 8C14.4855 8 16.5003 10.0147 16.5003 12.5C16.5003 14.9853 14.4855 17 12.0003 17ZM12.0003 15C13.381 15 14.5003 13.8807 14.5003 12.5C14.5003 11.1193 13.381 10 12.0003 10C10.6196 10 9.50026 11.1193 9.50026 12.5C9.50026 13.8807 10.6196 15 12.0003 15Z"
         stroke={strokeColor}
         strokeWidth={strokeWidth}
@@ -471,6 +481,66 @@ export const Icons = {
       />
     </svg>
   ),
+  export: (strokeColor, strokeWidth) => (
+    <svg
+      width="24px"
+      height="24px"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {" "}
+        <Path
+          d="M12 3V16M12 16L16 11.625M12 16L8 11.625"
+          stroke="#64748B"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        ></Path>{" "}
+        <Path
+          d="M15 21H9C6.17157 21 4.75736 21 3.87868 20.1213C3 19.2426 3 17.8284 3 15M21 15C21 17.8284 21 19.2426 20.1213 20.1213C19.8215 20.4211 19.4594 20.6186 19 20.7487"
+          stroke="#64748B"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        ></Path>{" "}
+      </g>
+    </svg>
+  ),
+  save: (strokeColor, strokeWidth) => (
+    <svg
+      fill="#64748B"
+      width="24px"
+      height="24px"
+      viewBox="0 0 24.00 24.00"
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="#64748B"
+      strokeWidth="0.00024000000000000003"
+      transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)"
+    >
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <Path
+          stroke={" "}
+          justFillOnHover={true}
+          strokeWidth={strokeWidth}
+          d="M21,20V8.414a1,1,0,0,0-.293-.707L16.293,3.293A1,1,0,0,0,15.586,3H4A1,1,0,0,0,3,4V20a1,1,0,0,0,1,1H20A1,1,0,0,0,21,20ZM9,8h4a1,1,0,0,1,0,2H9A1,1,0,0,1,9,8Zm7,11H8V15a1,1,0,0,1,1-1h6a1,1,0,0,1,1,1Z"
+        ></Path>
+      </g>
+    </svg>
+  ),
   delete: (strokeColor, strokeWidth) => (
     <svg
       version="1.1"
@@ -490,28 +560,44 @@ export const Icons = {
       // stroke-color="white"
     >
       <g>
-        <Path d="M2.347,9.633h38.297V3.76c0-2.068,1.689-3.76,3.76-3.76h21.144 c2.07,0,3.76,1.691,3.76,3.76v5.874h37.83c1.293,0,2.347,1.057,2.347,2.349v11.514H0V11.982C0,10.69,1.055,9.633,2.347,9.633 L2.347,9.633z M8.69,29.605h92.921c1.937,0,3.696,1.599,3.521,3.524l-7.864,86.229c-0.174,1.926-1.59,3.521-3.523,3.521h-77.3 c-1.934,0-3.352-1.592-3.524-3.521L5.166,33.129C4.994,31.197,6.751,29.605,8.69,29.605L8.69,29.605z M69.077,42.998h9.866v65.314 h-9.866V42.998L69.077,42.998z M30.072,42.998h9.867v65.314h-9.867V42.998L30.072,42.998z M49.572,42.998h9.869v65.314h-9.869 V42.998L49.572,42.998z" />
+        <Path
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+          d="M2.347,9.633h38.297V3.76c0-2.068,1.689-3.76,3.76-3.76h21.144 c2.07,0,3.76,1.691,3.76,3.76v5.874h37.83c1.293,0,2.347,1.057,2.347,2.349v11.514H0V11.982C0,10.69,1.055,9.633,2.347,9.633 L2.347,9.633z M8.69,29.605h92.921c1.937,0,3.696,1.599,3.521,3.524l-7.864,86.229c-0.174,1.926-1.59,3.521-3.523,3.521h-77.3 c-1.934,0-3.352-1.592-3.524-3.521L5.166,33.129C4.994,31.197,6.751,29.605,8.69,29.605L8.69,29.605z M69.077,42.998h9.866v65.314 h-9.866V42.998L69.077,42.998z M30.072,42.998h9.867v65.314h-9.867V42.998L30.072,42.998z M49.572,42.998h9.869v65.314h-9.869 V42.998L49.572,42.998z"
+        />
       </g>
     </svg>
   ),
 
-  textStart: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+  textStart: ({
+    strokeColor,
+    strokeWidth,
+    width = "18",
+    height = "18",
+    fill,
+  }) => (
     <svg
       width={width}
       height={height}
       viewBox="0 0 24 24"
-      fill="none"
+      fill="#CBD5E1"
       xmlns="http://www.w3.org/2000/svg"
     >
       <Path
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M3.26471 4.42346H20.8775V6.38044H3.26471V4.42346ZM3.26471 19.1008H16.9635V21.0577H3.26471V19.1008ZM3.26471 14.2083H20.8775V16.1653H3.26471V14.2083ZM3.26471 9.3159H16.9635V11.2729H3.26471V9.3159Z"
-        fill="#CBD5E1"
+        fill={fill || "#CBD5E1"}
       />
     </svg>
   ),
-  textCenter: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+  textCenter: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+    fill,
+  }) => (
     <svg
       width={width}
       height={height}
@@ -523,11 +609,17 @@ export const Icons = {
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M3.3714 4.42346H20.9842V6.38044H3.3714V4.42346ZM5.32837 19.1008H19.0272V21.0577H5.32837V19.1008ZM3.3714 14.2083H20.9842V16.1653H3.3714V14.2083ZM5.32837 9.3159H19.0272V11.2729H5.32837V9.3159Z"
-        fill="#CBD5E1"
+        fill={fill || "#CBD5E1"}
       />
     </svg>
   ),
-  textEnd: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+  textEnd: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+    fill,
+  }) => (
     <svg
       width={width}
       height={height}
@@ -539,11 +631,17 @@ export const Icons = {
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M3.47864 4.42346H21.0914V6.38044H3.47864V4.42346ZM7.39258 19.1008H21.0914V21.0577H7.39258V19.1008ZM3.47864 14.2083H21.0914V16.1653H3.47864V14.2083ZM7.39258 9.3159H21.0914V11.2729H7.39258V9.3159Z"
-        fill="#CBD5E1"
+        fill={fill || "#CBD5E1"}
       />
     </svg>
   ),
-  textJustify: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+  textJustify: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+    fill,
+  }) => (
     <svg
       width={width}
       height={height}
@@ -555,15 +653,16 @@ export const Icons = {
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M3.58533 4.42346H21.1981V6.38044H3.58533V4.42346ZM3.58533 19.1008H21.1981V21.0577H3.58533V19.1008ZM3.58533 14.2083H21.1981V16.1653H3.58533V14.2083ZM3.58533 9.3159H21.1981V11.2729H3.58533V9.3159Z"
-        fill="#CBD5E1"
+        fill={fill || "#CBD5E1"}
       />
     </svg>
   ),
   textCapitalize: ({
     strokeColor,
     strokeWidth,
-    width = "24",
-    height = "24",
+    width = "18",
+    height = "18",
+    fill,
   }) => (
     <svg
       width={width}
@@ -577,11 +676,11 @@ export const Icons = {
         fillRule="evenodd"
         stroke="#64748b"
         strokeWidth="1.5"
-        fill="#cbd5e1"
+        fill={fill || "#cbd5e1"}
       >
         <Path
           stroke={strokeColor}
-          strokeWidth={strokeWidth}
+          strokeWidth={strokeWidth || 1}
           d="M 6.2 14 L 4.3 14 L 4.3 1.68 L 0 1.68 L 0 0 L 10.5 0 L 10.5 1.68 L 6.2 1.68 L 6.2 14 Z M 12.3 10.42 L 12.3 5.54 L 10.5 5.54 L 10.5 3.98 L 12.34 3.98 L 12.72 0.7 L 14.1 0.7 L 14.1 3.98 L 16.98 3.98 L 16.98 5.54 L 14.1 5.54 L 14.1 10.56 Q 14.1 11.588 14.485 12.066 A 1.111 1.111 0 0 0 14.59 12.18 Q 15.08 12.64 15.76 12.64 Q 16.26 12.64 16.71 12.48 Q 17.16 12.32 17.54 12.1 L 18.04 13.54 A 3.709 3.709 0 0 1 17.716 13.711 Q 17.556 13.787 17.367 13.862 A 8.673 8.673 0 0 1 16.96 14.01 Q 16.28 14.24 15.54 14.24 A 3.665 3.665 0 0 1 14.504 14.101 A 2.787 2.787 0 0 1 13.17 13.25 Q 12.3 12.26 12.3 10.42 Z"
           vectorEffect="non-scaling-stroke"
         />
@@ -591,8 +690,9 @@ export const Icons = {
   textUppercase: ({
     strokeColor,
     strokeWidth,
-    width = "24",
-    height = "24",
+    width = "18",
+    height = "18",
+    fill,
   }) => (
     <svg
       width={width}
@@ -606,7 +706,7 @@ export const Icons = {
         fillRule="evenodd"
         stroke="#64748b"
         strokeWidth="1.5"
-        fill="#cbd5e1"
+        fill={fill || "#cbd5e1"}
       >
         <Path
           stroke={strokeColor}
@@ -620,13 +720,15 @@ export const Icons = {
   textLowercase: ({
     strokeColor,
     strokeWidth,
-    width = "24",
-    height = "24",
+    width = "18",
+    height = "18",
+    fill,
   }) => (
     <svg
       width={width}
       height={height}
       viewBox="0 0 15.48 13.54"
+      fill={fill || "#cbd5e1"}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g
@@ -635,9 +737,10 @@ export const Icons = {
         fillRule="evenodd"
         stroke="#64748b"
         strokeWidth="1.5"
-        fill="#cbd5e1"
+        fill={fill || "#cbd5e1"}
       >
         <Path
+          fill={fill || "#cbd5e1"}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           d="M 1.8 9.72 L 1.8 4.84 L 0 4.84 L 0 3.28 L 1.84 3.28 L 2.22 0 L 3.6 0 L 3.6 3.28 L 6.48 3.28 L 6.48 4.84 L 3.6 4.84 L 3.6 9.86 Q 3.6 10.888 3.985 11.366 A 1.111 1.111 0 0 0 4.09 11.48 Q 4.58 11.94 5.26 11.94 Q 5.76 11.94 6.21 11.78 Q 6.66 11.62 7.04 11.4 L 7.54 12.84 A 3.709 3.709 0 0 1 7.216 13.011 Q 7.056 13.087 6.867 13.162 A 8.673 8.673 0 0 1 6.46 13.31 Q 5.78 13.54 5.04 13.54 A 3.665 3.665 0 0 1 4.004 13.401 A 2.787 2.787 0 0 1 2.67 12.55 Q 1.8 11.56 1.8 9.72 Z M 9.74 9.72 L 9.74 4.84 L 7.94 4.84 L 7.94 3.28 L 9.78 3.28 L 10.16 0 L 11.54 0 L 11.54 3.28 L 14.42 3.28 L 14.42 4.84 L 11.54 4.84 L 11.54 9.86 Q 11.54 10.888 11.925 11.366 A 1.111 1.111 0 0 0 12.03 11.48 Q 12.52 11.94 13.2 11.94 Q 13.7 11.94 14.15 11.78 Q 14.6 11.62 14.98 11.4 L 15.48 12.84 A 3.709 3.709 0 0 1 15.156 13.011 Q 14.996 13.087 14.807 13.162 A 8.673 8.673 0 0 1 14.4 13.31 Q 13.72 13.54 12.98 13.54 A 3.665 3.665 0 0 1 11.944 13.401 A 2.787 2.787 0 0 1 10.61 12.55 Q 9.74 11.56 9.74 9.72 Z"
@@ -646,7 +749,13 @@ export const Icons = {
       </g>
     </svg>
   ),
-  textNone: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+  textNone: ({
+    strokeColor,
+    strokeWidth,
+    width = "16",
+    height = "16",
+    fill,
+  }) => (
     <svg
       width={width}
       height={height}
@@ -659,18 +768,24 @@ export const Icons = {
         fillRule="evenodd"
         stroke="#64748b"
         strokeWidth="1.5"
-        fill="#cbd5e1"
+        fill={fill || "#cbd5e1"}
       >
         <Path
           stroke={strokeColor}
-          strokeWidth={strokeWidth}
+          strokeWidth={strokeWidth || 1}
           d="M 11.74 13.2 L 10.2 14.38 L 5.78 8.38 L 1.5 14.34 L 0 13.2 L 4.7 7.06 L 0.2 1.18 L 1.78 0 L 5.84 5.68 L 9.86 0.06 L 11.34 1.18 L 6.98 6.96 L 11.74 13.2 Z"
           vectorEffect="non-scaling-stroke"
         />
       </g>
     </svg>
   ),
-  visible: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (
+  visible: ({
+    strokeColor,
+    strokeWidth,
+    width = "24",
+    height = "24",
+    fill,
+  }) => (
     <svg
       width={width}
       height={height}
@@ -689,7 +804,7 @@ export const Icons = {
         fillRule="evenodd"
         stroke="#64748b"
         strokeWidth="1.5"
-        fill="#cbd5e1"
+        fill={fill || "#cbd5e1"}
       >
         <Path
           stroke={strokeColor}

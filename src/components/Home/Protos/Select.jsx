@@ -173,7 +173,7 @@ export const Select = ({
         <input
           value={val}
           ref={inputRef}
-          className="w-full h-full font-semibold bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
+          className="w-full h-full font-semibold border-2 border-transparent  focus:border-blue-600 bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
           type="text"
           placeholder={placeholder}
           onClick={(ev) => {

@@ -66,28 +66,30 @@ export const SelectClass = () => {
         </SmallButton>
       </section>
 
-      <section>
-        <Choices
-          keywords={classesKeywrods}
-          className="flex-wrap flex-center"
-          onCloseClick={(ev, keyword) => {
-            removeClass(keyword);
-          }}
-          onActive={({ keyword, index }) => {
-            setSelector(`.${keyword}`);
-          }}
-          onUnActive={({ keyword, index }) => {
-            setSelector('');
-          }}
-          // onItemClick={({ ev, keyword, index }) => {
-          //   setSelectedClassName(`${ selector == `.${keyword}` && `);
-          // setSelector((selector) =>
-          //   selector == `.${keyword}` ? "" : `.${keyword}`
-          // );
-          // }}
-          enableSelecting={true}
-        />
-      </section>
+      {classesKeywrods[0] ? (
+        <section>
+          <Choices
+            keywords={classesKeywrods}
+            className="flex-wrap flex-center bg-gray-800"
+            onCloseClick={(ev, keyword) => {
+              removeClass(keyword);
+            }}
+            onActive={({ keyword, index }) => {
+              setSelector(`.${keyword}`);
+            }}
+            onUnActive={({ keyword, index }) => {
+              setSelector("");
+            }}
+            // onItemClick={({ ev, keyword, index }) => {
+            //   setSelectedClassName(`${ selector == `.${keyword}` && `);
+            // setSelector((selector) =>
+            //   selector == `.${keyword}` ? "" : `.${keyword}`
+            // );
+            // }}
+            enableSelecting={true}
+          />
+        </section>
+      ) : null}
     </section>
   );
 };

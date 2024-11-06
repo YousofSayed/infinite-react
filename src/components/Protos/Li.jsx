@@ -6,7 +6,8 @@ export const Li = ({
   children,
   className = "",
   hover = true,
-  to,
+  to = "",
+  label = "",
   onClick = () => {},
   icon = (strokeColor, strokeWidth) => {},
 }) => {
@@ -21,6 +22,8 @@ export const Li = ({
       {to ? (
         <Link
           to={to}
+          title={label}
+          aria-label={label}
           className="w-full h-full flex justify-center items-center"
           onClick={(ev) => {
             console.log(path.pathname, to);
@@ -33,6 +36,8 @@ export const Li = ({
         </Link>
       ) : (
         <button
+          aria-label={label}
+          title={label}
           className="w-full h-full flex justify-center items-center"
           onClick={(ev) => {
             console.log(path.pathname, to);
