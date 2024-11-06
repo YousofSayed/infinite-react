@@ -11,19 +11,19 @@ export const HomeNav = () => {
         </figure>
         <ul className="flex flex-col gap-5 items-center">
           {/* <Li>{Icons.plus()}</Li> */}
-          <Li>{Icons.components()}</Li>
-          <Li>{Icons.stNote()}</Li>
-          <Li>{Icons.db()}</Li>
-          <Li>{Icons.gallery()}</Li>
-          <Li>{Icons.git()}</Li>
+          <Li title="Components">{Icons.components()}</Li>
+          <Li title="Pages">{Icons.stNote()}</Li>
+          <Li title="Database">{Icons.db()}</Li>
+          <Li title="Media">{Icons.gallery()}</Li>
+          <Li title="Github">{Icons.git()}</Li>
         </ul>
       </div>
 
       <div>
         <ul className="flex flex-col gap-5 items-center">
           {/* <Li>{Icons.headphone()}</Li> */}
-          <Li>{Icons.setting()}</Li>
-          <Li>{Icons.logOut()}</Li>
+          <Li title="Settings">{Icons.setting()}</Li>
+          <Li title="Logout">{Icons.logOut()}</Li>
         </ul>
       </div>
     </nav>

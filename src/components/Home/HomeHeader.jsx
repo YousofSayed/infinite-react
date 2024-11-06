@@ -39,7 +39,7 @@ export const HomeHeader = () => {
     <header className="w-full h-[60px] bg-slate-900 border-b-[1.5px] border-slate-400  px-3  flex items-center justify-between">
       <ul className="flex gap-[25px] items-center">
         <Li
-        label="desktop size"
+        title="desktop size"
           onClick={(ev) => {
             editor.setDevice("Desktop");
           }}
@@ -47,7 +47,7 @@ export const HomeHeader = () => {
           {Icons.laptop()}
         </Li>
         <Li
-        label="tablet size"
+        title="tablet size"
           onClick={(ev) => {
             editor.setDevice("tablet");
           }}
@@ -55,7 +55,7 @@ export const HomeHeader = () => {
           {Icons.taplet()}
         </Li>
         <Li
-          label="mobile size"
+          title="mobile size"
           onClick={(ev) => {
             editor.setDevice("mobile");
           }}
@@ -93,10 +93,10 @@ export const HomeHeader = () => {
 
         <div className="flex items-center gap-2">
           <ul className="flex items-center gap-2">
-            <Li to={"/preview"} icon={Icons.watch} label="preview mode"/>
-            <Li  icon={Icons.save} label="save"/>
-            <Li  icon={Icons.export} label="download"/>
-            <Li to={"/"} icon={Icons.plus} label="add blocks"/>
+            <Li to={"/preview"} icon={Icons.watch} title="preview mode"/>
+            <Li  icon={Icons.save} title="save"/>
+            <Li  icon={Icons.export} title="download"/>
+            <Li to={"/"} icon={Icons.plus} title="add blocks"/>
           </ul>
 
           {/* <Button>Publish</Button> */}

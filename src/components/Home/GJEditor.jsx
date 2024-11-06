@@ -56,6 +56,7 @@ export const GJEditor = ({ children }) => {
 
   return (
     <Editor
+    title="Editor"
       grapesjs={grapesjs}
       options={{
         height: "100%",
@@ -94,7 +95,7 @@ export const GJEditor = ({ children }) => {
         ev.addStyle(
           `body [data-gjs-type="wrapper"] [id]::before{content:''} .lol{font-size:32px}`
         );
-        ev.Blocks.categories.add({ id: "others", label: "Others" });
+        ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({
           ...handleCustomBlock(ev.Blocks.getAll().models, ev),
           symbols: [],
@@ -133,7 +134,7 @@ export const GJEditor = ({ children }) => {
                 JSXModal: <ReuseableSympol editor={ev} />,
               });
             },
-            label: editorIcons.reuseable,
+            title: editorIcons.reuseable,
             commandName: "open:symbol:model",
             editor: ev,
           });
