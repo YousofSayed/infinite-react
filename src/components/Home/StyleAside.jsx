@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Aside } from "./Protos/Aside";
 import { Details } from "./Protos/Details";
 import { Layout } from "./Protos/Layout";
-import { selector, useSetRecoilState } from "recoil";
-import { currentElState } from "../../helpers/atoms";
+import { selector, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  currentElState,
+  showAnimationsBuilderState,
+} from "../../helpers/atoms";
 import { StyleTypography } from "./Protos/StyleTypography";
 import { Content } from "./Protos/Content";
 import { Size } from "./Protos/Size";
@@ -16,7 +19,9 @@ import { AsideControllers } from "./Protos/AsideControllers";
 import { SelectState } from "./Protos/SelectState";
 import { SelectClass } from "./Protos/SelectClass";
 import { Background } from "./Protos/Background";
-import { Filters } from "./Protos/Filters";
+import { MultiFunctionProp } from "./Protos/MultiFunctionProp";
+import { Animation } from "./Protos/Animation";
+import { filterTypes, filterUnits, transformValues } from "../../constants/constants";
 
 /**
  *
@@ -26,6 +31,7 @@ import { Filters } from "./Protos/Filters";
 export const StyleAside = ({ className }) => {
   // const [currentEl, setCurrentEl] = useState();
   const editor = useEditorMaybe();
+  const showAnimeBuilder = useRecoilValue(showAnimationsBuilderState);
   const setCurrentEl = useSetRecoilState(currentElState);
 
   useEffect(() => {
@@ -44,7 +50,6 @@ export const StyleAside = ({ className }) => {
     };
   });
 
-
   return (
     <>
       {/* <Details label={'content'}>
@@ -52,18 +57,21 @@ export const StyleAside = ({ className }) => {
       </Details> */}
 
       {/* <section id="styles"></section> */}
-        <AsideControllers/>
-  
-     <Details label={'classes'}>
-      <SelectClass/>
-     </Details>
+      <AsideControllers />
 
-     <Details label={'states'}>
-     <SelectState />
-     </Details>
+      {!showAnimeBuilder && (
+        <Details label={"classes"}>
+          <SelectClass />
+        </Details>
+      )}
 
+      {!showAnimeBuilder && (
+        <Details label={"states"}>
+          <SelectState />
+        </Details>
+      )}
 
-     <Details label={"layout"}>
+      <Details label={"layout"}>
         <Layout />
       </Details>
 
@@ -71,18 +79,36 @@ export const StyleAside = ({ className }) => {
         <StyleTypography />
       </Details>
 
-
       <Details label={"border"}>
         <Border />
       </Details>
 
-      <Details label={'background'}>
-        <Background/>
+      <Details label={"background"}>
+        <Background />
       </Details>
 
-      <Details label={'Filters'}>
-        <Filters/>
+      <Details label={"Filters"}>
+        <MultiFunctionProp
+          cssProp={"filter"}
+          keywords={filterTypes}
+          units={filterUnits}
+          placeholder={"Select Filter"}
+        />
       </Details>
+
+      <Details label={"Transform"}>
+        <MultiFunctionProp
+          cssProp={"transform"}
+          keywords={transformValues}
+          placeholder={"Select Prop"}
+        />
+      </Details>
+
+      {!showAnimeBuilder && (
+        <Details label={"Animation"}>
+          <Animation />
+        </Details>
+      )}
     </>
   );
 };

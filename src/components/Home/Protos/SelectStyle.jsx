@@ -26,6 +26,10 @@ export const SelectStyle = ({
     setVal(value);
     // setKeyword(ev.target.value);
     // filterKeywords(ev); 
+    setClass({
+      cssProp,
+      value,
+    });
   };
 
   const onItemClicked = (item) => {
@@ -51,7 +55,7 @@ export const SelectStyle = ({
         keywords={keywords}
         wrap={wrap}
         setKeyword={setKeyword}
-        // onInput={onInput}
+        onInput={onInput}
         onItemClicked={onItemClicked}
         onEnterPress={onEnterPress}
         val={val}

@@ -1,5 +1,6 @@
 import React from "react";
 import { atom } from "recoil";
+import { animeStylesType } from "./jsDocs";
 
 export const widths = atom({
   key: "widths",
@@ -20,9 +21,9 @@ export const searchWord = atom({
 let blocksType = [];
 
 export const blocksStt = atom({
-  key:'blocks',
-  default: blocksType
-})
+  key: "blocks",
+  default: blocksType,
+});
 
 /**
  * @type {Document}
@@ -70,8 +71,6 @@ export const showOverlayIframState = atom({
   default: false,
 });
 
-
-
 /**
  * @let
  * @type {{render:(children:React.ReactNode)=>void}}
@@ -82,7 +81,6 @@ export const iframeRoot = atom({
   key: "iframeRoot",
   default: render,
 });
-
 
 /**
  * @let
@@ -106,33 +104,52 @@ export const editorStt = atom({
   default: editor,
 });
 
-
-let rule = {is:false , ruleString:''};
+let rule = { is: false, ruleString: "" };
 
 export const ruleState = atom({
-  key:'ruleState',
-  default:rule
+  key: "ruleState",
+  default: rule,
 });
 
 export const selectorState = atom({
-  key:'selectorState',
-  default:''
+  key: "selectorState",
+  default: "",
 });
 
 export const showLayersState = atom({
-  key:'showLayers',
-  default:false
+  key: "showLayers",
+  default: false,
 });
 
-export const cssPropForAssetsManagerState =atom({
-  key:'cssPropForAssetsManagerState ',
-  default:''
+export const cssPropForAssetsManagerState = atom({
+  key: "cssPropForAssetsManagerState ",
+  default: "",
 });
 
 export const modalDataState = atom({
-  key:'modalDataState',
-  default:{
-    title:'',
-    JSXModal : <section></section>
-  }
-})
+  key: "modalDataState",
+  default: {
+    title: "",
+    JSXModal: <section></section>,
+  },
+});
+
+export const showAnimationsBuilderState = atom({
+  key: "showAnimationsBuilderState",
+  default: false,
+});
+
+export const animeStylesState = atom({
+  key: "animeStyles",
+  default: animeStylesType,
+});
+
+export const framesStylesState = atom({
+  key: "framesValueState",
+  default: animeStylesType,
+});
+
+export const showCustomModalState = atom({
+  key: "showCustomModal",
+  default: false,
+});

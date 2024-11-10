@@ -286,9 +286,10 @@ export function random(length) {
 /**
  * Returns a new detached object from main object
  * @param {object} obj
- * @returns {object}
+ * @returns @param {obj}
  */
 export function cloneObject(obj) {
+  if(!obj)return{};
   const newObj = {};
   Object.keys(obj).forEach((key) => {
     newObj[key] = obj[key];

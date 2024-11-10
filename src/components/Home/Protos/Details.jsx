@@ -11,7 +11,8 @@ export const Details = ({ children, label, ref, id , setIsShow = (_)=>{} , conta
       ref={ref}
       className={`bg-slate-950 ${
         showDetails && "p-2 border-2 border-blue-600"
-      } transition-[padding] rounded-lg`}
+      } transition-[padding] rounded-lg select-none`}
+      onContextMenu={(ev)=>{ev.preventDefault()}}
     > 
       <div
         onClick={(ev) => {

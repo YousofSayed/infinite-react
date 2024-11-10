@@ -17,8 +17,8 @@ import { P } from "../../Protos/P";
  * @param {{editor:import('grapesjs').Editor}} param0
  * @returns
  */
-export const ReuseableSympol = ({ editor }) => {
-  //   const editor = useEditorMaybe();
+export const ReusableSympol = () => {
+    const editor = useEditorMaybe();
   const contentRef = useRef(refType);
   const [props, setProps] = useState({ name: "", category: "" });
   const [keywordsCtg, setKeywordsCtg] = useState(
@@ -35,45 +35,54 @@ export const ReuseableSympol = ({ editor }) => {
     const mainSympol = editor.DomComponents.addSymbol(selectedEl);
 
     if (info) {
-      editor.runCommand("close:custom:modal");
+      editor.runCommand("close:current:modal");
       return;
     }
 
     selectedEl.replaceWith(mainSympol);
-    console.log(props.category);
 
-    editor.BlockManager.add(uniqueID(), {
+    function createInstance() {
+      console.log('instance');
+      
+      const instance = editor.DomComponents.addSymbol(mainSympol);
+      return instance
+      // /**
+      //  * @type {import('grapesjs').Component}
+      //  */
+      // const mySymbol = editor.mySymbol;
+
+      // if (mySymbol && editor.DomComponents.getSymbolInfo(mySymbol).isSymbol) {
+      //   editor.runCommand("close:current:modal");
+      //   editor.runCommand("open:error:modal", {
+      //     title: <P>Error: can not create the symbol</P>,
+      //     content: (
+      //       <>
+      //         <P>One of the parent is in the symbol.</P>
+      //         <P>Please remove the parent from the symbol and try again.</P>
+      //       </>
+      //     ),
+      //   });
+      //   console.log('done if');
+
+      //   return null;
+      // } else {
+      //   console.log('done else');
+        
+      //   editor.runCommand("close:current:modal");
+      //   return instance;
+      // }
+      
+    }
+
+    editor.Blocks.add(uniqueID(), {
       id: uniqueID(),
       label: props.name,
       category: props.category || "symbols",
       media: contentRef.current.outerHTML,
-      content: function createInstance() {
-        const instance = editor.DomComponents.addSymbol(mainSympol);
-        /**
-         * @type {import('grapesjs').Component}
-         */
-        const mySymbol = editor.mySymbol;
-
-        if (mySymbol && editor.DomComponents.getSymbolInfo(mySymbol).isSymbol) {
-          editor.runCommand("close:custom:modal");
-          createModal({
-            editor: editor,
-            titleJsx: <P>Error: can not create the symbol</P>,
-            contentJsx: <ErrorModal editor={editor} />,
-          });
-          return null;
-        } else {
-          return instance;
-        }
-        // // instance.
-        // return instance;
-
-        // console.log(myVal);
-      },
+      content: createInstance(),
     });
-    // editor.runCommand('symbol:add',{label:props.name, icon:contentRef.current.outerHTML , })
-    editor.Modal.close();
-    // console.log(editor.Components.getSymbols()[0].toHTML());
+    editor.runCommand('close:current:modal');
+   
   };
 
   const getSelectedElAsImg = async () => {
@@ -88,8 +97,8 @@ export const ReuseableSympol = ({ editor }) => {
   }, []);
 
   return (
-    <section className="w-full p-2 flex flex-col gap-4 h-[500px] overflow-auto bg-gray-800 rounded-lg ">
-      <header className="p-2 rounded-lg flex gap-4 justify-between bg-gray-900">
+    <section className="w-full z-50 p-2 flex flex-col gap-4 h-[500px] overflow-auto bg-gray-800 rounded-lg ">
+      <header className="p-2 z-50 rounded-lg flex gap-4 justify-between bg-gray-900">
         <Input
           value={props.name}
           autoFocus={true}
@@ -105,9 +114,10 @@ export const ReuseableSympol = ({ editor }) => {
           }}
           keywords={keywordsCtg}
           placeholder="Category"
-          // onInput={(value) => {
-          //   onInput(value, "category");
-          // }}
+          onInput={(value) => {
+            onInput(value, "category");
+          }}
+          onEnterPress={(value) => onInput(value, "category")}
           value={props.category}
           className="bg-gray-800 w-[40%]"
           onItemClicked={(value) => onInput(value, "category")}

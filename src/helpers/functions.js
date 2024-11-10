@@ -359,11 +359,14 @@ export function addItemInToolBarForEditor({
   commandCallback = (_) => {},
   label,
 }) {
-  !editor.Commands.has(commandName) &&
-    editor.Commands.add(commandName, commandCallback);
   const selectedEl = editor.getSelected();
   const toolbar = selectedEl.get("toolbar");
   const isExist = toolbar.find((item) => item.command == commandName);
+  if(selectedEl.tagName == 'body')return;
+  console.log(selectedEl.tagName);
+  
+  !editor.Commands.has(commandName) &&
+    editor.Commands.add(commandName, commandCallback);
 
   if (!isExist) {
     selectedEl.set({
@@ -407,37 +410,83 @@ export function evalObject(str) {
 export function transformObjectToScope(object) {
   let scope = ``;
   Object.keys(object).forEach((key) => {
-    scope += `let ${key} = ${isString(object[key]) ? `\`${object[key]}\`` : object[key]}; `;
+    scope += `let ${key} = ${
+      isString(object[key]) ? `\`${object[key]}\`` : object[key]
+    }; `;
   });
   return scope;
 }
 
-export function evalBasedOnObjectScope(scope , codeAddedToScope) {
+export function evalBasedOnObjectScope(scope, codeAddedToScope) {
   try {
-    return eval(`${scope + '\n' + codeAddedToScope}`)
+    return eval(`${scope + "\n" + codeAddedToScope}`);
   } catch (error) {
     console.log(error);
-    
+
     return undefined;
   }
 }
 
 /**
- * 
- * @param {string} string 
+ *
+ * @param {string} string
  */
-export function isValidVFor(string = '') {
-  const rgx = /(\w+|\(\w+(\s+)?\,(\s+)?\w+\))\s+in\s+\w+/;  
+export function isValidVFor(string = "") {
+  const rgx = /(\w+|\(\w+(\s+)?\,(\s+)?\w+\))\s+in\s+\w+/;
   const matchRes = rgx.test(string);
   return matchRes;
 }
 
-
-export
-const getCloneArray = (values) => {
+export const getCloneArray = (values) => {
   /**
    * @type {import("../../../helpers/types").gradientValues}
    */
   const cloneValues = [...values];
   return cloneValues;
 };
+
+export function stringifyKeyframes(keyframe) {
+  // Start with the @keyframes name
+  let css = `@keyframes ${keyframe.name} {\n`;
+
+  // Loop through each keyframe step
+  keyframe.values.forEach(({ percentage, styles }) => {
+    // Add percentage and start a new block
+    css += `  ${percentage}% { `;
+
+    // Add each style rule
+    for (const [property, value] of Object.entries(styles)) {
+      css += `${property}: ${value}; `;
+    }
+
+    // Close the block
+    css += `}\n`;
+  });
+
+  // Close the @keyframes
+  css += `}`;
+  return css;
+}
+
+export function extractKeyframesAsCSSString(keyframesString) {
+  const keyframePattern = /(\d+%)\s*\{([^\}]*)\}/g;
+  let result = "";
+
+  let match;
+  while ((match = keyframePattern.exec(keyframesString)) !== null) {
+    const percentage = match[1].trim();
+    const styles = match[2].trim().replace(/\s+/g, " ");
+    result += `${percentage} { ${styles} } `;
+  }
+
+  return result.trim();
+}
+
+/**
+ * 
+ * @param {import('grapesjs').Editor} editor 
+ */
+export const getCategoriesId = (editor)=>{
+  return editor.Blocks.getCategories().models.map((ctg)=>ctg.attributes.id)
+}
+

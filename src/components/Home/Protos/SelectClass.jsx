@@ -22,7 +22,7 @@ export const SelectClass = () => {
   });
 
   useEffect(() => {
-    setClassesKeywords(editor.getSelected().getClasses());
+    setClassesKeywords(getELClasses());
     setSelector("");
   }, [selectedEl]);
 
@@ -34,8 +34,12 @@ export const SelectClass = () => {
 
   const removeClass = (classNameKeyword = "") => {
     editor.getSelected().removeClass(classNameKeyword);
-    setClassesKeywords(editor.getSelected().getClasses());
+    setClassesKeywords(getELClasses());
   };
+
+  const getELClasses = ()=>{
+    return editor.getSelected().getClasses()?.filter(calss => !calss.startsWith('gjs')) || []
+  }
 
   return (
     <section className="mt-3 flex flex-col gap-3">
@@ -58,6 +62,7 @@ export const SelectClass = () => {
         />
 
         <SmallButton
+        className="flex-shrink-0 bg-gray-900"
           onClick={(ev) => {
             addClass(val);
           }}

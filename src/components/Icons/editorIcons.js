@@ -1,9 +1,8 @@
-import React from "react";
 import { html } from "../../helpers/cocktail";
 
 export const editorIcons = {
   reuseable: html`<svg
-    fill="#fff"
+    fill="#ffffff"
     version="1.1"
     id="Capa_1"
     xmlns="http://www.w3.org/2000/svg"
@@ -36,4 +35,18 @@ export const editorIcons = {
       </g>
     </g>
   </svg>`,
+
+  save: html`
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path d="M0 1H6L9 4H16V14H0V1Z" fill="#ffffff"></path>
+      </g>
+    </svg>
+  `,
 };

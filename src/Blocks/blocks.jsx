@@ -66,16 +66,12 @@ let str = "${x}";
  */
 export const blocks = [
   {
-    id: "text",
+    id: uniqueID(),
     label: "Text",
     category: "Basic",
     media: svgText,
     activate: true,
-    content: {
-      type: "text",
-      content: "Insert your text here",
-      style: { padding: "10px" },
-    },
+    content: html`<p class="p-10">Insert your Text Here</p>`
   },
   {
     id: "link",

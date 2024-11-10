@@ -24,7 +24,9 @@
   margin: auto;
 }
 
-
+.p-10{
+  padding: 10px;
+}
 
 #editorjs{
   min-height: 100%;

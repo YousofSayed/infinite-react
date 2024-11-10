@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { currentElState, ruleState, selectorState } from "../helpers/atoms";
+import { currentElState, framesStylesState, ruleState, selectorState, showAnimationsBuilderState } from "../helpers/atoms";
 import { useEditorMaybe } from "@grapesjs/react";
 
 /**
@@ -16,9 +16,11 @@ export const useUpdateInputValue = ({
   const editor = useEditorMaybe();
   const rule = useRecoilValue(ruleState);
   const selector = useRecoilValue(selectorState);
+  const showAnimationsBuilder = useRecoilValue(showAnimationsBuilderState);
+  const framesStyles = useRecoilValue(framesStylesState);
 
   useEffect(() => {
-    if (currentElObj.currentEl) {
+    if (currentElObj.currentEl && !showAnimationsBuilder) {
       const slEL = editor.getSelected();
       const slElStyles = slEL.getStyle();
       const getRuleStyle = () => {
@@ -42,5 +44,9 @@ export const useUpdateInputValue = ({
         onEffect(cssProp, "");
       }
     }
-  }, [currentElObj, rule, selector]);
+
+    if(showAnimationsBuilder){      
+      setVal(framesStyles[cssProp] || '');
+    }
+  }, [currentElObj, rule, selector , showAnimationsBuilder , framesStyles]);
 };

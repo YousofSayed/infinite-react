@@ -169,11 +169,11 @@ export const Select = ({
       }  justify-between items-center bg-slate-800 ${className}`}
     >
       {label ? <P>{label}: </P> : null}
-      <div className={`${label ? "w-[55%]" : "w-full"} relative`}>
+      <div className={`${label ? "w-[55%]" : "w-full"} relative `}>
         <input
           value={val}
           ref={inputRef}
-          className="w-full h-full font-semibold border-2 border-transparent  focus:border-blue-600 bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
+          className="w-full h-full  font-semibold border-2 border-transparent  focus:border-blue-600 bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
           type="text"
           placeholder={placeholder}
           onClick={(ev) => {

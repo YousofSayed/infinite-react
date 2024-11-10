@@ -8,3 +8,8 @@ export type gradientValues = {
     }
   ];
 }[];
+
+export type Animations = {
+  name: string;
+  values: { percentage: number; styles: CSSStyleDeclaration }[];
+}[];

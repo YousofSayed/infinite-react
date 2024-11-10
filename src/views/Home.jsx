@@ -10,15 +10,23 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { TraitsAside } from "../components/Home/TraitsAside";
 import { Aside } from "../components/Home/Protos/Aside";
 import { Outlet, Route, Router, Routes } from "react-router-dom";
-import { modalDataState, showLayersState } from "../helpers/atoms";
+import {
+  modalDataState,
+  showAnimationsBuilderState,
+  showCustomModalState,
+  showLayersState,
+} from "../helpers/atoms";
 import { Layers } from "../components/Home/Protos/Layers";
 import { CustomModals } from "../components/Home/CustomModals";
+import { AnimationsBuilder } from "../components/Home/AnimationsBuilder";
 
 export const Home = () => {
   const showLayers = useRecoilValue(showLayersState);
-  const modalData = useRecoilValue(modalDataState);
+  const showAnimBuilder = useRecoilValue(showAnimationsBuilderState);
   const setModalData = useSetRecoilState(modalDataState);
   const [isClose, setClose] = useState(true);
+  const setShowCustomModal = useSetRecoilState(showCustomModalState);
+  const showCustomModal = useRecoilValue(showCustomModalState)
 
   useEffect(() => {
     /**
@@ -26,16 +34,19 @@ export const Home = () => {
      * @param {CustomEvent} ev
      */
     const openModal = (ev) => {
-      setClose(false);
+      console.log('open');
+      
+      setShowCustomModal(true);
       setModalData({
         title: ev.detail.title,
         JSXModal: ev.detail.JSXModal,
       });
-      
     };
     window.addEventListener("open:custom:modal", openModal);
     window.addEventListener("close:custom:modal", (ev) => {
-      setClose(true);
+      console.log('close');
+      
+      setShowCustomModal(false);
     });
   });
 
@@ -57,6 +68,13 @@ export const Home = () => {
             </Panel>
 
             <Panel
+              defaultSize={300}
+              style={{ display: showAnimBuilder ? "block" : "none" }}
+            >
+              <AnimationsBuilder />
+            </Panel>
+
+            <Panel
               defaultSize={
                 showLayers
                   ? Math.trunc(window.innerWidth - 660)
@@ -66,15 +84,14 @@ export const Home = () => {
               <Iframe />
             </Panel>
 
-            <Panel defaultSize={300}>
+            <Panel  defaultSize={300}>
               <Aside>
                 <Outlet />
               </Aside>
             </Panel>
           </PanelGroup>
         </section>
-
-        {!isClose  && <CustomModals />}
+        {showCustomModal && <CustomModals />}
       </main>
     </GJEditor>
   );

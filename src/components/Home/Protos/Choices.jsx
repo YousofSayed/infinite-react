@@ -60,9 +60,9 @@ export const Choices = ({
                 onClick={(ev) => {
                   onCloseClick(ev, keyword, i);
                 }}
-                className="absolute transition-all cursor-pointer opacity-0 group-hover:opacity-[1]  right-[-5px] top-[-5px]"
+                className="absolute bg-blue-600 w-[23px]  h-[23px] flex items-center justify-center rounded-full transition-all cursor-pointer opacity-0 group-hover:opacity-[1]  right-[-5px] top-[-5px]"
               >
-                {Icons.close("", "", "white")}
+                {Icons.close("white", "", "white")}
               </i>
             </p>
           )

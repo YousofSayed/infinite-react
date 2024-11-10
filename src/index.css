@@ -36,17 +36,18 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 35px;
   align-items: start;
-  /* background-position-x: ; */
-  /* background-position-y: ; */
-  /* background-repeat: ; */
-  /* background-size:  ; */
-  /* background-clip:  ; */
-  /* background-origin: ; */
-  /* background-attachment:  ; */
-  /* background-blend-mode:  ; */
-  background-image: linear-gradient();
-  background-image: radial-gradient();
+  /* animation-name: ; */
+  /* animation-duration:  ; */
+  /* animation-delay:  ; */
+  /* animation-fill-mode:  ; */
+  /* animation-timing-function:   ; */
+  /* animation-iteration-count: ; */
+  /* animation-direction:  ; */
+  /* animation-play-state:  ; */
+  /* animation-composition:  ; */
+  /* animation-range:  ; */
 }
+
 
 /* *{
     scrollbar-width: thin;

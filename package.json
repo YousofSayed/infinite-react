@@ -13,7 +13,7 @@
     "@grapesjs/react": "^1.0.0",
     "@monaco-editor/react": "^4.6.0",
     "autoprefixer": "^10.4.19",
-    "grapesjs": "^0.21.13",
+    "grapesjs": "^0.22.3",
     "grapesjs-indexeddb": "^1.0.5",
     "html2canvas": "^1.4.1",
     "interactjs": "^1.10.27",

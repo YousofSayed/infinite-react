@@ -9,7 +9,11 @@ import { addClickClass, cloneObject } from "../../../helpers/cocktail";
 import { SmallButton } from "./SmallButton";
 import { ChoicesForStates } from "./ChoicesForStates";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentElState, ruleState, selectorState } from "../../../helpers/atoms";
+import {
+  currentElState,
+  ruleState,
+  selectorState,
+} from "../../../helpers/atoms";
 
 // console.log({0:[],1:[]});
 
@@ -17,7 +21,7 @@ export const SelectState = ({ placeholder }) => {
   const editor = useEditorMaybe();
   const setRule = useSetRecoilState(ruleState);
   const rule = useRecoilValue(ruleState);
-  const selector = useRecoilValue(selectorState); 
+  const selector = useRecoilValue(selectorState);
   const selectedEl = useRecoilValue(currentElState);
   const [val, setVal] = useState("");
   const [states, setStates] = useState(stateType);
@@ -31,19 +35,18 @@ export const SelectState = ({ placeholder }) => {
     if (!selectedEl.currentEl || selectedEl.currentEl.tagName == "body") return;
     console.log(selectedEl.currentEl);
     extractRules();
-  }, [selectedEl , selector]);
+  }, [selectedEl, selector]);
 
   function extractRules() {
     const rules = { 0: [] };
     const rgx = /\:(\:)?\w+/gi;
     const currentSelector = selector ? selector : `#${selectedEl.currentEl.id}`;
-    const myRrules = editor.Css.getRules(currentSelector).filter(
-      (rule) =>
-        rule
-          .toCSS()
-          .split(/\{.+\}/gi)
-          .join("")
-          .match(rgx)
+    const myRrules = editor.Css.getRules(currentSelector).filter((rule) =>
+      rule
+        .toCSS()
+        .split(/\{.+\}/gi)
+        .join("")
+        .match(rgx)
     );
 
     myRrules.forEach((rule, i) => {
@@ -87,9 +90,7 @@ export const SelectState = ({ placeholder }) => {
 
   function removeState(keyword, keywordsIndex) {
     const currentSelector = selector ? selector : `#${selectedEl.currentEl.id}`;
-    const ruleString = `${currentSelector}${states[
-      keywordsIndex
-    ].join("")}`;
+    const ruleString = `${currentSelector}${states[keywordsIndex].join("")}`;
 
     const rule = editor.Css.getRule(ruleString);
     const oldRuleStyle = rule.toJSON().style;
@@ -102,10 +103,7 @@ export const SelectState = ({ placeholder }) => {
     );
     setStates({ ...states, [keywordsIndex]: newArr });
     states[keywordsIndex].length > 1 &&
-      editor.Css.setRule(
-        `${currentSelector}${newArr.join("")}`,
-        oldRuleStyle
-      );
+      editor.Css.setRule(`${currentSelector}${newArr.join("")}`, oldRuleStyle);
     setRule({
       is: true,
       ruleString: `${newArr.join("")}`,
@@ -136,7 +134,10 @@ export const SelectState = ({ placeholder }) => {
 
     setRule((old) => ({
       is: currentStateIndex == keywordsIndex ? !old.is : true,
-      ruleString: currentStateIndex == keywordsIndex && old.ruleString ? "" : `${states[keywordsIndex].join("")}`,
+      ruleString:
+        currentStateIndex == keywordsIndex && old.ruleString
+          ? ""
+          : `${states[keywordsIndex].join("")}`,
     }));
   }
 
@@ -164,6 +165,7 @@ export const SelectState = ({ placeholder }) => {
         />
 
         <SmallButton
+          className="flex-shrink-0 bg-gray-900"
           onClick={(ev) => {
             addState(state);
           }}
@@ -173,6 +175,7 @@ export const SelectState = ({ placeholder }) => {
         </SmallButton>
 
         <SmallButton
+          className=" flex-shrink-0 bg-gray-900"
           onClick={(ev) => {
             addNewStateContainer();
           }}

@@ -4,10 +4,16 @@ import { Property } from "./Property";
 import directionsImg from "../../../assets/images/directions.png";
 import { SidesControllers } from "./SideControllers";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { currentElState, ifrDocument } from "../../../helpers/atoms";
+import {
+  currentElState,
+  framesStylesState,
+  ifrDocument,
+} from "../../../helpers/atoms";
 
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import { SidesInput } from "./SidesInput";
+import { cloneObject } from "../../../helpers/cocktail";
+import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
@@ -23,6 +29,8 @@ export const DirectionsModel = ({
 }) => {
   const setClass = useSetClassForCurrentEl();
   const [option, setOption] = useState(defultoption);
+  const updateValue = useState("");
+  const frameStyles = useRecoilValue(framesStylesState);
   const [vals, setVal] = useState({
     tVal: "",
     rVal: "",
@@ -35,9 +43,9 @@ export const DirectionsModel = ({
   /**
    *
    * @param {string} val
-   * @param {string} specificProp
+   * @param {string} specificDir
    */
-  const handleVals = (val, specificProp) => {
+  const handleVals = (val, specificDir) => {
     if (option == "all") {
       setVal({
         tVal: val,
@@ -60,7 +68,7 @@ export const DirectionsModel = ({
     } else {
       setVal({
         ...vals,
-        [specificProp]: val,
+        [specificDir]: val,
       });
     }
   };
@@ -93,11 +101,23 @@ export const DirectionsModel = ({
     }
   };
 
-  /**
-   *
-   * @param {InputEvent} ev
-   */
-  //   const onInput = (ev) => {};
+  // useUpdateInputValue({
+  //   cs
+  // })
+
+  useEffect(() => {
+    const newVals = {};
+    const props = [
+      { cssProp: tProp, key: "tVal" },
+      { cssProp: rProp, key: "rVal" },
+      { cssProp: bProp, key: "bVal" },
+      { cssProp: lProp, key: "lVal" },
+    ];
+    props.forEach(({cssProp , key})=>{
+      newVals[key] = frameStyles[cssProp] ||''
+    });
+    setVal(newVals);
+  }, [frameStyles]);
 
   return (
     <section className="flex flex-col gap-2">
@@ -110,6 +130,7 @@ export const DirectionsModel = ({
             cssProp={tProp}
             handleClass={handleClass}
             handleVals={handleVals}
+            specificDir={"tVal"}
             isCurrentELChange={isCurrentELChange}
           />
         </div>
@@ -120,6 +141,7 @@ export const DirectionsModel = ({
             cssProp={lProp}
             handleClass={handleClass}
             handleVals={handleVals}
+            specificDir={"lVal"}
             isCurrentELChange={isCurrentELChange}
           />
 
@@ -130,6 +152,7 @@ export const DirectionsModel = ({
             cssProp={rProp}
             handleClass={handleClass}
             handleVals={handleVals}
+            specificDir={"rVal"}
             isCurrentELChange={isCurrentELChange}
           />
         </figure>
@@ -140,6 +163,7 @@ export const DirectionsModel = ({
             cssProp={bProp}
             handleClass={handleClass}
             handleVals={handleVals}
+            specificDir={"bVal"}
             isCurrentELChange={isCurrentELChange}
           />
         </div>

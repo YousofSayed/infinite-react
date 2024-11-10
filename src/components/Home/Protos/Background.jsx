@@ -20,8 +20,6 @@ import { AddMultiValuestoSingleProp } from "./AddMultiValuestoSingleProp";
 import { Gradient } from "./Gradient";
 import { MiniTitle } from "./MiniTitle";
 
-
-
 export const Background = () => {
   const editor = useEditorMaybe();
   const setCssPropForAm = useSetRecoilState(cssPropForAssetsManagerState);
@@ -68,13 +66,14 @@ export const Background = () => {
       />
 
       <AddMultiValuestoSingleProp
+        placeholder="Attachment"
         cssProp="background-attachment"
         keywords={backgroundAttachmentValues}
       />
 
       <MiniTitle>Gradient</MiniTitle>
       <Gradient />
-      
+
       <MiniTitle>Other</MiniTitle>
       <SelectStyle
         cssProp="background-clip"

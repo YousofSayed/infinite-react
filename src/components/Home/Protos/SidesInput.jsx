@@ -9,16 +9,21 @@ export const SidesInput = ({
   placeholder,
   cssProp,
   isCurrentELChange,
+  specificDir,
   handleVals,
   handleClass
 }) => {
   const currentElObj = useRecoilValue(currentElState);
 //   const [val , setVal] = useState(value);
 
-  useUpdateInputValue({
-    cssProp,
-    setVal:(val)=>{handleVals(val)}
-  })
+  // useUpdateInputValue({
+  //   cssProp,
+  //   setVal:(val)=>{
+  //     handleVals(val , specificDir)
+      
+  //   }
+  // });
+
   return (
     <input
       value={value}
@@ -29,7 +34,8 @@ export const SidesInput = ({
           ev,
           setClass: handleClass,
           setVal: (val) => {
-            handleVals(val);
+            
+            handleVals(val , specificDir);
           },
           isCurrentELChange,
           currentElObj,

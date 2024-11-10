@@ -19,22 +19,14 @@ export const onInput = ({
   if (isCurrentELChange.current) {
     return;
   }
-
-  if (!currentElObj.currentEl) {
-    setVal("");
-    return;
-  }
-  // const finalVal = special
-  //   ? ev.target.value
-  //   : isValidCssUnit(ev.target.value)
-  //   ? ev.target.value
-  //   : 0;
-  setVal(ev.target.value);
-
+  console.log('inputttttttttttttttt');
+  
+  
   setClass({
     cssProp: cssProp,
     value: ev.target.value,
   });
+  setVal(ev.target.value);
 };
 
 /**
@@ -54,7 +46,7 @@ export const onKeyDown = ({ ev, setClass, setVal ,cssProp  , isCurrentELChange})
         ? 0
         : +parseInt(ev.target.value) - 1
     }${
-      isValidCssUnit(ev.target.value)
+      CSS.supports(cssProp , ev.target.value)
         ? ev.target.value.split(/\d+/g).join("")
         : "px"
     }`;
@@ -98,10 +90,7 @@ export const onKeyUp = ({ ev, isCurrentELChange }) => {
  *
  * @param {{ev:FocusEvent , setUndoAndRedoStatesVal : Function}} param0
  */
-export const onFocus = ({ ev, setUndoAndRedoStatesVal }) => {
+export const onFocus = ({ ev }) => {
   ev.target.select();
-  setUndoAndRedoStatesVal({
-    isStyle: true,
-    isDropping: false,
-  });
+
 };

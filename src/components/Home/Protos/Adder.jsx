@@ -33,7 +33,7 @@ export const Adder = ({
         className ? className : "bg-gray-900"
       } relative`}
     >
-      <section>{children}</section>
+      {children ? <section>{children}</section> : null}
 
       <section className="flex items-center text-slate-200 font-semibold   justify-end  w-full  gap-2   bottom-[-40px] right-[0]  ">
         {showInput && (

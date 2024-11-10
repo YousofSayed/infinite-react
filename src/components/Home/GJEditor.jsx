@@ -1,66 +1,33 @@
-import { Editor, useEditorMaybe } from "@grapesjs/react";
-import React, { useEffect, useRef, useState } from "react";
-import { html, uniqueID } from "../../helpers/cocktail";
+import { Editor } from "@grapesjs/react";
+import React from "react";
 import grapesjs from "grapesjs";
-import {
-  RecoilRoot,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import {
-  blocksStt,
-  currentElState,
-  ruleState,
-  widths,
-} from "../../helpers/atoms";
+import { useSetRecoilState } from "recoil";
+import { blocksStt, currentElState, ruleState } from "../../helpers/atoms";
 import { blocks } from "../../Blocks/blocks.jsx";
-import { createRoot } from "react-dom/client";
-import { AssetsManager } from "./AssetsManager.jsx";
-import { editorType, refType } from "../../helpers/jsDocs.js";
-import {
-  addItemInToolBarForEditor,
-  createModal,
-  handleCustomBlock,
-} from "../../helpers/functions.js";
-import { editorIcons } from "../Icons/editorIcons.js";
-import { ReuseableSympol } from "./Modals/ReuseableSympol.jsx";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { handleCustomBlock } from "../../helpers/functions.js";
+
+import { useNavigate } from "react-router-dom";
 import { addDevices } from "../../plugins/addDevices.js";
 import { customModal } from "../../plugins/cutomModal.js";
+import { addNewTools } from "../../plugins/addNewTools.jsx";
+import { addNewBuiltinCommands } from "../../plugins/addNewBuiltinCommands.jsx";
 
 export const GJEditor = ({ children }) => {
   const setBlocksAtom = useSetRecoilState(blocksStt);
   const setSelectedEl = useSetRecoilState(currentElState);
   const setRule = useSetRecoilState(ruleState);
   const navigate = useNavigate();
-  const editorBlocks = useRecoilValue(blocksStt);
-
-  const [editor, setEditor] = useState(editorType);
-
-  // useEffect(() => {
-  //   if (!editorBlocks.length || !editor) return;
-  //   const ctgs = editor.Blocks.getBlocksByCategory();
-  //   const blocks = editor.Blocks.getAll().models;
-  //   blocks.forEach((block) => {
-  //     if (!block.category) return;
-  //     const blockEl = editor.Blocks.render(block.attributes, {
-  //       external: true,
-  //     });
-  //     const el = document.querySelector(`#blocks-ctg-${block.category.id}`);
-  //     console.log(block.category.id);
-
-  //     el.append(blockEl);
-  //   });
-  // }, [editorBlocks, editor]);
 
   return (
     <Editor
-    title="Editor"
+      title="Editor"
       grapesjs={grapesjs}
       options={{
         height: "100%",
         width: "100%",
+        autorender:true,
+        multipleSelection:true,
+        showOffsets:true,
         exportWrapper: true,
         storageManager: false,
         panels: { defaults: [] },
@@ -88,13 +55,11 @@ export const GJEditor = ({ children }) => {
         },
         jsInHtml: true,
 
-        plugins: [addDevices, customModal],
+        plugins: [addDevices, customModal, addNewTools, addNewBuiltinCommands],
       }}
       onEditor={(ev) => {
-        setEditor(ev);
-        ev.addStyle(
-          `body [data-gjs-type="wrapper"] [id]::before{content:''} .lol{font-size:32px}`
-        );
+
+
         ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({
           ...handleCustomBlock(ev.Blocks.getAll().models, ev),
@@ -102,8 +67,6 @@ export const GJEditor = ({ children }) => {
         });
         ev.runCommand("core:component-outline");
 
-
-        
         ev.on(
           "block:add",
           /**
@@ -125,21 +88,7 @@ export const GJEditor = ({ children }) => {
           const selectedEl = ev.getSelected();
           setSelectedEl({ currentEl: selectedEl.getEl() });
           setRule({ is: false, ruleString: "" });
-          console.log("select");
 
-          addItemInToolBarForEditor({
-            commandCallback: (ed) => {
-              ed.runCommand("open:custom:modal", {
-                title: `Create Sympol (Reusable Component)`,
-                JSXModal: <ReuseableSympol editor={ev} />,
-              });
-            },
-            title: editorIcons.reuseable,
-            commandName: "open:symbol:model",
-            editor: ev,
-          });
-
-          // addItemInToolBarForEditor
           navigate("edite/styling");
         });
 

@@ -7,13 +7,14 @@ import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl"
 import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 import { useRecoilValue } from "recoil";
 import { currentElState } from "../../../helpers/atoms";
+import { P } from "../../Protos/P";
 
 /**
  *
- * @param {{cssProp : string , keywords: string[]}} param0
+ * @param {{cssProp : string , keywords: string[] , placeholder:string , label:string}} param0
  * @returns
  */
-export const AddMultiValuestoSingleProp = ({ cssProp, keywords }) => {
+export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = '' , label=''}) => {
   const [value, setValue] = useState("");
   const [values, setValues] = useState([]);
   const [updatedValue, setUpdateValue] = useState("");
@@ -40,10 +41,11 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords }) => {
 
   return (
     <section className=" flex flex-col gap-3 p-2 bg-gray-800 rounded-lg">
+      {label ? <P>{label} : </P> : null}
       <section className="flex justify-between gap-2">
         <Select
           className="p-[unset] px-[unset]"
-          placeholder="Attachment"
+          placeholder={placeholder}
           setVal={setValue}
           val={value}
           keywords={keywords}

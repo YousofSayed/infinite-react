@@ -38,9 +38,9 @@ export const pseudoElements = [
   "::part",
   "::slotted",
   "::grammar-error",
-  "::spelling-error"
+  "::spelling-error",
 ];
- 
+
 export const pseudoClasses = [
   ":active",
   ":any-link",
@@ -86,38 +86,30 @@ export const pseudoClasses = [
   ":target",
   ":valid",
   ":visited",
-  ":where()" // CSS4
+  ":where()", // CSS4
 ];
 
 export const statesKeys = pseudoElements.concat(pseudoClasses).sort();
 
-export  const backgroundRepeatValues = [
+export const backgroundRepeatValues = [
   "repeat",
   "repeat-x",
   "repeat-y",
   "no-repeat",
   "space",
-  "round"
+  "round",
 ];
 
-export const backgroundSize = [
-  'auto',
-  'cover',
-  'contain',
-]
+export const backgroundSize = ["auto", "cover", "contain"];
 
 export const backgroundClipValues = [
   "border-box",
   "padding-box",
   "content-box",
-  "text"
+  "text",
 ];
 
-export const backgroundAttachmentValues = [
-  "scroll",
-  "fixed",
-  "local"
-];
+export const backgroundAttachmentValues = ["scroll", "fixed", "local"];
 
 export const backgroundBlendModeValues = [
   "normal",
@@ -135,9 +127,53 @@ export const backgroundBlendModeValues = [
   "hue",
   "saturation",
   "color",
-  "luminosity"
+  "luminosity",
 ];
 
+export const animationFillModes = [
+  "none", // The animation will not apply any styles to the target when it is not playing.
+  "forwards", // The animation will apply the styles of the last keyframe after it ends.
+  "backwards", // The animation will apply the styles of the first keyframe before it starts.
+  "both", // The animation will follow the rules for both forwards and backwards.
+];
+
+export const animationTimingFunctions = [
+  "linear", // Animation progresses at a constant speed.
+  "ease", // Starts slow, speeds up, and then slows down at the end.
+  "ease-in", // Starts slow and accelerates towards the end.
+  "ease-out", // Starts fast and decelerates towards the end.
+  "ease-in-out", // Starts slow, speeds up, and then slows down.
+  "step-start", // Jumps instantly to the final state at the start of the animation.
+  "step-end", // Jumps instantly to the final state at the end of the animation.
+  "steps(n, start)", // Divides the animation into `n` steps, starting at the beginning of each step.
+  "steps(n, end)", // Divides the animation into `n` steps, ending at the end of each step.
+  "cubic-bezier(x1, y1, x2, y2)", // Allows custom easing with control points from (0, 0) to (1, 1).
+];
+
+export const animationIterationCounts = [
+  "1", // Plays once
+  "2", // Plays twice
+  "3", // Plays three times
+  "infinite", // Loops indefinitely
+];
+
+export const animationDirections = [
+  "normal", // Animation plays forwards each cycle.
+  "reverse", // Animation plays backwards each cycle.
+  "alternate", // Animation alternates direction, starting forwards, then backwards.
+  "alternate-reverse", // Animation alternates direction, starting backwards, then forwards.
+];
+
+export const animationPlayStates = [
+  "running", // The animation is currently playing.
+  "paused", // The animation is paused.
+];
+
+export const animationCompositions = [
+  "replace", // Each animation replaces the previous one on the same property.
+  "add", // Animations are added together, combining effects.
+  "accumulate", // Values accumulate, creating a cumulative effect.
+];
 
 export const fontWeights = [
   "100 - Thin",
@@ -180,77 +216,97 @@ export const flexDirectionValues = [
 
 export const alignSelfValues = [
   "flex-start", // Aligns the item to the start of the container
-  "center",     // Centers the item in the container
-  "flex-end",   // Aligns the item to the end of the container
-  "baseline",   // Aligns the item to the baseline of the container
-  "stretch"    , // Stretches the item to fill the container
-  "auto",       // Default. Aligns the item according to the parent's align-items value
+  "center", // Centers the item in the container
+  "flex-end", // Aligns the item to the end of the container
+  "baseline", // Aligns the item to the baseline of the container
+  "stretch", // Stretches the item to fill the container
+  "auto", // Default. Aligns the item according to the parent's align-items value
 ];
+
+export const transformValues = [
+  "none",         // No transformation
+  "matrix",       // 2D Matrix transformation
+  "matrix3d",     // 3D Matrix transformation
+  "translate",    // 2D translation
+  "translateX",   // Horizontal translation
+  "translateY",   // Vertical translation
+  "translateZ",   // Depth translation (3D)
+  "translate3d",  // 3D translation
+  "scale",        // 2D scaling
+  "scaleX",       // Horizontal scaling
+  "scaleY",       // Vertical scaling
+  "scaleZ",       // Depth scaling (3D)
+  "scale3d",      // 3D scaling
+  "rotate",       // 2D rotation
+  "rotateX",      // Rotation around X-axis (3D)
+  "rotateY",      // Rotation around Y-axis (3D)
+  "rotateZ",      // Rotation around Z-axis (3D)
+  "skew",         // 2D skewing
+  "skewX",        // Horizontal skewing
+  "skewY",        // Vertical skewing
+  "perspective",  // Perspective for 3D transformations
+];
+
 
 export const alignItemsValues = [
-  "stretch",    // Default. Stretches items to fill the container
+  "stretch", // Default. Stretches items to fill the container
   "flex-start", // Aligns items to the start of the container
-  "flex-end",   // Aligns items to the end of the container
-  "center",     // Centers items in the container
-  "baseline",   // Aligns items to the baseline of the container
-  "start",      // Aligns items to the start of the writing mode direction
-  "end",        // Aligns items to the end of the writing mode direction
+  "flex-end", // Aligns items to the end of the container
+  "center", // Centers items in the container
+  "baseline", // Aligns items to the baseline of the container
+  "start", // Aligns items to the start of the writing mode direction
+  "end", // Aligns items to the end of the writing mode direction
   "self-start", // Aligns items to the start of their margin box
-  "self-end"    // Aligns items to the end of their margin box
+  "self-end", // Aligns items to the end of their margin box
 ];
-
 
 export const alignContentValues = [
-  "stretch",      // Default. Stretches lines to fill the container
-  "flex-start",   // Packs lines to the start of the container
-  "flex-end",     // Packs lines to the end of the container
-  "center",       // Packs lines to the center of the container
-  "space-between",// Distributes lines with space between them
+  "stretch", // Default. Stretches lines to fill the container
+  "flex-start", // Packs lines to the start of the container
+  "flex-end", // Packs lines to the end of the container
+  "center", // Packs lines to the center of the container
+  "space-between", // Distributes lines with space between them
   "space-around", // Distributes lines with space around them
   "space-evenly", // Distributes lines with equal space around them
-  "start",        // Aligns lines to the start of the writing mode direction
-  "end",          // Aligns lines to the end of the writing mode direction
-  "baseline",     // Aligns lines to the baseline of the container
+  "start", // Aligns lines to the start of the writing mode direction
+  "end", // Aligns lines to the end of the writing mode direction
+  "baseline", // Aligns lines to the baseline of the container
 ];
 
-
-
 export const justifyContentValues = [
-  "flex-start",    // Aligns items to the start of the container
-  "flex-end",      // Aligns items to the end of the container
-  "center",        // Centers items in the container
+  "flex-start", // Aligns items to the start of the container
+  "flex-end", // Aligns items to the end of the container
+  "center", // Centers items in the container
   "space-between", // Distributes items with space between them
-  "space-around",  // Distributes items with space around them
-  "space-evenly",  // Distributes items with equal space around them
-  "start",         // Aligns items to the start of the writing mode direction
-  "end",           // Aligns items to the end of the writing mode direction
-  "left",          // Aligns items to the left of the container (for horizontal flex direction)
-  "right",         // Aligns items to the right of the container (for horizontal flex direction)
-  "safe center",   // Centers items in the container, but avoids positional instability
-  "unsafe center"  // Centers items, without avoiding positional instability
+  "space-around", // Distributes items with space around them
+  "space-evenly", // Distributes items with equal space around them
+  "start", // Aligns items to the start of the writing mode direction
+  "end", // Aligns items to the end of the writing mode direction
+  "left", // Aligns items to the left of the container (for horizontal flex direction)
+  "right", // Aligns items to the right of the container (for horizontal flex direction)
+  "safe center", // Centers items in the container, but avoids positional instability
+  "unsafe center", // Centers items, without avoiding positional instability
 ];
 
 export const justifySelfValues = [
-  "auto",       // Default. Aligns the item according to the container's justify-items value
-  "start",      // Aligns the item to the start of the container
-  "end",        // Aligns the item to the end of the container
-  "center",     // Centers the item within the container
-  "stretch",    // Stretches the item to fill the container
+  "auto", // Default. Aligns the item according to the container's justify-items value
+  "start", // Aligns the item to the start of the container
+  "end", // Aligns the item to the end of the container
+  "center", // Centers the item within the container
+  "stretch", // Stretches the item to fill the container
   "self-start", // Aligns the item to the start of its margin box
-  "self-end",   // Aligns the item to the end of its margin box
-  "left",       // Aligns the item to the left (for block elements with horizontal direction)
-  "right"       // Aligns the item to the right (for block elements with horizontal direction)
+  "self-end", // Aligns the item to the end of its margin box
+  "left", // Aligns the item to the left (for block elements with horizontal direction)
+  "right", // Aligns the item to the right (for block elements with horizontal direction)
 ];
 
 export const justifyItemsValues = [
-  "auto",      // Default. Uses the alignment defined by the item's container (typically 'stretch')
-  "start",     // Aligns items to the start of their grid area
-  "end",       // Aligns items to the end of their grid area
-  "center",    // Centers items within their grid area
-  "stretch"    // Stretches items to fill their grid area (default behavior)
+  "auto", // Default. Uses the alignment defined by the item's container (typically 'stretch')
+  "start", // Aligns items to the start of their grid area
+  "end", // Aligns items to the end of their grid area
+  "center", // Centers items within their grid area
+  "stretch", // Stretches items to fill their grid area (default behavior)
 ];
-
-
 
 export const positionValues = [
   "static",

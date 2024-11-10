@@ -10,7 +10,12 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 import { pushBetween } from "../../../helpers/cocktail";
 import { useRemoveCssProp } from "../../../hooks/useRemoveCssProp";
 
-export const Filters = () => {
+export const MultiFunctionProp = ({
+  cssProp,
+  placeholder,
+  keywords,
+  units = [],
+}) => {
   const [filters, setFilters] = useState([]);
   const [filter, setFilter] = useState("");
   const [updatedVal, setUpdatedValue] = useState("");
@@ -19,7 +24,10 @@ export const Filters = () => {
 
   const stringifyFilter = (filtersVals = []) => {
     const value = filtersVals
-      .map(({ name, value }) => `${name}(${value}${filterUnits[name]})`)
+      .map(
+        ({ name, value }) =>
+          `${name}(${value}${units.length ? units[name] : ""})`
+      )
       .join(" ");
 
     return value;
@@ -27,7 +35,7 @@ export const Filters = () => {
 
   const parseFilters = (stringValue = "") => {
     const value = stringValue
-      .match(/\w+\(\w+(\W+)?\)|/ig)
+      .match(/\w+\(\w+(\W+)?\)|/gi)
       .filter((text) => text)
       .map((prop) => {
         const vals = prop.split(/\(|\)/gi);
@@ -39,22 +47,20 @@ export const Filters = () => {
     return value;
   };
 
-
-  
   const setPropVal = (propValue, index) => {
     const newArr = [...filters];
     newArr[index].value = propValue;
-    console.log(newArr );
+    console.log(stringifyFilter(newArr));
     
     setClass({
-      cssProp:'filter',
-      value:stringifyFilter(newArr)
-    })
+      cssProp,
+      value: stringifyFilter(newArr),
+    });
     setFilters(newArr);
   };
 
   const addProp = (filterProp) => {
-    if (!filter)return;
+    if (!filter) return;
     setFilters([...filters, { name: filterProp, value: "" }]);
   };
 
@@ -63,24 +69,18 @@ export const Filters = () => {
       arr: filters,
       oldContet: filters[index],
       content: { name: filterProp, value: "" },
-    })
+    });
     setFilters(newArr);
   };
 
   const deleteProp = (index) => {
     const newArr = filters.filter((prop, i) => i != index);
-    !newArr.length && removeProp({cssProp:'filter'});
+    !newArr.length && removeProp({ cssProp });
     setFilters(newArr);
   };
 
-  useEffect(() => {
-    console.log(stringifyFilter());
-    
-    
-  }, [filters]);
-
   useUpdateInputValue({
-    cssProp: "filter",
+    cssProp,
     setVal: setUpdatedValue,
     onEffect(prop, value) {
       setFilters(parseFilters(value));
@@ -91,13 +91,13 @@ export const Filters = () => {
     <section className="mt-3 flex flex-col gap-2">
       <section className="flex gap-2">
         <Select
-          placeholder="Select Filter"
-          keywords={filterTypes}
+          placeholder={placeholder}
+          keywords={keywords}
           val={filter}
           setVal={setFilter}
         />
         <SmallButton
-          title="Add Filter"
+          title={placeholder}
           onClick={(ev) => {
             addProp(filter);
           }}
@@ -116,16 +116,15 @@ export const Filters = () => {
               delClassName="bg-gray-900"
               placeholder="New Prop"
               showSelectMenu={true}
-              keywords={filterTypes}
+              keywords={keywords}
               value={filter}
               setVal={setFilter}
-              onInput={(ev) => {
-                console.log('inputttt22222222');
-                
-                setFilter(ev.target.value);
+              onInput={(value) => {
+                setFilter(value);
               }}
               onAddClick={(ev) => {
                 addPropBetween(filter, i);
+                setFilter('');
               }}
               onDeleteClick={(ev) => {
                 deleteProp(i);
@@ -137,18 +136,19 @@ export const Filters = () => {
                 </p>
                 <section className="flex gap-2 h-[40px] ">
                   <Input
-                    className="bg-gray-900 w-[90%]"
+                    className="bg-gray-900 w-full"
                     placeholder={filterProp.name}
                     value={filterProp.value}
                     onInput={(ev) => {
-                      console.log('inputttttttttttttttttttttt');
-                      
                       setPropVal(ev.target.value, i);
                     }}
                   />
-                  <p className="w-[40px] font-bold flex flex-shrink-0  items-center justify-center text-slate-200 bg-gray-900 h-[100%] rounded-lg">
-                    {filterUnits[filterProp.name]}
-                  </p>
+
+                  {units.length ? (
+                    <p className="w-[40px] font-bold flex flex-shrink-0  items-center justify-center text-slate-200 bg-gray-900 h-[100%] rounded-lg">
+                      {filterUnits[filterProp.name]}
+                    </p>
+                  ) : null}
                 </section>
               </section>
             </Adder>
