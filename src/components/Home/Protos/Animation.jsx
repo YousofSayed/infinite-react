@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Property } from "./Property";
 import { SelectStyle } from "./SelectStyle";
 import {
@@ -8,21 +8,38 @@ import {
   animationIterationCounts,
   animationPlayStates,
   animationTimingFunctions,
+  positionValues,
 } from "../../../constants/constants";
 import { MultiChoice } from "./MultiChoice";
 import { ChoicesForStates } from "./ChoicesForStates";
 import { AddMultiValuestoSingleProp } from "./AddMultiValuestoSingleProp";
+import { useEditorMaybe } from "@grapesjs/react";
 
 export const Animation = () => {
+  const editor = useEditorMaybe();
+  const [animationNames, setAnimationNames] = useState([
+    ...new Set(
+      editor.Parser.parseCss(editor.getCss())
+        .filter((rule) => rule.atRuleType == "keyframes")
+        .map((rule) => rule.mediaText)
+    ),
+  ]);
+  // useEf
   return (
     <section className="mt-3 flex flex-col gap-2">
-      <Property cssProp="animation-name" label="Name" allowText={true} />
+      <SelectStyle cssProp="animation-name" label="Name" keywords={animationNames} allowText={true} />
       <Property
         cssProp="animation-duration"
         label="Duration"
         allowText={true}
       />
       <Property cssProp="animation-delay" label="Delay" allowText={true} />
+      <SelectStyle
+        cssProp="animation-iteration-count"
+        keywords={animationIterationCounts}
+        label="Counts"
+        allowText={true}
+      />
       <SelectStyle
         cssProp="animation-direction"
         keywords={animationDirections}
@@ -42,17 +59,12 @@ export const Animation = () => {
         allowText={true}
       />
       <SelectStyle
-        cssProp="animation-iteration-count"
-        keywords={animationIterationCounts}
-        label="Counts"
-        allowText={true}
-      />
-      <SelectStyle
         cssProp="animation-play-state"
         keywords={animationPlayStates}
         label="State"
         allowText={true}
       />
+      <AddMultiValuestoSingleProp keywords={positionValues} cssProp="transform-origin" placeholder="Origin"/>
       <AddMultiValuestoSingleProp
         //   label="Composition"
         placeholder="Composition"

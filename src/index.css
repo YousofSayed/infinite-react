@@ -32,6 +32,28 @@ body {
   backdrop-filter: blur(3px); /* Adjust the blur amount */
 }
 
+.bg-blur-dark {
+  background: #11182757; /* Adjust opacity as needed */
+  backdrop-filter: blur(3px); /* Adjust the blur amount */
+  /* transform-origin: ; */
+  /* transition-duration:  ; */
+  /* transition-property: ; */
+  /* quotes:  ; */
+  /* writing-mode:  ; */
+  /* word-wrap: ; */
+  /* white-space:   ; */
+  /* will-change:  ; */
+  /* widows:  ; */
+  /* empty-cells:  ; */
+  /* enable-background:  ; */
+  /* text-emphasis-color:  ; */
+  /* touch-action:  ; */
+  /* text-rendering:  ; */
+  /* tab-size:  ; */
+  /* timeline-scope: ; */
+  /* text-anchor:  ; */
+}
+
 .custom-grid-col-150 {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 35px;

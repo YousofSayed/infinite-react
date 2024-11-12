@@ -47,6 +47,7 @@ export const useUpdateInputValue = ({
 
     if(showAnimationsBuilder){      
       setVal(framesStyles[cssProp] || '');
+      onEffect(cssProp , framesStyles[cssProp] || '')
     }
   }, [currentElObj, rule, selector , showAnimationsBuilder , framesStyles]);
 };

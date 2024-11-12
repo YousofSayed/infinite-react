@@ -517,3 +517,32 @@ export const cssFonts = [
   "Gloria Hallelujah",
   "Shadows Into Light",
 ];
+
+export const writingModeValues = [
+  "horizontal-tb", // Horizontal text flow (default for most Western scripts)
+  "vertical-rl",   // Vertical text flow from right to left (common in Japanese, Chinese)
+  "vertical-lr",   // Vertical text flow from left to right
+  "sideways-rl",   // Horizontal layout with vertical text rotated 90° clockwise
+  "sideways-lr"    // Horizontal layout with vertical text rotated 90° counterclockwise
+];
+
+export const whiteSpaceValues = [
+  "normal",    // Collapses whitespace and breaks lines as needed
+  "nowrap",    // Collapses whitespace and prevents line breaks
+  "pre",       // Preserves all whitespace and line breaks exactly as in HTML
+  "pre-wrap",  // Preserves whitespace and line breaks, wraps text to fit the container
+  "pre-line"   // Collapses whitespace but preserves line breaks
+];
+
+export const touchActionValues = [
+  "auto",         // Default, lets the browser decide the behavior
+  "none",         // Disables all touch gestures
+  "manipulation", // Allows manipulation gestures like scroll, but disables zoom
+  "pan-x",        // Allows horizontal panning, disables vertical gestures
+  "pan-y",        // Allows vertical panning, disables horizontal gestures
+  "pan-left",     // Allows panning to the left
+  "pan-right",    // Allows panning to the right
+  "pan-up",       // Allows panning upwards
+  "pan-down",     // Allows panning downwards
+  "pinch-zoom"    // Allows pinch zoom, disables other gestures like panning
+];

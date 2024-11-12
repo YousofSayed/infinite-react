@@ -58,7 +58,8 @@ export const GJEditor = ({ children }) => {
         plugins: [addDevices, customModal, addNewTools, addNewBuiltinCommands],
       }}
       onEditor={(ev) => {
-
+        // ev.addStyle(`@keyframes lol {0%{opayity:0;} 100%{opacity:1;}}`)
+        // ev.addStyle(`@keyframes lol2 {0%{opayity:0;} 100%{opacity:1;}}`)
 
         ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({

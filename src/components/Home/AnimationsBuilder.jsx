@@ -253,16 +253,16 @@ export const AnimationsBuilder = () => {
 
                           <SmallButton
                             onClick={(ev) => {
-                              setFramesStyles(styles);
-
+                              
                               setCurrentEditingIndex(i);
-
+                              
                               setCurrentEditingIndexStyles(
                                 currentEditingIndexStyles == x &&
-                                  currentEditingIndex == i
-                                  ? undefined
-                                  : x
+                                currentEditingIndex == i
+                                ? undefined
+                                : x
                               );
+                              setFramesStyles({...styles});
                             }}
                           >
                             {Icons.select("white")}
@@ -278,7 +278,7 @@ export const AnimationsBuilder = () => {
                                   className="w-full flex justify-between items-center gap-2 text-center "
                                 >
                                   <article className="w-full flex justify-between  gap-2 text-center">
-                                    <p className="w-[45%] whitespace-break-spaces break-all text-slate-200 text-sm  bg-blue-600 p-2 font-semibold rounded-lg flex-grow">
+                                    <p className="w-[45%] whitespace-break-spaces break-all text-slate-200 text-sm  flex items-center justify-center bg-blue-600 p-2 font-semibold rounded-lg flex-shrink-0 flex-grow">
                                       {key}
                                     </p>
                                     <p className="text-white font-bold self-center">

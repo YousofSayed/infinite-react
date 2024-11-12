@@ -22,6 +22,8 @@ import { Background } from "./Protos/Background";
 import { MultiFunctionProp } from "./Protos/MultiFunctionProp";
 import { Animation } from "./Protos/Animation";
 import { filterTypes, filterUnits, transformValues } from "../../constants/constants";
+import { Others } from "./Protos/Others";
+import { CSSEditor } from "./Protos/CSSEditor";
 
 /**
  *
@@ -109,6 +111,14 @@ export const StyleAside = ({ className }) => {
           <Animation />
         </Details>
       )}
+
+      <Details label={'Others'}>
+        <Others/>
+      </Details>
+
+      {/* <Details label={'CSS'}>
+        <CSSEditor/>
+      </Details> */}
     </>
   );
 };

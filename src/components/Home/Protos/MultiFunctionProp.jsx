@@ -61,6 +61,7 @@ export const MultiFunctionProp = ({
 
   const addProp = (filterProp) => {
     if (!filter) return;
+    setFilter('')
     setFilters([...filters, { name: filterProp, value: "" }]);
   };
 
@@ -83,9 +84,13 @@ export const MultiFunctionProp = ({
     cssProp,
     setVal: setUpdatedValue,
     onEffect(prop, value) {
+      console.log(parseFilters(value) , 'parsed');
+      
       setFilters(parseFilters(value));
     },
   });
+
+ 
 
   return (
     <section className="mt-3 flex flex-col gap-2">

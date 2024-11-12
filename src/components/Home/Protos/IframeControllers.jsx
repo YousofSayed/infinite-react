@@ -64,9 +64,10 @@ export const IframeControllers = () => {
           setShowLayers(false);
           navigate('edite/styling')
         }}
-        icon={Icons.animation}
         title="Animation Builder"
-      />
+      >
+        {Icons.animation({fill:"#64748B"})}
+      </Li>
     </ul>
   );
 };

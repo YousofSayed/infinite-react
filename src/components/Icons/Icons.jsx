@@ -80,16 +80,13 @@ export const Icons = {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{cursor:'pointer'}}
+      style={{ cursor: "pointer" }}
     >
-      <g  strokeWidth="0"></g>
-      <g
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      ></g>
-      <g >
+      <g strokeWidth="0"></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g>
         {" "}
-        <g >
+        <g>
           {" "}
           <Path
             d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18"
@@ -834,12 +831,35 @@ export const Icons = {
       </g>
     </svg>
   ),
-  animation: () => (
-    <svg viewBox="0 0 24 24" fill="#64748B" height="24" width="24">
-      <Path
-        justFillOnHover={true}
-        d="M4 2a2 2 0 00-2 2v10h2V4h10V2H4m4 4a2 2 0 00-2 2v10h2V8h10V6H8m12 6v8h-8v-8h8m0-2h-8a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-8a2 2 0 00-2-2z"
-      />
+  animation: ({ strokeColor, strokeWidth, width , height, fill }) => (
+    <svg
+      version="1.0"
+      xmlns="http://www.w3.org/2000/svg"
+      width={width | "24"}
+      height={height | "24"}
+      viewBox="0 0 512.000000 512.000000"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <g
+        transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+        fill={fill}
+        stroke="none"
+      >
+        <Path
+          stroke={strokeColor}
+          fill={fill}
+          justFillOnHover={true}
+          strokeWidth={strokeWidth}
+          d="M794 5049 c-81 -9 -216 -50 -289 -86 -129 -65 -266 -183 -345 -297 -49 -72 -108 -203 -132 -296 l-23 -85 0 -1725 0 -1725 23 -85 c24 -93 83 -224 132 -296 79 -114 216 -232 345 -297 80 -40 204 -75 308 -86 134 -15 3360 -15 3494 0 383 42 686 305 785 679 l23 85 0 1725 0 1725 -23 85 c-24 93 -83 224 -132 296 -79 114 -216 232 -345 297 -77 38 -201 74 -300 86 -107 13 -3409 13 -3521 0z m1180 -1311 c52 -124 776 -2181 771 -2188 -10 -16 -480 -13 -492 3 -5 6 -36 89 -68 182 -32 94 -71 207 -88 253 l-29 82 -396 -2 -395 -3 -86 -260 -86 -260 -224 -3 c-124 -1 -228 1 -233 6 -5 5 132 409 303 898 418 1194 408 1165 416 1251 l6 73 294 0 294 0 13 -32z m2053 -483 c221 -42 378 -197 430 -425 15 -66 17 -146 18 -680 l0 -605 -226 -3 -227 -2 -6 22 c-3 13 -6 251 -6 529 0 483 -1 510 -21 574 -32 103 -104 171 -201 189 -79 14 -235 -29 -306 -85 l-27 -21 -5 -601 -5 -602 -225 0 -225 0 -7 815 c-4 448 -9 829 -10 845 l-3 30 197 3 c225 3 219 5 239 -83 7 -30 14 -55 17 -55 2 0 18 12 35 26 41 35 151 89 222 110 123 35 226 41 342 19z"
+        />
+        <Path
+          stroke={strokeColor}
+          justFillOnHover={true}
+          strokeWidth={strokeWidth}
+          fill={fill}
+          d="M1534 2940 c-72 -242 -128 -442 -126 -445 8 -8 532 -6 532 2 0 13 -263 868 -269 875 -4 4 -65 -190 -137 -432z"
+        />
+      </g>
     </svg>
   ),
   hidden: ({ strokeColor, strokeWidth, width = "24", height = "24" }) => (

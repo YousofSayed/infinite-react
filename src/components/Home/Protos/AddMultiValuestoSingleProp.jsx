@@ -20,6 +20,7 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = 
   const [updatedValue, setUpdateValue] = useState("");
   const selectedEl = useRecoilValue(currentElState);
   const setClass = useSetClassForCurrentEl();
+
   const addValue = () => {
     const newValues = Array.from(new Set([...values, value]));
     setValues(newValues);
@@ -27,6 +28,7 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = 
       cssProp,
       value: Array.from(newValues).join(","),
     });
+    setValue('');
   };
 
   useUpdateInputValue({

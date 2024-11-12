@@ -9,13 +9,16 @@ import {
   textDecorationLineValues,
   textDecorationStyleValues,
   textOverflowValues,
+  whiteSpaceValues,
   wordBreakValues,
+  writingModeValues,
 } from "../../../constants/constants";
 import { Color } from "./Color";
 import { MultiChoice } from "./MultiChoice";
 import { Icons } from "../../Icons/Icons";
 import { getIconForMultiChoice } from "../../../helpers/functions";
 import { SelectStyle } from "./SelectStyle";
+import { AddMultiValuestoSingleProp } from "./AddMultiValuestoSingleProp";
 
 export const StyleTypography = () => {
   const currentEl = useRecoilValue(currentElState);
@@ -87,6 +90,9 @@ export const StyleTypography = () => {
         label="decoration thickness"
         cssProp="text-decoration-thickness"
       />
+      <SelectStyle cssProp="writing-mode" keywords={writingModeValues} label="writing-mode"/>
+      <SelectStyle cssProp="word-wrap" keywords={['normal' , 'break-word']} label="word-wrap"/>
+      <SelectStyle cssProp="white-space" keywords={whiteSpaceValues} label="white-space"/>
     </section>
   );
 };
