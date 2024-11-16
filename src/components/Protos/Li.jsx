@@ -1,6 +1,9 @@
-import React from "react";
-import { addClickClass } from "../../helpers/cocktail";
+import React, { useEffect, useRef, useState } from "react";
+import { $a, addClickClass } from "../../helpers/cocktail";
 import { Link, useParams, useResolvedPath } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { removeAllActivesState } from "../../helpers/atoms";
+import { refType } from "../../helpers/jsDocs";
 
 export const Li = ({
   children,
@@ -9,9 +12,39 @@ export const Li = ({
   to = "",
   title = "",
   onClick = () => {},
+  justHover = false,
+  target,
   icon = (strokeColor, strokeWidth) => {},
 }) => {
   const path = useResolvedPath().pathname;
+  const setRemoveActives = useSetRecoilState(removeAllActivesState);
+  const allActives = useRecoilValue(removeAllActivesState);
+  const [myName, setMyName] = useState("");
+  const [isClicked, setIsClicked] = useState();
+  const buttonRef = useRef(refType);
+
+  // useEffect(() => {
+  //   //   if (!buttonRef || !buttonRef.current) return;
+  //   console.log(isClicked);
+
+  //   if (allActives == title) {
+  //     setMyName(title);
+  //     setIsClicked(true);
+  //     return;
+  //   }
+  //   setMyName("");
+  //   setIsClicked(false);
+  // }, [allActives]);
+
+  // useEffect(() => {
+  //   const handleClickCallback = () => {
+  //     setRemoveActives("");
+  //   };
+  //   window.addEventListener("click", handleClickCallback);
+  //   return () => {
+  //     window.removeEventListener("click", handleClickCallback);
+  //   };
+  // }, []);
 
   return (
     <li
@@ -24,10 +57,12 @@ export const Li = ({
           to={to}
           title={title}
           aria-label={title}
+          target={target}
           className="w-full h-full flex justify-center items-center"
           onClick={(ev) => {
             console.log(path.pathname, to);
             addClickClass(ev.currentTarget, "click");
+
             onClick(ev);
           }}
         >
@@ -36,16 +71,40 @@ export const Li = ({
         </Link>
       ) : (
         <button
+          ref={buttonRef}
           aria-label={title}
           title={title}
-          className="w-full h-full flex justify-center items-center"
+          className="w-full h-full flex justify-center items-center "
+          style={{ strokeColor: "red" }}
           onClick={(ev) => {
-            console.log(path.pathname, to);
-            addClickClass(ev.currentTarget, "click");
+            ev.stopPropagation();
             onClick(ev);
+            addClickClass(ev.currentTarget, "click");
+            if(justHover)return;
+            [...$a(".clicked")]
+              .filter((el) => el != ev.currentTarget)
+              .forEach((el) => el.classList.remove("clicked"));
+            setMyName("");
+            const is = ev.currentTarget.classList.contains("clicked");
+            setRemoveActives(title);
+
+            if (is) {
+              setIsClicked(false);
+
+              ev.currentTarget.classList.remove("clicked");
+            } else {
+              setIsClicked(true);
+              console.log("not is");
+
+              ev.currentTarget.classList.add("clicked");
+            }
           }}
         >
-          {icon(path == to ? "white" : undefined)}
+          {icon(
+            undefined,
+            undefined,
+            isClicked && allActives == title ? "white" : undefined
+          )}
           {children}
         </button>
       )}

@@ -546,3 +546,110 @@ export const touchActionValues = [
   "pan-down",     // Allows panning downwards
   "pinch-zoom"    // Allows pinch zoom, disables other gestures like panning
 ];
+
+export const inputTypes = [
+  "button",        // Button element that triggers actions
+  "checkbox",      // Checkbox for binary choices (true/false)
+  "color",         // Color picker input
+  "date",          // Date input without time (YYYY-MM-DD)
+  "datetime-local",// Date and time input without timezone
+  "email",         // Email address input
+  "file",          // File upload input
+  "hidden",        // Hidden input that holds data without display
+  "image",         // Submit button that uses an image as the button
+  "month",         // Month and year selector (YYYY-MM)
+  "number",        // Numeric input with constraints
+  "password",      // Password input with masked characters
+  "radio",         // Radio button for selecting one option from a group
+  "range",         // Slider control for numeric input
+  "reset",         // Reset button that clears form values
+  "search",        // Search field with specific styling
+  "submit",        // Submit button for form submission
+  "tel",           // Telephone number input
+  "text",          // Standard single-line text input
+  "time",          // Time input (HH:MM format)
+  "url",           // URL input for web addresses
+  "week"           // Week selector (Week number and year)
+];
+
+
+export const eventNames = [
+  // Mouse events
+  'click', 'dblclick', 'mousedown', 'mouseup', 'mouseover', 'mousemove', 'mouseout', 'mouseenter', 'mouseleave', 'contextmenu', 'wheel',
+
+  // Keyboard events
+  'keydown', 'keyup', 'keypress',
+
+  // Form events
+  'submit', 'change', 'input', 'focus', 'blur', 'reset', 'select',
+
+  // Focus events
+  'focusin', 'focusout',
+
+  // Touch events (for mobile)
+  'touchstart', 'touchend', 'touchmove', 'touchcancel',
+
+  // Pointer events
+  'pointerdown', 'pointerup', 'pointermove', 'pointerover', 'pointerout', 'pointerenter', 'pointerleave', 'pointercancel', 'gotpointercapture', 'lostpointercapture',
+
+  // Drag and drop events
+  'drag', 'dragstart', 'dragend', 'dragenter', 'dragover', 'dragleave', 'drop',
+
+  // Clipboard events
+  'copy', 'cut', 'paste',
+
+  // Media events
+  'play', 'pause', 'playing', 'ended', 'volumechange', 'waiting', 'durationchange', 'timeupdate', 'canplay', 'canplaythrough', 'seeking', 'seeked', 'loadeddata', 'loadedmetadata', 'progress', 'stalled', 'suspend', 'ratechange',
+
+  // Animation events
+  'animationstart', 'animationend', 'animationiteration',
+
+  // Transition events
+  'transitionstart', 'transitionend', 'transitionrun', 'transitioncancel',
+
+  // Page events
+  'DOMContentLoaded', 'load', 'beforeunload', 'unload', 'resize', 'scroll', 'error', 'hashchange', 'popstate',
+
+  // Network events
+  'online', 'offline',
+
+  // Storage events
+  'storage',
+
+  // Print events
+  'beforeprint', 'afterprint',
+
+  // Miscellaneous events
+  'abort', 'canplay', 'canplaythrough', 'change', 'close', 'contextmenu', 'cuechange', 'error', 'input', 'invalid', 'open', 'pause', 'play', 'playing', 'ratechange', 'readystatechange', 'reset', 'seeked', 'seeking', 'stalled', 'submit', 'suspend', 'toggle', 'visibilitychange',
+
+  // Sensor events
+  'deviceorientation', 'devicemotion',
+
+  // Speech recognition events (if supported by the browser)
+  'speechstart', 'speechend', 'result', 'nomatch', 'error',
+
+  // Other specialized events
+  'wheel', 'message', 'messageerror', 'rejectionhandled', 'unhandledrejection'
+];
+
+
+export const hsZoo = [
+  "result",
+  "it",
+  "its",
+  "me",
+  "my",
+  "I",
+  'the last',
+  'the first',
+  'the first of',
+  'the last of',
+  'the next of me',
+  'the previous of me',
+  "event",
+  "body",
+  "target",
+  "detail",
+  "sender",
+]
+

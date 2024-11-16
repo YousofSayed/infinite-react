@@ -5,11 +5,12 @@ import { useEditorMaybe } from "@grapesjs/react";
 
 /**
  *
- * @param {{ cssProp:string ,setVal:Function , onEffect :(cssProp:string , Value : Function)=>{} }}} param0
+ * @param {{ cssProp:string ,setVal:Function ,returnPropsAsIt:boolean, onEffect :(cssProp:string , Value : Function)=>{} }}} param0
  */
 export const useUpdateInputValue = ({
   cssProp,
   setVal = (_) => {},
+  returnPropsAsIt = false,
   onEffect = (cssProp, setVal) => {},
 }) => {
   const currentElObj = useRecoilValue(currentElState);
@@ -33,21 +34,27 @@ export const useUpdateInputValue = ({
         return outPut || {};
       };
 
-      if ((cssProp && selector) || (cssProp && rule.is)) {
-        setVal(getRuleStyle()[cssProp] || "");
-        onEffect(cssProp ,getRuleStyle()[cssProp] || "");
-      } else if (slElStyles[cssProp]) {
-        setVal(slElStyles[cssProp] || "");
-        onEffect(cssProp , slElStyles[cssProp] || "");
+      if (selector || rule.is) {
+        const value = returnPropsAsIt ? getRuleStyle() : getRuleStyle()[cssProp] || ""
+        setVal(value);
+        onEffect(cssProp ,value);
+      } else if (Object.keys(slElStyles).length) {
+        console.log('foo');
+        
+        const value = returnPropsAsIt ? slElStyles : slElStyles[cssProp] || ""
+
+        setVal(value);
+        onEffect(cssProp , value);
       } else {
         setVal("");
         onEffect(cssProp, "");
       }
     }
 
-    if(showAnimationsBuilder){      
-      setVal(framesStyles[cssProp] || '');
-      onEffect(cssProp , framesStyles[cssProp] || '')
+    if(showAnimationsBuilder){    
+      const value = returnPropsAsIt ?    framesStyles : framesStyles[cssProp] || ''
+      setVal(value);
+      onEffect(cssProp , value)
     }
   }, [currentElObj, rule, selector , showAnimationsBuilder , framesStyles]);
 };

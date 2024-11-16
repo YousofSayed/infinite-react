@@ -362,9 +362,9 @@ export function addItemInToolBarForEditor({
   const selectedEl = editor.getSelected();
   const toolbar = selectedEl.get("toolbar");
   const isExist = toolbar.find((item) => item.command == commandName);
-  if(selectedEl.tagName == 'body')return;
+  if (selectedEl.tagName == "body") return;
   console.log(selectedEl.tagName);
-  
+
   !editor.Commands.has(commandName) &&
     editor.Commands.add(commandName, commandCallback);
 
@@ -483,10 +483,46 @@ export function extractKeyframesAsCSSString(keyframesString) {
 }
 
 /**
- * 
- * @param {import('grapesjs').Editor} editor 
+ *
+ * @param {import('grapesjs').Editor} editor
  */
-export const getCategoriesId = (editor)=>{
-  return editor.Blocks.getCategories().models.map((ctg)=>ctg.attributes.id)
-}
+export const getCategoriesId = (editor) => {
+  return editor.Blocks.getCategories().models.map((ctg) => ctg.attributes.id);
+};
 
+export const getWindowBuiltInClasses = () => {
+  const builtInClasses = Object.getOwnPropertyNames(window).filter((key) => {
+    try {
+      const item = window[key];
+      return (
+        typeof item === "function" &&
+        item.prototype &&
+        key[0].toUpperCase() === key[0]
+      );
+    } catch (e) {
+      // Ignore properties we don't have access to
+      return false;
+    }
+  });
+
+  return builtInClasses;
+};
+
+export const getDocumentBuiltInClasses = () => {
+  const documentKeys = [];
+
+  for (let key in document) {
+    documentKeys.push(key);
+  }
+  return documentKeys;
+};
+
+export const getArrayProps = () => {
+  const arrayFunctions = Object.getOwnPropertyNames(Array.prototype).filter(
+    (key) => {
+      return typeof Array.prototype[key] === "function";
+    }
+  );
+
+  return arrayFunctions;
+};

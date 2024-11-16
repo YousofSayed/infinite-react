@@ -18,7 +18,7 @@ import { P } from "../../Protos/P";
  * @returns
  */
 export const ReusableSympol = () => {
-    const editor = useEditorMaybe();
+  const editor = useEditorMaybe();
   const contentRef = useRef(refType);
   const [props, setProps] = useState({ name: "", category: "" });
   const [keywordsCtg, setKeywordsCtg] = useState(
@@ -31,21 +31,27 @@ export const ReusableSympol = () => {
 
   const onSave = (ev) => {
     const selectedEl = editor.getSelected();
-    const info = editor.DomComponents.getSymbolInfo(selectedEl).isSymbol;
-    const mainSympol = editor.DomComponents.addSymbol(selectedEl);
+    const info = editor.Components.getSymbolInfo(selectedEl);
+    const mainOrInstance = editor.Components.addSymbol(selectedEl);
+    // const mainSympol = editor.DomComponents.addSymbol(firsMain);
 
-    if (info) {
-      editor.runCommand("close:current:modal");
-      return;
-    }
+    // if (info) {
+    //   editor.runCommand("close:current:modal");
+    //   return;
+    // }
 
-    selectedEl.replaceWith(mainSympol);
-
+    (selectedEl).replaceWith(mainOrInstance);
+    
     function createInstance() {
-      console.log('instance');
-      
-      const instance = editor.DomComponents.addSymbol(mainSympol);
-      return instance
+      console.log("instance");
+      const instance = editor.DomComponents.addSymbol(mainOrInstance);
+      // const instance = editor.DomComponents.addSymbol(mainOrInstance.clone({symbol:true}));
+      // // instance.id = uniqueID();
+      // instance.cid = uniqueID()
+      return instance;
+      // return mainOrInstance.clone({symbol:true , symbolInv:true});
+
+      // return editor.Components.getSymbolInfo(mainOrInstance).relatives[editor.Components.getSymbolInfo(mainOrInstance).relatives.length-1]
       // /**
       //  * @type {import('grapesjs').Component}
       //  */
@@ -67,11 +73,10 @@ export const ReusableSympol = () => {
       //   return null;
       // } else {
       //   console.log('done else');
-        
+
       //   editor.runCommand("close:current:modal");
       //   return instance;
       // }
-      
     }
 
     editor.Blocks.add(uniqueID(), {
@@ -79,10 +84,11 @@ export const ReusableSympol = () => {
       label: props.name,
       category: props.category || "symbols",
       media: contentRef.current.outerHTML,
-      content: createInstance(),
+      content:()=>{
+       return createInstance()
+      },
     });
-    editor.runCommand('close:current:modal');
-   
+    editor.runCommand("close:current:modal");
   };
 
   const getSelectedElAsImg = async () => {

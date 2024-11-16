@@ -2,7 +2,12 @@ import { Editor } from "@grapesjs/react";
 import React from "react";
 import grapesjs from "grapesjs";
 import { useSetRecoilState } from "recoil";
-import { blocksStt, currentElState, ruleState } from "../../helpers/atoms";
+import {
+  blocksStt,
+  currentElState,
+  previewContentState,
+  ruleState,
+} from "../../helpers/atoms";
 import { blocks } from "../../Blocks/blocks.jsx";
 import { handleCustomBlock } from "../../helpers/functions.js";
 
@@ -11,12 +16,16 @@ import { addDevices } from "../../plugins/addDevices.js";
 import { customModal } from "../../plugins/cutomModal.js";
 import { addNewTools } from "../../plugins/addNewTools.jsx";
 import { addNewBuiltinCommands } from "../../plugins/addNewBuiltinCommands.jsx";
+import { customCmps } from "../../plugins/customCmps.jsx";
+import { muatationDomElements } from "../../plugins/mutation.js";
 
 export const GJEditor = ({ children }) => {
   const setBlocksAtom = useSetRecoilState(blocksStt);
   const setSelectedEl = useSetRecoilState(currentElState);
   const setRule = useSetRecoilState(ruleState);
   const navigate = useNavigate();
+  const setPreviewContent = useSetRecoilState(previewContentState);
+  const previewCahnnel = new BroadcastChannel("preview");
 
   return (
     <Editor
@@ -25,41 +34,81 @@ export const GJEditor = ({ children }) => {
       options={{
         height: "100%",
         width: "100%",
-        autorender:true,
-        multipleSelection:true,
-        showOffsets:true,
+        autorender: true,
+        multipleSelection: true,
+        avoidDefaults: true,
+        showOffsets: true,
         exportWrapper: true,
+        optsHtml: {
+          // attributes: true,
+          keepInlineStyle: true,
+          altQuoteAttr: true,
+          // withProps: true,
+          // asDocument: true,
+        },
+        parser: {
+          optionsHtml: {
+            allowScripts: true,
+            allowUnsafeAttr: true,
+            allowUnsafeAttrValue: true,
+            htmlType: "text/html",
+          },
+        },
+        showOffsetsSelected: true,
+
         storageManager: false,
         panels: { defaults: [] },
         blockManager: {
           // appendTo: "#blocks",
+
           blocks: blocks,
           custom: true,
         },
+        customUI: true,
+        // headless:true,
 
         // plugins:[mutationPlugin],
         canvas: {
+          allowExternalDrop: true,
+
+          extHl: true,
+          // infiniteCanvas:true,
           scripts: [
-            // { src: "/scripts/alpine.js", },
-            // {src : "/scripts/hyperScriptFunctions._hs" , type:'text/hyperscript'},
-            // {src : "https://unpkg.com/hyperscript.org@0.9.12"},
-            // { src: "https://unpkg.com/lucia", type:'module' },
-            // {
-            //   src: "https://unpkg.com/petite-vue",
-            //   defer: true,
-            //   init: true,
-            // },
-            // { src: "/scripts/cock.js" },
+            { src: "/scripts/hyperscript@0.9.13.js", defer: true },
+            { src: "/scripts/proccesNodeInHS.js", defer: true },
           ],
           styles: [{ href: "/styles/style.css" }],
         },
         jsInHtml: true,
 
-        plugins: [addDevices, customModal, addNewTools, addNewBuiltinCommands],
+        plugins: [
+          customCmps,
+          addDevices,
+          customModal,
+          addNewTools,
+          addNewBuiltinCommands,
+        ],
       }}
       onEditor={(ev) => {
         // ev.addStyle(`@keyframes lol {0%{opayity:0;} 100%{opacity:1;}}`)
         // ev.addStyle(`@keyframes lol2 {0%{opayity:0;} 100%{opacity:1;}}`)
+        ev.addComponents(`<div>123456789</div>`);
+
+        ev.on("update", (update) => {
+          // console.log('update : ' , update);
+          // previewCahnnel.postMessage({
+          //   scripts: ev.Canvas.config.scripts || {},
+          //   styles: ev.Canvas.config.styles || {},
+          //   html: ev.getHtml() || "",
+          //   css: ev.getCss() || "",
+          // });
+          // setPreviewContent({
+          //   scripts:ev.Canvas.config.scripts || {},
+          //   styles:ev.Canvas.config.styles || {},
+          //   html: ev.getHtml() || '',
+          //   css:ev.getCss() || '',
+          // })
+        });
 
         ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({
@@ -89,7 +138,39 @@ export const GJEditor = ({ children }) => {
           const selectedEl = ev.getSelected();
           setSelectedEl({ currentEl: selectedEl.getEl() });
           setRule({ is: false, ruleString: "" });
+          // console.log(
+          //   ev.addComponents(
+          //     {
+          //       tagName: "div",
+          //       components: "hhh1hh1h1h1",
+          //     },
+          //     { silent: true }
+          //   )[0]
+          // );
 
+          // for (let i = 0; i < 2000; i++) {
+          // selectedEl
+          // .getEl()
+          // .insertAdjacentHTML(
+          //   "afterend",
+          //   '<div id="loer" data-gjs-type="text" draggable="true" >123456789</div>'
+          // );
+          // }
+
+          // selectedEl
+          // .getEl()
+          // .insertAdjacentHTML(
+          //   "afterend",
+          //   '<div data-gjs-editable="true" data-gjs-type="text" draggable="true" >123456789</div>'
+          // );
+
+          //   // window.open('/preview' , '_blank')
+          // console.log(ev.getWrapper());
+          // console.log(ev.DomComponents.getWrapper().getEl().innerHTML);
+
+          // ev.DomComponents.getWrapper().components().reset(ev.Canvas.getBody().innerHTML)
+          // console.log(ev.$('#loer'));
+          // ev.DomComponents.
           navigate("edite/styling");
         });
 

@@ -61,6 +61,7 @@ const jsxComponent = () => {
   );
 };
 let str = "${x}";
+
 /**
  * @type {import('grapesjs').BlockProperties[]}
  */
@@ -135,7 +136,7 @@ export const blocks = [
       </g>
     </svg>`,
     label: html`<p class="custom-font-size">Button</p>`,
-    content: html` <button x-on:click="console.log('haha')">Click me</button> `,
+    content: html` <button _="on click log 'haha' then remove me end">Click me</button> `,
   },
   {
     id: "row",
@@ -150,54 +151,12 @@ export const blocks = [
     default: {},
   },
   {
-    id: "looper",
-    label: "Lopper",
-    media: html`<svg
-      fill="#ffffff"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      stroke="#ffffff"
-      style="width:24px;height:24px"
-    >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g
-        id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></g>
-      <g id="SVGRepo_iconCarrier">
-        <path
-          d="M18,7a7.669,7.669,0,0,0-6,3.19A7.669,7.669,0,0,0,6,7C2.313,7,1,9.583,1,12c0,3.687,2.583,5,5,5a7.669,7.669,0,0,0,6-3.19A7.669,7.669,0,0,0,18,17c2.417,0,5-1.313,5-5C23,9.583,21.687,7,18,7ZM6,15a2.689,2.689,0,0,1-3-3A2.689,2.689,0,0,1,6,9c2.579,0,4.225,2.065,4.837,3C10.225,12.935,8.579,15,6,15Zm12,0c-2.579,0-4.225-2.065-4.837-3,.612-.935,2.258-3,4.837-3a2.689,2.689,0,0,1,3,3A2.689,2.689,0,0,1,18,15Z"
-        ></path>
-      </g>
-    </svg>`,
-    category: "Basic",
-    content: {
-      components: html`
-        <section class="parent">
-          <section class="row parent">
-            <div class="row">
-              <!-- <div _="set i to me"></div> -->
-            </div>
-
-            <section id="looper-items-container"></section>
-          </section>
-        </section>
-
-        <style>
-          .p {
-            padding: 10px;
-          }
-          .parent {
-            display: flex;
-            padding: 10px;
-          }
-          .row {
-            min-height: 75px;
-            flex-grow: 1;
-          }
-        </style>
-      `,
-    },
+   
+    id:'input',
+    label:'input',
+    category:'Basic',
+    content:{
+      type:'input'
+    }
   },
 ];

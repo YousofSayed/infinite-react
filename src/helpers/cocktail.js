@@ -289,7 +289,7 @@ export function random(length) {
  * @returns @param {obj}
  */
 export function cloneObject(obj) {
-  if(!obj)return{};
+  if (!obj) return {};
   const newObj = {};
   Object.keys(obj).forEach((key) => {
     newObj[key] = obj[key];
@@ -313,6 +313,26 @@ export function OTP(length) {
 export function uniqueID() {
   return hash(crypto.randomUUID()).replaceAll("=", "");
 }
+
+/**
+ *
+ * @param {{where:HTMLElement , els : HTMLElement[] , starterIndex:number , delay:number}} param0
+ */
+export const appendWithDelay = ({ where, els, starterIndex, delay }) => {
+  let cloneStarterIndex = starterIndex;
+  
+  setTimeout(() => {
+    if (cloneStarterIndex > els.length - 1) return;
+    where.appendChild(els[starterIndex]);
+    cloneStarterIndex++
+    appendWithDelay({
+      where,
+      els,
+      starterIndex: cloneStarterIndex,
+      delay,
+    });
+  }, delay);
+};
 
 /**
  * Scroll to an element without any effort
@@ -1358,11 +1378,11 @@ export function deleteCookie(key) {
 }
 
 /**
- * 
- * @param {{arr:array , oldContet:any , content:any}} param0 
- * @returns 
+ *
+ * @param {{arr:array , oldContet:any , content:any}} param0
+ * @returns
  */
-export function pushBetween({arr, oldContet,content}) {
+export function pushBetween({ arr, oldContet, content }) {
   const newArr = [...arr];
 
   const index = newArr.indexOf(oldContet);

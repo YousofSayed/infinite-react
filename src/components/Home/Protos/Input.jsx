@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 /**
  *
@@ -10,19 +10,32 @@ export const Input = ({
   autoFocus = false,
   className = "",
   placeholder = "",
-  value='',
+  value = "",
   onInput = (_) => {},
   onChange = (_) => {},
 }) => {
+  const [val, setVal] = useState(value);
+
+ 
+    useEffect(() => {
+    setVal(value != undefined ? value : "");
+    }, [value]);
+
   return (
     <input
       autoFocus={autoFocus}
       type={type}
-      value={value}
+      value={val}
       placeholder={placeholder}
       className={`p-2 outline-none text-white border-2 border-transparent focus:border-blue-600  rounded-lg ${className}`}
-      onInput={onInput}
-      onChange={onChange}
+      onInput={(ev) => {
+        setVal(ev.target.value);
+        onInput(ev);
+      }}
+      onChange={(ev) => {
+        setVal(ev.target.value);
+        onChange(ev);
+      }}
     />
   );
 };

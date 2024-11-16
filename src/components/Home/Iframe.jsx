@@ -1,18 +1,33 @@
 import { Canvas, useEditorMaybe } from "@grapesjs/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  previewContentState,
   showAnimationsBuilderState,
   showLayersState,
+  showPreviewState,
 } from "../../helpers/atoms";
 import { P } from "../Protos/P";
 import { Button } from "../Protos/Button";
 import { Icons } from "../Icons/Icons";
+import {
+  appendWithDelay,
+  html,
+  parse,
+  parseToHTML,
+} from "../../helpers/cocktail";
+import { iframeType } from "../../helpers/jsDocs";
 
 export const Iframe = () => {
   const showLayers = useRecoilValue(showLayersState);
   const showAnimBuilder = useRecoilValue(showAnimationsBuilderState);
   const setShowAnimBuilder = useSetRecoilState(showAnimationsBuilderState);
+  const showPreview = useRecoilValue(showPreviewState);
+  const previewContent = useRecoilValue(previewContentState);
+  const [previewSrcDoc, setPreviewSrcDoc] = useState("");
+  const [head, setHead] = useState([""]);
+  const [body, setBody] = useState("");
+  const previewIframe = useRef(iframeType);
   const editor = useEditorMaybe();
 
   useEffect(() => {
@@ -20,12 +35,97 @@ export const Iframe = () => {
     editor.Canvas.refresh();
   }, [showAnimBuilder, showLayers]);
 
+  useEffect(() => {
+    // setData({ data: previewContent });
+    if (!editor || !previewIframe) return;
+
+    const children = [
+      ...new DOMParser().parseFromString(previewContent.html, "text/html").body
+        .children,
+    ];
+    const prevBody = previewIframe.current.contentDocument.body;
+    prevBody && (prevBody.innerHTML = "");
+
+    appendWithDelay({
+      where: prevBody,
+      els: children,
+      delay: 20,
+      starterIndex: 0,
+    });
+
+    // setBody(editor.getHtml())
+  });
+
+  useEffect(() => {
+    if (!editor) return;
+    const getHeadCallback = () => {
+      getHead({
+        data: {
+          scripts: editor.Canvas.config.scripts,
+          styles: editor.Canvas.config.styles,
+          css: editor.getCss(),
+        },
+      });
+    };
+    console.log("run");
+
+    editor.on("canvas:frame:load:head", getHeadCallback);
+
+    return () => {
+      editor.off("canvas:frame:load:head", getHeadCallback);
+    };
+  });
+
+  const getHead = ({ data }) => {
+    /**
+     * @type {import('../helpers/types').PreviewData}
+     */
+    const msg = data;
+    const scripts = [];
+    const links = [];
+
+    msg.scripts.forEach((scriptData) => {
+      const script = document.createElement("script");
+      script.src = scriptData.src;
+
+      Object.keys(scriptData).forEach((key) => {
+        script[key] = scriptData[key];
+      });
+
+      scripts.push(script);
+    });
+
+    msg.styles.forEach((styleData) => {
+      const style = document.createElement("link");
+      style.href = styleData.href;
+      style.rel = "stylesheet";
+
+      Object.keys(styleData).forEach((key) => {
+        style[key] = styleData[key];
+      });
+      links.push(style);
+    });
+
+    const finalContent = [...scripts, ...links].map((item) => item.outerHTML);
+
+    finalContent.push(
+      html`<style id="global-rules">
+        ${editor.getCss()}
+      </style>`
+    );
+    console.log(finalContent);
+
+    setHead(finalContent.join(""));
+  };
+
   return (
     <section className="relative bg-[#aaa] w-full   h-full">
       {showAnimBuilder && (
         <section className="flex flex-col items-center justify-center p-2 absolute top-0 left-0 z-20 bg-blur-dark w-full h-full">
           <section className="flex flex-col items-center justify-center p-3 bg-gray-900 rounded-lg gap-5">
-            {Icons.animation({ fill: "#2563eb", width: 60, height: 60 })}
+            <figure className="relative  w-fit ">
+              {Icons.animation(undefined, undefined, "#2563eb", 60, 60)}
+            </figure>
             <h1 className="font-bold text-center text-white text-2xl ">
               <span className="text-blue-600 font-bold text-2xl ">" </span>
               You Are In Animations Builder Mode
@@ -41,7 +141,30 @@ export const Iframe = () => {
           </section>
         </section>
       )}
-      <Canvas title="Editor" aria-label="Editor"></Canvas>
+
+      <Canvas
+        title="Editor"
+        aria-label="Editor"
+        style={{ display: showPreview ? "none" : "block" }}
+      ></Canvas>
+
+      <iframe
+        ref={previewIframe}
+        id="preview"
+        style={{ display: showPreview ? "block" : "none" }}
+        className={`bg-white w-full h-full ${
+          showPreview && "border-[5px] border-blue-600 "
+        }`}
+        srcDoc={html`
+          <!DOCTYPE html>
+          <html lang="en">
+            <head>
+              ${head}
+            </head>
+            <body></body>
+          </html>
+        `}
+      ></iframe>
     </section>
   );
 };

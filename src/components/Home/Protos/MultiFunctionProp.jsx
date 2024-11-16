@@ -51,7 +51,7 @@ export const MultiFunctionProp = ({
     const newArr = [...filters];
     newArr[index].value = propValue;
     console.log(stringifyFilter(newArr));
-    
+
     setClass({
       cssProp,
       value: stringifyFilter(newArr),
@@ -61,7 +61,7 @@ export const MultiFunctionProp = ({
 
   const addProp = (filterProp) => {
     if (!filter) return;
-    setFilter('')
+    setFilter("");
     setFilters([...filters, { name: filterProp, value: "" }]);
   };
 
@@ -84,13 +84,11 @@ export const MultiFunctionProp = ({
     cssProp,
     setVal: setUpdatedValue,
     onEffect(prop, value) {
-      console.log(parseFilters(value) , 'parsed');
-      
+      console.log(parseFilters(value), "parsed");
+
       setFilters(parseFilters(value));
     },
   });
-
- 
 
   return (
     <section className="mt-3 flex flex-col gap-2">
@@ -99,11 +97,14 @@ export const MultiFunctionProp = ({
           placeholder={placeholder}
           keywords={keywords}
           val={filter}
-          setVal={setFilter}
+          onInput={(value) => {setFilter(value)}}
+          onEnterPress={(value) => {setFilter(value)}}
+          onItemClicked={(value) => {setFilter(value)}}
         />
         <SmallButton
           title={placeholder}
           onClick={(ev) => {
+            setFilter('')
             addProp(filter);
           }}
         >
@@ -129,7 +130,7 @@ export const MultiFunctionProp = ({
               }}
               onAddClick={(ev) => {
                 addPropBetween(filter, i);
-                setFilter('');
+                setFilter("");
               }}
               onDeleteClick={(ev) => {
                 deleteProp(i);

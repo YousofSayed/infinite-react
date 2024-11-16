@@ -11,6 +11,11 @@ export let editorType;
 export let refType;
 
 /**
+ * @type {HTMLIFrameElement}
+ */
+export let iframeType;
+
+/**
  * @type {import('grapesjs').Block}
  */
 export let blocksType;
@@ -31,3 +36,7 @@ export let animeStylesType = cloneObject({})
  */
 export let animationsType = Array.from([])
 
+/**
+ * @type {import('grapesjs').Trait[]}
+ */
+export let traitsType = []

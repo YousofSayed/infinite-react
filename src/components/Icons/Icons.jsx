@@ -194,11 +194,11 @@ export const Icons = {
       </g>
     </svg>
   ),
-  layers: (strokeColor, strokeWidth) => (
+  layers: (strokeColor, strokeWidth, fill = "#64748B") => (
     <svg width="23" height="23" fill="none" viewBox="0 0 24 24">
       <Path
         justFillOnHover={true}
-        fill="#64748B"
+        fill={fill}
         stroke={strokeColor}
         strokeWidth={strokeWidth}
         d="M12,16L19.36,10.27L21,9L12,2L3,9L4.63,10.27M12,18.54L4.62,12.81L3,14.07L12,21.07L21,14.07L19.37,12.8L12,18.54Z"
@@ -414,18 +414,19 @@ export const Icons = {
       />
     </svg>
   ),
-  watch: (strokeColor, strokeWidth) => (
+  watch: (strokeColor, strokeWidth, fill = "#64748B") => (
     <svg
       width="20"
       height="20"
       viewBox="0 0 24 25"
-      fill="#64748B"
+      fill={"#64748B"}
       xmlns="http://www.w3.org/2000/svg"
     >
       <Path
         justFillOnHover={true}
         d="M12.0003 3.5C17.3924 3.5 21.8784 7.37976 22.8189 12.5C21.8784 17.6202 17.3924 21.5 12.0003 21.5C6.60812 21.5 2.12215 17.6202 1.18164 12.5C2.12215 7.37976 6.60812 3.5 12.0003 3.5ZM12.0003 19.5C16.2359 19.5 19.8603 16.552 20.7777 12.5C19.8603 8.44803 16.2359 5.5 12.0003 5.5C7.7646 5.5 4.14022 8.44803 3.22278 12.5C4.14022 16.552 7.7646 19.5 12.0003 19.5ZM12.0003 17C9.51498 17 7.50026 14.9853 7.50026 12.5C7.50026 10.0147 9.51498 8 12.0003 8C14.4855 8 16.5003 10.0147 16.5003 12.5C16.5003 14.9853 14.4855 17 12.0003 17ZM12.0003 15C13.381 15 14.5003 13.8807 14.5003 12.5C14.5003 11.1193 13.381 10 12.0003 10C10.6196 10 9.50026 11.1193 9.50026 12.5C9.50026 13.8807 10.6196 15 12.0003 15Z"
         stroke={strokeColor}
+        fill={fill}
         strokeWidth={strokeWidth}
       />
     </svg>
@@ -498,7 +499,7 @@ export const Icons = {
       />
     </svg>
   ),
-  export: (strokeColor, strokeWidth) => (
+  export: (strokeColor, strokeWidth, fill) => (
     <svg
       width="24px"
       height="24px"
@@ -531,9 +532,9 @@ export const Icons = {
       </g>
     </svg>
   ),
-  save: (strokeColor, strokeWidth) => (
+  save: (strokeColor, strokeWidth, fill = "#64748B") => (
     <svg
-      fill="#64748B"
+      fill={fill}
       width="24px"
       height="24px"
       viewBox="0 0 24.00 24.00"
@@ -831,7 +832,7 @@ export const Icons = {
       </g>
     </svg>
   ),
-  animation: ({ strokeColor, strokeWidth, width , height, fill }) => (
+  animation: (strokeColor, strokeWidth, fill = "#64748B", width, height) => (
     <svg
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"

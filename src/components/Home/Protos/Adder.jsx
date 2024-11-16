@@ -51,11 +51,12 @@ export const Adder = ({
         {showSelectMenu && (
           <Select
             onInput={onInput}
+            onEnterPress={onInput}
+            onItemClicked={oninput}
             keywords={keywords}
             className={`${inputClassName} px-[unset] p-[unset]`}
             placeholder={placeholder}
             val={value}
-            setVal={setVal}
             
           />
         )}

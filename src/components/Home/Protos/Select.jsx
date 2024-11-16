@@ -17,25 +17,26 @@ import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] ,className:string ,placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] ,className:string , inputClassName:string , placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
  * @returns
  */
 export const Select = ({
   label,
   keywords,
-  className = '',
+  className = "",
+  inputClassName = "",
   setKeyword = (_, _2) => {},
   onItemClicked = (_) => {},
   onInput = (_) => {},
   onEnterPress = (_, _2) => {},
   onMenuOpen = (_) => {},
   onMenuClose = (_) => {},
-  onKeywordsSeted = (_)=>{},
+  onKeywordsSeted = (_) => {},
   placeholder = "",
   wrap = false,
   respectParenthesis = false,
-  val,
-  setVal,
+  value,
+  // setVal,
   singleValInInput = true,
   splitHyphen = false,
 }) => {
@@ -43,7 +44,7 @@ export const Select = ({
   const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
   const [isPending, setTransition] = useTransition();
   const [currentChoose, setCurrentChoose] = useState(0);
-  // const [val, setVal] = useState('');
+  const [val, setVal] = useState(value);
   const inputRef = useRef();
   const selectRef = useRef();
   const menuRef = useRef();
@@ -59,9 +60,13 @@ export const Select = ({
     }
   }, [val]);
 
-  useEffect(()=>{
+  useEffect(() => {
+    setVal(value != undefined ? value : '');
+  }, [value]);
+
+  useEffect(() => {
     onKeywordsSeted(newKeywords);
-  },[keywords])
+  }, [keywords]);
 
   useEffect(() => {
     showMenu
@@ -173,7 +178,9 @@ export const Select = ({
         <input
           value={val}
           ref={inputRef}
-          className="w-full h-full  font-semibold border-2 border-transparent  focus:border-blue-600 bg-gray-900 rounded-lg p-2 pr-[27.5px] outline-none text-white"
+          className={`w-full h-full  font-semibold border-2 border-transparent  focus:border-blue-600  rounded-lg p-2 pr-[27.5px] outline-none text-white ${
+            inputClassName ? inputClassName : "bg-gray-900"
+          }`}
           type="text"
           placeholder={placeholder}
           onClick={(ev) => {

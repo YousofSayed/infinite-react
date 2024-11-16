@@ -153,3 +153,23 @@ export const showCustomModalState = atom({
   key: "showCustomModal",
   default: false,
 });
+
+export const previewContentState = atom({
+  key:'previewContentState',
+  default:{
+    scripts:{},
+    styles:{},
+    html:'',
+    css:''
+  }
+})
+
+export const showPreviewState = atom({
+  key:'showPreviewState',
+  default:false
+})
+
+export const removeAllActivesState = atom({
+  key:'removeAllActives',
+  default:false
+})

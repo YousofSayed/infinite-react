@@ -37,18 +37,10 @@ export const IframeControllers = () => {
 
   return (
     <ul className="flex gap-[15px] items-center border-r-2 pr-2 mr-2 border-slate-800">
-      <Li onClick={clearIFrameBody} title="clear canvas">
-        {Icons.trash()}
-      </Li>
-      <Li onClick={undo} title="undo">
-        {Icons.undo()}
-      </Li>
-      <Li onClick={redo} title="redo">
-        {Icons.redo()}
-      </Li>
-      <Li onClick={setComponentsView} title="hash elements">
-        {Icons.square()}
-      </Li>
+      <Li onClick={clearIFrameBody} title="clear canvas" icon={Icons.trash} justHover={true}/>
+      <Li onClick={undo} title="undo" icon={Icons.undo} justHover={true}/>
+      <Li onClick={redo} title="redo" icon={Icons.redo} justHover={true}/>
+      <Li onClick={setComponentsView} title="hash elements" icon={Icons.square} justHover={true}/>
       <Li
         onClick={(ev) => {
           setShowLayers((old) => !old);
@@ -65,9 +57,7 @@ export const IframeControllers = () => {
           navigate('edite/styling')
         }}
         title="Animation Builder"
-      >
-        {Icons.animation({fill:"#64748B"})}
-      </Li>
+      icon={Icons.animation}/>
     </ul>
   );
 };

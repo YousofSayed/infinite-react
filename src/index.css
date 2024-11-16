@@ -35,46 +35,27 @@ body {
 .bg-blur-dark {
   background: #11182757; /* Adjust opacity as needed */
   backdrop-filter: blur(3px); /* Adjust the blur amount */
-  /* transform-origin: ; */
-  /* transition-duration:  ; */
-  /* transition-property: ; */
-  /* quotes:  ; */
-  /* writing-mode:  ; */
-  /* word-wrap: ; */
-  /* white-space:   ; */
-  /* will-change:  ; */
-  /* widows:  ; */
-  /* empty-cells:  ; */
-  /* enable-background:  ; */
-  /* text-emphasis-color:  ; */
-  /* touch-action:  ; */
-  /* text-rendering:  ; */
-  /* tab-size:  ; */
-  /* timeline-scope: ; */
-  /* text-anchor:  ; */
+
 }
 
 .custom-grid-col-150 {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 35px;
   align-items: start;
-  /* animation-name: ; */
-  /* animation-duration:  ; */
-  /* animation-delay:  ; */
-  /* animation-fill-mode:  ; */
-  /* animation-timing-function:   ; */
-  /* animation-iteration-count: ; */
-  /* animation-direction:  ; */
-  /* animation-play-state:  ; */
-  /* animation-composition:  ; */
-  /* animation-range:  ; */
+
 }
 
+button.clicked{
+  @apply bg-blue-600 rounded-lg flex items-center justify-center;
+}
 
-/* *{
-    scrollbar-width: thin;
-    scrollbar-color: red;
+/* button.clicked svg{
+  @apply text-white  !important;
 } */
+
+button.clicked svg path{
+  @apply stroke-white  ;
+}
 
 *::-webkit-scrollbar {
   background-color: rgba(128, 128, 128, 0.315);

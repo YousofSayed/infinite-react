@@ -26,7 +26,7 @@ export const Home = () => {
   const setModalData = useSetRecoilState(modalDataState);
   const [isClose, setClose] = useState(true);
   const setShowCustomModal = useSetRecoilState(showCustomModalState);
-  const showCustomModal = useRecoilValue(showCustomModalState)
+  const showCustomModal = useRecoilValue(showCustomModalState);
 
   useEffect(() => {
     /**
@@ -34,8 +34,8 @@ export const Home = () => {
      * @param {CustomEvent} ev
      */
     const openModal = (ev) => {
-      console.log('open');
-      
+      console.log("open");
+
       setShowCustomModal(true);
       setModalData({
         title: ev.detail.title,
@@ -44,8 +44,8 @@ export const Home = () => {
     };
     window.addEventListener("open:custom:modal", openModal);
     window.addEventListener("close:custom:modal", (ev) => {
-      console.log('close');
-      
+      console.log("close");
+
       setShowCustomModal(false);
     });
   });
@@ -75,8 +75,13 @@ export const Home = () => {
             </Panel>
 
             <Panel
+              maxSize={
+                showLayers || showAnimBuilder
+                  ? Math.trunc(window.innerWidth - 660)
+                  : Math.trunc(window.innerWidth - 360)
+              }
               defaultSize={
-                showLayers
+                showLayers || showAnimBuilder
                   ? Math.trunc(window.innerWidth - 660)
                   : Math.trunc(window.innerWidth - 360)
               }
@@ -84,7 +89,7 @@ export const Home = () => {
               <Iframe />
             </Panel>
 
-            <Panel  defaultSize={300}>
+            <Panel defaultSize={300}>
               <Aside>
                 <Outlet />
               </Aside>

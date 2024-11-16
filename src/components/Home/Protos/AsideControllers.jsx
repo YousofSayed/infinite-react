@@ -7,19 +7,29 @@ export const AsideControllers = () => {
   return (
     <ul className="w-full flex items-center  bg-slate-800 shadow-md p-1 shadow-gray-950 rounded-lg gap-2">
       <Li
-      to={'/edite/traits'}
+      title="commands"
+        to={"/edite/commands"}
         className={`w-[50%] h-[40px] hover:bg-blue-600 `}
-        icon={Icons.command}
-      />
+      >
+        {Icons.command("white")}
+      </Li>
+      
+      <Li
+      title="traits"
+        to={"/edite/traits"}
+        className={`w-[50%] h-[40px] hover:bg-blue-600 `}
+      >
+        {Icons.setting("white")}
+      </Li>
+
+      
 
       <Li
-      to={'/edite/styling'}
+      title="styling"
+        to={"/edite/styling"}
         className={`w-[50%] h-[40px] hover:bg-blue-600 `}
         icon={Icons.prush}
       />
-
-      
-      
     </ul>
   );
 };

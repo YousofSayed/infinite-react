@@ -14,6 +14,7 @@ import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl"
 import { SidesInput } from "./SidesInput";
 import { cloneObject } from "../../../helpers/cocktail";
 import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
+import { useEditorMaybe } from "@grapesjs/react";
 
 /**
  *
@@ -31,6 +32,9 @@ export const DirectionsModel = ({
   const [option, setOption] = useState(defultoption);
   const updateValue = useState("");
   const frameStyles = useRecoilValue(framesStylesState);
+  const selectedEl = useRecoilValue(currentElState);
+  const editor= useEditorMaybe();
+  const [props , setProps] = useState({});
   const [vals, setVal] = useState({
     tVal: "",
     rVal: "",
@@ -106,6 +110,10 @@ export const DirectionsModel = ({
   // })
 
   useEffect(() => {
+   handlePropsStates(frameStyles)
+  }, [frameStyles ]);
+
+  const handlePropsStates = (styles)=>{
     const newVals = {};
     const props = [
       { cssProp: tProp, key: "tVal" },
@@ -114,10 +122,18 @@ export const DirectionsModel = ({
       { cssProp: lProp, key: "lVal" },
     ];
     props.forEach(({cssProp , key})=>{
-      newVals[key] = frameStyles[cssProp] ||''
+      newVals[key] = styles[cssProp] ||''
     });
     setVal(newVals);
-  }, [frameStyles]);
+  }
+
+ useUpdateInputValue({
+  returnPropsAsIt:true,
+  setVal:setProps,
+  onEffect(cssProp , props){
+    handlePropsStates(props)
+  }
+ })
 
   return (
     <section className="flex flex-col gap-2">

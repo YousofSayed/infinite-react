@@ -37,16 +37,29 @@ export const SelectClass = () => {
     setClassesKeywords(getELClasses());
   };
 
-  const getELClasses = ()=>{
-    return editor.getSelected().getClasses()?.filter(calss => !calss.startsWith('gjs')) || []
-  }
+  const getELClasses = () => {
+    return (
+      editor
+        .getSelected()
+        .getClasses()
+        ?.filter((calss) => !calss.startsWith("gjs")) || []
+    );
+  };
 
   return (
     <section className="mt-3 flex flex-col gap-3">
       <section className="flex gap-3">
         <Select
           val={val}
-          setVal={setVal}
+          onInput={(value) => {
+            setVal(value);
+          }}
+          onEnterPress={(value) => {
+            setVal(value);
+          }}
+          onItemClicked={(value) => {
+            setVal(value);
+          }}
           placeholder="Calss name"
           keywords={
             editor
@@ -62,7 +75,7 @@ export const SelectClass = () => {
         />
 
         <SmallButton
-        className="flex-shrink-0 bg-gray-900"
+          className="flex-shrink-0 bg-gray-900"
           onClick={(ev) => {
             addClass(val);
           }}

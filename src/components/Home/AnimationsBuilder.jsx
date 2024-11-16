@@ -234,10 +234,12 @@ export const AnimationsBuilder = () => {
                         <section className="flex gap-2 ">
                           <section className="w-full flex items-center  bg-gray-800 px-1 rounded-lg">
                             {" "}
-                            <Input
+                            <Input 
                               className="bg-gray-800 w-full"
-                              value={percentage}
+                              value={`${percentage}`}
                               onInput={(ev) => {
+                                console.log('perc' , percentage);
+                                
                                 if (!ev.target.value) return;
                                 updatePercentageValue({
                                   index: i,

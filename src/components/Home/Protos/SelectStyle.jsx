@@ -58,8 +58,8 @@ export const SelectStyle = ({
         onInput={onInput}
         onItemClicked={onItemClicked}
         onEnterPress={onEnterPress}
-        val={val}
-        setVal={setVal}
+        value={val}
+        // setVal={setVal}
       />
     </section>
   );

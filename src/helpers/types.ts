@@ -13,3 +13,10 @@ export type Animations = {
   name: string;
   values: { percentage: number; styles: CSSStyleDeclaration }[];
 }[];
+
+export type PreviewData = {
+  scripts: object;
+  styles: object;
+  html: string;
+  css: string;
+};
