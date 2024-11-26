@@ -69,7 +69,7 @@ export const ColorPicker = ({
       ></button>
       {showHexColor && (
         <section
-          className="absolute left-[0] z-[1]  top-[calc(100%+5px)] w-[250px]"
+          className="absolute left-[0] z-[1]  top-[calc(100%+5px)] w-full"
           ref={hexColorRef}
         
         >

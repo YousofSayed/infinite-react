@@ -397,10 +397,13 @@ export function createBlobFileAs(data, mimeType) {
 export function transformToNumInput(inputElement) {
   const rgx = /(-)?(\d+)?/gi;
   // console.log(inputElement.value.match(rgx)[0]);
-
-  inputElement.value = rgx.test(inputElement.value)
-    ? inputElement.value?.match(rgx)[0]
-    : "";
+  console.log(parseFloat(inputElement.value));
+  console.log(inputElement.value.split(/[a-z]/ig));
+  
+  inputElement.value = parseFloat(inputElement.value)+1 ? parseFloat(inputElement.value) : ''
+  // inputElement.value = rgx.test(inputElement.value)
+  //   ? inputElement.value?.match(rgx)[0]
+  //   : "";
 }
 
 /**
@@ -461,6 +464,17 @@ export function nFormatter(num) {
   } else {
     return num;
   }
+}
+
+export function insertProperty(obj, key, value, afterKey) {
+  const newObj = {};
+  for (const [k, v] of Object.entries(obj)) {
+    newObj[k] = v;
+    if (k === afterKey) {
+      newObj[key] = value;
+    }
+  }
+  return newObj;
 }
 
 /**

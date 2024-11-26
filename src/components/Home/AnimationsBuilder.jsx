@@ -177,7 +177,7 @@ export const AnimationsBuilder = () => {
   }, [showAnimeBuilder]);
 
   return (
-    <Aside dir="rtl">
+    <>
       <MiniTitle>Animations Builder</MiniTitle>
       <section className="flex flex-col gap-2  rounded-lg ">
         <section className="flex gap-2">
@@ -308,6 +308,6 @@ export const AnimationsBuilder = () => {
             ))
           : null}
       </section>
-    </Aside>
+    </>
   );
 };

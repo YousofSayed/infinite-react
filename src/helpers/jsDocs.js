@@ -40,3 +40,8 @@ export let animationsType = Array.from([])
  * @type {import('grapesjs').Trait[]}
  */
 export let traitsType = []
+
+/**
+ * @type {import('./types').CMD[]}
+ */
+export let cmdType = []

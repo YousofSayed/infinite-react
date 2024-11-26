@@ -3,6 +3,7 @@
 @tailwind utilities;
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 @font-face {
   font-family: "poppins";
@@ -60,7 +61,7 @@ button.clicked svg path{
 *::-webkit-scrollbar {
   background-color: rgba(128, 128, 128, 0.315);
   border-radius: 20px;
-  width: 5px;
+  width: 3.5px;
   position: relative;
   overflow: hidden;
 }
@@ -176,6 +177,51 @@ button.clicked svg path{
 
 .gjs-block-category.gjs-open {
   all: unset;
+}
+.gjs-toolbar{
+  /* border-radius: 20px !important; */
+  /* @apply rounded-bl-lg !important; */
+}
+
+.gjs-badge{
+  @apply px-3 text-slate-200 font-bold text-[12px]  bg-blue-600 ;
+}
+
+.gjs-highlighter-sel {
+  outline: 2.5px solid #2563eb !important;
+  border-radius: 4px !important;
+}
+
+.gjs-rte-toolbar{
+  @apply  bg-gray-950 
+}
+
+.gjs-rte-toolbar svg{
+  /* all: unset; */
+  width: 90px !important;
+  stroke-width: 90px !important;
+  fill: red;
+}
+
+ .gjs-rte-toolbar span{
+  @apply  text-[18px] w-[32px] h-[32px] border-gray-700 
+}
+
+.gjs-toolbar-items{
+  @apply items-center gap-3 py-[5px] px-2 flex bg-blue-600 
+}
+
+.gjs-toolbar-item svg{
+  transition: .1s;
+}
+
+.gjs-toolbar-item svg:hover{
+  transform: scale(1.4);
+}
+
+.gjs-toolbar svg {
+  width: 19px !important;
+  transform: scale(1.1);
 }
 
 .gjs-block {

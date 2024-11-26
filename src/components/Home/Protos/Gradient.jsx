@@ -5,12 +5,10 @@ import { SmallButton } from "./SmallButton";
 import { Icons } from "../../Icons/Icons";
 import { Input } from "./Input";
 import { cloneObject, pushBetween, uniqueID } from "../../../helpers/cocktail";
-import { Color } from "./Color";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import { Adder } from "./Adder";
 import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 import { useRemoveCssProp } from "../../../hooks/useRemoveCssProp";
-import { HexAlphaColorPicker } from "react-colorful";
 import { ColorPicker } from "./ColorPicker";
 import { getCloneArray } from "../../../helpers/functions";
 
@@ -301,9 +299,10 @@ export const Gradient = () => {
           className="p-[unset] px-[unset]"
           placeholder="chose type"
           keywords={["linear", "radial"]}
-          setVal={setType}
-          val={type}
-          // onInput={(value)=>{setType(value)}}
+          value={type}
+          onInput={(value)=>{setType(value)}}
+          onEnterPress={(value)=>{setType(value)}}
+          onItemClicked={(value)=>{setType(value)}}
         />
 
         <SmallButton

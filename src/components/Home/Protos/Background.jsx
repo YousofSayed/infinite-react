@@ -19,10 +19,12 @@ import {
 import { AddMultiValuestoSingleProp } from "./AddMultiValuestoSingleProp";
 import { Gradient } from "./Gradient";
 import { MiniTitle } from "./MiniTitle";
+import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 
 export const Background = () => {
   const editor = useEditorMaybe();
   const setCssPropForAm = useSetRecoilState(cssPropForAssetsManagerState);
+  const setClass = useSetClassForCurrentEl();
 
   return (
     <section className="mt-3 flex flex-col gap-3">
@@ -36,6 +38,12 @@ export const Background = () => {
           className="min-w-[70%] bg-gray-900"
           placeholder="source"
           inputClassName="w-full"
+          onInput={(ev) => {
+            setClass({
+              cssProp: "background-image",
+              value: `url('${ev.target.value}')`,
+            });
+          }}
         />
         <SmallButton className="bg-gray-900">{Icons.delete()}</SmallButton>
         <SmallButton

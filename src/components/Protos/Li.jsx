@@ -75,29 +75,26 @@ export const Li = ({
           aria-label={title}
           title={title}
           className="w-full h-full flex justify-center items-center "
-          style={{ strokeColor: "red" }}
           onClick={(ev) => {
-            ev.stopPropagation();
             onClick(ev);
             addClickClass(ev.currentTarget, "click");
-            if(justHover)return;
-            [...$a(".clicked")]
-              .filter((el) => el != ev.currentTarget)
-              .forEach((el) => el.classList.remove("clicked"));
-            setMyName("");
-            const is = ev.currentTarget.classList.contains("clicked");
-            setRemoveActives(title);
 
-            if (is) {
-              setIsClicked(false);
+            // if(justHover)return;
+            // [...$a(".clicked")]
+            //   .filter((el) => el != ev.currentTarget)
+            //   .forEach((el) => el.classList.remove("clicked"));
+            // setMyName("");
+            // const is = ev.currentTarget.classList.contains("clicked");
+            // setRemoveActives(title);
 
-              ev.currentTarget.classList.remove("clicked");
-            } else {
-              setIsClicked(true);
-              console.log("not is");
+            // if (is) {
+            //   setIsClicked(false);
 
-              ev.currentTarget.classList.add("clicked");
-            }
+            //   ev.currentTarget.classList.remove("clicked");
+            // } else {
+            //   setIsClicked(true);
+            //   ev.currentTarget.classList.add("clicked");
+            // }
           }}
         >
           {icon(

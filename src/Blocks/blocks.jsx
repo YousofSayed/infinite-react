@@ -136,7 +136,10 @@ export const blocks = [
       </g>
     </svg>`,
     label: html`<p class="custom-font-size">Button</p>`,
-    content: html` <button _="on click log 'haha' then remove me end">Click me</button> `,
+    content: html` 
+       <button infinit="console.log('lol')" _="on mutation of @foo log 'foo' end ">Click me</button>
+       <button _="on click set $div to document.createElement('button') then set $div.innerHTML to 'aywa b2aa' then put $div after me then $div.addEventListener('click', \ ev -> {console:log('lalala')})">Click me</button>
+     `,
   },
   {
     id: "row",

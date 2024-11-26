@@ -53,10 +53,10 @@ export const ReusableCmb = () => {
         <Select
           keywords={ctgs}
           placeholder="Category"
-          setVal={(value) => {setNewProps({ ...newProps, ctg: value });}}
           onInput={(value) => {setNewProps({ ...newProps, ctg: value });}}
           onEnterPress={(value) => {setNewProps({ ...newProps, ctg: value });}}
-          val={newProps.ctg}
+          onItemClicked={(value) => {setNewProps({ ...newProps, ctg: value });}}
+          value={newProps.ctg}
         />
         <Button
           onClick={(ev) => {

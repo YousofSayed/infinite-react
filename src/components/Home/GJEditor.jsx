@@ -1,5 +1,5 @@
 import { Editor } from "@grapesjs/react";
-import React from "react";
+import React, { useState } from "react";
 import grapesjs from "grapesjs";
 import { useSetRecoilState } from "recoil";
 import {
@@ -11,13 +11,17 @@ import {
 import { blocks } from "../../Blocks/blocks.jsx";
 import { handleCustomBlock } from "../../helpers/functions.js";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useResolvedPath } from "react-router-dom";
 import { addDevices } from "../../plugins/addDevices.js";
 import { customModal } from "../../plugins/cutomModal.js";
 import { addNewTools } from "../../plugins/addNewTools.jsx";
 import { addNewBuiltinCommands } from "../../plugins/addNewBuiltinCommands.jsx";
 import { customCmps } from "../../plugins/customCmps.jsx";
 import { muatationDomElements } from "../../plugins/mutation.js";
+import { html, uniqueID } from "../../helpers/cocktail.js";
+import customColors from "grapesjs-plugin-borders";
+import _hyperscript from "hyperscript.org";
+import { hsProcessNode } from "../../helpers/customEvents.js";
 
 export const GJEditor = ({ children }) => {
   const setBlocksAtom = useSetRecoilState(blocksStt);
@@ -25,7 +29,17 @@ export const GJEditor = ({ children }) => {
   const setRule = useSetRecoilState(ruleState);
   const navigate = useNavigate();
   const setPreviewContent = useSetRecoilState(previewContentState);
+  const [plugins, setPlugins] = useState([
+    // customColors,
+    customCmps,
+    addDevices,
+    customModal,
+    addNewTools,
+    addNewBuiltinCommands,
+    muatationDomElements,
+  ]);
   const previewCahnnel = new BroadcastChannel("preview");
+  const location = useLocation();
 
   return (
     <Editor
@@ -75,40 +89,99 @@ export const GJEditor = ({ children }) => {
           // infiniteCanvas:true,
           scripts: [
             { src: "/scripts/hyperscript@0.9.13.js", defer: true },
-            { src: "/scripts/proccesNodeInHS.js", defer: true },
+            { src: "/scripts/proccesNodeInHS.js", defer: true , dev:true },
           ],
           styles: [{ href: "/styles/style.css" }],
         },
         jsInHtml: true,
 
-        plugins: [
-          customCmps,
-          addDevices,
-          customModal,
-          addNewTools,
-          addNewBuiltinCommands,
-        ],
+        plugins,
       }}
       onEditor={(ev) => {
         // ev.addStyle(`@keyframes lol {0%{opayity:0;} 100%{opacity:1;}}`)
         // ev.addStyle(`@keyframes lol2 {0%{opayity:0;} 100%{opacity:1;}}`)
-        ev.addComponents(`<div>123456789</div>`);
+        // ev.refresh({tools:true})
+        // window.el = '`<button>${$kw}</button>`'
+        // const cmp = ev.addComponents(html`<div>Hyperscript</div>`)[0];
+        // cmp.setAttributes({
+        //   _: `init append '<button>click222</button>' to me`,
+        // });
 
-        ev.on("update", (update) => {
-          // console.log('update : ' , update);
-          // previewCahnnel.postMessage({
-          //   scripts: ev.Canvas.config.scripts || {},
-          //   styles: ev.Canvas.config.styles || {},
-          //   html: ev.getHtml() || "",
-          //   css: ev.getCss() || "",
-          // });
-          // setPreviewContent({
-          //   scripts:ev.Canvas.config.scripts || {},
-          //   styles:ev.Canvas.config.styles || {},
-          //   html: ev.getHtml() || '',
-          //   css:ev.getCss() || '',
-          // })
-        });
+        // console.log(cmp.getEl());
+
+        // // _hyperscript.processNode(cmp.getEl());
+        // ev.on("canvas:frame:load:body", () => {
+        //   console.log(cmp.getEl());
+        //   console.log(cmp.getEl().getAttribute("_"));
+        //   hsProcessNode(cmp.getEl())
+        //   // _hyperscript.processNode(cmp.getEl());
+        // });
+
+        // setTimeout(()=>{
+        //   for (let i = 0; i < 2; i++) {
+        //     ev.addComponents(html`
+        //       <section
+        //         data-gjs-highlightable="true"
+        //         id="ivyu9"
+        //         data-gjs-type="default"
+        //         draggable="true"
+        //         class="parent"
+        //       >
+        //         <div
+        //           data-gjs-highlightable="true"
+        //           id="iixz5"
+        //           data-gjs-type="default"
+        //           draggable="true"
+        //           class="row"
+        //         >
+        //           <button
+        //             data-gjs-highlightable="true"
+        //             id="ic2gz"
+        //             data-gjs-type="text"
+        //             draggable="true"
+        //             _="on click log 'haha' then remove me end"
+        //           >
+        //             Click me</button
+        //           ><input
+        //             data-gjs-highlightable="true"
+        //             id="iy3jg"
+        //             data-gjs-type="input"
+        //             draggable="true"
+        //             type="text"
+        //             name="default-name"
+        //             placeholder="Insert text here"
+        //           /><input
+        //             data-gjs-highlightable="true"
+        //             id="iho9j"
+        //             data-gjs-type="input"
+        //             draggable="true"
+        //             type="text"
+        //             name="default-name"
+        //             placeholder="Insert text here"
+        //           />
+        //         </div>
+        //         <div
+        //           data-gjs-highlightable="true"
+        //           id="i1jcl"
+        //           data-gjs-type="default"
+        //           draggable="true"
+        //           class="row"
+        //         >
+        //           <input
+        //             data-gjs-highlightable="true"
+        //             id="i3q3d"
+        //             data-gjs-type="input"
+        //             draggable="true"
+        //             type="text"
+        //             name="default-name"
+        //             placeholder="Insert text here"
+        //             class=""
+        //           />
+        //         </div>
+        //       </section>
+        //     `);
+        //   }
+        // },2000)
 
         ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({
@@ -134,10 +207,22 @@ export const GJEditor = ({ children }) => {
           }
         );
 
+        ev.on('component:deselected',()=>{
+          setSelectedEl({currentEl:undefined});
+        })
+
         ev.on("component:selected", () => {
           const selectedEl = ev.getSelected();
           setSelectedEl({ currentEl: selectedEl.getEl() });
           setRule({ is: false, ruleString: "" });
+          // selectedEl.getEl().setAttribute('_' , `on click log 'done-${uniqueID()}'`)
+          // const newCmp = selectedEl.replaceWith(selectedEl.clone())[0];
+          // newCmp.addAttributes({ _: `on click log 'done-${uniqueID()}'` });
+          // _hyperscript.processNode(newCmp.getEl());
+          // console.log(_hyperscript.parse(`on click log 'done-${uniqueID()}'`));
+          // ev.select(newCmp)
+          // console.log(_hyperscript.evaluate(`on click log 'eval'`));
+
           // console.log(
           //   ev.addComponents(
           //     {
@@ -171,7 +256,10 @@ export const GJEditor = ({ children }) => {
           // ev.DomComponents.getWrapper().components().reset(ev.Canvas.getBody().innerHTML)
           // console.log(ev.$('#loer'));
           // ev.DomComponents.
-          navigate("edite/styling");
+          console.log(location.pathname);
+          console.log(window.location.pathname);
+
+          window.location.pathname === "/" && navigate("edite/styling");
         });
 
         ev.on("redo", (args) => {

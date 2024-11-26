@@ -40,11 +40,11 @@ export const ReusableSympol = () => {
     //   return;
     // }
 
-    (selectedEl).replaceWith(mainOrInstance);
+    // (selectedEl).replaceWith(mainOrInstance);
     
     function createInstance() {
       console.log("instance");
-      const instance = editor.DomComponents.addSymbol(mainOrInstance);
+      const instance = editor.DomComponents.addSymbol(selectedEl);
       // const instance = editor.DomComponents.addSymbol(mainOrInstance.clone({symbol:true}));
       // // instance.id = uniqueID();
       // instance.cid = uniqueID()
@@ -93,7 +93,7 @@ export const ReusableSympol = () => {
 
   const getSelectedElAsImg = async () => {
     const selectedEl = editor.getSelected().getEl();
-    const canvas = await html2canvas(selectedEl);
+    const canvas = await html2canvas(selectedEl , {height:150 , allowTaint:true , });
     contentRef.current.src = canvas.toDataURL();
   };
 
@@ -115,9 +115,6 @@ export const ReusableSympol = () => {
           className="bg-gray-800 w-[40%]"
         />
         <Select
-          setVal={(value) => {
-            setProps({ ...props, category: value });
-          }}
           keywords={keywordsCtg}
           placeholder="Category"
           onInput={(value) => {

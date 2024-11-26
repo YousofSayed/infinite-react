@@ -526,3 +526,68 @@ export const getArrayProps = () => {
 
   return arrayFunctions;
 };
+
+export function getAllStandardCSSProperties() {
+  // Create a temporary element
+  const tempElement = document.createElement("div");
+
+  // Collect all properties
+  const supportedProperties = [];
+  for (let property in tempElement.style) {
+      // Include only non-prefixed properties
+      if (!property.startsWith("webkit") && 
+          !property.startsWith("moz") && 
+          !property.startsWith("ms") &&
+          !property.startsWith("o")) {
+          supportedProperties.push(property);
+      }
+  }
+
+  // Sort and return
+  return supportedProperties.sort();
+}
+
+export function getAllCssProperties() {
+  // Create a dummy element to retrieve the styles
+  const element = document.createElement('div');
+  document.body.appendChild(element); // Append it to the DOM to access computed styles
+  
+  // Get the computed styles for the element
+  const computedStyles = window.getComputedStyle(element);
+  
+  // Create an array of all properties
+  const cssProperties = [];
+  
+  // Iterate over all the computed style properties
+  for (let i = 0; i < computedStyles.length; i++) {
+    const prop = computedStyles[i];
+    // Convert from kebab-case to camelCase
+    const camelCaseProp = prop.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
+    cssProperties.push(camelCaseProp);
+  }
+  
+  // Clean up by removing the dummy element
+  document.body.removeChild(element);
+  
+  return cssProperties;
+}
+
+/**
+ * 
+ * @param {{[key:string]:import('./types').CMD}} cmds 
+ */
+export function buildScriptFromCmds(cmds) {
+  const clone = structuredClone(cmds)
+  console.log(clone);
+  
+  let script = `init  `;
+  Object.keys(clone).forEach(key=>{
+    clone[key].params.forEach(param=>{
+      if(!clone[key].params.length)return;
+      clone[key].cmd =  clone[key].cmd.replaceAll( `{${param.name}}` ,param.value || ''  );
+    });
+
+    script+= ' ' + clone[key].cmd + ' ';
+  });
+  return script;
+}

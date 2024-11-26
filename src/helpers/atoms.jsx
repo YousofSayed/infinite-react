@@ -1,6 +1,6 @@
 import React from "react";
 import { atom } from "recoil";
-import { animeStylesType } from "./jsDocs";
+import { animeStylesType, cmdType } from "./jsDocs";
 
 export const widths = atom({
   key: "widths",
@@ -172,4 +172,9 @@ export const showPreviewState = atom({
 export const removeAllActivesState = atom({
   key:'removeAllActives',
   default:false
+})
+
+export const cmdsBuildState = atom({
+  key:`cmdsBuildState`,
+  default:cmdType
 })

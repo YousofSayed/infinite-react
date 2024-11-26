@@ -33,6 +33,10 @@ export const SelectStyle = ({
   };
 
   const onItemClicked = (item) => {
+    setVal(item);
+    console.log(item);
+    
+
     setClass({
       cssProp,
       value: item,
@@ -40,6 +44,8 @@ export const SelectStyle = ({
   };
 
   const onEnterPress = (keyword) =>{
+    setVal(keyword);
+    
     setClass({
       cssProp,
       value: keyword,

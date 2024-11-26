@@ -84,3 +84,16 @@ export const closeCustomModal = ({title , JSXModal})=>{
     }
   })
 }
+
+/**
+ * 
+ * @param {HTMLElement} el 
+ */
+export const hsProcessNode = (el)=>{
+  const hsProcessNodeCm = new CustomEvent('hs:process',{
+    detail:{
+     el
+    }
+  });
+  window.dispatchEvent(hsProcessNodeCm);
+}

@@ -14,7 +14,12 @@ import { P } from "../../Protos/P";
  * @param {{cssProp : string , keywords: string[] , placeholder:string , label:string}} param0
  * @returns
  */
-export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = '' , label=''}) => {
+export const AddMultiValuestoSingleProp = ({
+  cssProp,
+  keywords,
+  placeholder = "",
+  label = "",
+}) => {
   const [value, setValue] = useState("");
   const [values, setValues] = useState([]);
   const [updatedValue, setUpdateValue] = useState("");
@@ -28,7 +33,7 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = 
       cssProp,
       value: Array.from(newValues).join(","),
     });
-    setValue('');
+    setValue("");
   };
 
   useUpdateInputValue({
@@ -37,9 +42,8 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = 
   });
 
   useEffect(() => {
-    setValues(!updatedValue.split(",")[0]? [] : updatedValue.split(","));
+    setValues(!updatedValue.split(",")[0] ? [] : updatedValue.split(","));
   }, [updatedValue]);
-
 
   return (
     <section className=" flex flex-col gap-3 p-2 bg-gray-800 rounded-lg">
@@ -49,9 +53,15 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = 
           className="p-[unset] px-[unset]"
           placeholder={placeholder}
           setVal={setValue}
-          val={value}
+          value={value}
           keywords={keywords}
           onInput={(value) => {
+            setValue(value);
+          }}
+          onItemClicked={(value) => {
+            setValue(value);
+          }}
+          onEnterPress={(value) => {
             setValue(value);
           }}
         />
@@ -70,12 +80,12 @@ export const AddMultiValuestoSingleProp = ({ cssProp, keywords  , placeholder = 
           className="bg-gray-900"
           keywords={values}
           onCloseClick={(ev, keyword) => {
-            const newValues = values.filter(value => value != keyword);
+            const newValues = values.filter((value) => value != keyword);
             setValues(newValues);
             setClass({
-                cssProp,
-                value: newValues.join(',')
-            })
+              cssProp,
+              value: newValues.join(","),
+            });
           }}
         />
       ) : null}

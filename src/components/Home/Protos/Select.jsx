@@ -11,13 +11,13 @@ import { Menu } from "./Menu";
 import { P } from "../../Protos/P";
 import { useCloseMenu } from "../../../hooks/useCloseMenu";
 import { useRecoilValue } from "recoil";
-import { currentElState } from "../../../helpers/atoms";
+import { currentElState, framesStylesState } from "../../../helpers/atoms";
 import { useSetClassForCurrentEl } from "../../../hooks/useSetclassForCurrentEl";
 import { useUpdateInputValue } from "../../../hooks/useUpdateInputValue";
 
 /**
  *
- * @param {{label:string , keywords:string[] ,className:string , inputClassName:string , placeholder:string,  singleValInInput:boolean, val:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
+ * @param {{label:string , keywords:string[] ,className:string , inputClassName:string , placeholder:string,  singleValInInput:boolean, value:string , setVal:Function , onKeywordsSeted : (keywords:string[])=>void, onItemClicked:(keyword ,index : number)=>void , onMenuOpen : ({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void , onMenuClose:({menu , setKeywords , keywords } : {menu:HTMLElement , setKeywords : Function , keywords: string[]})=>void, onEnterPress: (keyword:string )=>void,  onInput:(value:string)=>void, wrap:boolean, setKeyword:(keyword:string )=>void , respectParenthesis : boolean,splitHyphen:boolean}} param0
  * @returns
  */
 export const Select = ({
@@ -81,6 +81,17 @@ export const Select = ({
           keywords: newKeywords,
         });
   }, [showMenu]);
+
+  useEffect(()=>{
+    const closeMenuCallback = ()=>{
+      setMenu(false);
+    }
+    document.addEventListener('click',closeMenuCallback);
+    return ()=>{
+      
+      document.removeEventListener('click',closeMenuCallback);
+    }
+  })
 
   useCloseMenu(selectRef, setMenu);
   // useUpdateInputValue({ setVal: setVal, cssProp });
@@ -174,7 +185,7 @@ export const Select = ({
       }  justify-between items-center bg-slate-800 ${className}`}
     >
       {label ? <P>{label}: </P> : null}
-      <div className={`${label ? "w-[55%]" : "w-full"} relative `}>
+      <div  onClick={(ev)=>{ selectRef.current.click(); }} className={`${label ? "w-[55%]" : "w-full"} relative `}>
         <input
           value={val}
           ref={inputRef}
@@ -184,6 +195,9 @@ export const Select = ({
           type="text"
           placeholder={placeholder}
           onClick={(ev) => {
+            ev.stopPropagation()
+            console.log(true);
+            
             showMenuCallback();
             setCurrentChoose(
               newKeywords.findIndex((keyword) =>
@@ -202,6 +216,9 @@ export const Select = ({
           //   );
           //   ev.target.select();
           // }}
+          // onFocus={(ev)=>{
+          //   ev.stopPropagation();
+          // }}
           onInput={(ev) => {
             onInput(ev.target.value);
             setVal(ev.target.value);
@@ -214,6 +231,7 @@ export const Select = ({
 
         <i
           onClick={(ev) => {
+            ev.stopPropagation()
             showMenuCallback();
           }}
           className={`group absolute right-1 top-[50%] translate-y-[-50%] ${
@@ -230,6 +248,9 @@ export const Select = ({
             choosenKeyword={choosenKeyword}
             currentChoose={currentChoose}
             onItemClicked={(ev, keyword, i) => {
+              ev.stopPropagation();
+              console.log('clicked');
+              
               const nkeyw = splitHyphen ? keyword.split("-")[0] : keyword;
               const singleOrMultiVal = singleValInInput ? nkeyw : val + nkeyw;
               onItemClicked(nkeyw, i);

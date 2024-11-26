@@ -57,43 +57,68 @@ export const Home = () => {
         <section className="w-[calc(100%-60px)] flex flex-col h-full border-l-[1.5px] border-slate-400">
           <HomeHeader />
 
-          <PanelGroup tagName="section" direction="horizontal">
-            <Panel
-              style={{ display: showLayers ? "block" : "none" }}
+          <PanelGroup
+            tagName="section"
+            className="flex h-full w-full"
+            direction="horizontal"
+            autoSaveId="panels"
+          >
+            {(showAnimBuilder || showLayers) && (
+              <>
+                <Panel defaultSize={300}   id="left" order={1}>
+                  <Aside
+                    dir="right"
+                    style={{ display: showLayers ? "block" : "none" }}
+                  >
+                    <Layers />
+                  </Aside>
+
+                  <Aside
+                    style={{ display: showAnimBuilder ? "block" : "none" }}
+                  >
+                    <AnimationsBuilder />
+                  </Aside>
+                </Panel>
+                <PanelResizeHandle
+                  className={`w-[5px] bg-blue-600 opacity-0 hover:opacity-[1] transition-all`}
+                />
+              </>
+            )}
+
+            {/* <Panel
               defaultSize={300}
             >
-              <Aside dir="right">
+              <Aside
+                dir="right"
+                style={{ display: showLayers ? "block" : "none" }}
+              >
                 <Layers />
+              </Aside>
+
+              <Aside style={{ display: showAnimBuilder ? "block" : "none" }}>
+                <AnimationsBuilder />
               </Aside>
             </Panel>
 
-            <Panel
-              defaultSize={300}
-              style={{ display: showAnimBuilder ? "block" : "none" }}
-            >
-              <AnimationsBuilder />
-            </Panel>
+            <PanelResizeHandle
+              style={{ display: showLayers || showAnimBuilder ? "block" : "none" }}
 
-            <Panel
-              maxSize={
-                showLayers || showAnimBuilder
-                  ? Math.trunc(window.innerWidth - 660)
-                  : Math.trunc(window.innerWidth - 360)
-              }
-              defaultSize={
-                showLayers || showAnimBuilder
-                  ? Math.trunc(window.innerWidth - 660)
-                  : Math.trunc(window.innerWidth - 360)
-              }
-            >
+              className="flex  items-center justify-center   select-none transition-all w-[5px]  h-full  
+                 bg-blue-600"
+            /> */}
+
+            <Panel id="center" order={2}>
               <Iframe />
             </Panel>
 
-            <Panel defaultSize={300}>
-              <Aside>
-                <Outlet />
-              </Aside>
-            </Panel>
+            <>
+              <PanelResizeHandle className="w-[5px] bg-blue-600 opacity-0 hover:opacity-[1] transition-all" />
+              <Panel defaultSize={300}  id="right" order={3}>
+                <Aside>
+                  <Outlet />
+                </Aside>
+              </Panel>
+            </>
           </PanelGroup>
         </section>
         {showCustomModal && <CustomModals />}

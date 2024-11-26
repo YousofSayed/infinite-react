@@ -4,9 +4,19 @@ import { Li } from "../Protos/Li";
 import { IframeControllers } from "./Protos/IframeControllers";
 import { useEditorMaybe } from "@grapesjs/react";
 import { Input } from "./Protos/Input";
-import { transformToNumInput, uniqueID } from "../../helpers/cocktail";
+import {
+  createBlobFileAs,
+  html,
+  transformToNumInput,
+  uniqueID,
+} from "../../helpers/cocktail";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { previewContentState, showPreviewState } from "../../helpers/atoms";
+import {
+  cmdsBuildState,
+  previewContentState,
+  showPreviewState,
+} from "../../helpers/atoms";
+import { buildScriptFromCmds } from "../../helpers/functions";
 
 export const HomeHeader = () => {
   const editor = useEditorMaybe();
@@ -16,6 +26,7 @@ export const HomeHeader = () => {
   const showPreview = useRecoilValue(showPreviewState);
   const setShowPreview = useSetRecoilState(showPreviewState);
   const setPreviewContent = useSetRecoilState(previewContentState);
+  const cmds = useRecoilValue(cmdsBuildState);
   const [dimansions, setDimaonsion] = useState({
     width: "",
     height: "",
@@ -99,17 +110,30 @@ export const HomeHeader = () => {
               title="preview mode"
               icon={Icons.watch}
               onClick={(ev) => {
-                setPreviewContent({
-                  scripts: editor.Canvas.config.scripts || {},
-                  styles: editor.Canvas.config.styles || {},
-                  html: editor.getHtml() || "",
-                  css: editor.getCss() || "",
-                });
+                // setPreviewContent({
+                //   scripts: editor.Canvas.config.scripts || {},
+                //   styles: editor.Canvas.config.styles || {},
+                //   html: editor.getHtml() || "",
+                //   css: editor.getCss() || "",
+                // });
                 setShowPreview((old) => !old);
+                // const jsFile = createBlobFileAs(
+                //   buildScriptFromCmds(cmds),
+                //   "application/javascript"
+                // );
+                // console.log(URL.createObjectURL(jsFile));
+
+                // // editor.Canvas.config.scripts.push(URL.createObjectURL(jsFile));
+                // editor.getWrapper().append(html`
+                //   <script src="${URL.createObjectURL(jsFile)}"></script>
+                //   `)
+                // console.log(editor.Canvas.config.scripts);
+
+                // editor.runCommand('core:preview')
               }}
             />
             <Li icon={Icons.save} title="save" justHover={true} />
-            <Li icon={Icons.export} title="download" justHover={true}/>
+            <Li icon={Icons.export} title="download" justHover={true} />
             <Li to={"/"} icon={Icons.plus} title="add blocks" />
           </ul>
 

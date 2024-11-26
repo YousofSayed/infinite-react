@@ -23,7 +23,7 @@ import { MultiFunctionProp } from "./Protos/MultiFunctionProp";
 import { Animation } from "./Protos/Animation";
 import { filterTypes, filterUnits, transformValues } from "../../constants/constants";
 import { Others } from "./Protos/Others";
-import { CSSEditor } from "./Protos/CSSEditor";
+import MonacoEditorWithESM from "./Protos/CSSEditor";
 
 /**
  *
@@ -116,9 +116,9 @@ export const StyleAside = ({ className }) => {
         <Others/>
       </Details>
 
-      {/* <Details label={'CSS'}>
-        <CSSEditor/>
-      </Details> */}
+      <Details label={'CSS'}>
+        <MonacoEditorWithESM/>
+      </Details>
     </>
   );
 };

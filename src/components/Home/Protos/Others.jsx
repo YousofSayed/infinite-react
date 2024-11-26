@@ -9,7 +9,8 @@ export const Others = () => {
         <Property label='user-select' cssProp='user-select'/>
         <Property label='transition' cssProp='transition'/>
         <Property label='tab-size' cssProp='tab-size'/>
-        <SelectStyle label='transition' cssProp='empty-cells' keywords={['show' , 'hide']}/>
+        <Property label='opacity' cssProp='opacity'/>
+        <SelectStyle label='empty-cells' cssProp='empty-cells' keywords={['show' , 'hide']}/>
         <SelectStyle label='touch-action' cssProp='touch-action' keywords={touchActionValues}/>
     </section>
   )

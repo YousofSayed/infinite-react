@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 /**
  *
@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from "react";
  * @returns
  */
 export const Menu = ({
-  keywords,
+  keywords = [],
   className = " ",
   choosenKeyword = "",
   currentChoose = 0,
@@ -14,9 +14,14 @@ export const Menu = ({
   onItemClicked,
   i,
 }) => {
+  const [keywordsState , setKeywordsState] = useState(keywords);
   const choosenRef = useRef();
   const unChoosenRef = useRef();
   // menuRef = menuRef ? menuRef : useRef();
+
+  useEffect(()=>{
+    setKeywordsState(keywords);
+  },[keywords])
 
   useEffect(() => {
     if (menuRef && menuRef.current) {
@@ -41,16 +46,16 @@ export const Menu = ({
       ref={menuRef}
       className={`absolute z-50 left-0   shadow-lg shadow-gray-950 border-[1px] max-h-[270px] overflow-y-auto border-slate-600 rounded-lg   bg-gray-900 w-full p-1 ${className}`}
     >
-      {keywords.map((keyword, i) => (
+      {keywordsState.map((keyword, i) => (
         <li
         id={i}
           ref={currentChoose == i ? choosenRef : unChoosenRef  }
           onClick={(ev) => {
-            onItemClicked(ev, keyword, i, keywords.length);
+            onItemClicked(ev, keyword, i, keywordsState.length);
           }}
           className={`${
             currentChoose == i ? "bg-gray-800" : "bg-transparent"
-          } py-2 px-1  transition-all cursor-pointer [&:not(:last-child)]:border-b-[1px] border-slate-600 hover:bg-gray-800 text-slate-200 text-[14px] font-semibold rounded`}
+          } py-2 px-1  transition-all cursor-pointer [&:not(:last-child)]:border-b-[1px] border-slate-600 hover:bg-gray-800 text-slate-200 text-[14px] font-semibold `}
           key={i}
         >
           {keyword}
