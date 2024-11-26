@@ -107,18 +107,16 @@ export const Home = () => {
                  bg-blue-600"
             /> */}
 
-            <Panel id="center" order={2}>
+            <Panel id="center" defaultSize={600} order={2}>
               <Iframe />
             </Panel>
 
-            <>
               <PanelResizeHandle className="w-[5px] bg-blue-600 opacity-0 hover:opacity-[1] transition-all" />
               <Panel defaultSize={300}  id="right" order={3}>
                 <Aside>
                   <Outlet />
                 </Aside>
               </Panel>
-            </>
           </PanelGroup>
         </section>
         {showCustomModal && <CustomModals />}
