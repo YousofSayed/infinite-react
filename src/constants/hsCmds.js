@@ -1,5 +1,6 @@
 import { html, uniqueID } from "../helpers/cocktail";
 import {
+  getAllCssProperties,
   getAllStandardCSSProperties,
   getArrayProps,
   getWindowBuiltInClasses,
@@ -10,37 +11,27 @@ import {
   eventNames,
   eventsModifiers,
   hsZoo,
-  httpMethods,
+  httpGetterMethods,
+  httpSetterMethods,
   measure,
   operators,
   putPositions,
 } from "./constants";
 
-const globalVarHandler = (setGlobalVarState) => {
-  setGlobalVarState((values) => [...new Set([...values, `$${this.value}`])]);
-  // console.log(this.value);
-  console.log('lol' , this);
-  
-};
-
-const localVarHandler = (setLocalVarState) => {
-  setLocalVarState((values) => [...new Set([...values, `:${this.value}`])]);
-};
-
-
+/**
+ * @type {{[key:string] : import('../helpers/types').CMD}}
+ */
 export const hsCmds = {
-  setGlobalVar: {
+  set_global_var: {
     cmd: `set \${name} to {value}`,
     params: [
-
-      { name: "name", type: "text", required: true },
+      { name: "name", type: "text", handler: true, required: true },
       {
         name: "value",
         type: "select",
         required: true,
         keywords: [...hsZoo, "object", "array"],
         value: "",
-        handler: true,
         custom: [
           {
             name: "object",
@@ -56,8 +47,13 @@ export const hsCmds = {
     symbol: "$",
   },
 
-  setLocalVar: {
-    cmd: `set {{symbol}}{name} to {value}`,
+  set_var: {
+    cmd: `set {option}{name} to {value}`,
+    options: {
+      global: "$",
+      local: ":",
+    },
+    optionsRequired: true,
     params: [
       { name: "name", type: "text", required: true },
       {
@@ -80,6 +76,20 @@ export const hsCmds = {
       },
     ],
     symbol: ":",
+  },
+
+  set_object_var: {
+    cmd: `set {option}{name} to {value}`,
+    desc: `make variable with multi data in single one variable`,
+    options: {
+      global: "$",
+      local: ":",
+    },
+    optionsRequired: true,
+    params: [
+      { name: "name", type: "text", handler: true, required: true },
+      { name: "value", type: "object", required: true },
+    ],
   },
 
   event: {
@@ -139,7 +149,13 @@ export const hsCmds = {
     `,
     params: [
       { name: "event", type: "select", keywords: eventNames, required: true },
-      { name: "target", type: "select", keywords: hsZoo, required: true },
+      {
+        name: "target",
+        type: "select",
+        keywords: hsZoo,
+        accessVars: true,
+        required: true,
+      },
     ],
   },
 
@@ -159,19 +175,31 @@ export const hsCmds = {
     desc: html` <h1>send events to other elements</h1> `,
     params: [
       { name: "event_name", type: "text", required: true },
-      { name: "target", type: "select", keywords: hsZoo, required: true },
+      {
+        name: "target",
+        type: "select",
+        keywords: hsZoo,
+        accessVars: true,
+        required: true,
+      },
     ],
   },
 
   send_event_with_params: {
-    cmd: `{event_name} to {target}({params}) `,
+    cmd: `send {event_name} to {target}({params}) `,
     desc: html`
       <h1>send events to other elements with params (key & value)</h1>
     `,
     params: [
       { name: "event_name", type: "text", required: true },
-      { name: "target", type: "select", keywords: hsZoo, required: true },
-      { name: "params", type: "object", required: true },
+      {
+        name: "target",
+        type: "select",
+        keywords: hsZoo,
+        accessVars: true,
+        required: true,
+      },
+      { name: "params", type: "array", required: true },
     ],
   },
 
@@ -194,6 +222,7 @@ export const hsCmds = {
       {
         name: "selector",
         type: "select",
+        accessVars: true,
         keywords: ["anything"],
         required: true,
       },
@@ -201,7 +230,7 @@ export const hsCmds = {
   },
 
   on_intersection: {
-    cmd: `on intersection(intersecting) having threshold {threshold}`,
+    cmd: `on intersection(intersecting,llo,ll) having threshold {threshold}`,
     desc: `Another synthetic event is the intersection event that uses the Intersection Observer API.`,
     ex: html`
       <p>
@@ -213,13 +242,13 @@ export const hsCmds = {
   },
 
   transition: {
-    cmd: `transition {css-property} to {value}`,
+    cmd: `transition {css_property} to {value}`,
     desc: `It is set transition effect when set css property `,
     params: [
       {
-        name: "css-property",
+        name: "css_property",
         type: "select",
-        keywords: getAllStandardCSSProperties(),
+        keywords: getAllCssProperties(),
         required: true,
       },
       {
@@ -240,21 +269,24 @@ export const hsCmds = {
         before continuing.
       </p>
     `,
+    color: "",
     params: [],
   },
 
   wait: {
     cmd: `wait {time}s`,
     desc: `It wait and do the next command when it finnish , (the time is by seconds!) `,
-    params: [{ name: "time", type: "number", required: true }],
+    params: [
+      { name: "time", type: "select", accessVars: true, required: true },
+    ],
   },
 
   increment: {
-    cmd: `increment {variable}`,
-    desc: `increment variable`,
+    cmd: `increment {value}`,
+    desc: `increment value`,
     params: [
       {
-        name: "variable",
+        name: "value",
         accessVars: true,
         type: "select",
         required: true,
@@ -263,11 +295,11 @@ export const hsCmds = {
   },
 
   decrement: {
-    cmd: `decrement {variable}`,
-    desc: `decrement variable`,
+    cmd: `decrement {value}`,
+    desc: `decrement value`,
     params: [
       {
-        name: "variable",
+        name: "value",
         accessVars: true,
         type: "select",
         required: true,
@@ -289,10 +321,10 @@ export const hsCmds = {
   },
 
   log: {
-    cmd: "log {target}",
+    cmd: "log {value}",
     params: [
       {
-        name: "target",
+        name: "value",
         type: "select",
         accessVars: true,
         keywords: hsZoo,
@@ -302,8 +334,9 @@ export const hsCmds = {
   },
 
   toggle: {
-    cmd: `toggle .{class_name} `,
-    desc: `toggle class on current element`,
+    cmd: `toggle {class_name} `,
+    desc: `toggle class on current element , class name can be an variable too`,
+    ex: `toggle .class`,
     params: [
       {
         name: "class_name",
@@ -314,24 +347,28 @@ export const hsCmds = {
   },
 
   toggle_on: {
-    cmd: `toggle {class} on {selector}`,
+    cmd: `toggle {class_name} on {selector}`,
     desc: `toggle class on another element`,
     params: [
       {
-        name: "class",
-        type: "text",
+        name: "class_name",
+        type: "select",
+        keywords: [],
+        accessVars: true,
         required: true,
       },
       {
         name: "selector",
-        type: "text",
+        type: "select",
+        keywords: [],
+        accessVars: true,
         required: true,
       },
     ],
   },
 
   make: {
-    cmd: `make {Class} from {values} called {variable name}`,
+    cmd: `make {Class} from {params} called {variable_name}`,
     desc: html`
       <article>
         <h1>If you want to make new objects, you can use the make :</h1>
@@ -361,15 +398,15 @@ export const hsCmds = {
         keywords: getWindowBuiltInClasses(),
       },
       {
-        name: "values",
+        name: "params",
         required: true,
         type: "array",
       },
       {
-        name: "variable name",
+        name: "variable_name",
         required: true,
         value: "",
-        handler:true,
+        handler: true,
         type: "text",
       },
     ],
@@ -405,7 +442,7 @@ export const hsCmds = {
     ],
   },
 
-  condition: {
+  condition_if: {
     cmd: `if {target-1} {operator} {target-2}`,
     params: [
       {
@@ -424,6 +461,12 @@ export const hsCmds = {
         accessVars: true,
       },
     ],
+  },
+
+  condition_else: {
+    cmd: ` else `,
+    desc: `else keyword statement `,
+    params: [],
   },
 
   repeat_until: {
@@ -449,7 +492,15 @@ export const hsCmds = {
 
   repeat_times: {
     cmd: `repeat {times} times`,
-    params: [{ name: "times", type: "number", required: true }],
+    params: [
+      {
+        name: "times",
+        type: "select",
+        keywords: [],
+        accessVars: true,
+        required: true,
+      },
+    ],
   },
 
   repeat_while: {
@@ -530,7 +581,13 @@ export const hsCmds = {
         keywords: ["show", "hide"],
         required: true,
       },
-      { name: "target", type: "select", keywords: hsZoo, required: true },
+      {
+        name: "target",
+        type: "select",
+        keywords: hsZoo,
+        accessVars: true,
+        required: true,
+      },
     ],
   },
 
@@ -560,28 +617,40 @@ export const hsCmds = {
       {
         name: "property",
         type: "select",
-        keywords: getAllStandardCSSProperties(),
+        keywords: getAllCssProperties(),
         required: true,
       },
     ],
   },
 
-  remove_selector: {
+  remove_from: {
     cmd: `remove  {selector-1} from {selector-2}`,
     desc: `if you want to remove the class .foo to all elements that have the class .bar on it, you can simply write this: add .foo to .bar`,
     params: [
       { name: "selector-1", type: "text", required: true },
-      { name: "selector-2", type: "select", keywords: hsZoo, required: true },
+      {
+        name: "selector-2",
+        type: "select",
+        keywords: hsZoo,
+        accessVars: true,
+        required: true,
+      },
     ],
   },
 
   append_to: {
-    cmd: `append {value} to {variable}`,
+    cmd: `append {value} to {target}`,
     desc: `The append command can append content to strings (as well as to arrays and the DOM`,
     params: [
-      { name: "value", type: "text", required: true },
       {
-        name: "variable",
+        name: "value",
+        type: "select",
+        keywords: [],
+        accessVars: true,
+        required: true,
+      },
+      {
+        name: "target",
         type: "select",
         keywords: hsZoo,
         required: true,
@@ -628,7 +697,7 @@ export const hsCmds = {
         name: "var_name",
         type: "text",
         required: true,
-        handler:true,
+        handler: true,
       },
     ],
   },
@@ -710,7 +779,7 @@ export const hsCmds = {
       },
       {
         name: "var_name",
-        handler:true,
+        handler: true,
         type: "text",
         keywords: defaultAttributeNames,
         required: true,
@@ -724,11 +793,18 @@ export const hsCmds = {
     params: [
       {
         name: "attribute_name",
-        type: "text",
+        type: "select",
         keywords: defaultAttributeNames,
+        accessVars: true,
         required: true,
       },
-      { name: "value", type: "text", required: true },
+      {
+        name: "value",
+        type: "select",
+        keywords: [],
+        accessVars: true,
+        required: true,
+      },
     ],
   },
 
@@ -767,12 +843,24 @@ export const hsCmds = {
       <code>on click measure my top then log top</code>
     `,
     params: [
-      { name: "target", type: "select", keywords: hsZoo, required: true },
-      { name: "dimension", type: "select", keywords: measure, required: true },
+      {
+        name: "target",
+        type: "select",
+        keywords: hsZoo,
+        accessVars: true,
+        required: true,
+      },
+      {
+        name: "dimension",
+        type: "select",
+        keywords: measure,
+        accessVars: true,
+        required: true,
+      },
     ],
   },
 
-  fetchData: {
+  send_data: {
     cmd: `fetch {url} as {response_type} with {
         method: '{method}',
         headers: {headers},
@@ -782,17 +870,30 @@ export const hsCmds = {
     ex: html`
       <code>
         fetch 'https://jsonplaceholder.typicode.com/todos/' as JSON with {
-        method: 'GET', headers: {'content-type' : 'application/json'} } then set
-        $todos to result
+        method: 'POST', headers: {'content-type' : 'application/json'} } then
+        set $todos to result
       </code>
     `,
     id: uniqueID(),
     name: "fetchData",
     params: [
       {
+        name: "url",
+        accessVars: true,
+        type: "select",
+        keywords: [],
+        required: true,
+      },
+      {
+        name: "response_type",
+        type: "select",
+        keywords: conversions,
+        required: true,
+      },
+      {
         name: "method",
         type: "select",
-        keywords: httpMethods,
+        keywords: httpSetterMethods,
         value: "",
         required: true,
       },
@@ -802,27 +903,71 @@ export const hsCmds = {
         name: "variable_name",
         type: "text",
         value: "",
-        handler:true,
+        handler: true,
         required: true,
       },
     ],
   },
-  elemnet:{
-    cmd:`append '<button id="${uniqueID()}">Clikc231</button>' to me`,
-    params:[]
+
+  get_data: {
+    cmd: `fetch {url} as {response_type} with {
+      method: '{method}',
+      headers: {headers}
+  } then set \${variable_name} to result`,
+    desc: html` <h1>Fetch data and set it as global variable</h1> `,
+    ex: html`
+      <code>
+        fetch 'https://jsonplaceholder.typicode.com/todos/' as JSON with {
+        method: 'POST', headers: {'content-type' : 'application/json'} } then
+        set $todos to result
+      </code>
+    `,
+    id: uniqueID(),
+    name: "fetchData",
+    params: [
+      {
+        name: "url",
+        accessVars: true,
+        type: "select",
+        keywords: [],
+        required: true,
+      },
+      {
+        name: "response_type",
+        type: "select",
+        keywords: conversions,
+        required: true,
+      },
+      {
+        name: "method",
+        type: "select",
+        keywords: httpGetterMethods,
+        value: "",
+        required: true,
+      },
+      { name: "headers", type: "object", value: {}, required: true },
+      {
+        name: "variable_name",
+        type: "text",
+        value: "",
+        handler: true,
+        required: true,
+      },
+    ],
   },
-  end:{
-    cmd : ` end ` , 
-    desc:`end command is necessary when you use condtions of loops or you wanna to end event and start new` ,
-    params:[],
-    color:''
+
+  end: {
+    cmd: ` end `,
+    desc: `end command is necessary when you use condtions of loops or you wanna to end event and start new`,
+    params: [],
+    color: "",
   },
-  then:{
-    cmd : ` then `,
-    desc:`It is useful to make your commands readable and easy to understand`,
-    color:'',
-    params:[]
-  }
+  then: {
+    cmd: ` then `,
+    desc: `It is useful to make your commands readable and easy to understand`,
+    color: "",
+    params: [],
+  },
 };
 
-// hsCmds.setGlobalVar.params[1].handler((name)=>name) 
+// hsCmds.setGlobalVar.params[1].handler((name)=>name)

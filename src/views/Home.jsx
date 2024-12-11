@@ -120,6 +120,7 @@ export const Home = () => {
           </PanelGroup>
         </section>
         {showCustomModal && <CustomModals />}
+        {/* <CustomModals /> */}
       </main>
     </GJEditor>
   );

@@ -9,7 +9,10 @@ import {
   ruleState,
 } from "../../helpers/atoms";
 import { blocks } from "../../Blocks/blocks.jsx";
-import { handleCustomBlock } from "../../helpers/functions.js";
+import {
+  buildScriptsFromArray,
+  handleCustomBlock,
+} from "../../helpers/functions.js";
 
 import { useLocation, useNavigate, useResolvedPath } from "react-router-dom";
 import { addDevices } from "../../plugins/addDevices.js";
@@ -18,7 +21,7 @@ import { addNewTools } from "../../plugins/addNewTools.jsx";
 import { addNewBuiltinCommands } from "../../plugins/addNewBuiltinCommands.jsx";
 import { customCmps } from "../../plugins/customCmps.jsx";
 import { muatationDomElements } from "../../plugins/mutation.js";
-import { html, uniqueID } from "../../helpers/cocktail.js";
+import { css, html, uniqueID } from "../../helpers/cocktail.js";
 import customColors from "grapesjs-plugin-borders";
 import _hyperscript from "hyperscript.org";
 import { hsProcessNode } from "../../helpers/customEvents.js";
@@ -52,11 +55,49 @@ export const GJEditor = ({ children }) => {
         multipleSelection: true,
         avoidDefaults: true,
         showOffsets: true,
-        exportWrapper: true,
+        clearStyles: true,
+        canvasCss: css`
+          .parent {
+            display: flex;
+            padding: 10px;
+          }
+          .row {
+            min-height: 75px;
+            flex-grow: 1;
+          }
+
+          .col {
+            min-height: 75px;
+            flex-grow: 1;
+          }
+
+          .dt {
+            display: inline-block;
+            padding: 10px;
+          }
+        `,
+        pageManager: {
+          selected: "index",
+
+          pages: [
+            {
+              id: "index",
+              name: "index",
+              // component: "hello index",
+            },
+            {
+              id: "playground",
+              name: "playground",
+              // component: "hello playground",
+            },
+          ],
+        },
+        // exportWrapper: true,
         optsHtml: {
           // attributes: true,
           keepInlineStyle: true,
           altQuoteAttr: true,
+
           // withProps: true,
           // asDocument: true,
         },
@@ -78,23 +119,21 @@ export const GJEditor = ({ children }) => {
           blocks: blocks,
           custom: true,
         },
-        customUI: true,
+        // customUI: true,
         // headless:true,
 
         // plugins:[mutationPlugin],
         canvas: {
-          allowExternalDrop: true,
-
-          extHl: true,
+          // allowExternalDrop: true,
+          // extHl: true,
           // infiniteCanvas:true,
           scripts: [
-            { src: "/scripts/hyperscript@0.9.13.js", defer: true },
-            { src: "/scripts/proccesNodeInHS.js", defer: true , dev:true },
+            { src: "/scripts/hyperscript@0.9.13.js", async: true },
+            { src: "/scripts/proccesNodeInHS.js", async: true, dev: true },
           ],
-          styles: [{ href: "/styles/style.css" }],
+          // styles: [{ href: "/styles/style.css" }],
         },
         jsInHtml: true,
-
         plugins,
       }}
       onEditor={(ev) => {
@@ -183,6 +222,15 @@ export const GJEditor = ({ children }) => {
         //   }
         // },2000)
 
+        // ev.on("canvas:frame:load:head", () => {
+        //   console.log("body loaded");
+        //   ev.Canvas.getDocument().head.insertAdjacentHTML(
+        //     "beforeend",
+        //     buildScriptsFromArray(ev.config.scripts)
+        //   );
+        //   // ev.config.scripts.forEach(())
+        // });
+
         ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({
           ...handleCustomBlock(ev.Blocks.getAll().models, ev),
@@ -207,12 +255,15 @@ export const GJEditor = ({ children }) => {
           }
         );
 
-        ev.on('component:deselected',()=>{
-          setSelectedEl({currentEl:undefined});
-        })
+        ev.on("component:deselected", () => {
+          setSelectedEl({ currentEl: undefined });
+        });
 
         ev.on("component:selected", () => {
           const selectedEl = ev.getSelected();
+          console.log(selectedEl.getName());
+          console.log("selected : ", ev.getCss());
+
           setSelectedEl({ currentEl: selectedEl.getEl() });
           setRule({ is: false, ruleString: "" });
           // selectedEl.getEl().setAttribute('_' , `on click log 'done-${uniqueID()}'`)
@@ -268,14 +319,6 @@ export const GJEditor = ({ children }) => {
 
         ev.on("undo", (args) => {
           setSelectedEl({ currentEl: ev?.getSelected()?.getEl() });
-        });
-
-        ev.on("undo", () => {
-          setSelectedEl(ev.getSelected().getEl());
-        });
-
-        ev.on("redo", () => {
-          setSelectedEl(ev.getSelected().getEl());
         });
 
         ev.on("canvas:dragover", (eve) => {

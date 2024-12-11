@@ -12,6 +12,7 @@ import { P } from "../Protos/P";
 import { Button } from "../Protos/Button";
 import { Icons } from "../Icons/Icons";
 import {
+  addClickClass,
   appendWithDelay,
   html,
   parse,
@@ -19,7 +20,7 @@ import {
 } from "../../helpers/cocktail";
 import { iframeType } from "../../helpers/jsDocs";
 import { buildScriptFromCmds } from "../../helpers/functions";
-import {minify_sync} from 'terser'
+import { minify_sync } from "terser";
 export const Iframe = () => {
   const showLayers = useRecoilValue(showLayersState);
   const showAnimBuilder = useRecoilValue(showAnimationsBuilderState);
@@ -113,49 +114,79 @@ export const Iframe = () => {
     const finalContent = [...scripts, ...links].map((item) => item.outerHTML);
 
     finalContent.push(
-      html`
-      
-      <style id="global-rules">
+      html` <style id="global-rules">
         ${editor.getCss()}
       </style>`
     );
 
-
     return finalContent.join("");
+  };
+
+  const getAndSetPreviewData = ()=>{
+    const content = html`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+
+          ${getHead({
+            data: {
+              scripts: editor.Canvas.config.scripts,
+              styles: editor.Canvas.config.styles,
+            },
+          })}
+          <title>Preview:</title>
+        </head>
+
+        ${editor.getHtml()}
+      </html>
+    `;
+    previewIframe.current.contentDocument.open();
+    previewIframe.current.contentDocument.write(content);
+    previewIframe.current.contentDocument.close();
+
+  }
+
+  const reloadPreview = () => {
+    // previewIframe.current.contentDocument.location.reload();
+    getAndSetPreviewData()
   };
 
   useEffect(() => {
     if (!editor) return;
     // previewIframe.current.contentDocument.location.reload();
+    const content = html`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
 
-      setSrcDoc(html`
-        <!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0"
-            />
-            <script defer="true">
-              ${buildScriptFromCmds(cmds)}
-            </script>
-            ${getHead({
-              data: {
-                scripts: editor.Canvas.config.scripts,
-                styles: editor.Canvas.config.styles,
-              },
-            })}
-            <title>Preview:</title>
-          </head>
-          <script defer="true">
-              ${buildScriptFromCmds(cmds)}
-            </script>
-          ${editor.getHtml()}
-        </html>
-      `);
-    previewIframe.current.contentDocument.location.reload();
+          ${getHead({
+            data: {
+              scripts: editor.Canvas.config.scripts,
+              styles: editor.Canvas.config.styles,
+            },
+          })}
+          <title>Preview:</title>
+        </head>
 
+        ${editor.getHtml()}
+      </html>
+    `;
+    previewIframe.current.contentDocument.open();
+    previewIframe.current.contentDocument.write(content);
+    previewIframe.current.contentDocument.close();
+
+    // setSrcDoc(content);
+    // previewIframe.current.contentDocument.location.reload();
   }, [showPreview]);
 
   return (
@@ -219,16 +250,40 @@ export const Iframe = () => {
         ></iframe>
       )} */}
 
-
-      <iframe
-        ref={previewIframe}
-        id="preview"
+      <section
+        className="w-full h-full rounded-xl overflow-hidden p-1"
         style={{ display: showPreview ? "block" : "none" }}
-        className={`bg-white w-full h-full ${
-          showPreview && "border-[5px] border-blue-600 "
-        } transition-all`}
-        srcDoc={srcDoc}
-      ></iframe>
+      >
+        <header className="w-full h-[60px] flex items-center justify-between p-2 rounded-tl-lg rounded-tr-lg  bg-black">
+          <ul className="flex items-center gap-3">
+            <li className="w-[15px] h-[15px] bg-red-600 rounded-full"></li>
+            <li className="w-[15px] h-[15px] bg-green-600 rounded-full"></li>
+            <li className="w-[15px] h-[15px] bg-yellow-600 rounded-full"></li>
+          </ul>
+
+          <h1 className="text-slate-200 text-md p-2 bg-gray-800 rounded-lg font-semibold">
+            {(editor && editor.Pages.getSelected().getName()) ||
+              "No Named Page..."}
+          </h1>
+
+          <button
+            onClick={(ev) => {
+              addClickClass( ev.currentTarget , "click");
+              reloadPreview();
+            }}
+          >
+            {Icons.refresh({ width: 20, height: 20 })}
+          </button>
+        </header>
+        <main className="h-full">
+          <iframe
+            ref={previewIframe}
+            id="preview"
+            className={`bg-white w-full h-full  transition-all`}
+            // srcDoc={srcDoc}
+          ></iframe>
+        </main>
+      </section>
     </section>
   );
 };

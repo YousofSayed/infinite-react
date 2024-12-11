@@ -36,7 +36,7 @@ export const ChoicesForStates = ({
       />
 
       <SmallButton
-        className="flex-shrink-0 bg-gray-900"
+        className="flex-shrink-0 bg-gray-800"
         onClick={(ev) => {
           onSelect(ev, keywordsIndex);
         }}
@@ -47,7 +47,7 @@ export const ChoicesForStates = ({
       <SmallButton
         className={`${
           keywordsIndex == 0 && "pointer-events-none cursor-not-allowed"
-        } flex-shrink-0 bg-gray-900`}
+        } flex-shrink-0 bg-gray-800`}
         onClick={(ev) => {
           onDelete(ev, keywordsIndex);
         }}

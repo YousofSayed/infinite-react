@@ -775,39 +775,92 @@ export const operators = [
   "is empty",
 ];
 
-export const httpMethods = ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS", "CONNECT", "TRACE"];
+export const httpSetterMethods = [
+  "POST",
+  "PUT",
+  "DELETE",
+  "PATCH",
+  "OPTIONS",
+  "CONNECT",
+  "TRACE",
+];
+export const httpGetterMethods = ["GET", "HEAD"];
 
 export const defaultAttributeNames = [
   // Global attributes
-  "id", "class", "style", "title", "lang", "dir", "tabindex", "role",
-  "hidden", "data-*", "draggable", "contenteditable", "spellcheck",
-  
+  "id",
+  "class",
+  "style",
+  "title",
+  "lang",
+  "dir",
+  "tabindex",
+  "role",
+  "hidden",
+  "data-*",
+  "draggable",
+  "contenteditable",
+  "spellcheck",
+
   // // Event attributes
   // "onclick", "onchange", "onmouseover", "onmouseout", "onkeydown",
   // "onkeyup", "onfocus", "onblur", "onsubmit", "onload",
-  
-  // Link-related
-  "href", "target", "rel", "type", "download",
-  
-  // Form-related
-  "action", "method", "name", "value", "placeholder", "maxlength",
-  "min", "max", "step", "autocomplete", "checked", "disabled",
-  "readonly", "required", "multiple", "pattern", "size",
-  
-  // Image-related
-  "src", "alt", "width", "height", "loading",
-  
-  // Media-related
-  "controls", "autoplay", "loop", "muted", "poster", "preload",
-  
-  // Table-related
-  "colspan", "rowspan", "scope",
-  
-  // Miscellaneous
-  "async", "defer", "charset", "content", "http-equiv",
-  "integrity", "crossorigin"
-];
 
+  // Link-related
+  "href",
+  "target",
+  "rel",
+  "type",
+  "download",
+
+  // Form-related
+  "action",
+  "method",
+  "name",
+  "value",
+  "placeholder",
+  "maxlength",
+  "min",
+  "max",
+  "step",
+  "autocomplete",
+  "checked",
+  "disabled",
+  "readonly",
+  "required",
+  "multiple",
+  "pattern",
+  "size",
+
+  // Image-related
+  "src",
+  "alt",
+  "width",
+  "height",
+  "loading",
+
+  // Media-related
+  "controls",
+  "autoplay",
+  "loop",
+  "muted",
+  "poster",
+  "preload",
+
+  // Table-related
+  "colspan",
+  "rowspan",
+  "scope",
+
+  // Miscellaneous
+  "async",
+  "defer",
+  "charset",
+  "content",
+  "http-equiv",
+  "integrity",
+  "crossorigin",
+];
 
 export const conversions = [
   "Array",

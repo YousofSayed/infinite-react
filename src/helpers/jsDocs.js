@@ -45,3 +45,13 @@ export let traitsType = []
  * @type {import('./types').CMD[]}
  */
 export let cmdType = []
+
+/**
+ * @type {{name : string , value : any}[]}
+ */
+export let varType = [];
+
+/**
+ * @type {import('grapesjs').Page[]}
+ */
+export let pagesType = []

@@ -13,23 +13,32 @@ export const SelectClass = () => {
   const selectedEl = useRecoilValue(currentElState);
   const selector = useRecoilValue(selectorState);
   const [val, setVal] = useState("");
-  const [classesKeywrods, setClassesKeywords] = useState(
-    editor.getSelected().getClasses()
-  );
+  const [classesKeywrods, setClassesKeywords] = useState([]);
   const [selectedClassName, setSelectedClassName] = useState({
     className: "bg-gray-900",
     index: null,
   });
 
   useEffect(() => {
+    if (!selectedEl || !selectedEl.currentEl) {
+      setClassesKeywords(getELClasses());
+      setSelector("");
+      return;
+    }
     setClassesKeywords(getELClasses());
     setSelector("");
   }, [selectedEl]);
+
+  useEffect(() => {
+    if (!editor) return;
+    setClassesKeywords(getELClasses());
+  }, [editor]);
 
   const addClass = (classNameKeyword) => {
     const newArr = [...classesKeywrods, classNameKeyword];
     setClassesKeywords(Array.from(new Set(newArr)));
     editor.getSelected().addClass(newArr);
+    setVal(new String(""));
   };
 
   const removeClass = (classNameKeyword = "") => {
@@ -41,7 +50,7 @@ export const SelectClass = () => {
     return (
       editor
         .getSelected()
-        .getClasses()
+        ?.getClasses()
         ?.filter((calss) => !calss.startsWith("gjs")) || []
     );
   };
@@ -50,7 +59,7 @@ export const SelectClass = () => {
     <section className="mt-3 flex flex-col gap-3">
       <section className="flex gap-3">
         <Select
-          val={val}
+          value={val}
           onInput={(value) => {
             setVal(value);
           }}
@@ -61,12 +70,7 @@ export const SelectClass = () => {
             setVal(value);
           }}
           placeholder="Calss name"
-          keywords={
-            editor
-              .getCss()
-              ?.match(/\.\w+/gi)
-              ?.map((st) => st.replace(".", "")) || ["No classes found..!"]
-          }
+          keywords={classesKeywrods}
           onMenuOpen={({ menu, setKeywords, keywords }) => {
             setKeywords(
               editor.getCss().match(/\.\w+/gi) || ["No classes found..!"]
@@ -75,7 +79,7 @@ export const SelectClass = () => {
         />
 
         <SmallButton
-          className="flex-shrink-0 bg-gray-900"
+          className="flex-shrink-0 bg-gray-800"
           onClick={(ev) => {
             addClass(val);
           }}

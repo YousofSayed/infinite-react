@@ -391,6 +391,25 @@ export function createBlobFileAs(data, mimeType) {
 }
 
 /**
+ * 
+ * @param {any[]} oldArray 
+ * @param {any[]} newArray 
+ * @returns 
+ */
+export function getDifferences(oldArray, newArray) {
+  const differences = [];
+
+  // Loop through the new array
+  for (let i = 0; i < newArray.length; i++) {
+    if (newArray[i] !== oldArray[i]) {
+      differences.push(newArray[i]);
+    }
+  }
+
+  return differences;
+}
+
+/**
  * Transform value of text inputs to just numbers
  * @param {HTMLInputElement} inputElement
  */

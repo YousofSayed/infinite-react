@@ -159,7 +159,7 @@ const GradientHandler = ({ values, setValues, index, type , deleteAllContainer=(
       />
       <section className="flex  gap-2 w-full">
         <Input
-          className="bg-gray-900 w-full"
+          className="bg-gray-800 w-full"
           placeholder="Direction"
           value={values[index].direction}
           onInput={(ev) => {
@@ -168,7 +168,7 @@ const GradientHandler = ({ values, setValues, index, type , deleteAllContainer=(
         />
 
         <SmallButton
-          className="bg-gray-900"
+          className="bg-gray-800"
           onClick={(ev) => {
             deleteAllContainer(index);
           }}
@@ -177,7 +177,7 @@ const GradientHandler = ({ values, setValues, index, type , deleteAllContainer=(
         </SmallButton>
 
         <SmallButton
-          className="bg-gray-900"
+          className="bg-gray-800"
           onClick={(ev) => {
             addColorContainer();
           }}
@@ -191,6 +191,8 @@ const GradientHandler = ({ values, setValues, index, type , deleteAllContainer=(
           <Adder
             key={i}
             className=" p-1 bg-gray-900"
+            addClassName="bg-gray-800"
+            delClassName="bg-gray-800"
             onAddClick={(ev) => {
               addColorContainer();
             }}
@@ -198,7 +200,7 @@ const GradientHandler = ({ values, setValues, index, type , deleteAllContainer=(
               deleteColor(i);
             }}
           >
-            <section className="flex items-center  gap-2">
+            <section className="flex items-center  gap-2 bg-gray-800 p-1 rounded-lg">
               <ColorPicker
                 color={values[index].colors[i].color}
                 setColor={(color) => {
@@ -322,6 +324,8 @@ export const Gradient = () => {
             return (
               <Adder
                 key={i}
+                addClassName="bg-gray-900"
+                delClassName="bg-gray-900"
                 className="p-[unset]"
                 onAddClick={(ev) => {
                   addGradientContainer(true, i);

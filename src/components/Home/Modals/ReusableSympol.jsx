@@ -48,35 +48,35 @@ export const ReusableSympol = () => {
       // const instance = editor.DomComponents.addSymbol(mainOrInstance.clone({symbol:true}));
       // // instance.id = uniqueID();
       // instance.cid = uniqueID()
-      return instance;
+      // return instance;
       // return mainOrInstance.clone({symbol:true , symbolInv:true});
 
       // return editor.Components.getSymbolInfo(mainOrInstance).relatives[editor.Components.getSymbolInfo(mainOrInstance).relatives.length-1]
       // /**
       //  * @type {import('grapesjs').Component}
       //  */
-      // const mySymbol = editor.mySymbol;
+      const mySymbol = editor.mySymbol;
 
-      // if (mySymbol && editor.DomComponents.getSymbolInfo(mySymbol).isSymbol) {
-      //   editor.runCommand("close:current:modal");
-      //   editor.runCommand("open:error:modal", {
-      //     title: <P>Error: can not create the symbol</P>,
-      //     content: (
-      //       <>
-      //         <P>One of the parent is in the symbol.</P>
-      //         <P>Please remove the parent from the symbol and try again.</P>
-      //       </>
-      //     ),
-      //   });
+      if (mySymbol && editor.DomComponents.getSymbolInfo(mySymbol).isSymbol) {
+        editor.runCommand("close:current:modal");
+        editor.runCommand("open:error:modal", {
+          errMsg:`Error: can not create the symbol`,
+          content: (
+            <>
+              <p className="text-slate-200 font-semibold ">One of the parent is in the symbol.</p>
+              <p className="text-slate-200 font-semibold ">Please remove the parent from the symbol and try again.</p>
+            </>
+          ),
+        });
       //   console.log('done if');
 
-      //   return null;
-      // } else {
-      //   console.log('done else');
+        return null;
+      } else {
+        console.log('done else');
 
-      //   editor.runCommand("close:current:modal");
-      //   return instance;
-      // }
+        editor.runCommand("close:current:modal");
+        return instance;
+      }
     }
 
     editor.Blocks.add(uniqueID(), {

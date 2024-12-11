@@ -14,6 +14,7 @@ import {
   ruleState,
   selectorState,
 } from "../../../helpers/atoms";
+import { extractRulesById } from "../../../helpers/functions";
 
 // console.log({0:[],1:[]});
 
@@ -23,7 +24,6 @@ export const SelectState = ({ placeholder }) => {
   const rule = useRecoilValue(ruleState);
   const selector = useRecoilValue(selectorState);
   const selectedEl = useRecoilValue(currentElState);
-  const [val, setVal] = useState("");
   const [states, setStates] = useState(stateType);
   const [state, setState] = useState("");
   const [currentStateIndex, setCurrentStateIndex] = useState(
@@ -41,24 +41,21 @@ export const SelectState = ({ placeholder }) => {
     const rules = { 0: [] };
     const rgx = /\:(\:)?\w+/gi;
     const currentSelector = selector ? selector : `#${selectedEl.currentEl.id}`;
-    const myRrules = editor.Css.getRules(currentSelector).filter((rule) =>
-      rule
-        .toCSS()
+    const selectorRules = extractRulesById(editor.getCss(), currentSelector);
+    const myRrules = selectorRules.filter((rule) => {
+      return rule
         .split(/\{.+\}/gi)
         .join("")
-        .match(rgx)
-    );
+        .match(rgx);
+    });
 
     myRrules.forEach((rule, i) => {
       const ruleArr = rule
-        .toCSS()
         .split(/\{.+\}/gi)
         .join("")
         .match(rgx);
       rules[i] = ruleArr || [];
     });
-
-    console.log(myRrules, currentStateIndex);
 
     setStates({ ...rules });
   }
@@ -74,18 +71,20 @@ export const SelectState = ({ placeholder }) => {
   }
 
   function addState(state = "") {
-    const newArr = Array.from(states[currentStateIndex]);
+    const newArr = structuredClone(states[currentStateIndex]);
     const newObj = {
       ...states,
-      [currentStateIndex]: newArr.concat(state),
+      [currentStateIndex]: [...new Set([...newArr.concat(state)])],
     };
     // editor.getSelected().getstates().set()
     setStates({ ...newObj });
+    console.log(newObj[currentStateIndex].join(""));
 
     setRule({
       is: true,
       ruleString: `${newObj[currentStateIndex].join("")}`,
     });
+    setState(new String(''));
   }
 
   function removeState(keyword, keywordsIndex) {
@@ -93,7 +92,9 @@ export const SelectState = ({ placeholder }) => {
     const ruleString = `${currentSelector}${states[keywordsIndex].join("")}`;
 
     const rule = editor.Css.getRule(ruleString);
+    console.log("rule : ", rule);
     const oldRuleStyle = rule.toJSON().style;
+
     console.log(rule, "s rule", rule.toJSON().style);
 
     editor.Css.remove(rule);
@@ -149,23 +150,25 @@ export const SelectState = ({ placeholder }) => {
           respectParenthesis={true}
           keywords={statesKeys}
           singleValInInput={false}
-          val={val}
-          setVal={setVal}
+          value={state}
+          // setVal={setVal}
           onInput={(value) => {
             setState(value);
           }}
           onEnterPress={(keyword) => {
-            setState(keyword);
+            // setState(keyword);
+            addState(keyword);
           }}
           onItemClicked={(keyword, i) => {
-            console.log(keyword, " clicked");
+            // console.log(keyword, " clicked");
 
-            setState(keyword);
+            // setState(keyword);
+            addState(keyword)
           }}
         />
 
         <SmallButton
-          className="flex-shrink-0 bg-gray-900"
+          className="flex-shrink-0 bg-gray-800"
           onClick={(ev) => {
             addState(state);
           }}
@@ -175,7 +178,7 @@ export const SelectState = ({ placeholder }) => {
         </SmallButton>
 
         <SmallButton
-          className=" flex-shrink-0 bg-gray-900"
+          className=" flex-shrink-0 bg-gray-800"
           onClick={(ev) => {
             addNewStateContainer();
           }}

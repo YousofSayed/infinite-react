@@ -12,7 +12,7 @@ export const CustomModals = () => {
   const setModalData = useSetRecoilState(modalDataState);
   const [isClose, setClose] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { 
     /**
      *
      * @param {CustomEvent} ev

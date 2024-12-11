@@ -27,13 +27,18 @@ export interface CMD {
   ex: string;
   name: string;
   id: string;
+  options:{
+    [key : string] : string,
+  },
+  optionsRequired : boolean,
+  optionValue:string,
   params: {
     name: string;
     type: "text" | "select" | "object" | "array" | "number" | "code";
     value: string | object | string[];
     keywords?: string[];
     lang: "html" | "javascript" | "css";
-    handler:(params : any)=>{},
+    handler:boolean,
     accessVars:boolean,
     required: boolean;
   }[];

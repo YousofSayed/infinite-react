@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 * {
   margin: 0;
   padding: 0;
@@ -17,150 +13,20 @@
   flex-grow: 1;
 }
 
+.col {
+  min-height: 75px;
+  flex-grow: 1;
+}
+
+.dt{
+  display: inline-block;
+  padding: 10px;
+}
+
 .container {
-  /* width: 95%;
-  padding: 0 15px; */
-  /* background-image:  ; */
   margin: auto;
 }
 
 .p-10{
   padding: 10px;
 }
-
-#editorjs{
-  min-height: 100%;
-  width: 100%;
-}
-
-/* .edite-container {
-  border: 1.5px solid #000;
-} */
-
-[editable] {
-  /* border: 3px solid #000; */
-  cursor: grab;
-  /* transition: 0.3s ease; */
-  user-select: none;
-  position: relative;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  /* padding: 25px ; */
-  /* font-family: ; */
-  /* font-weight: ; */
-  /* filter: blur(   1px)   brightness(98%  ); */
-}
-
-[editable]:hover:not(:has([editable]:hover)),
-[editable] [editable]:hover:not(:has([editable]:hover)) {
-  outline: 3px dashed #2563eb;
-}
-
-.wrapper{
-  border: 2.5px dashed #2563eb;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: none;
-  padding: 5px;
-  /* background-color: red; */
-}
-
- [editable].showControllers {
-  /* position: relative; */
-  outline: 3px dashed #2563eb !important;
-
-}
-/*
-[editable].showControllers::before{
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  border: 3px solid #2563eb !important;
-
-} */
-
-[editable].drag{
-  /* background-color: #2564eb8a; */
-  cursor: grabbing !important;
-}
-
-
-[editable] .seperator {
-  width: 100%;
-  height: 30%;
-  transition: 0.3s;
-  position: absolute;
-  left: 0;
-  /* z-index: -1; */
-}
-
-[editable] .seperator:hover {
-  user-select: none;
-  border: none;
-}
-
-[editable] .seperator.top {
-  top: 0;
-}
-
-[editable] .seperator.bottom {
-  bottom: 0;
-}
-
-[editable] .seperator.right {
-  height: 100%;
-  width: 15%;
-  left: calc(100% - 15%);
-  top: 0;
-}
-
-[editable] .seperator.left {
-  height: 100%;
-  width: 15%;
-  left: 0;
-  top: 0;
-}
-
-.opacity-1 {
-  opacity: 1 !important;
-}
-
-.ondragover {
-  background-color: rgba(101, 101, 255, 0.459);
-  z-index: 1;
-}
-
-.ondragstart {
-  cursor: grab;
-}
-
-.ondragover.prevent {
-  background-color: rgba(255, 0, 0, 0.445);
-  cursor: not-allowed;
-}
-
-/* 
-@media(width < 512px) {
-    body{
-        background-color: red;
-    }
-}
-
-@media(width < 767px) and (width > 512px){
-    body{ 
-        background-color: blue;
-    }
-}
-
-@media(width > 767px){
-    body{
-        background-color: gold;
-    }
-} */
-
-
-

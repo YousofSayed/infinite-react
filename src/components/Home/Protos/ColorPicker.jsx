@@ -13,6 +13,7 @@ export const ColorPicker = ({
   onEffect = (_1, _2) => {},
 }) => {
   const [showHexColor, setShowHexColor] = useState(false);
+  const [width, setWidth] = useState(0);
   /**
    * @type {{current:HTMLElement}}
    */
@@ -30,13 +31,9 @@ export const ColorPicker = ({
         block: "center",
       });
     }
+
   }, [showHexColor]);
 
-  // useEffect(()=>{
-  //   if(!hexColorRef.current)return;
-  //   console.log(hexColorRef.current , 's');
-  //   hexColorRef.current.focus();
-  // })
 
   useEffect(() => {
     const hideColorPicker = () => {
@@ -53,14 +50,29 @@ export const ColorPicker = ({
     onEffect(color, setColor);
   }, [color]);
 
+  useEffect(() => {
+    if (!colorPickerContainerRef || !colorPickerContainerRef.current) return;
+    const resizableObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        setWidth(entry.target.offsetWidth - 10);
+      });
+    });
+    resizableObserver.observe(colorPickerContainerRef.current.parentNode);
+
+    setWidth(colorPickerContainerRef.current.parentNode.offsetWidth - 10);
+
+    return ()=>{
+      resizableObserver.disconnect()
+    }
+  }, []);
+
   return (
     <section ref={colorPickerContainerRef} className="relative">
       <button
         className={`w-[30px] h-[30px] shadow-md shadow-gray-950 rounded-lg border-[2.3px] border-slate-600  bg-gray-900 cursor-pointer`}
         onClick={(ev) => {
-
           ev.stopPropagation();
-          colorPickerContainerRef.current.click()
+          colorPickerContainerRef.current.click();
           setTransition(() => {
             setShowHexColor(!showHexColor);
           });
@@ -69,9 +81,11 @@ export const ColorPicker = ({
       ></button>
       {showHexColor && (
         <section
-          className="absolute left-[0] z-[1]  top-[calc(100%+5px)] w-full"
+          style={{
+            width: `${width}px`,
+          }}
+          className={`absolute left-[0] z-[1]  top-[calc(100%+5px)] `}
           ref={hexColorRef}
-        
         >
           <HexAlphaColorPicker
             id="color_picker"

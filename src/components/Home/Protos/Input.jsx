@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 /**
  *
- * @param {{type : string , value:string , autoFocus:boolean, className:string , placeholder:string , onInput:(ev:InputEvent)=>void , onChange::(ev:InputEvent)=>void}} param0
+ * @param {{type : string , value:string , autoFocus:boolean, className:string , placeholder:string , onInput:(ev:InputEvent)=>void , onChange:(ev:InputEvent)=>void , onKeyUp: (ev:KeyboardEvent)=>void  , onKeyDown:(ev:KeyboardEvent)=>void} } param0
  * @returns
  */
 export const Input = ({
@@ -13,6 +13,8 @@ export const Input = ({
   value = "",
   onInput = (_) => {},
   onChange = (_) => {},
+  onKeyUp = (ev) => {},
+  onKeyDown = (ev) => {},
 }) => {
   const [val, setVal] = useState(value);
 
@@ -36,6 +38,8 @@ export const Input = ({
         setVal(ev.target.value);
         onChange(ev);
       }}
+      onKeyUp={onKeyUp}
+      onKeyDown={onKeyDown}
     />
   );
 };

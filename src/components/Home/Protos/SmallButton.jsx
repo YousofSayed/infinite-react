@@ -3,14 +3,15 @@ import { addClickClass } from "../../../helpers/cocktail";
 
 /**
  * 
- * @param {{onClick : (ev : MouseEvent)=>void , className:string , title:string, children : children}} param0 
+ * @param {{onClick : (ev : MouseEvent)=>void , onBlur:(ev:MouseEvent)=>{}, className:string , title:string, children : children}} param0 
  * @returns 
  */
-export const SmallButton = ({onClick = (_)=>{} , className='', children , title=''}) => {
+export const SmallButton = ({onClick = (_)=>{} , onBlur=(ev)=>{}, className='', children , title=''}) => {
   return (
     <button
     aria-label={title}
     title = {title}
+    onBlur={onBlur}
       onClick={(ev) => {
         addClickClass(ev.currentTarget, "click"); 
         onClick(ev);

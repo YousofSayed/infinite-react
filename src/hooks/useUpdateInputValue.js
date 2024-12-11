@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { currentElState, framesStylesState, ruleState, selectorState, showAnimationsBuilderState } from "../helpers/atoms";
+import {
+  currentElState,
+  framesStylesState,
+  ruleState,
+  selectorState,
+  showAnimationsBuilderState,
+} from "../helpers/atoms";
 import { useEditorMaybe } from "@grapesjs/react";
+import { getCurrentMediaDevice } from "../helpers/functions";
 
 /**
  *
@@ -24,37 +31,41 @@ export const useUpdateInputValue = ({
     if (currentElObj.currentEl && !showAnimationsBuilder) {
       const slEL = editor.getSelected();
       const slElStyles = slEL.getStyle();
+      const Media = getCurrentMediaDevice(editor);
       const getRuleStyle = () => {
         const currentSelector = selector
           ? selector
           : `#${currentElObj.currentEl.id}`;
         const outPut = editor.Css.getRule(
-          `${currentSelector}${rule.ruleString}`
+          `${currentSelector}${rule.ruleString}`,
+          {...Media}
         )?.toJSON()?.style;
         return outPut || {};
       };
 
       if (selector || rule.is) {
-        const value = returnPropsAsIt ? getRuleStyle() : getRuleStyle()[cssProp] || ""
+        const value = returnPropsAsIt
+          ? getRuleStyle()
+          : getRuleStyle()[cssProp] || "";
         setVal(value);
-        onEffect(cssProp ,value);
+        onEffect(cssProp, value);
       } else if (Object.keys(slElStyles).length) {
-        console.log('foo');
-        
-        const value = returnPropsAsIt ? slElStyles : slElStyles[cssProp] || ""
+        const value = returnPropsAsIt ? slElStyles : slElStyles[cssProp] || "";
 
         setVal(value);
-        onEffect(cssProp , value);
+        onEffect(cssProp, value);
       } else {
         setVal("");
         onEffect(cssProp, "");
       }
     }
 
-    if(showAnimationsBuilder){    
-      const value = returnPropsAsIt ?    framesStyles : framesStyles[cssProp] || ''
+    if (showAnimationsBuilder) {
+      const value = returnPropsAsIt
+        ? framesStyles
+        : framesStyles[cssProp] || "";
       setVal(value);
-      onEffect(cssProp , value)
+      onEffect(cssProp, value);
     }
-  }, [currentElObj, rule, selector , showAnimationsBuilder , framesStyles]);
+  }, [currentElObj, rule, selector, showAnimationsBuilder, framesStyles]);
 };

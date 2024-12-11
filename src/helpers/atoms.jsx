@@ -1,6 +1,6 @@
 import React from "react";
 import { atom } from "recoil";
-import { animeStylesType, cmdType } from "./jsDocs";
+import { animeStylesType, cmdType, varType } from "./jsDocs";
 
 export const widths = atom({
   key: "widths",
@@ -155,26 +155,31 @@ export const showCustomModalState = atom({
 });
 
 export const previewContentState = atom({
-  key:'previewContentState',
-  default:{
-    scripts:{},
-    styles:{},
-    html:'',
-    css:''
-  }
-})
+  key: "previewContentState",
+  default: {
+    scripts: {},
+    styles: {},
+    html: "",
+    css: "",
+  },
+});
 
 export const showPreviewState = atom({
-  key:'showPreviewState',
-  default:false
-})
+  key: "showPreviewState",
+  default: false,
+});
 
 export const removeAllActivesState = atom({
-  key:'removeAllActives',
-  default:false
-})
+  key: "removeAllActives",
+  default: false,
+});
 
 export const cmdsBuildState = atom({
-  key:`cmdsBuildState`,
-  default:cmdType
-})
+  key: `cmdsBuildState`,
+  default: cmdType,
+});
+
+export const  varsState = atom({
+  key:`globalVarsState`,
+  default:varType
+});

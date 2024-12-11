@@ -8,6 +8,7 @@ import {
 
 import { useEditor, useEditorMaybe } from "@grapesjs/react";
 import { useRemoveCssProp } from "./useRemoveCssProp";
+import { getCurrentMediaDevice } from "../helpers/functions";
 
 /**
  *
@@ -60,8 +61,8 @@ export function useSetClassForCurrentEl() {
       });
     } else {
       if (showAnimationsBuilder) {
-        console.log('color' ,CSS.supports(cssProp, value));
-        
+        console.log("color", CSS.supports(cssProp, value));
+
         setAnimeStyles({
           [cssProp]: CSS.supports(cssProp, value) ? value : "",
         });
@@ -70,7 +71,7 @@ export function useSetClassForCurrentEl() {
       }
 
       newCssProps =
-        CSS.supports(cssProp, value) || !value
+        CSS.supports(cssProp, value) || value
           ? { ...newCssProps, [cssProp]: value }
           : { ...newCssProps } && removeProp({ cssProp });
     }
@@ -80,33 +81,54 @@ export function useSetClassForCurrentEl() {
       rule.ruleString.includes("before") ||
       rule.ruleString.includes("after")
     ) {
-      newCssProps["content"] = " '' ";
+      console.log('contento : '  , newCssProps);
+      
+      newCssProps.content = " '' ";
     }
-    const desktopDevices = ['desktop' , 'DESKTOP' , 'Desktop'];
-    console.log(desktopDevices.findIndex(value => value == editor.getDevice()));
-    
-    const Media =
-      desktopDevices.findIndex(value => value == editor.getDevice()) == -1
-        ? {
-            atRuleType: "media",
-            atRuleParams: `(max-width: ${editor.Devices.get(
-              editor.getDevice()
-            ).getWidthMedia()})`,
-          }
-        : {};
+    // const desktopDevices = ["desktop", "DESKTOP", "Desktop"];
+    // console.log(
+    //   desktopDevices.findIndex((value) => value == editor.getDevice())
+    // );
 
+    // const Media =
+    //   desktopDevices.findIndex((value) => value == editor.getDevice()) == -1
+    //     ? {
+    //         atRuleType: "media",
+    //         atRuleParams: `(max-width: ${editor.Devices.get(
+    //           editor.getDevice()
+    //         ).getWidthMedia()})`,
+    //       }
+    //     : {};
+    const Media = getCurrentMediaDevice(editor);
     const currentSelector = selector
       ? selector
       : `#${editor.getSelected().getEl().id}`;
 
-    editor.Css.setRule(`${currentSelector}${rule.ruleString}`, newCssProps, {
-      addStyles: true,
-      ...Media
-    });
+    const symbolInfo = editor.Components.getSymbolInfo(editor.getSelected());
+    if (!selector && symbolInfo.isSymbol) {
+      const instances = symbolInfo.instances
+        .filter((instance) => instance.getEl())
+        .map((instance) => instance.getEl());
+      instances.forEach((instance) => {
+        editor.Css.setRule(`#${instance.id}${rule.ruleString}`, newCssProps, {
+          addStyles: true,
+          ...Media,
+        });
+      });
+    } else {
+      editor.Css.setRule(`${currentSelector}${rule.ruleString}`, newCssProps, {
+        addStyles: true,
+        ...Media,
+      });
+    }
 
+    // editor.Css.setRule(`${currentSelector}${rule.ruleString}`, newCssProps, {
+    //   addStyles: true,
+    //   ...Media,
+    // });
 
     console.log(rule.ruleString, "%$%%$#$", editor.getCss());
-    console.log(editor.getDevice());
-    console.log(editor.Devices.get("tablet").getWidthMedia());
+    console.log('Editor Css:',editor.getDevice());
+    // console.log(editor.Devices.get("tablet").getWidthMedia());
   };
 }

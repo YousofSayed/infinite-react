@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Icons } from "../Icons/Icons";
 import { Li } from "../Protos/Li";
 import { IframeControllers } from "./Protos/IframeControllers";
@@ -13,10 +13,13 @@ import {
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   cmdsBuildState,
+  currentElState,
   previewContentState,
   showPreviewState,
 } from "../../helpers/atoms";
 import { buildScriptFromCmds } from "../../helpers/functions";
+import { Select } from "./Protos/Select";
+import { PagesSelector } from "./PagesSelector";
 
 export const HomeHeader = () => {
   const editor = useEditorMaybe();
@@ -26,11 +29,13 @@ export const HomeHeader = () => {
   const showPreview = useRecoilValue(showPreviewState);
   const setShowPreview = useSetRecoilState(showPreviewState);
   const setPreviewContent = useSetRecoilState(previewContentState);
+  const setCurrentEl = useSetRecoilState(currentElState);
   const cmds = useRecoilValue(cmdsBuildState);
   const [dimansions, setDimaonsion] = useState({
     width: "",
     height: "",
   });
+  // const [pages, setPages] = useState([]);
 
   const setCustomDevice = (prop, value) => {
     prop == "width" && (widthRef.current = value);
@@ -50,13 +55,19 @@ export const HomeHeader = () => {
     editor.DeviceManager.select(customDevice.current);
   };
 
+  // useEffect(() => {
+  //   if (!editor) return;
+  //   setPages(editor.Pages.getAll().map(page=>page.id));
+  // }, [editor]);
+
   return (
-    <header className="w-full h-[60px] bg-slate-900 border-b-[1.5px] border-slate-400  px-3  flex items-center justify-between">
+    <header className="w-full h-[70px] bg-slate-900 border-b-[1.5px] border-slate-400  px-3  flex items-center justify-between gap-5">
       <ul className="flex gap-[25px] items-center">
         <Li
           title="desktop size"
           onClick={(ev) => {
             editor.setDevice("Desktop");
+            setCurrentEl({ currentEl: editor?.getSelected()?.getEl() });
           }}
           icon={Icons.laptop}
         />
@@ -64,6 +75,7 @@ export const HomeHeader = () => {
           title="tablet size"
           onClick={(ev) => {
             editor.setDevice("tablet");
+            setCurrentEl({ currentEl: editor?.getSelected()?.getEl() });
           }}
           icon={Icons.taplet}
         />
@@ -72,6 +84,7 @@ export const HomeHeader = () => {
           title="mobile size"
           onClick={(ev) => {
             editor.setDevice("mobile");
+            setCurrentEl({ currentEl: editor?.getSelected()?.getEl() });
           }}
           icon={Icons.mopile}
         />
@@ -85,6 +98,7 @@ export const HomeHeader = () => {
               transformToNumInput(ev.target);
               setCustomDevice("width", ev.target.value);
               setDimaonsion({ ...dimansions, width: ev.target.value });
+              setCurrentEl({ currentEl: editor.getSelected().getEl() });
             }}
           />
 
@@ -96,10 +110,20 @@ export const HomeHeader = () => {
               transformToNumInput(ev.target);
               setCustomDevice("height", ev.target.value);
               setDimaonsion({ ...dimansions, height: ev.target.value });
+              setCurrentEl({ currentEl: editor.getSelected().getEl() });
             }}
           />
         </li>
       </ul>
+
+      {/* <Select
+        className="p-[unset] bg-gray-800 max-w-[30%] h-[calc(100%-15px)] "
+        containerClassName="bg-gray-800"
+        preventInput={true}
+        keywords={pages}
+      /> */}
+
+      <PagesSelector/>
 
       <div className="flex items-center gap-[10px]">
         <IframeControllers />

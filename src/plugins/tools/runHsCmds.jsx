@@ -21,7 +21,6 @@ export const runHsCmdsTool = (editor) => {
       const sle = editor.getSelected();
       const sleId = sle.getEl().id;
       let willSelected;
-
       cmps.forEach((cmp) => {
         const sympolInfo = editor.Components.getSymbolInfo(cmp);
         const cmpId = cmp.getEl().id;
@@ -65,6 +64,8 @@ export const runHsCmdsTool = (editor) => {
           cmp.clone({ symbol: sympolInfo.isSymbol })
         )[0];
         const cmds = newCmp.getAttributes()["inf-cmds"];
+        console.log(JSON.parse(cmds));
+        
         const hsScript = buildScriptFromCmds(JSON.parse(cmds));
         newCmp.addAttributes({ _: hsScript });
         hsProcessNode(newCmp.getEl());
@@ -73,7 +74,7 @@ export const runHsCmdsTool = (editor) => {
         willSelected = sleId == cmpId ? newCmp : willSelected;
       });
 
-      editor.select(willSelected);
+      willSelected &&  editor.select(willSelected);
     },
   });
 };

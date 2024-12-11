@@ -362,7 +362,7 @@ export function addItemInToolBarForEditor({
   const selectedEl = editor.getSelected();
   const toolbar = selectedEl.get("toolbar");
   const isExist = toolbar.find((item) => item.command == commandName);
-  if (selectedEl.tagName == "body") return;
+  if (selectedEl.tagName == "body" /*|| selectedEl.getName()=='Dynamic text' */) return;
   console.log(selectedEl.tagName);
 
   !editor.Commands.has(commandName) &&
@@ -397,14 +397,83 @@ export const createModal = ({ editor, titleJsx, contentJsx }) => {
   createRoot(document.querySelector(`#${contentId}`)).render(contentJsx);
 };
 
+/**
+ *
+ * @param {string} str
+ * @returns {object | null}
+ */
 export function evalObject(str) {
   try {
     const obj = eval("(" + str + ")");
     return obj;
   } catch (error) {
-    return undefined;
-    // console.error("Error evaluating the string to object:", error);
+    console.warn("Error evaluating the string to object:", error);
+    return null;
   }
+}
+
+export function objectToString(obj) {
+  const stringify = (value) => {
+    if (value === null) return "null";
+    if (value === undefined) return "undefined";
+    if (typeof value === "string") return `"${value}"`; // Wrap strings in quotes
+    if (typeof value === "number" || typeof value === "boolean")
+      return String(value); // Numbers and booleans
+    if (Array.isArray(value)) {
+      // Handle arrays
+      return `[${value.map(stringify).join(", ")}]`;
+    }
+    if (typeof value === "object") {
+      // Handle objects
+      const entries = Object.entries(value)
+        .map(([key, val]) => `${key}: ${stringify(val)}`)
+        .join(", ");
+      return `{ ${entries} }`;
+    }
+    if (typeof value === "function") {
+      // Handle functions (convert to their string representation)
+      return value.toString();
+    }
+    return `"${String(value)}"`; // Fallback for other types
+  };
+
+  return stringify(obj);
+}
+
+export function advancedSearchSuggestions(array, query) {
+  if (!query.replaceAll(" ", "")) return structuredClone(array);
+
+  const lowerQuery = query.toLowerCase();
+
+  // Score a single item based on query
+  function score(item) {
+    const lowerItem = item.toLowerCase();
+    let queryIndex = 0;
+    let score = 0;
+
+    for (let i = 0; i < lowerItem.length; i++) {
+      if (lowerItem[i] === lowerQuery[queryIndex]) {
+        score += 10; // Matching characters get higher scores.
+        if (i === 0 || lowerItem[i - 1] === "_") {
+          score += 5; // Bonus for matching after a separator (e.g., `_`).
+        }
+        queryIndex++;
+        if (queryIndex >= lowerQuery.length) break;
+      } else {
+        score -= 1; // Penalize mismatched characters slightly.
+      }
+    }
+
+    return queryIndex === lowerQuery.length ? score : -Infinity; // Exclude items if query is not fully matched.
+  }
+
+  const suggestions = array
+    .map((item) => ({ item, score: score(item) })) // Score each item.
+    .filter(({ score }) => score > -Infinity) // Keep only items that matched the query.
+    .sort((a, b) => b.score - a.score) // Sort by descending score.
+    .map(({ item }) => item); // Return only the items.
+  // !suggestions.length && suggestions.push('No Items Founded...')
+  return suggestions;
 }
 
 export function transformObjectToScope(object) {
@@ -426,6 +495,37 @@ export function evalBasedOnObjectScope(scope, codeAddedToScope) {
     return undefined;
   }
 }
+
+/**
+ * 
+ * @param {import('grapesjs').Editor} editor 
+ * @returns 
+ */
+export function getCurrentMediaDevice(editor) {
+  const desktopDevices = ["desktop", "DESKTOP", "Desktop"];
+  console.log(desktopDevices.findIndex((value) => value == editor.getDevice()));
+
+  const Media =
+    desktopDevices.findIndex((value) => value == editor.getDevice()) == -1
+      ? {
+          atRuleType: "media",
+          atRuleParams: `(max-width: ${editor.Devices.get(
+            editor.getDevice()
+          ).getWidthMedia()})`,
+        }
+      : {};
+
+  return Media;
+}
+
+export function extractRulesById(cssText, selector) {
+  // Regex specifically to find rules containing the ID selector
+  const idRegex = new RegExp(`(${selector}[^{}]*{[^{}]*})`, 'g');
+  const matches = cssText.match(idRegex) || [];
+  return matches.map(rule => rule.trim());
+}
+
+
 
 /**
  *
@@ -534,13 +634,15 @@ export function getAllStandardCSSProperties() {
   // Collect all properties
   const supportedProperties = [];
   for (let property in tempElement.style) {
-      // Include only non-prefixed properties
-      if (!property.startsWith("webkit") && 
-          !property.startsWith("moz") && 
-          !property.startsWith("ms") &&
-          !property.startsWith("o")) {
-          supportedProperties.push(property);
-      }
+    // Include only non-prefixed properties
+    if (
+      !property.startsWith("webkit") &&
+      !property.startsWith("moz") &&
+      !property.startsWith("ms") &&
+      !property.startsWith("o")
+    ) {
+      supportedProperties.push(property);
+    }
   }
 
   // Sort and return
@@ -549,45 +651,111 @@ export function getAllStandardCSSProperties() {
 
 export function getAllCssProperties() {
   // Create a dummy element to retrieve the styles
-  const element = document.createElement('div');
+  const element = document.createElement("div");
   document.body.appendChild(element); // Append it to the DOM to access computed styles
-  
+
   // Get the computed styles for the element
   const computedStyles = window.getComputedStyle(element);
-  
+
   // Create an array of all properties
   const cssProperties = [];
-  
+
   // Iterate over all the computed style properties
   for (let i = 0; i < computedStyles.length; i++) {
     const prop = computedStyles[i];
     // Convert from kebab-case to camelCase
-    const camelCaseProp = prop.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
+    const camelCaseProp = prop.replace(/-([a-z])/g, (match, letter) =>
+      letter.toUpperCase()
+    );
     cssProperties.push(camelCaseProp);
   }
-  
+
   // Clean up by removing the dummy element
   document.body.removeChild(element);
-  
+
   return cssProperties;
 }
 
 /**
- * 
- * @param {{[key:string]:import('./types').CMD}} cmds 
+ *
+ * @param {import('./types').CMD[]} cmds
  */
 export function buildScriptFromCmds(cmds) {
-  const clone = structuredClone(cmds)
+  const clone = structuredClone(cmds);
   console.log(clone);
-  
+
   let script = `init  `;
-  Object.keys(clone).forEach(key=>{
-    clone[key].params.forEach(param=>{
-      if(!clone[key].params.length)return;
-      clone[key].cmd =  clone[key].cmd.replaceAll( `{${param.name}}` ,param.value || ''  );
+
+  clone.forEach((key, i) => {
+    clone[i].params.forEach((param) => {
+      if (!clone[i].params.length) return;
+      clone[i].cmd = clone[i].cmd.replaceAll(
+        `{${param.name}}`,
+        param.value || ""
+      );
+    });
+    console.log(clone[i].optionValue);
+
+    clone[i].cmd = clone[i].cmd
+      .replace(`{option}`, clone[i].optionValue)
+      .replaceAll("[object Object]", "{}");
+
+    script += " " + clone[i].cmd + " ";
+  });
+
+  return script;
+}
+
+/**
+ *
+ * @param {import('./types').CMD[]} cmds
+ */
+export function parseCmds(cmds) {
+  const script = buildScriptFromCmds(cmds);
+  const vars = script
+    .match(/set(\s+)?\$\w+|/gi)
+    .filter((item) => item)
+    .map((item) => item.replace("set", ""));
+
+  const params = script
+    .match(/\w+\((\w+(,)?)+\)|/gi)
+    .filter((item) => item)
+    .map((item) =>
+      item
+        .split(/\w+(\s+)?\(|\)/gi)
+        .join("")
+        .split(",")
+    );
+
+  const objectskeys = (script || "")
+    .match(/to(\s+)?\{(?:[^{}]|{(?:[^{}]|{[^{}]*})*})*}|/g)
+    .filter((obj) => {
+      if (!obj) return;
+      const vObj = [];
+      const evaluatedObj = evalObject(obj) | {};
+      Object.keys(evaluatedObj).forEach((key) => vObj.push(key));
+      return vObj;
     });
 
-    script+= ' ' + clone[key].cmd + ' ';
+  return {
+    vars,
+    params,
+    objectskeys,
+  };
+}
+
+/**
+ * 
+ * @param {{[key:string]:string}[]} scripts 
+ */
+export function buildScriptsFromArray(scripts) {
+  let scriptsAsStr = ``;
+  scripts.forEach(script=>{
+    const scriptAsDom = document.createElement('script');  
+    for (const key in script) {
+      scriptAsDom.setAttribute(key , script[key]);
+    }
+    scriptsAsStr += scriptAsDom.outerHTML;
   });
-  return script;
+  return scriptsAsStr;
 }

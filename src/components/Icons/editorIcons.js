@@ -96,7 +96,7 @@ export const editorIcons = {
       </g>
     </svg>
   `,
-  
+
   addElement: html`
     <svg
       viewBox="0 0 1024 1024"
@@ -116,6 +116,126 @@ export const editorIcons = {
           fill="#ffffff"
         ></path>
       </g>
+    </svg>
+  `,
+
+  dynamicText: html`
+    <svg
+      width="20px"
+      height="20px"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#000000"
+    >
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          d="M10 8C14.4183 8 18 6.65685 18 5C18 3.34315 14.4183 2 10 2C5.58172 2 2 3.34315 2 5C2 6.65685 5.58172 8 10 8ZM16.9297 8.5C15.5465 9.3967 12.9611 10 10 10C7.03887 10 4.4535 9.3967 3.07026 8.5C2.38958 8.94126 2 9.45357 2 10C2 11.6569 5.58172 13 10 13C14.4183 13 18 11.6569 18 10C18 9.45357 17.6104 8.94126 16.9297 8.5ZM16.9297 13.5C15.5465 14.3967 12.9611 15 10 15C7.03887 15 4.4535 14.3967 3.07026 13.5C2.38958 13.9413 2 14.4536 2 15C2 16.6569 5.58172 18 10 18C14.4183 18 18 16.6569 18 15C18 14.4536 17.6104 13.9413 16.9297 13.5Z"
+          fill="#fff"
+        ></path>
+      </g>
+    </svg>
+  `,
+
+  columns: html`
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 66 57"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="0.489243"
+        y="-0.489243"
+        width="17.9389"
+        height="54.7953"
+        rx="3.4247"
+        transform="matrix(1 0 0 -1 0.531982 55.5664)"
+        fill="#fff"
+      />
+      <rect
+        x="0.489243"
+        y="-0.489243"
+        width="17.9389"
+        height="54.7953"
+        rx="3.4247"
+        transform="matrix(1 0 0 -1 0.531982 55.5664)"
+        stroke="#64748B"
+        stroke-width="0.978487"
+        stroke-dasharray="1.96 1.96"
+      />
+      <rect
+        width="18.9174"
+        height="55.7737"
+        rx="3.91395"
+        transform="matrix(1 0 0 -1 23.3635 56.5449)"
+        fill="#fff"
+      />
+      <rect
+        x="0.489243"
+        y="-0.489243"
+        width="17.9389"
+        height="54.7953"
+        rx="3.4247"
+        transform="matrix(1 0 0 -1 46.1949 55.5665)"
+        fill="#fff"
+      />
+      <rect
+        x="0.489243"
+        y="-0.489243"
+        width="17.9389"
+        height="54.7953"
+        rx="3.4247"
+        transform="matrix(1 0 0 -1 46.1949 55.5665)"
+        stroke="#64748B"
+        stroke-width="0.978487"
+        stroke-dasharray="1.96 1.96"
+      />
+    </svg>
+  `,
+
+  button: html`<svg
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="#ffffff"
+    style="width:35px;height:35px"
+  >
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      <path
+        d="M20.5 17h-17A2.502 2.502 0 0 1 1 14.5v-4A2.502 2.502 0 0 1 3.5 8h17a2.502 2.502 0 0 1 2.5 2.5v4a2.502 2.502 0 0 1-2.5 2.5zm-17-8A1.502 1.502 0 0 0 2 10.5v4A1.502 1.502 0 0 0 3.5 16h17a1.502 1.502 0 0 0 1.5-1.5v-4A1.502 1.502 0 0 0 20.5 9zM17 12H7v1h10z"
+      ></path>
+      <path fill="none" d="M0 0h24v24H0z"></path>
+    </g>
+  </svg>`,
+
+  input: html`
+    <svg
+      width="35"
+      height="35"
+      viewBox="0 0 65 21"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        width="64.5801"
+        height="19.5697"
+        rx="3.91395"
+        transform="matrix(1 0 0 -1 0.351013 20.443)"
+        fill="#fff"
+      />
+      <path d="M7.15305 7.54184V14.6581H6.33302V7.54184H7.15305Z" fill="#000" />
     </svg>
   `,
 };

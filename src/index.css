@@ -5,6 +5,9 @@
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
+/* *::selection{
+  user-select: red;
+} */
 @font-face {
   font-family: "poppins";
   src: url("./assets/fonts/Poppins-Light.ttf"), local("poppins");
@@ -120,10 +123,25 @@ button.clicked svg path{
 .custom-font-size {
   font-size: clamp(5px, 0.9vw, 50px);
   text-wrap: nowrap;
+}
 
-  /* text-decoration-style:dashed ;
-  text-decoration-line:underline ;
-  text-decoration-thickness:12px ; */
+.minion::before{
+  content: '';
+  width: 5px;
+  height: 40px;
+  position: absolute;
+  bottom: -40px;
+  z-index: 30;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2563eb;
+  @apply bg-blue-600 rounded-md;
+  transition: .2s;
+}
+
+.minion:last-child::before{
+  background: red !important;
+  display: none;
 }
 
 .react-colorful {
@@ -185,11 +203,13 @@ button.clicked svg path{
 
 .gjs-badge{
   @apply px-3 text-slate-200 font-bold text-[12px]  bg-blue-600 ;
+
 }
 
 .gjs-highlighter-sel {
   outline: 2.5px solid #2563eb !important;
   border-radius: 4px !important;
+  /* width: fit-content; */
 }
 
 .gjs-rte-toolbar{
@@ -211,17 +231,15 @@ button.clicked svg path{
   @apply items-center gap-3 py-[5px] px-2 flex bg-blue-600 
 }
 
-.gjs-toolbar-item svg{
+.gjs-toolbar svg {
   transition: .1s;
+  width: 19px !important;
+  transform: scale(1.1);
 }
+
 
 .gjs-toolbar-item svg:hover{
   transform: scale(1.4);
-}
-
-.gjs-toolbar svg {
-  width: 19px !important;
-  transform: scale(1.1);
 }
 
 .gjs-block {

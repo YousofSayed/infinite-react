@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { html, uniqueID } from "../helpers/cocktail";
 import { currentElState } from "../helpers/atoms";
+import { editorIcons } from "../components/Icons/editorIcons";
 
 const svgText = html`<svg style="width:24px;height:24px" viewBox="0 0 24 24">
   <path
@@ -115,26 +116,7 @@ export const blocks = [
   {
     id: "button",
     category: "Basic",
-    media: html`<svg
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="#ffffff"
-      stroke="#ffffff"
-      style="width:24px;height:24px"
-    >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g
-        id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></g>
-      <g id="SVGRepo_iconCarrier">
-        <path
-          d="M20.5 17h-17A2.502 2.502 0 0 1 1 14.5v-4A2.502 2.502 0 0 1 3.5 8h17a2.502 2.502 0 0 1 2.5 2.5v4a2.502 2.502 0 0 1-2.5 2.5zm-17-8A1.502 1.502 0 0 0 2 10.5v4A1.502 1.502 0 0 0 3.5 16h17a1.502 1.502 0 0 0 1.5-1.5v-4A1.502 1.502 0 0 0 20.5 9zM17 12H7v1h10z"
-        ></path>
-        <path fill="none" d="M0 0h24v24H0z"></path>
-      </g>
-    </svg>`,
+    media: editorIcons.button,
     label: html`<p class="custom-font-size">Button</p>`,
     content: html` 
        <button infinit="console.log('lol')" _="on mutation of @foo log 'foo' end ">Click me</button>
@@ -142,24 +124,35 @@ export const blocks = [
      `,
   },
   {
-    id: "row",
+    id: "columns",
     category: "Basic",
-    label: html`<p class="custom-font-size ">Row</p>`,
+    label: html`<p class="custom-font-size ">Columns</p>`,
+    media:editorIcons.columns,
     content: html`
       <section class="parent">
-        <div class="row"></div>
-        <div class="row"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
       </section>
     `,
     default: {},
   },
   {
-   
     id:'input',
     label:'input',
+    media:editorIcons.input,
     category:'Basic',
     content:{
       type:'input'
+    }
+  },
+  {
+    id:'dynamic text',
+    label:'Dynamic Text',
+    media:editorIcons.dynamicText,
+    category:'Basic',
+    content:{
+      type:'dynamic text'
     }
   },
 ];
