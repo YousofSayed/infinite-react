@@ -19,6 +19,8 @@ import {
 import { Layers } from "../components/Home/Protos/Layers";
 import { CustomModals } from "../components/Home/CustomModals";
 import { AnimationsBuilder } from "../components/Home/AnimationsBuilder";
+import { Icons, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Home = () => {
   const showLayers = useRecoilValue(showLayersState);
@@ -52,7 +54,17 @@ export const Home = () => {
 
   return (
     <GJEditor>
-      <main className="relative w-full h-full flex justify-between">
+      <main className="relative w-full h-full bg-gray-950 flex justify-between">
+        <ToastContainer
+          toastStyle={{ background: " #111827 " }}
+          autoClose={3000}
+          draggable={true}
+          theme="dark"
+          // limit={3}
+          pauseOnHover={true}
+          position="top-left"
+          stacked={true}
+        />
         <HomeNav />
         <section className="w-[calc(100%-60px)] flex flex-col h-full border-l-[1.5px] border-slate-400">
           <HomeHeader />
@@ -65,13 +77,15 @@ export const Home = () => {
           >
             {(showAnimBuilder || showLayers) && (
               <>
-                <Panel defaultSize={300}   id="left" order={1}>
-                  <Aside
-                    dir="right"
-                    style={{ display: showLayers ? "block" : "none" }}
-                  >
-                    <Layers />
-                  </Aside>
+                <Panel defaultSize={300} id="left" order={1}>
+                  {showLayers && (
+                    <Aside
+                      dir="right"
+                      // style={{ display: showLayers ? "block" : "none" }}
+                    >
+                      <Layers />
+                    </Aside>
+                  )}
 
                   <Aside
                     style={{ display: showAnimBuilder ? "block" : "none" }}
@@ -80,7 +94,7 @@ export const Home = () => {
                   </Aside>
                 </Panel>
                 <PanelResizeHandle
-                  className={`w-[5px] bg-blue-600 opacity-0 hover:opacity-[1] transition-all`}
+                  className={`w-[5px] bg-blue-600  opacity-0 hover:opacity-[1] transition-all`}
                 />
               </>
             )}
@@ -111,12 +125,12 @@ export const Home = () => {
               <Iframe />
             </Panel>
 
-              <PanelResizeHandle className="w-[5px] bg-blue-600 opacity-0 hover:opacity-[1] transition-all" />
-              <Panel defaultSize={300}  id="right" order={3}>
-                <Aside>
-                  <Outlet />
-                </Aside>
-              </Panel>
+            <PanelResizeHandle className="w-[5px] bg-blue-600 opacity-0 hover:opacity-[1] transition-all" />
+            <Panel defaultSize={300} id="right" order={3}>
+              <Aside>
+                <Outlet />
+              </Aside>
+            </Panel>
           </PanelGroup>
         </section>
         {showCustomModal && <CustomModals />}

@@ -11,6 +11,8 @@ export const ObjectInput = ({
   obj = {},
   onAddClick = (ev, key, value) => {},
   onDelete = (ev, key, value) => {},
+  keywords=[],
+  isRelative=false
 }) => {
   //   const [obj, setObj] = useState({
   //     name: "yousef",
@@ -37,8 +39,8 @@ export const ObjectInput = ({
           <span className="self-center">:</span>
           <Select
             value={value}
-            keywords={[...hsZoo , ...vars]}
-            isRelative={false}
+            keywords={keywords}
+            isRelative={isRelative}
             className="w-full  bg-gray-900 "
             // inputClassName=""
             type="text"

@@ -2,16 +2,16 @@ import React, { useRef, useState, useTransition } from "react";
 import { Icons } from "../../Icons/Icons";
 import { P } from "../../Protos/P";
 
-export const Details = ({ children, label, ref, id , setIsShow = (_)=>{} , containerClassName = '' }) => {
+export const Details = ({ children, label, ref, id , setIsShow = (_)=>{} , className = '' }) => {
   const [showDetails, setShowDetails] = useState(false);
   const arrowIcon = useRef();
 
   return (
     <section
       ref={ref}
-      className={`bg-slate-950 ${
+      className={`bg-slate-950 w-full ${
         showDetails && "p-2 border-2 border-blue-600"
-      } transition-[padding] rounded-lg select-none`}
+      } transition-[padding] rounded-lg select-none ${className}`}
       onContextMenu={(ev)=>{ev.preventDefault()}}
     > 
       <div

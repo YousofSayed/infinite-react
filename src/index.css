@@ -53,6 +53,8 @@ button.clicked{
   @apply bg-blue-600 rounded-lg flex items-center justify-center;
 }
 
+
+
 /* button.clicked svg{
   @apply text-white  !important;
 } */
@@ -89,6 +91,11 @@ button.clicked svg path{
   position: relative;
   overflow: hidden;
 }
+
+/* li{
+  scrollbar-color:  #1f2937 #475569   !important;
+  scrollbar-width: thin;
+} */
 
 .hideScrollBar::-webkit-scrollbar-thumb {
   background-color: rgb(37 99 235 /1);
@@ -209,6 +216,7 @@ button.clicked svg path{
 .gjs-highlighter-sel {
   outline: 2.5px solid #2563eb !important;
   border-radius: 4px !important;
+  transition: .2s;
   /* width: fit-content; */
 }
 

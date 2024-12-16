@@ -1,6 +1,12 @@
 import React from "react";
 import { atom } from "recoil";
-import { animeStylesType, cmdType, varType } from "./jsDocs";
+import {
+  animeStylesType,
+  cmdType,
+  restModelType,
+  sharedLayerType,
+  varType,
+} from "./jsDocs";
 
 export const widths = atom({
   key: "widths",
@@ -179,7 +185,17 @@ export const cmdsBuildState = atom({
   default: cmdType,
 });
 
-export const  varsState = atom({
-  key:`globalVarsState`,
-  default:varType
+export const varsState = atom({
+  key: `globalVarsState`,
+  default: varType,
+});
+
+export const restModelState = atom({
+  key: "restModelState",
+  default: restModelType,
+});
+
+export const sharedLayerState = atom({
+  key: "layerSharedState",
+  default: sharedLayerType,
 });

@@ -115,7 +115,8 @@ export const Iframe = () => {
 
     finalContent.push(
       html` <style id="global-rules">
-        ${editor.getCss()}
+        ${editor.config.canvasCss}
+        ${editor.getCss({clearStyles:false })}
       </style>`
     );
 
@@ -214,7 +215,6 @@ export const Iframe = () => {
       )}
 
       <Canvas
-        title="Editor"
         aria-label="Editor"
         style={{ display: showPreview ? "none" : "block" }}
       ></Canvas>

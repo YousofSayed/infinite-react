@@ -54,4 +54,19 @@ export let varType = [];
 /**
  * @type {import('grapesjs').Page[]}
  */
-export let pagesType = []
+export let pagesType = [];
+
+/**
+ * @type {import('grapesjs').Component[]}
+ */
+export let layersType = [];
+
+/**
+ * @type {import('./types').RestAPIModel[]}
+ */
+export let restModelType = [];
+
+/**
+ * @type {import('grapesjs').Component}
+ */
+export let sharedLayerType = null;

@@ -14,6 +14,7 @@ export const SelectClass = () => {
   const selector = useRecoilValue(selectorState);
   const [val, setVal] = useState("");
   const [classesKeywrods, setClassesKeywords] = useState([]);
+  const [allStyleSheetClasses, setAllStyleSheetClasses] = useState([]);
   const [selectedClassName, setSelectedClassName] = useState({
     className: "bg-gray-900",
     index: null,
@@ -26,12 +27,18 @@ export const SelectClass = () => {
       return;
     }
     setClassesKeywords(getELClasses());
+
     setSelector("");
   }, [selectedEl]);
 
   useEffect(() => {
     if (!editor) return;
     setClassesKeywords(getELClasses());
+    setAllStyleSheetClasses(
+      editor
+        .getCss({ clearStyles: false, keepUnusedStyles: true })
+        .match(/\.\w+/gi)?.map(className => className.replace('.' , '')) || []
+    );
   }, [editor]);
 
   const addClass = (classNameKeyword) => {
@@ -51,9 +58,11 @@ export const SelectClass = () => {
       editor
         .getSelected()
         ?.getClasses()
-        ?.filter((calss) => !calss.startsWith("gjs")) || []
+        ?.filter((className) => !className.startsWith("gjs")) || []
     );
   };
+
+  // const getSh
 
   return (
     <section className="mt-3 flex flex-col gap-3">
@@ -61,21 +70,25 @@ export const SelectClass = () => {
         <Select
           value={val}
           onInput={(value) => {
+            console.log("log classes : ", editor.getCss().match(/\.\w+/gi));
+            console.log("log classes css: ", editor.getCss());
+
             setVal(value);
           }}
           onEnterPress={(value) => {
-            setVal(value);
+            addClass(value);
           }}
           onItemClicked={(value) => {
-            setVal(value);
+            // setVal(value);
+            addClass(value);
           }}
           placeholder="Calss name"
-          keywords={classesKeywrods}
-          onMenuOpen={({ menu, setKeywords, keywords }) => {
-            setKeywords(
-              editor.getCss().match(/\.\w+/gi) || ["No classes found..!"]
-            );
-          }}
+          keywords={allStyleSheetClasses}
+          // onMenuOpen={({ menu, setKeywords, keywords }) => {
+          //   setKeywords(
+          //     editor.getCss().match(/\.\w+/gi) || []
+          //   );
+          // }}
         />
 
         <SmallButton

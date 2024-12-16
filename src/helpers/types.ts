@@ -43,3 +43,14 @@ export interface CMD {
     required: boolean;
   }[];
 };
+
+export interface RestAPIModel {
+  method:string,
+  url:string,
+  name:string,
+  headers:HeadersInit ,
+  body:BodyInit ,
+  response:string
+}
+
+

@@ -2,6 +2,7 @@ import React from "react";
 import { AssetsManager } from "../components/Home/AssetsManager";
 import { ErrorModal } from "../components/Home/Modals/ErrorModal";
 import { PagesManager } from "../components/Home/Modals/PagesManager";
+import { RestAPIModels } from "../components/Home/Modals/RestAPIModels";
 
 /**
  *
@@ -31,6 +32,13 @@ export const addNewBuiltinCommands = (editor) => {
     editor.runCommand("open:custom:modal", {
       title: options.errMsg,
       JSXModal: <ErrorModal>{options.content}</ErrorModal>,
+    });
+  });
+
+  editor.Commands.add("open:models:modal", (editor, sender, options) => {
+    editor.runCommand("open:custom:modal", {
+      title: "Rest API Models",
+      JSXModal: <RestAPIModels />,
     });
   });
 

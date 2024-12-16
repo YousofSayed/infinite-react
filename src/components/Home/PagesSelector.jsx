@@ -13,7 +13,7 @@ export const PagesSelector = () => {
     editor.Pages.select(editor.Pages.get(pageId), {
       avoidStore: true,
       partial: false,
-      avoidTransformers:false,
+      avoidTransformers: false,
       // silent:true
     });
     setPageName(editor.Pages.getSelected().id);
@@ -25,17 +25,28 @@ export const PagesSelector = () => {
     setPageName(editor.Pages.getSelected().id);
   }, [editor]);
 
+  useEffect(() => {
+    if(!editor)return;
+    const pageUpdateCallback = () =>
+      setPages(editor.Pages.getAll().map((page) => page.id));
+    editor.on("page", pageUpdateCallback);
+
+    return () => {
+      editor.off("page", pageUpdateCallback);
+    };
+  });
+
   return (
     <Select
       icon={Icons.stNote()}
-      className="p-[unset] bg-gray-800 max-w-[30%] h-[calc(100%-15px)] "
+      className=" bg-gray-800 max-w-[30%] h-[calc(100%-15px)] "
       containerClassName="bg-gray-800"
       preventInput={true}
       keywords={pages}
       value={pageName}
-      onMenuOpen={({ setKeywords }) => {
-        setPages(editor.Pages.getAll().map((page) => page.id));
-      }}
+      // onMenuOpen={({ setKeywords }) => {
+      //   setPages(editor.Pages.getAll().map((page) => page.id));
+      // }}
       onAll={(value) => {
         navigateToAnotherPage(value);
       }}

@@ -14,22 +14,32 @@ export const HomeNav = () => {
         </figure>
         <ul className="flex flex-col gap-5 items-center">
           {/* <Li>{Icons.plus()}</Li> */}
-          <Li title="Pages" icon={Icons.stNote} onClick={(ev)=>{
-            editor.runCommand('open:pages-manager');
-          }}/>
-          <Li title="Dynamic Templates" >{Icons.dynamicTemp({})}</Li>
-          <Li title="Components" icon={Icons.components}/>
-          <Li title="Database" icon={Icons.db}/>
-          <Li title="Media" icon={Icons.gallery}/>
-          <Li title="Github" icon={Icons.git}/>
+          <Li
+            title="Pages"
+            icon={Icons.stNote}
+            onClick={(ev) => {
+              editor.runCommand("open:pages-manager");
+            }}
+          />
+          <Li title="Dynamic Templates">{Icons.dynamicTemp({})}</Li>
+          <Li title="Components" icon={Icons.components} />
+          <Li
+            title="Database"
+            icon={Icons.db}
+            onClick={() => {
+              editor.runCommand("open:models:modal");
+            }}
+          />
+          <Li title="Media" icon={Icons.gallery} />
+          <Li title="Github" icon={Icons.git} />
         </ul>
       </div>
 
       <div>
         <ul className="flex flex-col gap-5 items-center">
           {/* <Li>{Icons.headphone()}</Li> */}
-          <Li title="Settings" icon={Icons.setting}/>
-          <Li title="Logout" icon={Icons.logOut}/>
+          <Li title="Settings" icon={Icons.setting} />
+          <Li title="Logout" icon={Icons.logOut} />
         </ul>
       </div>
     </nav>

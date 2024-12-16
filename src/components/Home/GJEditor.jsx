@@ -46,16 +46,14 @@ export const GJEditor = ({ children }) => {
 
   return (
     <Editor
-      title="Editor"
       grapesjs={grapesjs}
       options={{
         height: "100%",
         width: "100%",
-        autorender: true,
         multipleSelection: true,
         avoidDefaults: true,
         showOffsets: true,
-        clearStyles: true,
+        // clearStyles: true,
         canvasCss: css`
           .parent {
             display: flex;
@@ -108,8 +106,11 @@ export const GJEditor = ({ children }) => {
             allowUnsafeAttrValue: true,
             htmlType: "text/html",
           },
+
         },
+       
         showOffsetsSelected: true,
+        
 
         storageManager: false,
         panels: { defaults: [] },
@@ -222,14 +223,12 @@ export const GJEditor = ({ children }) => {
         //   }
         // },2000)
 
-        // ev.on("canvas:frame:load:head", () => {
-        //   console.log("body loaded");
-        //   ev.Canvas.getDocument().head.insertAdjacentHTML(
-        //     "beforeend",
-        //     buildScriptsFromArray(ev.config.scripts)
-        //   );
-        //   // ev.config.scripts.forEach(())
-        // });
+        ev.on("canvas:frame:load:head", () => {
+          console.log('calsses : ' , ev.getCss({keepUnusedStyles:true , clearStyles:false}));
+          console.log('calsses : ' , );
+          // ev.Css. 
+
+        });
 
         ev.Blocks.categories.add({ id: "others", title: "Others" });
         setBlocksAtom({
@@ -307,8 +306,8 @@ export const GJEditor = ({ children }) => {
           // ev.DomComponents.getWrapper().components().reset(ev.Canvas.getBody().innerHTML)
           // console.log(ev.$('#loer'));
           // ev.DomComponents.
-          console.log(location.pathname);
-          console.log(window.location.pathname);
+          // console.log(location.pathname);
+          // console.log(window.location.pathname);
 
           window.location.pathname === "/" && navigate("edite/styling");
         });

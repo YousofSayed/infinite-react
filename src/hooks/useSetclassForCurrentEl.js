@@ -81,24 +81,11 @@ export function useSetClassForCurrentEl() {
       rule.ruleString.includes("before") ||
       rule.ruleString.includes("after")
     ) {
-      console.log('contento : '  , newCssProps);
-      
+      console.log("contento : ", newCssProps);
+
       newCssProps.content = " '' ";
     }
-    // const desktopDevices = ["desktop", "DESKTOP", "Desktop"];
-    // console.log(
-    //   desktopDevices.findIndex((value) => value == editor.getDevice())
-    // );
 
-    // const Media =
-    //   desktopDevices.findIndex((value) => value == editor.getDevice()) == -1
-    //     ? {
-    //         atRuleType: "media",
-    //         atRuleParams: `(max-width: ${editor.Devices.get(
-    //           editor.getDevice()
-    //         ).getWidthMedia()})`,
-    //       }
-    //     : {};
     const Media = getCurrentMediaDevice(editor);
     const currentSelector = selector
       ? selector
@@ -128,7 +115,7 @@ export function useSetClassForCurrentEl() {
     // });
 
     console.log(rule.ruleString, "%$%%$#$", editor.getCss());
-    console.log('Editor Css:',editor.getDevice());
+    console.log("Editor Css:", editor.getDevice());
     // console.log(editor.Devices.get("tablet").getWidthMedia());
   };
 }

@@ -34,6 +34,7 @@ import { P } from "../Protos/P";
 import { useEditorMaybe } from "@grapesjs/react";
 import { cmdType, refType } from "../../helpers/jsDocs";
 import { OptionsButton } from "../Protos/OptionsButton";
+import { hsZoo } from "../../constants/constants";
 
 export const Commands = () => {
   const editor = useEditorMaybe();
@@ -421,6 +422,7 @@ export const Commands = () => {
                       {param.type == "object" && (
                         <ObjectInput
                           className="bg-gray-800"
+                          keywords={[...vars , ...hsZoo]}
                           obj={param.value ? evalObject(param.value) || {} : {}}
                           onAddClick={(ev, propKey, propVal) => {
                             addKeyAndValueForObject({
@@ -465,19 +467,3 @@ export const Commands = () => {
   );
 };
 
-
-
-// Example Usage
-const example = {
-  name: "Yousef",
-  age: 25,
-  skills: ["JavaScript", "React", "Vue"],
-  address: {
-    city: "Cairo",
-    country: "Egypt",
-  },
-  isDeveloper: true,
-};
-
-console.log(objectToString(example));
-console.log(evalObject(objectToString(example)));

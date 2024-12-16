@@ -39,7 +39,7 @@ export const Select = ({
   placeholder = "",
   wrap = false,
   respectParenthesis = false,
-  icon ,
+  icon,
   isRelative = true,
   preventInput = false,
   value = "",
@@ -47,7 +47,7 @@ export const Select = ({
   splitHyphen = false,
 }) => {
   const [showMenu, setMenu] = useState(false);
-  const [newKeywords, setNewKeywords] = useState(Array.from(keywords));
+  const [newKeywords, setNewKeywords] = useState(structuredClone(keywords));
   const [isPending, setTransition] = useTransition();
   const [currentChoose, setCurrentChoose] = useState(0);
   const [val, setVal] = useState(value);
@@ -68,7 +68,7 @@ export const Select = ({
 
   useEffect(() => {
     onKeywordsSeted(newKeywords);
-    setNewKeywords(keywords);
+    // setNewKeywords(keywords);
   }, [keywords]);
 
   useEffect(() => {
@@ -99,7 +99,6 @@ export const Select = ({
     setVal(value);
   }, [value]);
 
-
   const showMenuCallback = () => {
     inputRef.current.focus();
     setTransition(() => {
@@ -120,12 +119,17 @@ export const Select = ({
    * @param {InputEvent} ev
    */
   const filterKeywords = (ev) => {
-    const newKeyW = advancedSearchSuggestions(keywords, ev.target.value);
+    const newKeyW = advancedSearchSuggestions(
+      structuredClone(keywords),
+      ev.target.value
+    );
 
     if (!newKeyW.length) {
       setMenu(false);
       return;
     }
+    console.log(newKeyW, "newwww");
+
     setNewKeywords(newKeyW);
     const index = findIndex(newKeyW, ev.target.value);
     console.log(index, newKeyW.length);
@@ -138,12 +142,7 @@ export const Select = ({
       choosenKeyword.current = newKeyW[index];
     }
 
-    setMenu(true);
-    // if (newKeyW.length && ev.target.value) {
-    // } else {
-    //   setMenu(false);
-    //   setNewKeywords(structuredClone(keywords));
-    // }
+    // setMenu(true);
   };
 
   const respectParenthesisHandler = () => {
@@ -208,12 +207,13 @@ export const Select = ({
 
       const singleOrMultiVal = singleValInInput ? finalVal : val + finalVal;
 
-      setKeyword(finalVal || "");
-      console.log("final", finalVal);
-      onAll(finalVal);
+      setKeyword(finalVal || val || "");
+      onAll(finalVal || val || "");
+      setVal(finalVal || val || "");
+      console.log("finalVal : ", finalVal);
+      console.log("val : ", val);
 
-      setVal(finalVal || "");
-      onEnterPress(finalVal || "");
+      onEnterPress(finalVal || val || "");
       setMenu(false);
     }
   };
@@ -232,15 +232,16 @@ export const Select = ({
       <div
         onClick={(ev) => {
           selectRef.current.click();
-          console.log(preventInput);
-
+          console.log(preventInput, "dsad");
+          // showMenuCallback()
           preventInput &&
             setTimeout(() => {
-              setNewKeywords(keywords)
-              setCurrentChoose(findIndex(newKeywords , val))
+              setNewKeywords(keywords);
+              setCurrentChoose(findIndex(keywords, val));
               setMenu(!showMenu);
             }, 0);
         }}
+
         onDoubleClick={(ev) => {
           preventInput && inputRef.current.focus();
         }}
@@ -250,69 +251,28 @@ export const Select = ({
           containerClassName ? containerClassName : ""
         }`}
       >
-        {/* <textarea
-          value={val}
-          ref={inputRef}
-          className={`w-full h-full  font-semibold   focus:border-blue-600  rounded-lg   p-[10px]   outline-none text-white ${
-            inputClassName ? inputClassName : "bg-gray-900"
-          }`}
-          placeholder={placeholder}
-          onClick={(ev) => {
-            ev.stopPropagation();
-            console.log(true);
 
-            showMenuCallback();
-            setCurrentChoose(
-              newKeywords.findIndex((keyword) =>
-                keyword.toLowerCase().includes(ev.target.value.toLowerCase())
-              )
-            );
-            // ev.target.select();
-          }}
-          // onFocus={(ev) => {
-          // !showMenu && setMenu(true);
-
-          //   setCurrentChoose(
-          //     newKeywords.findIndex((keyword) =>
-          //       keyword.toLowerCase().includes(ev.target.value.toLowerCase())
-          //     )
-          //   );
-          //   ev.target.select();
-          // }}
-          onFocus={(ev) => {
-            filterKeywords(ev);
-            selectRef.current.click();
-          }}
-          onInput={(ev) => {
-            onInput(ev.target.value);
-            setVal(ev.target.value);
-            onAll(ev.target.value);
-            filterKeywords(ev);
-          }}
-          onKeyDown={(ev) => {
-            handleChooses(ev);
-          }}
-        
-        ></textarea> */}
 
         <input
           value={val}
           ref={inputRef}
           className={`w-full h-full  font-semibold   focus:border-blue-600  rounded-lg   p-2   outline-none text-white ${
             preventInput ? "pointer-events-none" : ""
-          } ${
-            inputClassName ? inputClassName : "bg-gray-900"
-          } `}
+          } ${inputClassName ? inputClassName : "bg-gray-900"} `}
           type="text"
           placeholder={placeholder}
           onClick={(ev) => {
             ev.stopPropagation();
-            showMenuCallback();
+            selectRef.current.click();
+            // showMenuCallback();
+            setNewKeywords(keywords)
             setCurrentChoose(
               newKeywords.findIndex((keyword) =>
                 keyword.toLowerCase().includes(ev.target.value.toLowerCase())
               )
             );
+            // setTimeout(()=>{setMenu(!showMenu);},1000)
+            setMenu(!showMenu);
           }}
           // onFocus={(ev) => {
           // !showMenu && setMenu(true);
@@ -325,12 +285,15 @@ export const Select = ({
           //   ev.target.select();
           // }}
           onFocus={(ev) => {
-            filterKeywords(ev);
-            selectRef.current.click();
+            // ev.stopPropagation();
+            // showMenuCallback();
+            // filterKeywords(ev);
+            // setMenu(true)
+            // setTimeout(()=>{setMenu(true)},20)
           }}
           onInput={(ev) => {
-            filterKeywords(ev);
             setVal(ev.target.value);
+            filterKeywords(ev);
             onInput(ev.target.value);
             onAll(ev.target.value);
           }}
@@ -342,6 +305,7 @@ export const Select = ({
         <i
           onClick={(ev) => {
             ev.stopPropagation();
+            selectRef.current.click();
             showMenuCallback();
           }}
           className={`group   ${
