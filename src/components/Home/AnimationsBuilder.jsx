@@ -73,7 +73,7 @@ export const AnimationsBuilder = () => {
 
   const addAnimation = (animationName) => {
     if (!animation) return;
-    oldAnimtaions.current = cloneAnims();
+    oldAnimtaions.current = structuredClone(animations);
     setAnimations([
       ...animations,
       {
@@ -90,7 +90,7 @@ export const AnimationsBuilder = () => {
 
   const deleteAnimation = (index) => {
     const newArr = Array.from(animations).filter((anim, i) => i != index);
-    oldAnimtaions.current = cloneAnims();
+    oldAnimtaions.current = structuredClone(animations);
     oldAnimtaions.current.forEach(({ name, values }) => {
       values.forEach(({ percentage, styles }) => {
         const oldRule = editor.Css.getRule(`${percentage}%`, {
@@ -107,8 +107,8 @@ export const AnimationsBuilder = () => {
   };
 
   const addPercentage = (index, propsIndex) => {
-    const newArr = cloneAnims();
-    oldAnimtaions.current = cloneAnims();
+    const newArr = structuredClone(animations);
+    oldAnimtaions.current = structuredClone(animations);
     newArr[index].values = [
       ...newArr[index].values,
       { percentage: 0, styles: {} },
@@ -117,8 +117,8 @@ export const AnimationsBuilder = () => {
   };
 
   const updatePercentageValue = ({ index, propsIndex, newValue }) => {
-    const newArr = cloneAnims();
-    oldAnimtaions.current = cloneAnims();
+    const newArr = structuredClone(animations);
+    oldAnimtaions.current = structuredClone(animations);
     newArr[index].values[propsIndex].percentage = newValue;
     setAnimations(newArr);
     addAnimationRule(newArr);
@@ -152,7 +152,7 @@ export const AnimationsBuilder = () => {
     )
       return;
     console.log(animeStyles);
-    const newArr = cloneAnims();
+    const newArr = structuredClone(animations);
     const newObj = (newArr[currentEditingIndex] = cloneObject(
       newArr[currentEditingIndex]
     ));
@@ -165,7 +165,7 @@ export const AnimationsBuilder = () => {
     Object.keys(styles).forEach((key) => {
       if (!styles[key]) delete styles[key];
     });
-    oldAnimtaions.current = cloneAnims();
+    oldAnimtaions.current = structuredClone(animations);
     addAnimationRule(newArr);
     setAnimations(newArr);
   }, [animeStyles]);

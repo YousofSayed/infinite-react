@@ -30,6 +30,22 @@ export const Layer = ({
     setLayerStt(layers);
   }, [layers]);
 
+  useEffect(() => {
+    const sleCallback = () => {
+      const sle = editor.getSelected();
+      if (sle.getId() == layer.getId()) {
+        setSelected(true);
+      }
+      else {
+        setSelected(false);
+      }
+    }
+    editor.on('component:selected', sleCallback);
+    return () => {
+      editor.off('component:selected', sleCallback);
+    }
+  }, [])
+
   const openNested = () => {
     setOpenNested(!isOpentNested);
   };
@@ -54,18 +70,17 @@ export const Layer = ({
 
   const dropCallback = ({ isAfter = false, ev }) => {
     reomveOpacity(ev);
-    if (layer.getId() == sharedLayer) {
+    const movedCmp = editor.getWrapper().find(`#${sharedLayer.id}`)[0];
+    if (layer.getId() == sharedLayer || layer.isChildOf(movedCmp)) {
       toast.warn(<ToastMsgInfo msg={"Not allowed"} />);
       return;
     }
-    const movedCmp = editor.getWrapper().find(`#${sharedLayer.id}`)[0];
     const index = layer.index();
     const parent = layer.parent().components();
     movedCmp.remove();
     parent.add(movedCmp, { at: isAfter ? index + 1 : index });
 
     !layer.components().models.length && setOpenNested(false);
-    // layer.replaceWith(movedCmp);
     setLayers(
       editor
         .getWrapper()
@@ -89,31 +104,29 @@ export const Layer = ({
         }}
         onMouseOver={(ev) => {
           ev.stopPropagation();
-          layer.getView().el.style.outline = "2px solid blue";
+          editor.Canvas.setCustomBadgeLabel()
+          editor.Layers.setLayerData(layer, { hovered: true, })
         }}
         onMouseLeave={(ev) => {
           ev.stopPropagation();
-          layer.getView().el.style.outline = "";
         }}
         onClick={(ev) => {
           const el = ev.currentTarget;
-          el.style.background = "#2563eb";
           setSelected(!selected);
           !selected ? editor.select(layer) : editor.selectRemove(layer);
 
           const desCb = () => {
-            el.style.background = "";
             editor.off("component:deselected", desCb);
             setSelected(false);
           };
           editor.on("component:deselected", desCb);
         }}
-        style={style}
-        className={`relative flex items-center justify-between w-full  p-2 rounded-lg ${
-         isOpentNested && getLayerLength(layer)
+        style={{ ...style, background: selected ? '#2563eb ' : '' }}
+        className={`relative flex items-center justify-between w-full  p-2 rounded-lg
+          ${isOpentNested && getLayerLength(layer)
             ? "bg-gray-800"
             : "bg-gray-950"
-        } ${className ? className : "bg-gray-800"}`}
+          } ${className ? className : "bg-gray-800"} `}
       >
         <div
           id="top"
@@ -167,25 +180,20 @@ export const Layer = ({
           }}
           onDrop={(ev) => {
             reomveOpacity(ev);
-            if (layer.getId() == sharedLayer) {
+            const movedCmp = editor.getWrapper().find(`#${sharedLayer.id}`)[0];
+            if (layer.getId() == sharedLayer || layer.isChildOf(movedCmp)) {
               toast.warn(<ToastMsgInfo msg={"Not allowed"} />);
               return;
+
             }
-            const movedCmp = editor.getWrapper().find(`#${sharedLayer.id}`)[0];
             const parent = layer.components();
             const movedCmpParent = movedCmp.parent();
             movedCmp.remove();
             parent.add(movedCmp, { at: 0 });
-            console.log(
-              "length : ",
-              !movedCmpParent.components().models.length
-            );
 
             !movedCmpParent.components().models.length
               ? sharedLayer.setState(false)
               : null;
-
-            // dropCallback({ ev, isAfter: true });
           }}
           className="absolute right-0 bottom-[0] w-[85%] h-[15px] rounded-bl-lg rounded-br-lg bg-blue-500 z-[2] opacity-[0]  transition-all"
         ></div>
@@ -226,10 +234,9 @@ export const Layer = ({
               ? `calc(100% -  ${layer.components().models.length}px)`
               : `100%`,
           }}
-          className={`child flex ${
-            isOpentNested &&
+          className={`child flex ${isOpentNested &&
             "border-l-2 border-l-slate-600 hover:border-l-blue-600 rounded-bl-lg  pl-[8px]"
-          } flex-col self-end justify-end  transition-all overflow-auto`}
+            } flex-col self-end justify-end  transition-all overflow-auto`}
         >
           {layer
             .components()

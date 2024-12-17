@@ -63,21 +63,10 @@ export const Layers = () => {
     <section id="layers" ref={layerSecRef}>
       <main
         id="layer-wrapper"
-        list={layers}
         setList={setLayers}
-        // handle=".handle"
+
         className=" [&>:not(:last-child)]:mb-2"
-        group={"nested"}
-        onEnd={(ev) => {
-          console.log(ev.oldIndex, ev.newIndex);
-          console.log(ev.from, ev.to);
-          // ev.f
-          // moveCmps({
-          //   oldIndex: ev.oldIndex,
-          //   newIndex: ev.newIndex,
-          // wrapper: editor.getWrapper().components(),
-          // });
-        }}
+       
       >
         {layers.map((layer, i) => {
           return (
